@@ -1,0 +1,3076 @@
+<!DOCTYPE html>
+<html lang="bn" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>দৈনিক অনুলিপি | Dainik Anulipi</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+/* ═══════════════════════════════════════════
+   CSS VARIABLES — LIGHT & DARK
+═══════════════════════════════════════════ */
+:root {
+  --paper: #f7f2e8;
+  --paper2: #ede7d4;
+  --paper3: #e4dbc5;
+  --ink: #1a1208;
+  --ink2: #3d2e10;
+  --ink3: #6b5530;
+  --rule: #c9a84c;
+  --rule2: #e8d9a0;
+  --accent: #c0392b;
+  --accent2: #922b21;
+  --accent-bg: #fdf0ee;
+  --gold: #c9a84c;
+  --gold2: #8b6914;
+  --blue: #1a3a6b;
+  --green: #1a6b3a;
+  --nav-bg: #1a1208;
+  --nav-text: #e8d9a0;
+  --card-bg: #f7f2e8;
+  --card-border: #ddd0b0;
+  --tag-bg: #fff8ee;
+  --shadow: rgba(26,18,8,0.08);
+  --modal-overlay: rgba(26,18,8,0.7);
+  --breaking-bg: #c0392b;
+  --breaking-label: #922b21;
+  --footer-bg: #1a1208;
+  --footer-text: #c9a84c;
+  --footer-link: #a89060;
+  --input-bg: #ede7d4;
+  --special-bg: #1a3a6b;
+  --special-text: #e8f0ff;
+}
+
+[data-theme="dark"] {
+  --paper: #181410;
+  --paper2: #221e16;
+  --paper3: #2a241a;
+  --ink: #f0e8d0;
+  --ink2: #c8b890;
+  --ink3: #8a7855;
+  --rule: #8b6914;
+  --rule2: #3d2e10;
+  --accent: #e05a4a;
+  --accent2: #c0392b;
+  --accent-bg: #2a1a18;
+  --gold: #c9a84c;
+  --gold2: #e8c870;
+  --blue: #4a7abf;
+  --green: #4abf7a;
+  --nav-bg: #0e0c08;
+  --nav-text: #c9a84c;
+  --card-bg: #221e16;
+  --card-border: #3d3020;
+  --tag-bg: #2a2018;
+  --shadow: rgba(0,0,0,0.3);
+  --modal-overlay: rgba(0,0,0,0.85);
+  --breaking-bg: #922b21;
+  --breaking-label: #6b1a14;
+  --footer-bg: #0e0c08;
+  --footer-text: #c9a84c;
+  --footer-link: #8a7040;
+  --input-bg: #2a241a;
+  --special-bg: #0e1a2e;
+  --special-text: #b8d0f0;
+}
+
+/* ═══════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Noto Serif Bengali', Georgia, serif;
+  font-size: 14px;
+  line-height: 1.75;
+  transition: background 0.3s, color 0.3s;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* ═══════════════════════════════════════════
+   UTILITY
+═══════════════════════════════════════════ */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+.serif { font-family: 'Noto Serif Bengali', serif; }
+.sans { font-family: 'Noto Sans Bengali', sans-serif; }
+
+.kicker {
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.byline {
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 11px;
+  color: var(--ink3);
+  margin-top: 6px;
+  font-style: italic;
+}
+
+.time-tag {
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 10.5px;
+  color: var(--ink3);
+}
+
+/* photo placeholder */
+.photo {
+  background: var(--paper3);
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--rule);
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border: 1px solid var(--card-border);
+}
+.photo::after {
+  content: 'ফটো';
+  position: absolute;
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 11px;
+  color: var(--rule);
+  background: var(--paper2);
+  padding: 2px 8px;
+  border: 1px solid var(--rule2);
+}
+
+/* section header */
+.sec-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 22px 0 14px;
+  border-top: 3px solid var(--ink);
+  padding-top: 5px;
+}
+.sec-head .sec-title {
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.sec-head .sec-title.accent { color: var(--accent); }
+.sec-head .sec-title.blue { color: var(--blue); }
+.sec-head hr {
+  flex: 1;
+  border: none;
+  border-top: 1px solid var(--rule2);
+}
+.sec-head .more-link {
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 11.5px;
+  color: var(--accent);
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.sec-head .more-link:hover { text-decoration: underline; }
+
+/* ═══════════════════════════════════════════
+   TOP BAR
+═══════════════════════════════════════════ */
+.topbar {
+  background: var(--paper2);
+  border-bottom: 1px solid var(--rule2);
+  padding: 5px 0;
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 11.5px;
+  color: var(--ink3);
+}
+.topbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.topbar-left { display: flex; align-items: center; gap: 14px; }
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+
+.dark-toggle {
+  background: none;
+  border: 1px solid var(--rule2);
+  color: var(--ink2);
+  cursor: pointer;
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s;
+  font-family: 'Noto Sans Bengali', sans-serif;
+}
+.dark-toggle:hover { background: var(--paper3); }
+
+.epaper-btn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 3px 12px;
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 2px;
+  letter-spacing: 0.5px;
+  transition: background 0.2s;
+}
+.epaper-btn:hover { background: var(--accent2); }
+
+.subscribe-btn {
+  background: var(--gold2);
+  color: #fff;
+  border: none;
+  padding: 3px 12px;
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background 0.2s;
+}
+.subscribe-btn:hover { background: var(--gold); }
+
+.lang-btn {
+  background: none;
+  border: 1px solid var(--rule2);
+  color: var(--ink2);
+  font-size: 11px;
+  padding: 2px 7px;
+  cursor: pointer;
+  border-radius: 2px;
+  font-family: 'Noto Sans Bengali', sans-serif;
+  transition: all 0.15s;
+}
+.lang-btn.active, .lang-btn:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+/* ═══════════════════════════════════════════
+   MASTHEAD
+═══════════════════════════════════════════ */
+.masthead {
+  background: var(--paper);
+  padding: 12px 0 8px;
+  border-bottom: 3px double var(--ink);
+}
+.masthead-inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 16px;
+}
+.logo-wrap { text-align: left; }
+.logo-bn {
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.0;
+  letter-spacing: -1px;
+}
+.logo-en {
+  font-family: 'Playfair Display', serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-top: 1px;
+}
+.logo-tagline {
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 1px;
+  margin-top: 2px;
+  font-style: italic;
+}
+.masthead-center {
+  text-align: center;
+}
+.masthead-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.ornament-rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+}
+.ornament-text {
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--gold2);
+  white-space: nowrap;
+}
+.masthead-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 10.5px;
+  color: var(--ink3);
+  text-align: right;
+}
+.edition-tag {
+  background: var(--accent);
+  color: #fff;
+  padding: 1px 7px;
+  font-size: 10px;
+  font-weight: 700;
+  display: inline-block;
+}
+
+/* Search bar */
+.search-form {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid var(--rule2);
+  border-radius: 2px;
+  overflow: hidden;
+  background: var(--input-bg);
+  margin-top: 6px;
+}
+.search-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 5px 10px;
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 12px;
+  color: var(--ink);
+  width: 200px;
+}
+.search-input::placeholder { color: var(--ink3); }
+.search-submit {
+  background: var(--ink);
+  border: none;
+  color: var(--paper);
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  transition: background 0.2s;
+}
+.search-submit:hover { background: var(--accent); }
+
+/* ═══════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════ */
+.navbar {
+  background: var(--nav-bg);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 2px solid var(--gold2);
+}
+.navbar-inner {
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.navbar-inner::-webkit-scrollbar { display: none; }
+.nav-link {
+  color: var(--nav-text);
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 11px 13px;
+  white-space: nowrap;
+  cursor: pointer;
+  border: none;
+  background: none;
+  border-bottom: 3px solid transparent;
+  transition: all 0.15s;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.nav-link:hover { color: var(--gold); }
+.nav-link.active { color: var(--gold); border-bottom-color: var(--gold); }
+.nav-link .hot-dot {
+  width: 5px; height: 5px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* ═══════════════════════════════════════════
+   BREAKING NEWS
+═══════════════════════════════════════════ */
+.breaking {
+  background: var(--breaking-bg);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 12.5px;
+}
+.breaking-label {
+  background: var(--breaking-label);
+  padding: 6px 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  font-size: 11px;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+.ticker-track { flex: 1; overflow: hidden; padding: 6px 12px; }
+.ticker-inner {
+  display: inline-block;
+  white-space: nowrap;
+  animation: ticker 40s linear infinite;
+}
+@keyframes ticker {
+  0% { transform: translateX(100vw); }
+  100% { transform: translateX(-100%); }
+}
+
+/* ═══════════════════════════════════════════
+   HERO SECTION (3-col like PDF)
+═══════════════════════════════════════════ */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 220px 1fr 200px;
+  gap: 0;
+  border-bottom: 2px solid var(--ink);
+  padding: 14px 0;
+}
+.hero-divider {
+  width: 1px;
+  background: var(--rule2);
+  margin: 0 14px;
+}
+
+/* Left sidebar stories */
+.sidebar-story {
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--rule2);
+}
+.sidebar-story:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.sidebar-story h3 {
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--ink);
+  cursor: pointer;
+  margin-bottom: 4px;
+  transition: color 0.15s;
+}
+.sidebar-story h3:hover { color: var(--accent); }
+.sidebar-story p { font-size: 12px; color: var(--ink3); line-height: 1.6; }
+.sidebar-photo { height: 90px; margin-bottom: 7px; }
+
+/* Center hero */
+.hero-center { padding: 0 14px; }
+.hero-photo { height: 320px; margin-bottom: 12px; }
+.hero-center h1 {
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--ink);
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--rule2);
+  padding-bottom: 8px;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.hero-center h1:hover { color: var(--accent); }
+.hero-summary {
+  font-size: 13px;
+  color: var(--ink2);
+  line-height: 1.8;
+  column-count: 2;
+  column-gap: 18px;
+  column-rule: 1px solid var(--rule2);
+}
+
+/* Right "Anythings" col */
+.hero-right { padding: 0; }
+.anythings-box {
+  background: var(--special-bg);
+  padding: 12px;
+  margin-bottom: 10px;
+}
+.anythings-box .ah {
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--special-text);
+  line-height: 1.4;
+  cursor: pointer;
+  margin-bottom: 6px;
+}
+.anythings-photo { height: 90px; margin-bottom: 8px; }
+.anythings-label {
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #4a3a1a;
+  padding-bottom: 6px;
+}
+
+/* ═══════════════════════════════════════════
+   অনুলিপি স্পেশাল
+═══════════════════════════════════════════ */
+.special-section { background: var(--paper2); padding: 14px 0 18px; }
+.special-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.special-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  padding: 0 0 10px;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+.special-card:hover { box-shadow: 0 4px 14px var(--shadow); }
+.special-card .card-photo { height: 140px; }
+.special-card .card-body { padding: 8px 10px 0; }
+.special-card h4 {
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.special-card h4:hover { color: var(--accent); }
+.special-card p { font-size: 11.5px; color: var(--ink3); line-height: 1.55; }
+
+/* ═══════════════════════════════════════════
+   সর্বিক শিরোনাম + Region Filter
+═══════════════════════════════════════════ */
+.sarbik-wrap {
+  display: grid;
+  grid-template-columns: 1fr 200px;
+  gap: 20px;
+  align-items: start;
+}
+.sarbik-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+/* Featured card */
+.sarbik-featured {
+  grid-column: 2 / 4;
+  grid-row: 1;
+}
+.sarbik-featured .card-photo { height: 200px; }
+.sarbik-featured h3 {
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.3;
+  cursor: pointer;
+  margin: 8px 0 5px;
+  color: var(--ink);
+}
+.sarbik-featured h3:hover { color: var(--accent); }
+
+.sarbik-card {
+  cursor: pointer;
+  border-bottom: 1px solid var(--rule2);
+  padding-bottom: 10px;
+}
+.sarbik-card:hover h4 { color: var(--accent); }
+.sarbik-card .card-photo { height: 110px; margin-bottom: 7px; }
+.sarbik-card h4 {
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+.sarbik-card p { font-size: 11.5px; color: var(--ink3); }
+
+/* Category tab pills */
+.cat-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.cat-tab {
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 2px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s;
+}
+.cat-tab.red { background: var(--accent); color: #fff; }
+.cat-tab.blue { background: var(--blue); color: #fff; }
+.cat-tab.green { background: var(--green); color: #fff; }
+.cat-tab.gold { background: var(--gold2); color: #fff; }
+.cat-tab.outline { background: none; border-color: var(--rule2); color: var(--ink2); }
+.cat-tab.outline:hover { background: var(--paper3); }
+
+/* Region filter */
+.region-filter {
+  background: var(--paper2);
+  border: 1px solid var(--card-border);
+  padding: 14px;
+}
+.region-filter h4 {
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--ink);
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 6px;
+}
+.region-select {
+  width: 100%;
+  background: var(--input-bg);
+  border: 1px solid var(--rule2);
+  color: var(--ink);
+  padding: 6px 10px;
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 12px;
+  margin-bottom: 8px;
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+.region-select:focus { border-color: var(--gold); }
+.region-go-btn {
+  width: 100%;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 7px;
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background 0.2s;
+  margin-top: 4px;
+}
+.region-go-btn:hover { background: var(--accent2); }
+
+/* Region news list */
+.region-list { margin-top: 14px; }
+.region-item {
+  display: flex;
+  gap: 8px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--rule2);
+  cursor: pointer;
+}
+.region-item:hover h5 { color: var(--accent); }
+.region-item .rthumb { width: 60px; height: 50px; flex-shrink: 0; }
+.region-item h5 {
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--ink);
+  transition: color 0.15s;
+}
+
+/* ═══════════════════════════════════════════
+   সারাদেশ
+═══════════════════════════════════════════ */
+.saradesh-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.8fr 1fr;
+  gap: 0;
+}
+.saradesh-col {
+  padding: 0 14px;
+  border-right: 1px solid var(--rule2);
+}
+.saradesh-col:first-child { padding-left: 0; }
+.saradesh-col:last-child { border-right: none; padding-right: 0; }
+.saradesh-center .big-photo { height: 200px; margin-bottom: 10px; }
+.saradesh-center h2 {
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 22px;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--ink);
+  line-height: 1.3;
+  margin-bottom: 6px;
+}
+.saradesh-center h2:hover { color: var(--accent); }
+
+/* ═══════════════════════════════════════════
+   CATEGORY ROW (জাতীয়, বিশেষ সংবাদ, etc.)
+═══════════════════════════════════════════ */
+.cat-row-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+.cat-row-item {
+  padding: 0 14px 0 0;
+  border-right: 1px solid var(--rule2);
+  margin-right: 0;
+  cursor: pointer;
+}
+.cat-row-item:last-child { border-right: none; padding-right: 0; }
+.cat-row-item:first-child { padding-left: 0; }
+.cat-row-item .rphoto { height: 110px; margin-bottom: 8px; }
+.cat-row-item h4 {
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--ink);
+  margin-bottom: 4px;
+  transition: color 0.15s;
+}
+.cat-row-item:hover h4 { color: var(--accent); }
+.cat-row-item p { font-size: 11.5px; color: var(--ink3); }
+
+/* ═══════════════════════════════════════════
+   আনন্দ সময় + CALENDAR
+═══════════════════════════════════════════ */
+.ananda-wrap {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 20px;
+  align-items: start;
+}
+.ananda-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.ananda-big { grid-column: 1 / -1; }
+.ananda-big .card-photo { height: 200px; }
+.ananda-big h3 {
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 8px 0 5px;
+  cursor: pointer;
+  color: var(--ink);
+}
+.ananda-big h3:hover { color: var(--accent); }
+.ananda-small h4 {
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--ink);
+  margin: 6px 0 3px;
+  line-height: 1.4;
+}
+.ananda-small h4:hover { color: var(--accent); }
+.ananda-small .card-photo { height: 110px; }
+
+/* Calendar widget */
+.calendar-widget {
+  background: var(--paper2);
+  border: 1px solid var(--card-border);
+  overflow: hidden;
+}
+.cal-header {
+  background: var(--ink);
+  color: var(--gold);
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+}
+.cal-nav { background: none; border: none; color: var(--gold); cursor: pointer; font-size: 16px; padding: 0 4px; }
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 11.5px;
+}
+.cal-day-name {
+  background: var(--paper3);
+  color: var(--ink3);
+  padding: 5px 0;
+  font-weight: 600;
+  font-size: 10px;
+  border-bottom: 1px solid var(--rule2);
+}
+.cal-day {
+  padding: 5px 0;
+  border-right: 1px solid var(--rule2);
+  border-bottom: 1px solid var(--rule2);
+  color: var(--ink2);
+  cursor: pointer;
+  transition: background 0.15s;
+  font-size: 11px;
+}
+.cal-day:nth-child(7n) { border-right: none; }
+.cal-day:hover { background: var(--paper3); }
+.cal-day.today { background: var(--accent); color: #fff; font-weight: 700; }
+.cal-day.empty { color: var(--ink3); opacity: 0.3; cursor: default; }
+.cal-day.friday { color: var(--accent); }
+
+/* ═══════════════════════════════════════════
+   OPINION / মতামত
+═══════════════════════════════════════════ */
+.opinion-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+.opinion-card {
+  background: var(--paper2);
+  border-left: 4px solid var(--accent);
+  padding: 14px;
+  margin-bottom: 12px;
+}
+.opinion-card .op-author {
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 11px;
+  color: var(--accent);
+  font-style: italic;
+  margin-bottom: 5px;
+}
+.opinion-card h4 {
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--ink);
+  cursor: pointer;
+}
+.opinion-card h4:hover { color: var(--accent); }
+.opinion-card p { font-size: 12.5px; color: var(--ink2); line-height: 1.7; }
+
+/* ═══════════════════════════════════════════
+   চাকরি (Jobs)
+═══════════════════════════════════════════ */
+.chakri-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.chakri-card {
+  background: var(--paper2);
+  border: 1px solid var(--card-border);
+  padding: 12px;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+.chakri-card:hover { box-shadow: 0 4px 14px var(--shadow); }
+.chakri-card .job-photo { height: 100px; margin-bottom: 8px; }
+.chakri-card .job-org {
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--blue);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.chakri-card h4 {
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.4;
+  margin-bottom: 3px;
+}
+.chakri-card .deadline {
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 10.5px;
+  color: var(--accent);
+  margin-top: 5px;
+}
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+footer {
+  background: var(--footer-bg);
+  color: var(--paper2);
+  padding: 30px 0 0;
+  margin-top: 36px;
+  border-top: 4px double var(--gold2);
+}
+.footer-top {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 40px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #3d2e10;
+}
+.footer-logo-bn {
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--gold);
+  line-height: 1.0;
+}
+.footer-logo-en {
+  font-family: 'Playfair Display', serif;
+  font-size: 10px;
+  letter-spacing: 5px;
+  color: var(--gold2);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.footer-tagline {
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--footer-link);
+  margin-bottom: 12px;
+}
+.footer-info {
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 11px;
+  color: var(--footer-link);
+  line-height: 1.9;
+}
+.footer-links-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.footer-col h5 {
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #3d2e10;
+}
+.footer-col a {
+  display: block;
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 12px;
+  color: var(--footer-link);
+  margin-bottom: 5px;
+  transition: color 0.15s;
+}
+.footer-col a:hover { color: var(--paper); }
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-top: 1px solid #3d2e10;
+  margin-top: 20px;
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 11px;
+  color: var(--footer-link);
+}
+.footer-disclaimer {
+  background: var(--footer-bg);
+  padding: 12px 0;
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 11px;
+  color: var(--footer-link);
+  line-height: 1.75;
+  border-top: 1px solid #3d2e10;
+  text-align: center;
+}
+
+
+/* ═══════════════════════════════════════════
+   SUBSCRIPTION MODAL
+═══════════════════════════════════════════ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--modal-overlay);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.modal-overlay.open { opacity: 1; pointer-events: auto; }
+.modal-box {
+  background: var(--paper);
+  max-width: 480px;
+  width: 100%;
+  border: 1px solid var(--rule2);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  position: relative;
+}
+.modal-header {
+  background: var(--ink);
+  padding: 18px 24px 14px;
+  text-align: center;
+  border-bottom: 2px solid var(--gold2);
+}
+.modal-logo {
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--gold);
+}
+.modal-title {
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 13px;
+  color: var(--paper2);
+  margin-top: 4px;
+}
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: none;
+  border: none;
+  color: var(--paper2);
+  font-size: 20px;
+  cursor: pointer;
+  line-height: 1;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+.modal-close:hover { opacity: 1; }
+.modal-body { padding: 20px 24px; }
+.modal-plans {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.plan-card {
+  border: 1.5px solid var(--rule2);
+  padding: 14px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.15s;
+}
+.plan-card:hover, .plan-card.selected { border-color: var(--accent); background: var(--accent-bg); }
+.plan-card .plan-name {
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+.plan-card .plan-price {
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--ink);
+}
+.plan-card .plan-period {
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 11px;
+  color: var(--ink3);
+  margin-top: 2px;
+}
+.modal-input {
+  width: 100%;
+  background: var(--input-bg);
+  border: 1px solid var(--rule2);
+  color: var(--ink);
+  padding: 9px 12px;
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 12.5px;
+  margin-bottom: 10px;
+  border-radius: 2px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.modal-input:focus { border-color: var(--gold); }
+.modal-submit {
+  width: 100%;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 10px;
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background 0.2s;
+}
+.modal-submit:hover { background: var(--accent2); }
+.modal-note {
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 10.5px;
+  color: var(--ink3);
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* ═══════════════════════════════════════════
+   BACK TO TOP
+═══════════════════════════════════════════ */
+.back-top {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--ink);
+  color: var(--gold);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  z-index: 200;
+}
+.back-top.visible { opacity: 1; pointer-events: all; }
+.back-top:hover { background: var(--accent); }
+
+/* ═══════════════════════════════════════════
+   MOBILE — comprehensive overhaul
+   Breakpoints: 900px tablet, 600px mobile, 400px small
+═══════════════════════════════════════════ */
+
+/* ── 900px: tablet ── */
+@media (max-width: 900px) {
+  /* Topbar: hide less-critical items */
+  .topbar-left span:nth-child(3),
+  .topbar-left span:nth-child(4) { display: none; }
+
+  /* Masthead: stack vertically, center */
+  .masthead-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 10px;
+  }
+  .logo-bn { font-size: 36px; }
+  .masthead-meta { text-align: center; align-items: center; }
+  .search-form { max-width: 100% !important; width: 100%; }
+  .search-input { width: 100%; }
+
+  /* Hero: single column */
+  .hero-grid { grid-template-columns: 1fr; gap: 16px; }
+  .hero-divider { display: none; }
+  .hero-center { padding: 0; }
+  .hero-center h1 { font-size: 22px; }
+  .hero-summary { column-count: 1; }
+  .hero-photo { height: 220px; }
+  .hero-right { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .anythings-box { margin-bottom: 0; }
+
+  /* Special section */
+  .special-grid { grid-template-columns: 1fr 1fr; }
+  .special-card .card-photo { height: 120px; }
+
+  /* Sarbik */
+  .sarbik-wrap { grid-template-columns: 1fr; }
+  .sarbik-grid { grid-template-columns: 1fr 1fr; }
+  .sarbik-featured { grid-column: 1 / -1; grid-row: auto; }
+
+  /* Saradesh */
+  .saradesh-grid { grid-template-columns: 1fr; gap: 16px; }
+  .saradesh-col { padding: 0 !important; border-right: none !important; border-bottom: 1px solid var(--rule2); padding-bottom: 16px !important; }
+  .saradesh-col:last-child { border-bottom: none; padding-bottom: 0 !important; }
+
+  /* Category rows: 2 col */
+  .cat-row-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .cat-row-item { padding: 0 0 12px 0 !important; border-right: none !important; border-bottom: 1px solid var(--rule2); }
+  .cat-row-item:nth-child(odd):last-child { grid-column: 1 / -1; }
+
+  /* Entertainment + calendar */
+  .ananda-wrap { grid-template-columns: 1fr; }
+
+  /* Sports + opinion inline grid */
+  .sports-opinion-wrap { grid-template-columns: 1fr !important; gap: 0 !important; }
+
+  /* Opinion */
+  .opinion-wrap { grid-template-columns: 1fr; }
+
+  /* Jobs */
+  .chakri-grid { grid-template-columns: 1fr 1fr; }
+
+  /* Footer */
+  .footer-top { grid-template-columns: 1fr; gap: 20px; }
+  .footer-links-grid { grid-template-columns: 1fr 1fr; }
+
+  /* Modal */
+  .modal-plans { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+}
+
+/* ── 600px: mobile ── */
+@media (max-width: 600px) {
+  /* Base font */
+  body { font-size: 13px; }
+
+  /* Topbar: two-row layout on mobile */
+  .topbar { padding: 4px 0; }
+  .topbar-inner { flex-wrap: wrap; gap: 4px; justify-content: space-between; }
+
+  /* Left: show only date, hide edition/separator/weather */
+  .topbar-left { gap: 4px; flex-shrink: 1; min-width: 0; overflow: hidden; }
+  .topbar-left span { font-size: 10px; white-space: nowrap; }
+  .topbar-left span:nth-child(2),   /* | separator */
+  .topbar-left span:nth-child(3),   /* edition text */
+  .topbar-left span:nth-child(4),   /* | separator */
+  #topbar-weather { display: none; } /* weather */
+
+  /* Right: shrink buttons, keep all visible */
+  .topbar-right { gap: 4px; flex-shrink: 0; }
+  .lang-btn { padding: 2px 6px; font-size: 10px; }
+  .dark-toggle { padding: 2px 6px; font-size: 10px; gap: 2px; }
+  .dark-toggle #darkLabel { display: none; } /* icon only */
+  .subscribe-btn { padding: 3px 8px; font-size: 10px; }
+  #subscribe-btn-span::before { content: "★ "; }
+  .epaper-btn { padding: 3px 8px; font-size: 10px; }
+
+  /* Masthead */
+  .masthead { padding: 10px 0 6px; }
+  .logo-bn { font-size: 30px; }
+  .logo-en { font-size: 10px; letter-spacing: 3px; }
+  .masthead-ornament { gap: 4px; }
+  .ornament-text { font-size: 9px; }
+  .masthead-meta { font-size: 10px; gap: 1px; }
+  .edition-tag { font-size: 9px; padding: 1px 5px; }
+
+  /* Search: full width, comfortable touch target */
+  .search-form { width: 100%; }
+  .search-input { width: 100%; font-size: 14px; padding: 8px 10px; }
+  .search-submit { padding: 8px 12px; }
+
+  /* Navbar: scrollable, larger touch targets */
+  .nav-link { padding: 12px 11px; font-size: 12px; }
+
+  /* Breaking ticker: slightly larger */
+  .breaking { font-size: 12px; }
+  .breaking-label { padding: 7px 10px; font-size: 10.5px; }
+
+  /* Hero */
+  .hero-photo { height: 180px; }
+  .hero-center h1 { font-size: 19px; line-height: 1.3; }
+  .hero-right { grid-template-columns: 1fr; }
+  .anythings-photo { height: 140px; }
+  .sidebar-photo { height: 80px; }
+
+  /* Special section: 1 col */
+  .special-section { padding: 10px 0 14px; }
+  .special-grid { grid-template-columns: 1fr; }
+  .special-card .card-photo { height: 160px; }
+
+  /* Sarbik: 1 col */
+  .sarbik-grid { grid-template-columns: 1fr; }
+  .sarbik-featured .card-photo { height: 160px; }
+  .sarbik-featured h3 { font-size: 16px; }
+  .sarbik-card .card-photo { height: 100px; }
+
+  /* Region filter: full width selects */
+  .region-filter { padding: 10px; }
+  .region-select { font-size: 13px; padding: 8px 10px; }
+  .region-go-btn { padding: 9px; font-size: 13px; }
+
+  /* Category rows: 1 col on mobile */
+  .cat-row-grid { grid-template-columns: 1fr; }
+  .cat-row-item { padding-bottom: 12px !important; }
+  .cat-row-item:last-child { border-bottom: none; }
+  .cat-row-item .rphoto { height: 140px; }
+
+  /* Entertainment */
+  .ananda-big .card-photo { height: 160px; }
+  .ananda-big h3 { font-size: 17px; }
+  .ananda-grid { grid-template-columns: 1fr; }
+  .ananda-big { grid-column: 1; }
+  .ananda-small .card-photo { height: 100px; }
+
+  /* Calendar: full width */
+  .calendar-widget { width: 100%; }
+
+  /* Sports inline grid */
+  .sports-inner-grid { grid-template-columns: 1fr !important; }
+
+  /* Jobs: 1 col */
+  .chakri-grid { grid-template-columns: 1fr; }
+  .chakri-card .job-photo { height: 80px; }
+
+  /* Footer */
+  .footer-links-grid { grid-template-columns: 1fr 1fr; }
+  .footer-logo-bn { font-size: 24px; }
+  .footer-bottom { flex-direction: column; gap: 6px; text-align: center; }
+
+  /* Back to top: slightly smaller */
+  .back-top { width: 36px; height: 36px; bottom: 16px; right: 16px; }
+
+  /* Section headers */
+  .sec-head { gap: 6px; }
+  .sec-head .sec-title { font-size: 16px; }
+  .sec-head .more-link { font-size: 11px; }
+
+  /* Cat tabs: wrappable */
+  .cat-tabs { gap: 5px; }
+  .cat-tab { font-size: 10.5px; padding: 4px 9px; }
+
+  /* Modal: full-width on mobile */
+  .modal-overlay { padding: 8px; align-items: flex-end; }
+  .modal-box { max-width: 100%; border-radius: 12px 12px 0 0; }
+  .modal-body { padding: 16px; max-height: 70vh; overflow-y: auto; }
+  .modal-input { padding: 10px 12px; font-size: 14px; }
+  .modal-submit { padding: 12px; font-size: 14px; }
+}
+
+/* ── 400px: small phones ── */
+@media (max-width: 400px) {
+  .logo-bn { font-size: 26px; }
+  .hero-center h1 { font-size: 17px; }
+  .sarbik-featured h3 { font-size: 15px; }
+  .footer-links-grid { grid-template-columns: 1fr; }
+  .topbar-right .lang-btn { padding: 2px 5px; font-size: 10px; }
+}
+
+/* ── Touch: remove hover transforms on touch devices ── */
+@media (hover: none) {
+  .sarbik-card:hover, .ananda-small:hover { transform: none; box-shadow: none; }
+  .back-top:hover { transform: none; }
+  .special-card:hover { box-shadow: none; }
+}
+
+/* ── Improve tap targets globally on mobile ── */
+@media (max-width: 600px) {
+  .nav-link, .cat-tab, .region-go-btn, .modal-submit,
+  .lang-btn, .dark-toggle, .subscribe-btn, .epaper-btn {
+    min-height: 40px;
+  }
+  .more-link { min-height: 36px; display: inline-flex; align-items: center; }
+}
+
+/* ═══════════════════════════════════════════
+   IMPROVEMENTS — polish & fixes
+═══════════════════════════════════════════ */
+
+/* Smooth section reveal */
+main { animation: fadeUp 0.4s ease both; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Better photo placeholder — subtle gradient */
+.photo {
+  background: linear-gradient(135deg, var(--paper3) 0%, var(--paper2) 100%);
+}
+.photo::after { font-size: 10px; letter-spacing: 2px; opacity: 0.6; }
+
+/* Card hover lift */
+.sarbik-card, .cat-row-item, .special-card, .ananda-small {
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.sarbik-card:hover, .ananda-small:hover {
+  box-shadow: 0 4px 16px var(--shadow);
+  transform: translateY(-1px);
+}
+
+/* Opinion card improved */
+.opinion-card { transition: box-shadow 0.2s; }
+.opinion-card:hover { box-shadow: 0 3px 12px var(--shadow); }
+
+/* Back-to-top rounded */
+.back-top { border-radius: 4px; box-shadow: 0 2px 10px var(--shadow); }
+.back-top:hover { transform: translateY(-2px); }
+.back-top { transition: opacity 0.3s, background 0.2s, transform 0.2s; }
+
+/* Topbar date icon alignment */
+.topbar-left span { display: flex; align-items: center; gap: 4px; }
+
+/* Sticky nav shadow on scroll */
+.navbar { box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+
+/* Improved search focus ring */
+.search-form:focus-within {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 2px rgba(201,168,76,0.15);
+}
+
+/* Subscription modal improved */
+.modal-box { border-radius: 4px; overflow: hidden; }
+.plan-card { border-radius: 4px; }
+
+/* Footer link hover underline */
+.footer-col a:hover { text-decoration: underline; color: var(--paper); }
+
+/* Kicker — no uppercase for Bengali script */
+
+/* Better region filter */
+.region-select { border-radius: 3px; }
+
+/* Breaking ticker — fade edges */
+.ticker-track {
+  mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
+}
+
+/* Print styles */
+@media print {
+  .topbar, .navbar, .breaking, .back-top, .modal-overlay { display: none !important; }
+  .masthead { border-bottom: 2px solid #000; }
+}
+
+
+/* ── SKELETON LOADING ── */
+.skel {
+  background: linear-gradient(90deg, var(--paper2) 25%, var(--paper3) 50%, var(--paper2) 75%);
+  background-size: 200% 100%;
+  animation: skel-shimmer 1.4s infinite;
+  border-radius: 2px;
+}
+@keyframes skel-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.skel-card { display: flex; flex-direction: column; gap: 6px; }
+.skel-img   { height: 110px; width: 100%; }
+.skel-line  { height: 12px; width: 90%; }
+
+/* ── API STATUS BAR ── */
+#api-status {
+  display: none;
+  background: var(--gold);
+  color: var(--ink);
+  font-family: 'Noto Sans Bengali', sans-serif;
+  font-size: 11.5px;
+  font-weight: 600;
+  text-align: center;
+  padding: 6px 0;
+  position: sticky; top: 0; z-index: 200;
+}
+
+/* ── IMG WRAP (replaces .photo placeholder when image loads) ── */
+.img-wrap { position: relative; overflow: hidden; }
+.img-wrap.photo::after { content: 'ফটো'; }
+
+</style>
+</head>
+<body>
+
+<div id="api-status">সংবাদ লোড হচ্ছে…</div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="container">
+    <div class="topbar-inner">
+      <div class="topbar-left">
+        <span><i class="ti ti-calendar-event" style="vertical-align:-2px; margin-right:3px;" aria-hidden="true"></i> <span id="topbar-date">শুক্রবার, ২২ মে ২০২৬</span></span>
+        <span style="color:var(--rule2)">|</span>
+        <span id="topbar-edition">ঢাকা সংস্করণ · সূর্যোদয় ৫:১৩</span>
+        <span style="color:var(--rule2)">|</span>
+        <a href="#" style="color:var(--accent); font-family:'Noto Sans Bengali',sans-serif; font-size:11px;" id="topbar-weather">আজকের আবহাওয়া: ৩৮°সে</a>
+      </div>
+      <div class="topbar-right">
+        <button class="lang-btn active" onclick="setLang('bn')">বাংলা</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+        <button class="dark-toggle" onclick="toggleDark()" id="darkBtn">
+          <i class="ti ti-moon" aria-hidden="true"></i> <span id="darkLabel">ডার্ক</span>
+        </button>
+        <button class="subscribe-btn" onclick="openModal('sub-modal')">
+          <i class="ti ti-star" style="font-size:11px; vertical-align:-1px; margin-right:2px;" aria-hidden="true"></i><span id="subscribe-btn-span">সাবস্ক্রাইব</span>
+        </button>
+        <button class="epaper-btn" onclick="window.open('https://epaper.example.com','_blank')"><span id="epaper-btn-span">ই-পেপার</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="container">
+    <div class="masthead-inner">
+      <div class="logo-wrap">
+        <div class="logo-bn" id="logo-bn-el">দৈনিক অনুলিপি</div>
+        <div class="logo-en" id="logo-en-el">Dainik Anulipi</div>
+        <div class="logo-tagline" id="logo-tagline-el">সত্যের সন্ধানে, নির্ভীক প্রকাশে!</div>
+      </div>
+      <div class="masthead-center">
+        <div class="masthead-ornament">
+          <span class="ornament-rule"></span>
+          <span class="ornament-text" id="ornament-founder-el">প্রতিষ্ঠাতা ও প্রকাশক: অনিক অধিকারী</span>
+          <span class="ornament-rule"></span>
+        </div>
+        <div class="masthead-ornament">
+          <span class="ornament-rule"></span>
+          <span class="ornament-text" id="ornament-editor-el">প্রধান সম্পাদক: মো: ফারহান শাহরিয়ার</span>
+          <span class="ornament-rule"></span>
+        </div>
+        <div style="text-align:center; margin-top:8px;">
+          <div class="search-form" style="display:inline-flex; max-width:300px;">
+            <input type="text" class="search-input" placeholder="সংবাদ, বিষয় বা স্থান খুঁজুন…" id="searchInput">
+            <button class="search-submit" onclick="doSearch()"><i class="ti ti-search" aria-hidden="true"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="masthead-meta">
+        <span class="edition-tag" id="edition-tag-el">ঢাকা সংস্করণ</span>
+        <span style="margin-top:4px;" id="edition-meta-el">বর্ষ: ২৫ · সংখ্যা: ১৪২</span>
+        <span id="edition-price-el">মূল্য: ৳ ১৫</span>
+        <span>ISSN: 1234-5678</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- NAVBAR -->
+<nav class="navbar" role="navigation" aria-label="প্রধান নেভিগেশন">
+  <div class="container">
+    <div class="navbar-inner">
+      <button class="nav-link active" onclick="setNav(this)">সর্বশেষ <span class="hot-dot"></span></button>
+      <button class="nav-link" onclick="setNav(this)">জাতীয়</button>
+      <button class="nav-link" onclick="setNav(this)">রাজনীতি</button>
+      <button class="nav-link" onclick="setNav(this)">বিশেষ সংবাদ</button>
+      <button class="nav-link" onclick="setNav(this)">বিশ্ব সংবাদ</button>
+      <button class="nav-link" onclick="setNav(this)">বাণিজ্য</button>
+      <button class="nav-link" onclick="setNav(this)">অর্থনীতি</button>
+      <button class="nav-link" onclick="setNav(this)">খেলা</button>
+      <button class="nav-link" onclick="setNav(this)">আনন্দ সময়</button>
+      <button class="nav-link" onclick="setNav(this)">চাকরি</button>
+      <button class="nav-link" onclick="setNav(this)">মতামত</button>
+      <button class="nav-link" onclick="setNav(this)">এলাকার খবর</button>
+    </div>
+  </div>
+</nav>
+
+<!-- BREAKING NEWS -->
+<div class="breaking" aria-label="সর্বশেষ সংবাদ">
+  <span class="breaking-label"><i class="ti ti-bolt" aria-hidden="true"></i> সর্বশেষ</span>
+  <div class="ticker-track">
+    <span class="ticker-inner">
+      সংসদে নতুন বাজেট উপস্থাপন আগামীকাল &nbsp;·&nbsp; ঢাকায় তাপমাত্রা ৩৮ ডিগ্রি ছাড়িয়েছে &nbsp;·&nbsp; জাতীয় দলের নতুন কোচ ঘোষণা করা হয়েছে &nbsp;·&nbsp; বঙ্গোপসাগরে নিম্নচাপের পূর্বাভাস &nbsp;·&nbsp; স্টক মার্কেটে সূচক ৭ হাজার ছাড়িয়েছে &nbsp;·&nbsp; এইচএসসি ফল প্রকাশ আগামী সপ্তাহে &nbsp;·&nbsp; বিশ্ব বাণিজ্য সংস্থায় বাংলাদেশের নতুন উদ্যোগ &nbsp;·&nbsp; ঢাকায় মেট্রোরেলের নতুন রুট অনুমোদন
+    </span>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="container" role="main">
+
+  <!-- ── HERO ── -->
+  <div class="hero-grid">
+    <!-- Left sidebar -->
+    <div id="hero-sidebar-stories">
+      <div class="sidebar-story">
+        <span class="kicker" data-t="k-politics">রাজনীতি</span>
+        <div class="sidebar-photo photo"></div>
+        <h3 data-t="hs1-h">সংসদে বিরোধী দলের নতুন জোট গঠনের আভাস দিলেন শীর্ষ নেতারা</h3>
+        <span class="time-tag" data-t="t-3h">৩ ঘণ্টা আগে</span>
+      </div>
+      <div class="sidebar-story">
+        <span class="kicker" data-t="k-economy">অর্থনীতি</span>
+        <div class="sidebar-photo photo"></div>
+        <h3 data-t="hs2-h">রিজার্ভ স্থিতিশীল: আইএমএফের ইতিবাচক পর্যালোচনা প্রকাশ</h3>
+        <span class="time-tag" data-t="t-5h">৫ ঘণ্টা আগে</span>
+      </div>
+      <div class="sidebar-story">
+        <span class="kicker" data-t="k-education">শিক্ষা</span>
+        <div class="sidebar-photo photo"></div>
+        <h3 data-t="hs3-h">এইচএসসি পরীক্ষার ফল প্রকাশ আগামী বুধবার — শিক্ষা বোর্ড</h3>
+        <span class="time-tag" data-t="t-7h">৭ ঘণ্টা আগে</span>
+      </div>
+    </div>
+
+    <div class="hero-divider"></div>
+
+    <!-- Center hero -->
+    <div class="hero-center">
+      <span class="kicker" data-t="k-headline">প্রধান শিরোনাম</span>
+      <div class="hero-photo photo"></div>
+      <h1 id="hero-headline-el">জাতীয় বাজেটে শিক্ষা ও স্বাস্থ্যে বরাদ্দ বাড়ছে দ্বিগুণ, ঘোষণা আসছে কাল</h1>
+      <div class="hero-summary" id="hero-summary-el">আগামী অর্থবছরের জাতীয় বাজেটে শিক্ষা ও স্বাস্থ্য খাতে বরাদ্দ উল্লেখযোগ্যভাবে বৃদ্ধি পাচ্ছে। অর্থমন্ত্রী জানান, মোট বাজেটের ১৮ শতাংশ এই দুটি খাতে ব্যয় করা হবে। বিশেষজ্ঞরা এই সিদ্ধান্তকে স্বাগত জানিয়েছেন।</div>
+      <div class="byline" data-t="by-special-dhaka">বিশেষ প্রতিনিধি, ঢাকা</div>
+    </div>
+
+    <div class="hero-divider"></div>
+
+    <!-- Right anythings -->
+    <div class="hero-right">
+      <div class="anythings-box">
+        <div class="anythings-label" data-t="label-special">অনুলিপি স্পেশাল</div>
+        <div class="anythings-photo photo"></div>
+        <div class="ah" data-t="anyt1-h">ঢাকার বায়ুদূষণ: সংকটের গভীরে যা লুকিয়ে আছে</div>
+        <span class="kicker" style="color:var(--gold);" data-t="k-analysis">বিশ্লেষণ</span>
+      </div>
+      <div class="anythings-box" style="background:var(--paper2); border:1px solid var(--card-border);">
+        <div class="anythings-label" style="color:var(--ink3); border-bottom-color:var(--rule2);" data-t="label-popular">জনপ্রিয় পাতা</div>
+        <div class="sidebar-story" style="padding:0 0 8px; margin-bottom:8px;">
+          <h3 style="font-size:13px;" data-t="pop1-h">বিশ্বকাপের বাছাইপর্বে বাংলাদেশের সম্ভাবনা কতটুকু?</h3>
+          <span class="time-tag" data-t="k-sports">খেলা</span>
+        </div>
+        <div class="sidebar-story" style="padding:0 0 8px; margin-bottom:0; border-bottom:none;">
+          <h3 style="font-size:13px;" data-t="pop2-h">প্রবাসী আয়ে নতুন রেকর্ড, মে মাসে ২৫০ কোটি ডলার</h3>
+          <span class="time-tag" data-t="k-economy">অর্থনীতি</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── অনুলিপি স্পেশাল ── -->
+
+
+<div class="special-section">
+  <div class="container">
+    <div class="sec-head" style="border-top-color:var(--accent);">
+      <span class="sec-title accent" data-t="sec-special">অনুলিপি স্পেশাল</span>
+      <hr>
+      <span class="more-link">আরও দেখুন <i class="ti ti-arrow-right" aria-hidden="true"></i></span>
+    </div>
+    <div class="special-grid">
+      <div class="special-card">
+        <div class="card-photo photo"></div>
+        <div class="card-body">
+          <span class="kicker" data-t="k-special-report">বিশেষ প্রতিবেদন</span>
+          <h4 data-t="sp1-h">গার্মেন্টস শিল্পে নারী শ্রমিকের নতুন অধিকার</h4>
+          <p data-t="sp1-p">দীর্ঘ আন্দোলনের পর নতুন মজুরি কাঠামো চালু হতে চলেছে।</p>
+          <div class="byline" data-t="by-rahela">রাহেলা বেগম</div>
+        </div>
+      </div>
+      <div class="special-card">
+        <div class="card-photo photo"></div>
+        <div class="card-body">
+          <span class="kicker" data-t="k-investigation">অনুসন্ধান</span>
+          <h4 data-t="sp2-h">নদী দখলের পেছনে যারা: চাঞ্চল্যকর তথ্য উন্মোচন</h4>
+          <p data-t="sp2-p">সারাদেশে ৭৩টি নদী অবৈধ দখলের শিকার হয়েছে বলে জানা গেছে।</p>
+          <div class="byline" data-t="by-tanvir">তানভীর হোসেন</div>
+        </div>
+      </div>
+      <div class="special-card">
+        <div class="card-photo photo"></div>
+        <div class="card-body">
+          <span class="kicker" data-t="k-culture">সংস্কৃতি</span>
+          <h4 data-t="sp3-h">বাংলা সাহিত্যের নতুন প্রজন্ম: ডিজিটাল যুগের কলম</h4>
+          <p data-t="sp3-p">সোশ্যাল মিডিয়ায় বাংলা লেখার নতুন ধারা জন্ম নিচ্ছে।</p>
+          <div class="byline" data-t="by-nusrat">নুসরাত জাহান</div>
+        </div>
+      </div>
+      <div class="special-card">
+        <div class="card-photo photo"></div>
+        <div class="card-body">
+          <span class="kicker" data-t="k-tech">প্রযুক্তি</span>
+          <h4 data-t="sp4-h">কৃত্রিম বুদ্ধিমত্তা ও বাংলাদেশের কর্মসংস্থান: আশা না শঙ্কা?</h4>
+          <p data-t="sp4-p">আগামী দশকে ৩০ লাখ কর্মী প্রযুক্তিতে দক্ষ হওয়ার সুযোগ।</p>
+          <div class="byline" data-t="by-sakib">সাকিব রহমান</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- ── সর্বিক শিরোনাম + Region Filter ── -->
+  <div class="sec-head">
+    <span class="sec-title" data-t="sec-sarbik">সর্বিক শিরোনাম</span>
+    <hr>
+    <div class="cat-tabs" style="margin-bottom:0; gap:5px;">
+      <button class="cat-tab red" data-t="tab-latest">সর্বশেষ</button>
+      <button class="cat-tab blue" data-t="tab-national">জাতীয়</button>
+      <button class="cat-tab green" data-t="tab-world">বিশ্ব</button>
+      <button class="cat-tab gold" data-t="tab-business">বাণিজ্য</button>
+      <button class="cat-tab outline" data-t="tab-sports">খেলা</button>
+    </div>
+    <span class="more-link" style="margin-left:8px;">সব দেখুন <i class="ti ti-arrow-right" aria-hidden="true"></i></span>
+  </div>
+
+  <div class="sarbik-wrap">
+    <div class="sarbik-grid">
+      <!-- Left column small -->
+      <div>
+        <div class="sarbik-card">
+          <div class="card-photo photo" style="height:90px;"></div>
+          <span class="kicker" data-t="k-national">জাতীয়</span>
+          <h4 data-t="sb1-h">মেট্রোরেলের নতুন রুটে ২৮ স্টেশন, শেষ হবে ২০২৭ সালে</h4>
+          <span class="time-tag" data-t="t-2h">২ ঘণ্টা আগে</span>
+        </div>
+        <div class="sarbik-card" style="margin-top:12px;">
+          <div class="card-photo photo" style="height:90px;"></div>
+          <span class="kicker" data-t="k-health">স্বাস্থ্য</span>
+          <h4 data-t="sb2-h">ডেঙ্গুতে আক্রান্ত ৫ হাজার ছাড়াল, নতুন অভিযান শুরু</h4>
+          <span class="time-tag" data-t="t-3h">৩ ঘণ্টা আগে</span>
+        </div>
+      </div>
+
+      <!-- Center featured -->
+      <div class="sarbik-featured">
+        <div class="card-photo photo"></div>
+        <span class="kicker" data-t="k-special">বিশেষ সংবাদ</span>
+        <h3 data-t="sb3-h">জলবায়ু সংকটে বাংলাদেশ: উপকূল রক্ষায় ৫ হাজার কোটি টাকার প্রকল্প অনুমোদন</h3>
+        <p style="font-size:13px; color:var(--ink2);" data-t="sb3-p">সমুদ্রপৃষ্ঠের উচ্চতা বৃদ্ধির মোকাবেলায় সরকার নতুন মহাপরিকল্পনা প্রণয়ন করেছে।</p>
+        <div class="byline" data-t="by-special-dhaka2">বিশেষ প্রতিনিধি · ঢাকা</div>
+      </div>
+
+      <!-- Third col -->
+      <div>
+        <div class="sarbik-card">
+          <div class="card-photo photo" style="height:90px;"></div>
+          <span class="kicker" data-t="k-world">বিশ্ব সংবাদ</span>
+          <h4 data-t="sb4-h">গাজায় যুদ্ধবিরতির নতুন প্রস্তাব, আলোচনা চলছে</h4>
+          <span class="time-tag" data-t="t-1h">১ ঘণ্টা আগে</span>
+        </div>
+        <div class="sarbik-card" style="margin-top:12px;">
+          <div class="card-photo photo" style="height:90px;"></div>
+          <span class="kicker" data-t="k-trade">বাণিজ্য</span>
+          <h4 data-t="sb5-h">রপ্তানিতে নতুন রেকর্ড, এপ্রিলে আয় ৫.৩ বিলিয়ন ডলার</h4>
+          <span class="time-tag" data-t="t-4h">৪ ঘণ্টা আগে</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Region filter sidebar -->
+    <div>
+      <div class="region-filter">
+        <h4 data-t="sec-local">এলাকার খবর</h4>
+        <select class="region-select" id="bibhag" onchange="updateZila()">
+          <option value="">— বিভাগ বেছে নিন —</option>
+          <option value="dhaka">ঢাকা</option>
+          <option value="chattogram">চট্টগ্রাম</option>
+          <option value="rajshahi">রাজশাহী</option>
+          <option value="khulna">খুলনা</option>
+          <option value="sylhet">সিলেট</option>
+          <option value="barishal">বরিশাল</option>
+          <option value="rangpur">রংপুর</option>
+          <option value="mymensingh">ময়মনসিংহ</option>
+        </select>
+        <select class="region-select" id="zila">
+          <option value="">— জেলা বেছে নিন —</option>
+        </select>
+        <select class="region-select">
+          <option value="">— উপজেলা বেছে নিন —</option>
+        </select>
+        <button class="region-go-btn" onclick="doRegionSearch()">
+          <i class="ti ti-search" style="font-size:12px; vertical-align:-1px; margin-right:4px;" aria-hidden="true"></i>খুঁজুন
+        </button>
+      </div>
+
+      <div class="region-list" style="margin-top:14px;" id="section-local-list">
+        <p style="font-family:'Noto Sans Bengali',sans-serif; font-size:11px; color:var(--ink3); margin-bottom:8px; font-weight:600; letter-spacing:1px; text-transform:uppercase;">সাম্প্রতিক এলাকার খবর</p>
+        <div class="region-item">
+          <div class="rthumb photo"></div>
+          <h5 data-t="r1-h">নারায়ণগঞ্জে কারখানায় আগুন, ৩ জন আহত</h5>
+        </div>
+        <div class="region-item">
+          <div class="rthumb photo"></div>
+          <h5 data-t="r2-h">চট্টগ্রামে বন্দরের কার্গো হ্যান্ডলিং রেকর্ড</h5>
+        </div>
+        <div class="region-item">
+          <div class="rthumb photo"></div>
+          <h5 data-t="r3-h">রাজশাহীতে আম উৎপাদন এবার ৫ লাখ টন</h5>
+        </div>
+        <div class="region-item">
+          <div class="rthumb photo"></div>
+          <h5 data-t="r4-h">সিলেটে বন্যার পূর্বাভাস, প্রস্তুতি নেওয়া হচ্ছে</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── সারাদেশ ── -->
+  <div class="sec-head">
+    <span class="sec-title" data-t="sec-saradesh">সারাদেশ</span>
+    <hr>
+    <span class="more-link">সব জেলার খবর <i class="ti ti-arrow-right" aria-hidden="true"></i></span>
+  </div>
+
+  <div class="saradesh-grid">
+    <div class="saradesh-col">
+      <div class="sidebar-story">
+        <div class="sidebar-photo photo"></div>
+        <span class="kicker" data-t="k-dhaka">ঢাকা</span>
+        <h3 data-t="sd1-h">রাজধানীতে যানজট নিরসনে নতুন ফ্লাইওভার নির্মাণ শুরু</h3>
+        <p style="font-size:12px; color:var(--ink3);" data-t="sd1-p">উত্তরা থেকে মতিঝিল পর্যন্ত নতুন এক্সপ্রেসওয়ের ভিত্তিপ্রস্তর স্থাপিত।</p>
+        <div class="byline" data-t="by-dhaka">ঢাকা প্রতিনিধি</div>
+      </div>
+      <div class="sidebar-story">
+        <div class="sidebar-photo photo" style="height:70px;"></div>
+        <span class="kicker" data-t="k-gazipur">গাজীপুর</span>
+        <h3 data-t="sd2-h">গাজীপুরে পোশাক কারখানায় নতুন মজুরি কার্যকর</h3>
+        <div class="byline" data-t="by-gazipur">গাজীপুর প্রতিনিধি</div>
+      </div>
+    </div>
+
+    <div class="saradesh-col saradesh-center">
+      <div class="big-photo photo"></div>
+      <span class="kicker" data-t="k-special-report">বিশেষ প্রতিবেদন</span>
+      <h2 data-t="sd3-h">সুন্দরবন রক্ষায় ঐতিহাসিক রায়: শিল্প প্রতিষ্ঠান বন্ধের নির্দেশ হাইকোর্টের</h2>
+      <p style="font-size:13px; color:var(--ink2);" data-t="sd3-p">বনের পাঁচ কিলোমিটারের মধ্যে সব শিল্প স্থাপনা সরিয়ে নেওয়ার নির্দেশ।</p>
+      <div class="byline" data-t="by-law-dhaka">আইন প্রতিবেদক · ঢাকা</div>
+    </div>
+
+    <div class="saradesh-col">
+      <div class="sidebar-story">
+        <div class="sidebar-photo photo"></div>
+        <span class="kicker" data-t="k-ctg">চট্টগ্রাম</span>
+        <h3 data-t="sd4-h">বন্দরে পণ্য আমদানি-রপ্তানিতে নতুন প্রযুক্তি চালু</h3>
+        <p style="font-size:12px; color:var(--ink3);" data-t="sd4-p">অটোমেশনের ফলে ক্লিয়ারেন্স সময় ৪০ শতাংশ কমেছে।</p>
+        <div class="byline" data-t="by-ctg">চট্টগ্রাম প্রতিনিধি</div>
+      </div>
+      <div class="sidebar-story">
+        <div class="sidebar-photo photo" style="height:70px;"></div>
+        <span class="kicker" data-t="k-sylhet">সিলেট</span>
+        <h3 data-t="sd5-h">চা বাগানে নতুন মজুরি বাস্তবায়ন শুরু, শ্রমিকরা খুশি</h3>
+        <div class="byline" data-t="by-sylhet">সিলেট প্রতিনিধি</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── জাতীয় + বিশেষ সংবাদ ── -->
+  <div class="sec-head">
+    <span class="sec-title" data-t="sec-national">জাতীয় <span style="color:var(--rule2); font-weight:400; font-size:14px; margin:0 4px;">›</span></span>
+    <hr>
+    <span class="more-link">আরও জাতীয় সংবাদ <i class="ti ti-arrow-right" aria-hidden="true"></i></span>
+  </div>
+  <div class="cat-row-grid" id="section-national">
+    <div class="cat-row-item"><div class="rphoto photo"></div><span class="kicker" data-t="k-govt">সরকার</span><h4 data-t="nat1-h">নতুন সাইবার নিরাপত্তা আইন সংশোধনী পাস সংসদে</h4><p data-t="nat1-p">বিতর্কিত ধারাগুলো সংশোধন করে নতুন বিল পাস করা হয়েছে।</p><div class="byline" data-t="by-parliament">সংসদ প্রতিবেদক</div></div>
+    <div class="cat-row-item"><div class="rphoto photo"></div><span class="kicker" data-t="k-election">নির্বাচন</span><h4 data-t="nat2-h">আগামী নির্বাচনের রোডম্যাপ প্রকাশ ইসির, তফসিল ডিসেম্বরে</h4><p data-t="nat2-p">ভোটার তালিকা হালনাগাদের কাজ আগস্টে শুরু হবে।</p><div class="byline" data-t="by-own">নিজস্ব প্রতিবেদক</div></div>
+    <div class="cat-row-item"><div class="rphoto photo"></div><span class="kicker" data-t="k-governance">শাসন</span><h4 data-t="nat3-h">দুর্নীতি দমনে নতুন বিশেষ আদালত গঠনের প্রস্তাব অনুমোদন</h4><p data-t="nat3-p">দ্রুততার সঙ্গে মামলা নিষ্পত্তির লক্ষ্যে বিশেষ ট্রাইব্যুনাল।</p><div class="byline" data-t="by-law">আইন প্রতিবেদক</div></div>
+    <div class="cat-row-item"><div class="rphoto photo"></div><span class="kicker" data-t="k-env">পরিবেশ</span><h4 data-t="nat4-h">প্লাস্টিক ব্যবহারে নতুন নিষেধাজ্ঞা, জুলাই থেকে কার্যকর</h4><p data-t="nat4-p">একক ব্যবহারযোগ্য প্লাস্টিকের বিপরীতে পাটের ব্যাগে ভর্তুকি।</p><div class="byline" data-t="by-env">পরিবেশ প্রতিবেদক</div></div>
+  </div>
+
+  <!-- বিশেষ সংবাদ row -->
+  <div class="sec-head" style="margin-top:24px;">
+    <span class="sec-title" data-t="sec-special-news">বিশেষ সংবাদ <span style="color:var(--rule2); font-weight:400; font-size:14px; margin:0 4px;">›</span></span>
+    <hr>
+    <span class="more-link">আরও দেখুন <i class="ti ti-arrow-right" aria-hidden="true"></i></span>
+  </div>
+  <div class="cat-row-grid" id="section-special">
+    <div class="cat-row-item"><div class="rphoto photo"></div><span class="kicker" data-t="k-health">স্বাস্থ্য</span><h4 data-t="sn1-h">বাংলাদেশে নতুন ক্যান্সার চিকিৎসা কেন্দ্র স্থাপিত হচ্ছে</h4><p data-t="sn1-p">ঢাকা মেডিকেলে অত্যাধুনিক ক্যান্সার ইউনিট উদ্বোধন করলেন রাষ্ট্রপতি।</p></div>
+    <div class="cat-row-item"><div class="rphoto photo"></div><span class="kicker" data-t="k-education">শিক্ষা</span><h4 data-t="sn2-h">বিশ্ববিদ্যালয়ে কেন্দ্রীয় ভর্তি পরীক্ষা পদ্ধতি চূড়ান্ত</h4><p data-t="sn2-p">২০২৭ সাল থেকে ভর্তির নতুন পদ্ধতি কার্যকর হবে সারাদেশে।</p></div>
+    <div class="cat-row-item"><div class="rphoto photo"></div><span class="kicker" data-t="k-tech">প্রযুক্তি</span><h4 data-t="sn3-h">দেশের প্রথম AI গবেষণা কেন্দ্র উদ্বোধন বুয়েটে</h4><p data-t="sn3-p">বাংলা ভাষা প্রযুক্তিতে কাজ করবে নতুন এই কেন্দ্র।</p></div>
+    <div class="cat-row-item"><div class="rphoto photo"></div><span class="kicker" data-t="k-env">পরিবেশ</span><h4 data-t="sn4-h">সুন্দরবন রক্ষায় সরকার নতুন মহাপরিকল্পনা ঘোষণা করেছে</h4><p data-t="sn4-p">বাফার জোন বিস্তৃত ও শিল্প নিষেধাজ্ঞা আরোপের পরিকল্পনা।</p></div>
+  </div>
+
+  <!-- বিশ্ব সংবাদ row -->
+  <div class="sec-head" style="margin-top:24px;">
+    <span class="sec-title" data-t="sec-world">বিশ্ব সংবাদ <span style="color:var(--rule2); font-weight:400; font-size:14px; margin:0 4px;">›</span></span>
+    <hr>
+    <span class="more-link">আরও বিশ্ব সংবাদ <i class="ti ti-arrow-right" aria-hidden="true"></i></span>
+  </div>
+  <div class="cat-row-grid" id="section-world">
+    <div class="cat-row-item"><div class="rphoto photo"></div><span class="kicker" data-t="k-me">মধ্যপ্রাচ্য</span><h4 data-t="wn1-h">গাজায় যুদ্ধবিরতি প্রস্তাবে নতুন আলোচনা শুরু কাতারে</h4><p data-t="wn1-p">মার্কিন মধ্যস্থতায় নতুন শান্তি পরিকল্পনা তৈরি হচ্ছে।</p></div>
+    <div class="cat-row-item"><div class="rphoto photo"></div><span class="kicker" data-t="k-india">ভারত</span><h4 data-t="wn2-h">ভারত-পাকিস্তান সম্পর্কে নতুন টানাপোড়েন কাশ্মীরকে ঘিরে</h4><p data-t="wn2-p">উভয় দেশের সীমান্তে নিরাপত্তা জোরদার করা হয়েছে।</p></div>
+    <div class="cat-row-item"><div class="rphoto photo"></div><span class="kicker" data-t="k-usa">যুক্তরাষ্ট্র</span><h4 data-t="wn3-h">আমেরিকায় নতুন বাণিজ্য শুল্কনীতি বিশ্ব বাজারে প্রভাব ফেলছে</h4><p data-t="wn3-p">বাংলাদেশের পোশাক রপ্তানিতে সম্ভাব্য প্রভাব বিশ্লেষণ।</p></div>
+    <div class="cat-row-item"><div class="rphoto photo"></div><span class="kicker" data-t="k-china">চীন</span><h4 data-t="wn4-h">চীনের নতুন বেল্ট-রোড প্রকল্পে বাংলাদেশের অংশগ্রহণ</h4><p data-t="wn4-p">নতুন ঋণ চুক্তি নিয়ে আলোচনা চলছে দুই দেশের মধ্যে।</p></div>
+  </div>
+
+  <!-- বাণিজ্য row -->
+  <div class="sec-head" style="margin-top:24px;">
+    <span class="sec-title" data-t="sec-business">বাণিজ্য <span style="color:var(--rule2); font-weight:400; font-size:14px; margin:0 4px;">›</span></span>
+    <hr>
+    <span class="more-link">আরও বাণিজ্য সংবাদ <i class="ti ti-arrow-right" aria-hidden="true"></i></span>
+  </div>
+  <div class="cat-row-grid" id="section-business">
+    <div class="cat-row-item"><div class="rphoto photo"></div><span class="kicker" data-t="k-stock">শেয়ার বাজার</span><h4 data-t="bn1-h">ডিএসইতে সূচক ৭ হাজার ছাড়াল, লেনদেন ২০০ কোটি</h4><p data-t="bn1-p">বিনিয়োগকারীদের মধ্যে ইতিবাচক মনোভাব তৈরি হয়েছে।</p></div>
+    <div class="cat-row-item"><div class="rphoto photo"></div><span class="kicker" data-t="k-garments">গার্মেন্টস</span><h4 data-t="bn2-h">পোশাক রপ্তানিতে নতুন রেকর্ড, এপ্রিলে ৪.২ বিলিয়ন ডলার</h4><p data-t="bn2-p">ইউরোপ বাজারে চাহিদা বৃদ্ধি পেয়েছে উল্লেখযোগ্যভাবে।</p></div>
+    <div class="cat-row-item"><div class="rphoto photo"></div><span class="kicker" data-t="k-banking">ব্যাংকিং</span><h4 data-t="bn3-h">কেন্দ্রীয় ব্যাংকের নতুন নীতিসুদের হার নির্ধারণ</h4><p data-t="bn3-p">মূল্যস্ফীতি নিয়ন্ত্রণে সুদের হার ৮.৫ শতাংশে স্থির।</p></div>
+    <div class="cat-row-item"><div class="rphoto photo"></div><span class="kicker" data-t="k-remit">রেমিট্যান্স</span><h4 data-t="bn4-h">প্রবাসী আয়ে নতুন রেকর্ড: মে মাসে ২৫০ কোটি ডলার</h4><p data-t="bn4-p">মধ্যপ্রাচ্য থেকে প্রবাহ সবচেয়ে বেশি বেড়েছে।</p></div>
+  </div>
+
+  <!-- ── আনন্দ সময় + Calendar ── -->
+  <div class="sec-head" style="margin-top:24px;">
+    <span class="sec-title" data-t="sec-entertainment">আনন্দ সময় <span style="color:var(--rule2); font-weight:400; font-size:14px; margin:0 4px;">›</span></span>
+    <hr>
+    <span class="more-link">বিনোদন বিভাগ <i class="ti ti-arrow-right" aria-hidden="true"></i></span>
+  </div>
+  <div class="ananda-wrap">
+    <div class="ananda-grid" id="section-entertainment">
+      <div class="ananda-big">
+        <div class="card-photo photo"></div>
+        <span class="kicker" data-t="k-film">চলচ্চিত্র</span>
+        <h3 data-t="ent1-h">ঈদের সিনেমায় দর্শকের ঢল: 'মায়ার জাল' ৫ কোটি আয় করল প্রথম সপ্তাহে</h3>
+        <p style="font-size:13px; color:var(--ink2);" data-t="ent1-p">নতুন পরিচালকের এই চলচ্চিত্র সমালোচকদের প্রশংসা কুড়িয়েছে।</p>
+        <div class="byline" data-t="by-ent">বিনোদন ডেস্ক</div>
+      </div>
+      <div class="ananda-small">
+        <div class="card-photo photo"></div>
+        <span class="kicker" data-t="k-music">সংগীত</span>
+        <h4 data-t="ent2-h">আর্টসেলের নতুন অ্যালবাম প্রকাশিত, শ্রোতাদের ভালোবাসায় ভাসছেন</h4>
+        <div class="byline">বিনোদন ডেস্ক</div>
+      </div>
+      <div class="ananda-small">
+        <div class="card-photo photo"></div>
+        <span class="kicker" data-t="k-drama">নাটক</span>
+        <h4 data-t="ent3-h">রমজান স্পেশাল ধারাবাহিকে রেকর্ড দর্শক, টিআরপি সর্বোচ্চ</h4>
+        <div class="byline">বিনোদন ডেস্ক</div>
+      </div>
+    </div>
+
+    <!-- Calendar -->
+    <div>
+      <div class="calendar-widget">
+        <div class="cal-header">
+          <button class="cal-nav" onclick="changeMonth(-1)" aria-label="আগের মাস">‹</button>
+          <span id="calTitle">মে ২০২৬</span>
+          <button class="cal-nav" onclick="changeMonth(1)" aria-label="পরের মাস">›</button>
+        </div>
+        <div class="cal-grid" id="calGrid"></div>
+      </div>
+      <div style="margin-top:14px; background:var(--paper2); border:1px solid var(--card-border); padding:12px;">
+        <p style="font-family:'Noto Sans Bengali',sans-serif; font-size:11px; font-weight:700; color:var(--ink2); margin-bottom:8px; letter-spacing:1px; text-transform:uppercase; border-bottom:1px solid var(--rule2); padding-bottom:6px;" data-t="today-events">আজকের অনুষ্ঠান</p>
+        <div class="region-item" style="padding:6px 0;"><div style="width:8px; height:8px; background:var(--accent); border-radius:50%; flex-shrink:0; margin-top:5px;"></div><h5 style="font-size:12px; font-weight:400;" data-t="ev1">ঢাকা বিশ্ববিদ্যালয়ে আন্তর্জাতিক সাহিত্য সম্মেলন</h5></div>
+        <div class="region-item" style="padding:6px 0;"><div style="width:8px; height:8px; background:var(--blue); border-radius:50%; flex-shrink:0; margin-top:5px;"></div><h5 style="font-size:12px; font-weight:400;" data-t="ev2">জাতীয় চলচ্চিত্র পুরস্কার অনুষ্ঠান রাত ৮টায়</h5></div>
+        <div class="region-item" style="padding:6px 0; border-bottom:none;"><div style="width:8px; height:8px; background:var(--green); border-radius:50%; flex-shrink:0; margin-top:5px;"></div><h5 style="font-size:12px; font-weight:400;" data-t="ev3">বাংলাদেশ-ওয়েস্ট ইন্ডিজ তৃতীয় ওয়ানডে বিকেল ৩টায়</h5></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── অর্থনীতি ── -->
+  <div class="sec-head" style="margin-top:24px;">
+    <span class="sec-title" data-t="sec-economy">অর্থনীতি <span style="color:var(--rule2); font-weight:400; font-size:14px; margin:0 4px;">›</span></span>
+    <hr>
+    <span class="more-link">অর্থনীতি বিভাগ <i class="ti ti-arrow-right" aria-hidden="true"></i></span>
+  </div>
+  <div class="cat-row-grid" id="section-economy">
+    <div class="cat-row-item"><div class="rphoto photo" style="height:130px;"></div><span class="kicker" data-t="k-budget">বাজেট</span><h4 data-t="ec1-h">আগামী বাজেটে কর ছাড়ের ঘোষণা আসছে ক্ষুদ্র উদ্যোক্তাদের জন্য</h4><p data-t="ec1-p">কর সীমা বার্ষিক ৪ লাখ থেকে বাড়িয়ে ৫ লাখ টাকা করার প্রস্তাব।</p><div class="byline" data-t="by-finance">অর্থ প্রতিবেদক</div></div>
+    <div class="cat-row-item"><div class="rphoto photo" style="height:130px;"></div><span class="kicker" data-t="k-inflation">মূল্যস্ফীতি</span><h4 data-t="ec2-h">মূল্যস্ফীতি কমে ৮.৯ শতাংশে, বছরের মধ্যে সর্বনিম্ন হারে</h4><p data-t="ec2-p">নিত্যপণ্যের দাম কিছুটা কমায় সাধারণ মানুষে স্বস্তি ফিরেছে।</p><div class="byline">অর্থ প্রতিবেদক</div></div>
+    <div class="cat-row-item"><div class="rphoto photo" style="height:130px;"></div><span class="kicker" data-t="k-investment">বিনিয়োগ</span><h4 data-t="ec3-h">জাপান ৫০০ কোটি ডলার বিনিয়োগ করবে বাংলাদেশের অবকাঠামোতে</h4><p data-t="ec3-p">বিশেষ অর্থনৈতিক অঞ্চলে জাপানি কারখানা স্থাপনের পরিকল্পনা।</p><div class="byline" data-t="by-trade">বাণিজ্য প্রতিবেদক</div></div>
+    <div class="cat-row-item"><div class="rphoto photo" style="height:130px;"></div><span class="kicker" data-t="k-agri">কৃষি</span><h4 data-t="ec4-h">আধুনিক কৃষিপ্রযুক্তিতে উৎপাদন বেড়েছে ১৫ শতাংশ</h4><p data-t="ec4-p">স্মার্ট সেচ ও ড্রোন পদ্ধতিতে চাষাবাদে নতুন যুগ শুরু।</p><div class="byline" data-t="by-agri">কৃষি প্রতিবেদক</div></div>
+  </div>
+
+  <!-- ── খেলা + মতামত ── -->
+  <div class="sports-opinion-wrap" style="display:grid; grid-template-columns:1.2fr 1fr; gap:30px; margin-top:24px; align-items:start;">
+    <div>
+      <div class="sec-head">
+        <span class="sec-title" data-t="sec-sports">খেলাধুলা <span style="color:var(--rule2); font-weight:400; font-size:14px; margin:0 4px;">›</span></span>
+        <hr>
+        <span class="more-link">সব খেলার খবর <i class="ti ti-arrow-right" aria-hidden="true"></i></span>
+      </div>
+      <div class="sports-inner-grid" style="display:grid; grid-template-columns:1.5fr 1fr; gap:12px;">
+        <div>
+          <div class="photo" style="height:160px;"></div>
+          <span class="kicker" style="margin-top:8px;" data-t="k-cricket">ক্রিকেট</span>
+          <h3 style="font-family:'Noto Serif Bengali',serif; font-size:17px; font-weight:700; line-height:1.35; cursor:pointer; color:var(--ink); margin-bottom:5px;" data-t="sp-cr-h">বাংলাদেশ ৭ উইকেটে জয়ী, সিরিজ বরাবর হল</h3>
+          <p style="font-size:12px; color:var(--ink3);" data-t="sp-cr-p">লিটন দাসের ১১৮ রানের ইনিংসে ঐতিহাসিক জয় পেল টাইগাররা।</p>
+          <div class="byline" data-t="by-sports">ক্রীড়া প্রতিবেদক</div>
+        </div>
+        <div id="section-sports-list">
+          <div class="sidebar-story">
+            <div class="sidebar-photo photo" style="height:80px;"></div>
+            <span class="kicker" data-t="k-football">ফুটবল</span>
+            <h3 style="font-size:13px;" data-t="sp-fb-h">আবাহনী ডিপিএল পয়েন্ট টেবিলে শীর্ষে</h3>
+          </div>
+          <div class="sidebar-story">
+            <div class="sidebar-photo photo" style="height:80px;"></div>
+            <span class="kicker" data-t="k-tennis">টেনিস</span>
+            <h3 style="font-size:13px;" data-t="sp-tn-h">রোলাঁ গারোস: নাদাল ফের কোয়ার্টারে</h3>
+          </div>
+          <div class="sidebar-story">
+            <span class="kicker" data-t="k-olympic">অলিম্পিক</span>
+            <h3 style="font-size:13px;" data-t="sp-ol-h">তীরন্দাজিতে বাংলাদেশের প্রস্তুতি চলছে</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="sec-head">
+        <span class="sec-title" data-t="sec-opinion">মতামত <span style="color:var(--rule2); font-weight:400; font-size:14px; margin:0 4px;">›</span></span>
+        <hr>
+        <span class="more-link">সব মতামত <i class="ti ti-arrow-right" aria-hidden="true"></i></span>
+      </div>
+      <div id="section-opinion">
+      <div class="opinion-card">
+        <div class="op-author" data-t="op1-auth">অধ্যাপক মুহাম্মদ আলী · ঢাকা বিশ্ববিদ্যালয়</div>
+        <h4 data-t="op1-h">গণতন্ত্রের পুনরুজ্জীবন: প্রাতিষ্ঠানিক সংস্কারের পথ</h4>
+        <p data-t="op1-p">রাষ্ট্রীয় প্রতিষ্ঠানগুলোকে শক্তিশালী করা ছাড়া সুশাসন অর্জন সম্ভব নয়।</p>
+      </div>
+      <div class="opinion-card">
+        <div class="op-author" data-t="op2-auth">ড. সালমা বেগম · অর্থনীতিবিদ</div>
+        <h4 data-t="op2-h">মূল্যস্ফীতি মোকাবেলায় চাই দীর্ঘমেয়াদী কৌশল</h4>
+        <p data-t="op2-p">স্বল্পমেয়াদী পদক্ষেপ সাময়িক স্বস্তি দিলেও স্থায়ী সমাধানে কাঠামোগত সংস্কার অপরিহার্য।</p>
+      </div>
+      <div class="opinion-card">
+        <div class="op-author" data-t="op3-auth">আনিসুজ্জামান খান · আইনজীবী</div>
+        <h4 data-t="op3-h">বিচার বিভাগের স্বাধীনতা: চ্যালেঞ্জ ও সম্ভাবনা</h4>
+        <p data-t="op3-p">বিচারকদের নিয়োগ প্রক্রিয়ায় স্বচ্ছতা নিশ্চিত করা সময়ের দাবি।</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── চাকরি ── -->
+  <div class="sec-head" style="margin-top:24px;">
+    <span class="sec-title" data-t="sec-jobs">চাকরির খবর <span style="color:var(--rule2); font-weight:400; font-size:14px; margin:0 4px;">›</span></span>
+    <hr>
+    <span class="more-link">সব চাকরির বিজ্ঞপ্তি <i class="ti ti-arrow-right" aria-hidden="true"></i></span>
+  </div>
+  <div class="chakri-grid">
+    <div class="chakri-card">
+      <div class="job-photo photo"></div>
+      <div class="job-org" data-t="job1-org">বাংলাদেশ ব্যাংক</div>
+      <h4 data-t="job1-h">সহকারী পরিচালক পদে নিয়োগ বিজ্ঞপ্তি, ২৫০ পদ শূন্য</h4>
+      <div class="deadline"><i class="ti ti-clock" style="font-size:11px; vertical-align:-1px;" aria-hidden="true"></i> আবেদনের শেষ: ৩০ জুন</div>
+    </div>
+    <div class="chakri-card">
+      <div class="job-photo photo"></div>
+      <div class="job-org" data-t="job2-org">বিদ্যুৎ উন্নয়ন বোর্ড</div>
+      <h4 data-t="job2-h">প্রকৌশলী ও টেকনিশিয়ান পদে নিয়োগ, ৫০০ পদ</h4>
+      <div class="deadline"><i class="ti ti-clock" style="font-size:11px; vertical-align:-1px;" aria-hidden="true"></i> আবেদনের শেষ: ১৫ জুন</div>
+    </div>
+    <div class="chakri-card">
+      <div class="job-photo photo"></div>
+      <div class="job-org" data-t="job3-org">প্রাথমিক শিক্ষা অধিদপ্তর</div>
+      <h4 data-t="job3-h">প্রাথমিক বিদ্যালয়ে সহকারী শিক্ষক পদে ৪৫,০০০ নিয়োগ</h4>
+      <div class="deadline"><i class="ti ti-clock" style="font-size:11px; vertical-align:-1px;" aria-hidden="true"></i> আবেদনের শেষ: ২০ জুন</div>
+    </div>
+    <div class="chakri-card">
+      <div class="job-photo photo"></div>
+      <div class="job-org" data-t="job4-org">গ্রামীণফোন</div>
+      <h4 data-t="job4-h">সফটওয়্যার ইঞ্জিনিয়ার পদে নিয়োগ চলছে, অভিজ্ঞতা ২ বছর</h4>
+      <div class="deadline"><i class="ti ti-clock" style="font-size:11px; vertical-align:-1px;" aria-hidden="true"></i> রোলিং ভিত্তিতে</div>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo-bn" id="footer-logo-bn-el">দৈনিক অনুলিপি</div>
+        <div class="footer-logo-en">Dainik Anulipi</div>
+        <div class="footer-tagline" id="footer-tagline-el">সত্যের সন্ধানে, নির্ভীক প্রকাশে!</div>
+        <div class="footer-info">
+          <strong style="color:var(--gold2);">প্রতিষ্ঠাতা ও প্রকাশক:</strong> অনিক অধিকারী<br>
+          <strong style="color:var(--gold2);">প্রধান সম্পাদক:</strong> মো: ফারহান শাহরিয়ার<br>
+          <strong style="color:var(--gold2);">ঠিকানা:</strong> ১২৩, তেজগাঁও শিল্পাঞ্চল, ঢাকা-১২০৮<br>
+          <strong style="color:var(--gold2);">ফোন:</strong> +৮৮ ০২-৫৫০৪-৩২১০<br>
+          <strong style="color:var(--gold2);">ইমেইল:</strong> editor@dainikanulipi.com.bd<br><br>
+        </div>
+      </div>
+      <div class="footer-links-grid">
+        <div class="footer-col">
+          <h5>বিভাগ</h5>
+          <a href="#">জাতীয় সংবাদ</a>
+          <a href="#">আন্তর্জাতিক</a>
+          <a href="#">রাজনীতি</a>
+          <a href="#">অর্থনীতি</a>
+          <a href="#">খেলাধুলা</a>
+          <a href="#">বিনোদন</a>
+        </div>
+        <div class="footer-col">
+          <h5>সেবা</h5>
+          <a href="#">ই-পেপার</a>
+          <a href="#">আর্কাইভ</a>
+          <a href="#">বিজ্ঞাপন দিন</a>
+          <a href="#">নিউজলেটার</a>
+          <a href="#">পডকাস্ট</a>
+          <a href="#">ভিডিও</a>
+        </div>
+        <div class="footer-col">
+          <h5>প্রতিষ্ঠান</h5>
+          <a href="#">আমাদের সম্পর্কে</a>
+          <a href="#">সম্পাদকীয় নীতি</a>
+          <a href="#">পুরস্কার ও স্বীকৃতি</a>
+          <a href="#">চাকরির সুযোগ</a>
+          <a href="#">পাঠকের চিঠি</a>
+        </div>
+        <div class="footer-col">
+          <h5>আইনি</h5>
+          <a href="#">গোপনীয়তা নীতি</a>
+          <a href="#">ব্যবহারের শর্ত</a>
+          <a href="#">কুকি নীতি</a>
+          <a href="#">DMCA</a>
+          <a href="#">যোগাযোগ</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span id="footer-copyright-el">© ২০২৬ দৈনিক অনুলিপি। সর্বস্বত্ব সংরক্ষিত।</span>
+      <span style="color:var(--gold2);">ISSN 1234-5678 · নিবন্ধন নং: ড-২৩৪৫</span>
+    </div>
+  </div>
+  <div class="footer-disclaimer">
+    <div class="container">
+      এই নিউজ পোর্টালটি বর্তমানে 'পরীক্ষামূলক সম্প্রচার' কার্যক্রম পরিচালনা করছে। আমরা সচেতনভাবে রাজনৈতিক সংবাদ এড়িয়ে চলি এবং শুধুমাত্র বিনোদন, তথ্য ও জনস্বার্থমূলক সংবাদ প্রকাশ করি।
+      এখানে প্রকাশিত সংবাদের দায়ভার সংশ্লিষ্ট লেখকদের, পোর্টাল কর্তৃপক্ষের নয়। নিবন্ধন প্রক্রিয়া ও পূর্ণাঙ্গ সম্প্রচারের কাজ চলমান।<br>
+      <strong style="color:var(--gold2);">স্বত্ব © ২০২৬ দৈনিক অনুলিপি কর্তৃক সংরক্ষিত।</strong>
+    </div>
+  </div>
+</footer>
+
+<!-- BACK TO TOP -->
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="উপরে যান">
+  <i class="ti ti-arrow-up" aria-hidden="true"></i>
+</button>
+
+<!-- ════════════════════════════════
+     SUBSCRIPTION MODAL
+════════════════════════════════ -->
+<div class="modal-overlay" id="sub-modal" role="dialog" aria-modal="true" aria-labelledby="sub-title">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-logo">দৈনিক অনুলিপি</div>
+      <div class="modal-title" id="sub-title">সাবস্ক্রিপশন — নিরবচ্ছিন্ন সংবাদ পড়ুন</div>
+      <button class="modal-close" onclick="closeModal('sub-modal')" aria-label="বন্ধ করুন">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-plans">
+        <div class="plan-card selected" onclick="selectPlan(this)">
+          <div class="plan-name">মাসিক</div>
+          <div class="plan-price">৳৯৯</div>
+          <div class="plan-period">প্রতি মাসে</div>
+        </div>
+        <div class="plan-card" onclick="selectPlan(this)">
+          <div class="plan-name">বার্ষিক</div>
+          <div class="plan-price">৳৮৯৯</div>
+          <div class="plan-period">প্রতি বছরে · সাশ্রয় ৩৩%</div>
+        </div>
+      </div>
+      <input type="text" class="modal-input" placeholder="আপনার নাম (বাংলায়)">
+      <input type="email" class="modal-input" placeholder="ইমেইল ঠিকানা">
+      <input type="tel" class="modal-input" placeholder="মোবাইল নম্বর">
+      <select class="modal-input" style="padding:9px 12px; cursor:pointer;">
+        <option>পেমেন্ট পদ্ধতি বেছে নিন</option>
+        <option>বিকাশ</option>
+        <option>নগদ</option>
+        <option>রকেট</option>
+        <option>কার্ড পেমেন্ট</option>
+      </select>
+      <button class="modal-submit">সাবস্ক্রাইব করুন <i class="ti ti-arrow-right" style="font-size:13px; vertical-align:-1px; margin-left:4px;" aria-hidden="true"></i></button>
+      <p class="modal-note">সাবস্ক্রিপশন যেকোনো সময় বাতিল করা যাবে। আপনার তথ্য সুরক্ষিত।</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── DARK MODE ──
+function _updateDarkBtn(isDark) {
+  const icon = document.querySelector('#darkBtn i');
+  const label = document.getElementById('darkLabel');
+  if (icon) icon.className = isDark ? 'ti ti-sun' : 'ti ti-moon';
+  if (label) {
+    const t = (typeof translations !== 'undefined') && translations[currentLang];
+    label.textContent = isDark
+      ? (t ? t['dark-label-light'] : 'লাইট')
+      : (t ? t['dark-label-dark'] : 'ডার্ক');
+  }
+}
+
+function toggleDark() {
+  const html = document.documentElement;
+  const isDark = html.dataset.theme === 'dark';
+  html.dataset.theme = isDark ? 'light' : 'dark';
+  _updateDarkBtn(!isDark);
+  localStorage.setItem('da-theme', html.dataset.theme);
+}
+
+// Persist dark mode on load (runs synchronously; DOM is already parsed at this point)
+(function(){
+  const saved = localStorage.getItem('da-theme');
+  if (saved === 'dark') {
+    document.documentElement.dataset.theme = 'dark';
+    // Update button once DOM is interactive (script is at bottom of body so DOM is ready)
+    _updateDarkBtn(true);
+  }
+})();
+
+// ── LANGUAGE TOGGLE ──
+const translations = {
+  bn: {
+    // Topbar
+    'topbar-date': 'শুক্রবার, ২২ মে ২০২৬',
+    'topbar-edition': 'ঢাকা সংস্করণ · সূর্যোদয় ৫:১৩',
+    'topbar-weather': 'আজকের আবহাওয়া: ৩৮°সে',
+    'epaper-btn': 'ই-পেপার',
+    'subscribe-btn-text': 'সাবস্ক্রাইব',
+    // Masthead
+    'logo-bn': 'দৈনিক অনুলিপি',
+    'logo-en': 'Dainik Anulipi',
+    'logo-tagline': 'সত্যের সন্ধানে, নির্ভীক প্রকাশে!',
+    'ornament-founder': 'প্রতিষ্ঠাতা ও প্রকাশক: অনিক অধিকারী',
+    'ornament-editor': 'প্রধান সম্পাদক: মো: ফারহান শাহরিয়ার',
+    'search-placeholder': 'সংবাদ, বিষয় বা স্থান খুঁজুন…',
+    'edition-tag': 'ঢাকা সংস্করণ',
+    'edition-meta': 'বর্ষ: ২৫ · সংখ্যা: ১৪২',
+    'edition-price': 'মূল্য: ৳ ১৫',
+    // Navbar
+    'nav-0': 'সর্বশেষ', 'nav-1': 'জাতীয়', 'nav-2': 'রাজনীতি',
+    'nav-3': 'বিশেষ সংবাদ', 'nav-4': 'বিশ্ব সংবাদ', 'nav-5': 'বাণিজ্য',
+    'nav-6': 'অর্থনীতি', 'nav-7': 'খেলা', 'nav-8': 'আনন্দ সময়',
+    'nav-9': 'চাকরি', 'nav-10': 'মতামত', 'nav-11': 'এলাকার খবর',
+    // Breaking
+    'breaking-label': 'সর্বশেষ',
+    'breaking-text': 'সংসদে নতুন বাজেট উপস্থাপন আগামীকাল &nbsp;·&nbsp; ঢাকায় তাপমাত্রা ৩৮ ডিগ্রি ছাড়িয়েছে &nbsp;·&nbsp; জাতীয় দলের নতুন কোচ ঘোষণা করা হয়েছে &nbsp;·&nbsp; বঙ্গোপসাগরে নিম্নচাপের পূর্বাভাস &nbsp;·&nbsp; স্টক মার্কেটে সূচক ৭ হাজার ছাড়িয়েছে &nbsp;·&nbsp; এইচএসসি ফল প্রকাশ আগামী সপ্তাহে',
+    // Hero
+    'hero-headline': 'জাতীয় বাজেটে শিক্ষা ও স্বাস্থ্যে বরাদ্দ বাড়ছে দ্বিগুণ, ঘোষণা আসছে কাল',
+    'hero-summary': 'আগামী অর্থবছরের জাতীয় বাজেটে শিক্ষা ও স্বাস্থ্য খাতে বরাদ্দ উল্লেখযোগ্যভাবে বৃদ্ধি পাচ্ছে। অর্থমন্ত্রী জানান, মোট বাজেটের ১৮ শতাংশ এই দুটি খাতে ব্যয় করা হবে। বিশেষজ্ঞরা এই সিদ্ধান্তকে স্বাগত জানিয়েছেন।',
+    // Footer
+    'footer-logo-bn': 'দৈনিক অনুলিপি',
+    'footer-tagline': 'সত্যের সন্ধানে, নির্ভীক প্রকাশে!',
+    'footer-copyright': '© ২০২৬ দৈনিক অনুলিপি। সর্বস্বত্ব সংরক্ষিত।',
+    // Dark mode button
+    'dark-label-dark': 'ডার্ক',
+    'dark-label-light': 'লাইট',
+  },
+  en: {
+    'topbar-date': 'Friday, 22 May 2026',
+    'topbar-edition': 'Dhaka Edition · Sunrise 5:13',
+    'topbar-weather': "Today's Weather: 38°C",
+    'epaper-btn': 'E-Paper',
+    'subscribe-btn-text': 'Subscribe',
+    'logo-bn': 'Dainik Anulipi',
+    'logo-en': 'DAILY ANULIPI',
+    'logo-tagline': 'In pursuit of truth, fearless in expression!',
+    'ornament-founder': 'Founder & Publisher: Anik Adhikari',
+    'ornament-editor': 'Editor-in-Chief: Md. Farhan Shahriar',
+    'search-placeholder': 'Search news, topics or places…',
+    'edition-tag': 'Dhaka Edition',
+    'edition-meta': 'Year: 25 · Issue: 142',
+    'edition-price': 'Price: ৳ 15',
+    'nav-0': 'Latest', 'nav-1': 'National', 'nav-2': 'Politics',
+    'nav-3': 'Special', 'nav-4': 'World', 'nav-5': 'Business',
+    'nav-6': 'Economy', 'nav-7': 'Sports', 'nav-8': 'Entertainment',
+    'nav-9': 'Jobs', 'nav-10': 'Opinion', 'nav-11': 'Local News',
+    'breaking-label': 'BREAKING',
+    'breaking-text': 'New budget to be presented in parliament tomorrow &nbsp;·&nbsp; Dhaka temperature exceeds 38°C &nbsp;·&nbsp; New national team coach announced &nbsp;·&nbsp; Low pressure warning in Bay of Bengal &nbsp;·&nbsp; Stock market index crosses 7,000 &nbsp;·&nbsp; HSC results to be published next week',
+    'hero-headline': 'Education & health allocations to double in national budget, announcement tomorrow',
+    'hero-summary': 'Education and health sector allocations will increase significantly in the upcoming fiscal year budget. The Finance Minister announced that 18% of the total budget will be spent on these two sectors. Experts have welcomed this decision as a historic step for long-term development.',
+    'footer-logo-bn': 'Dainik Anulipi',
+    'footer-tagline': 'In pursuit of truth, fearless in expression!',
+    'footer-copyright': '© 2026 Dainik Anulipi. All rights reserved.',
+    'dark-label-dark': 'Dark',
+    'dark-label-light': 'Light',
+  }
+};
+
+let currentLang = 'bn';
+
+// ── ARTICLE TRANSLATIONS ──
+const articleT = {
+  bn: {
+    // Kickers
+    'k-politics':'রাজনীতি','k-economy':'অর্থনীতি','k-education':'শিক্ষা',
+    'k-headline':'প্রধান শিরোনাম','k-analysis':'বিশ্লেষণ','k-special-report':'বিশেষ প্রতিবেদন',
+    'k-investigation':'অনুসন্ধান','k-culture':'সংস্কৃতি','k-tech':'প্রযুক্তি',
+    'k-national':'জাতীয়','k-health':'স্বাস্থ্য','k-special':'বিশেষ সংবাদ',
+    'k-world':'বিশ্ব সংবাদ','k-trade':'বাণিজ্য','k-dhaka':'ঢাকা',
+    'k-gazipur':'গাজীপুর','k-ctg':'চট্টগ্রাম','k-sylhet':'সিলেট',
+    'k-govt':'সরকার','k-election':'নির্বাচন','k-governance':'শাসন','k-env':'পরিবেশ',
+    'k-me':'মধ্যপ্রাচ্য','k-india':'ভারত','k-usa':'যুক্তরাষ্ট্র','k-china':'চীন',
+    'k-stock':'শেয়ার বাজার','k-garments':'গার্মেন্টস','k-banking':'ব্যাংকিং','k-remit':'রেমিট্যান্স',
+    'k-film':'চলচ্চিত্র','k-music':'সংগীত','k-drama':'নাটক',
+    'k-budget':'বাজেট','k-inflation':'মূল্যস্ফীতি','k-investment':'বিনিয়োগ','k-agri':'কৃষি',
+    'k-cricket':'ক্রিকেট','k-football':'ফুটবল','k-tennis':'টেনিস','k-olympic':'অলিম্পিক',
+    'k-sports':'খেলা',
+    // Time tags
+    't-1h':'১ ঘণ্টা আগে','t-2h':'২ ঘণ্টা আগে','t-3h':'৩ ঘণ্টা আগে',
+    't-4h':'৪ ঘণ্টা আগে','t-5h':'৫ ঘণ্টা আগে','t-7h':'৭ ঘণ্টা আগে',
+    // Bylines
+    'by-special-dhaka':'বিশেষ প্রতিনিধি, ঢাকা','by-special-dhaka2':'বিশেষ প্রতিনিধি · ঢাকা',
+    'by-rahela':'রাহেলা বেগম','by-tanvir':'তানভীর হোসেন','by-nusrat':'নুসরাত জাহান',
+    'by-sakib':'সাকিব রহমান','by-dhaka':'ঢাকা প্রতিনিধি','by-gazipur':'গাজীপুর প্রতিনিধি',
+    'by-ctg':'চট্টগ্রাম প্রতিনিধি','by-sylhet':'সিলেট প্রতিনিধি',
+    'by-parliament':'সংসদ প্রতিবেদক','by-own':'নিজস্ব প্রতিবেদক',
+    'by-law':'আইন প্রতিবেদক','by-law-dhaka':'আইন প্রতিবেদক · ঢাকা',
+    'by-env':'পরিবেশ প্রতিবেদক','by-finance':'অর্থ প্রতিবেদক','by-trade':'বাণিজ্য প্রতিবেদক',
+    'by-agri':'কৃষি প্রতিবেদক','by-sports':'ক্রীড়া প্রতিবেদক','by-ent':'বিনোদন ডেস্ক',
+    // Labels
+    'label-special':'অনুলিপি স্পেশাল','label-popular':'জনপ্রিয় পাতা',
+    // Section titles
+    'sec-special':'অনুলিপি স্পেশাল','sec-sarbik':'সর্বিক শিরোনাম',
+    'sec-saradesh':'সারাদেশ','sec-local':'এলাকার খবর',
+    'sec-national':'জাতীয় <span style="color:var(--rule2); font-weight:400; font-size:14px; margin:0 4px;">›</span>',
+    'sec-special-news':'বিশেষ সংবাদ <span style="color:var(--rule2); font-weight:400; font-size:14px; margin:0 4px;">›</span>',
+    'sec-world':'বিশ্ব সংবাদ <span style="color:var(--rule2); font-weight:400; font-size:14px; margin:0 4px;">›</span>',
+    'sec-business':'বাণিজ্য <span style="color:var(--rule2); font-weight:400; font-size:14px; margin:0 4px;">›</span>',
+    'sec-entertainment':'আনন্দ সময় <span style="color:var(--rule2); font-weight:400; font-size:14px; margin:0 4px;">›</span>',
+    'sec-economy':'অর্থনীতি <span style="color:var(--rule2); font-weight:400; font-size:14px; margin:0 4px;">›</span>',
+    'sec-sports':'খেলাধুলা <span style="color:var(--rule2); font-weight:400; font-size:14px; margin:0 4px;">›</span>',
+    'sec-opinion':'মতামত <span style="color:var(--rule2); font-weight:400; font-size:14px; margin:0 4px;">›</span>',
+    'sec-jobs':'চাকরির খবর <span style="color:var(--rule2); font-weight:400; font-size:14px; margin:0 4px;">›</span>',
+    // Category tabs
+    'tab-latest':'সর্বশেষ','tab-national':'জাতীয়','tab-world':'বিশ্ব','tab-business':'বাণিজ্য','tab-sports':'খেলা',
+    // Hero sidebar
+    'hs1-h':'সংসদে বিরোধী দলের নতুন জোট গঠনের আভাস দিলেন শীর্ষ নেতারা',
+    'hs2-h':'রিজার্ভ স্থিতিশীল: আইএমএফের ইতিবাচক পর্যালোচনা প্রকাশ',
+    'hs3-h':'এইচএসসি পরীক্ষার ফল প্রকাশ আগামী বুধবার — শিক্ষা বোর্ড',
+    'anyt1-h':'ঢাকার বায়ুদূষণ: সংকটের গভীরে যা লুকিয়ে আছে',
+    'pop1-h':'বিশ্বকাপের বাছাইপর্বে বাংলাদেশের সম্ভাবনা কতটুকু?',
+    'pop2-h':'প্রবাসী আয়ে নতুন রেকর্ড, মে মাসে ২৫০ কোটি ডলার',
+    // Special section
+    'sp1-h':'গার্মেন্টস শিল্পে নারী শ্রমিকের নতুন অধিকার',
+    'sp1-p':'দীর্ঘ আন্দোলনের পর নতুন মজুরি কাঠামো চালু হতে চলেছে।',
+    'sp2-h':'নদী দখলের পেছনে যারা: চাঞ্চল্যকর তথ্য উন্মোচন',
+    'sp2-p':'সারাদেশে ৭৩টি নদী অবৈধ দখলের শিকার হয়েছে বলে জানা গেছে।',
+    'sp3-h':'বাংলা সাহিত্যের নতুন প্রজন্ম: ডিজিটাল যুগের কলম',
+    'sp3-p':'সোশ্যাল মিডিয়ায় বাংলা লেখার নতুন ধারা জন্ম নিচ্ছে।',
+    'sp4-h':'কৃত্রিম বুদ্ধিমত্তা ও বাংলাদেশের কর্মসংস্থান: আশা না শঙ্কা?',
+    'sp4-p':'আগামী দশকে ৩০ লাখ কর্মী প্রযুক্তিতে দক্ষ হওয়ার সুযোগ।',
+    // Sarbik
+    'sb1-h':'মেট্রোরেলের নতুন রুটে ২৮ স্টেশন, শেষ হবে ২০২৭ সালে',
+    'sb2-h':'ডেঙ্গুতে আক্রান্ত ৫ হাজার ছাড়াল, নতুন অভিযান শুরু',
+    'sb3-h':'জলবায়ু সংকটে বাংলাদেশ: উপকূল রক্ষায় ৫ হাজার কোটি টাকার প্রকল্প অনুমোদন',
+    'sb3-p':'সমুদ্রপৃষ্ঠের উচ্চতা বৃদ্ধির মোকাবেলায় সরকার নতুন মহাপরিকল্পনা প্রণয়ন করেছে।',
+    'sb4-h':'গাজায় যুদ্ধবিরতির নতুন প্রস্তাব, আলোচনা চলছে',
+    'sb5-h':'রপ্তানিতে নতুন রেকর্ড, এপ্রিলে আয় ৫.৩ বিলিয়ন ডলার',
+    // Region
+    'r1-h':'নারায়ণগঞ্জে কারখানায় আগুন, ৩ জন আহত',
+    'r2-h':'চট্টগ্রামে বন্দরের কার্গো হ্যান্ডলিং রেকর্ড',
+    'r3-h':'রাজশাহীতে আম উৎপাদন এবার ৫ লাখ টন',
+    'r4-h':'সিলেটে বন্যার পূর্বাভাস, প্রস্তুতি নেওয়া হচ্ছে',
+    // Saradesh
+    'sd1-h':'রাজধানীতে যানজট নিরসনে নতুন ফ্লাইওভার নির্মাণ শুরু',
+    'sd1-p':'উত্তরা থেকে মতিঝিল পর্যন্ত নতুন এক্সপ্রেসওয়ের ভিত্তিপ্রস্তর স্থাপিত।',
+    'sd2-h':'গাজীপুরে পোশাক কারখানায় নতুন মজুরি কার্যকর',
+    'sd3-h':'সুন্দরবন রক্ষায় ঐতিহাসিক রায়: শিল্প প্রতিষ্ঠান বন্ধের নির্দেশ হাইকোর্টের',
+    'sd3-p':'বনের পাঁচ কিলোমিটারের মধ্যে সব শিল্প স্থাপনা সরিয়ে নেওয়ার নির্দেশ।',
+    'sd4-h':'বন্দরে পণ্য আমদানি-রপ্তানিতে নতুন প্রযুক্তি চালু',
+    'sd4-p':'অটোমেশনের ফলে ক্লিয়ারেন্স সময় ৪০ শতাংশ কমেছে।',
+    'sd5-h':'চা বাগানে নতুন মজুরি বাস্তবায়ন শুরু, শ্রমিকরা খুশি',
+    // National
+    'nat1-h':'নতুন সাইবার নিরাপত্তা আইন সংশোধনী পাস সংসদে',
+    'nat1-p':'বিতর্কিত ধারাগুলো সংশোধন করে নতুন বিল পাস করা হয়েছে।',
+    'nat2-h':'আগামী নির্বাচনের রোডম্যাপ প্রকাশ ইসির, তফসিল ডিসেম্বরে',
+    'nat2-p':'ভোটার তালিকা হালনাগাদের কাজ আগস্টে শুরু হবে।',
+    'nat3-h':'দুর্নীতি দমনে নতুন বিশেষ আদালত গঠনের প্রস্তাব অনুমোদন',
+    'nat3-p':'দ্রুততার সঙ্গে মামলা নিষ্পত্তির লক্ষ্যে বিশেষ ট্রাইব্যুনাল।',
+    'nat4-h':'প্লাস্টিক ব্যবহারে নতুন নিষেধাজ্ঞা, জুলাই থেকে কার্যকর',
+    'nat4-p':'একক ব্যবহারযোগ্য প্লাস্টিকের বিপরীতে পাটের ব্যাগে ভর্তুকি।',
+    // Special news
+    'sn1-h':'বাংলাদেশে নতুন ক্যান্সার চিকিৎসা কেন্দ্র স্থাপিত হচ্ছে',
+    'sn1-p':'ঢাকা মেডিকেলে অত্যাধুনিক ক্যান্সার ইউনিট উদ্বোধন করলেন রাষ্ট্রপতি।',
+    'sn2-h':'বিশ্ববিদ্যালয়ে কেন্দ্রীয় ভর্তি পরীক্ষা পদ্ধতি চূড়ান্ত',
+    'sn2-p':'২০২৭ সাল থেকে ভর্তির নতুন পদ্ধতি কার্যকর হবে সারাদেশে।',
+    'sn3-h':'দেশের প্রথম AI গবেষণা কেন্দ্র উদ্বোধন বুয়েটে',
+    'sn3-p':'বাংলা ভাষা প্রযুক্তিতে কাজ করবে নতুন এই কেন্দ্র।',
+    'sn4-h':'সুন্দরবন রক্ষায় সরকার নতুন মহাপরিকল্পনা ঘোষণা করেছে',
+    'sn4-p':'বাফার জোন বিস্তৃত ও শিল্প নিষেধাজ্ঞা আরোপের পরিকল্পনা।',
+    // World
+    'wn1-h':'গাজায় যুদ্ধবিরতি প্রস্তাবে নতুন আলোচনা শুরু কাতারে',
+    'wn1-p':'মার্কিন মধ্যস্থতায় নতুন শান্তি পরিকল্পনা তৈরি হচ্ছে।',
+    'wn2-h':'ভারত-পাকিস্তান সম্পর্কে নতুন টানাপোড়েন কাশ্মীরকে ঘিরে',
+    'wn2-p':'উভয় দেশের সীমান্তে নিরাপত্তা জোরদার করা হয়েছে।',
+    'wn3-h':'আমেরিকায় নতুন বাণিজ্য শুল্কনীতি বিশ্ব বাজারে প্রভাব ফেলছে',
+    'wn3-p':'বাংলাদেশের পোশাক রপ্তানিতে সম্ভাব্য প্রভাব বিশ্লেষণ।',
+    'wn4-h':'চীনের নতুন বেল্ট-রোড প্রকল্পে বাংলাদেশের অংশগ্রহণ',
+    'wn4-p':'নতুন ঋণ চুক্তি নিয়ে আলোচনা চলছে দুই দেশের মধ্যে।',
+    // Business
+    'bn1-h':'ডিএসইতে সূচক ৭ হাজার ছাড়াল, লেনদেন ২০০ কোটি',
+    'bn1-p':'বিনিয়োগকারীদের মধ্যে ইতিবাচক মনোভাব তৈরি হয়েছে।',
+    'bn2-h':'পোশাক রপ্তানিতে নতুন রেকর্ড, এপ্রিলে ৪.২ বিলিয়ন ডলার',
+    'bn2-p':'ইউরোপ বাজারে চাহিদা বৃদ্ধি পেয়েছে উল্লেখযোগ্যভাবে।',
+    'bn3-h':'কেন্দ্রীয় ব্যাংকের নতুন নীতিসুদের হার নির্ধারণ',
+    'bn3-p':'মূল্যস্ফীতি নিয়ন্ত্রণে সুদের হার ৮.৫ শতাংশে স্থির।',
+    'bn4-h':'প্রবাসী আয়ে নতুন রেকর্ড: মে মাসে ২৫০ কোটি ডলার',
+    'bn4-p':'মধ্যপ্রাচ্য থেকে প্রবাহ সবচেয়ে বেশি বেড়েছে।',
+    // Entertainment
+    'ent1-h':"ঈদের সিনেমায় দর্শকের ঢল: 'মায়ার জাল' ৫ কোটি আয় করল প্রথম সপ্তাহে",
+    'ent1-p':'নতুন পরিচালকের এই চলচ্চিত্র সমালোচকদের প্রশংসা কুড়িয়েছে।',
+    'ent2-h':'আর্টসেলের নতুন অ্যালবাম প্রকাশিত, শ্রোতাদের ভালোবাসায় ভাসছেন',
+    'ent3-h':'রমজান স্পেশাল ধারাবাহিকে রেকর্ড দর্শক, টিআরপি সর্বোচ্চ',
+    'today-events':'আজকের অনুষ্ঠান',
+    'ev1':'ঢাকা বিশ্ববিদ্যালয়ে আন্তর্জাতিক সাহিত্য সম্মেলন',
+    'ev2':'জাতীয় চলচ্চিত্র পুরস্কার অনুষ্ঠান রাত ৮টায়',
+    'ev3':'বাংলাদেশ-ওয়েস্ট ইন্ডিজ তৃতীয় ওয়ানডে বিকেল ৩টায়',
+    // Economy
+    'ec1-h':'আগামী বাজেটে কর ছাড়ের ঘোষণা আসছে ক্ষুদ্র উদ্যোক্তাদের জন্য',
+    'ec1-p':'কর সীমা বার্ষিক ৪ লাখ থেকে বাড়িয়ে ৫ লাখ টাকা করার প্রস্তাব।',
+    'ec2-h':'মূল্যস্ফীতি কমে ৮.৯ শতাংশে, বছরের মধ্যে সর্বনিম্ন হারে',
+    'ec2-p':'নিত্যপণ্যের দাম কিছুটা কমায় সাধারণ মানুষে স্বস্তি ফিরেছে।',
+    'ec3-h':'জাপান ৫০০ কোটি ডলার বিনিয়োগ করবে বাংলাদেশের অবকাঠামোতে',
+    'ec3-p':'বিশেষ অর্থনৈতিক অঞ্চলে জাপানি কারখানা স্থাপনের পরিকল্পনা।',
+    'ec4-h':'আধুনিক কৃষিপ্রযুক্তিতে উৎপাদন বেড়েছে ১৫ শতাংশ',
+    'ec4-p':'স্মার্ট সেচ ও ড্রোন পদ্ধতিতে চাষাবাদে নতুন যুগ শুরু।',
+    // Sports
+    'sp-cr-h':'বাংলাদেশ ৭ উইকেটে জয়ী, সিরিজ বরাবর হল',
+    'sp-cr-p':'লিটন দাসের ১১৮ রানের ইনিংসে ঐতিহাসিক জয় পেল টাইগাররা।',
+    'sp-fb-h':'আবাহনী ডিপিএল পয়েন্ট টেবিলে শীর্ষে',
+    'sp-tn-h':'রোলাঁ গারোস: নাদাল ফের কোয়ার্টারে',
+    'sp-ol-h':'তীরন্দাজিতে বাংলাদেশের প্রস্তুতি চলছে',
+    // Opinion
+    'op1-auth':'অধ্যাপক মুহাম্মদ আলী · ঢাকা বিশ্ববিদ্যালয়',
+    'op1-h':'গণতন্ত্রের পুনরুজ্জীবন: প্রাতিষ্ঠানিক সংস্কারের পথ',
+    'op1-p':'রাষ্ট্রীয় প্রতিষ্ঠানগুলোকে শক্তিশালী করা ছাড়া সুশাসন অর্জন সম্ভব নয়।',
+    'op2-auth':'ড. সালমা বেগম · অর্থনীতিবিদ',
+    'op2-h':'মূল্যস্ফীতি মোকাবেলায় চাই দীর্ঘমেয়াদী কৌশল',
+    'op2-p':'স্বল্পমেয়াদী পদক্ষেপ সাময়িক স্বস্তি দিলেও স্থায়ী সমাধানে কাঠামোগত সংস্কার অপরিহার্য।',
+    'op3-auth':'আনিসুজ্জামান খান · আইনজীবী',
+    'op3-h':'বিচার বিভাগের স্বাধীনতা: চ্যালেঞ্জ ও সম্ভাবনা',
+    'op3-p':'বিচারকদের নিয়োগ প্রক্রিয়ায় স্বচ্ছতা নিশ্চিত করা সময়ের দাবি।',
+    // Jobs
+    'job1-org':'বাংলাদেশ ব্যাংক','job1-h':'সহকারী পরিচালক পদে নিয়োগ বিজ্ঞপ্তি, ২৫০ পদ শূন্য',
+    'job2-org':'বিদ্যুৎ উন্নয়ন বোর্ড','job2-h':'প্রকৌশলী ও টেকনিশিয়ান পদে নিয়োগ, ৫০০ পদ',
+    'job3-org':'প্রাথমিক শিক্ষা অধিদপ্তর','job3-h':'প্রাথমিক বিদ্যালয়ে সহকারী শিক্ষক পদে ৪৫,০০০ নিয়োগ',
+    'job4-org':'গ্রামীণফোন','job4-h':'সফটওয়্যার ইঞ্জিনিয়ার পদে নিয়োগ চলছে, অভিজ্ঞতা ২ বছর',
+  },
+  en: {
+    // Kickers
+    'k-politics':'Politics','k-economy':'Economy','k-education':'Education',
+    'k-headline':'Top Story','k-analysis':'Analysis','k-special-report':'Special Report',
+    'k-investigation':'Investigation','k-culture':'Culture','k-tech':'Technology',
+    'k-national':'National','k-health':'Health','k-special':'Special',
+    'k-world':'World News','k-trade':'Business','k-dhaka':'Dhaka',
+    'k-gazipur':'Gazipur','k-ctg':'Chattogram','k-sylhet':'Sylhet',
+    'k-govt':'Government','k-election':'Election','k-governance':'Governance','k-env':'Environment',
+    'k-me':'Middle East','k-india':'India','k-usa':'USA','k-china':'China',
+    'k-stock':'Stock Market','k-garments':'Garments','k-banking':'Banking','k-remit':'Remittance',
+    'k-film':'Cinema','k-music':'Music','k-drama':'Drama',
+    'k-budget':'Budget','k-inflation':'Inflation','k-investment':'Investment','k-agri':'Agriculture',
+    'k-cricket':'Cricket','k-football':'Football','k-tennis':'Tennis','k-olympic':'Olympics',
+    'k-sports':'Sports',
+    // Time tags
+    't-1h':'1 hour ago','t-2h':'2 hours ago','t-3h':'3 hours ago',
+    't-4h':'4 hours ago','t-5h':'5 hours ago','t-7h':'7 hours ago',
+    // Bylines
+    'by-special-dhaka':'Special Correspondent, Dhaka','by-special-dhaka2':'Special Correspondent · Dhaka',
+    'by-rahela':'Rahela Begum','by-tanvir':'Tanvir Hossain','by-nusrat':'Nusrat Jahan',
+    'by-sakib':'Sakib Rahman','by-dhaka':'Dhaka Correspondent','by-gazipur':'Gazipur Correspondent',
+    'by-ctg':'Chattogram Correspondent','by-sylhet':'Sylhet Correspondent',
+    'by-parliament':'Parliamentary Reporter','by-own':'Staff Reporter',
+    'by-law':'Legal Reporter','by-law-dhaka':'Legal Reporter · Dhaka',
+    'by-env':'Environment Reporter','by-finance':'Finance Reporter','by-trade':'Business Reporter',
+    'by-agri':'Agriculture Reporter','by-sports':'Sports Reporter','by-ent':'Entertainment Desk',
+    // Labels
+    'label-special':'Anulipi Special','label-popular':'Popular',
+    // Section titles
+    'sec-special':'Anulipi Special','sec-sarbik':'Top Headlines',
+    'sec-saradesh':'Across Bangladesh','sec-local':'Local News',
+    'sec-national':'National <span style="color:var(--rule2); font-weight:400; font-size:14px; margin:0 4px;">›</span>',
+    'sec-special-news':'Special <span style="color:var(--rule2); font-weight:400; font-size:14px; margin:0 4px;">›</span>',
+    'sec-world':'World <span style="color:var(--rule2); font-weight:400; font-size:14px; margin:0 4px;">›</span>',
+    'sec-business':'Business <span style="color:var(--rule2); font-weight:400; font-size:14px; margin:0 4px;">›</span>',
+    'sec-entertainment':'Entertainment <span style="color:var(--rule2); font-weight:400; font-size:14px; margin:0 4px;">›</span>',
+    'sec-economy':'Economy <span style="color:var(--rule2); font-weight:400; font-size:14px; margin:0 4px;">›</span>',
+    'sec-sports':'Sports <span style="color:var(--rule2); font-weight:400; font-size:14px; margin:0 4px;">›</span>',
+    'sec-opinion':'Opinion <span style="color:var(--rule2); font-weight:400; font-size:14px; margin:0 4px;">›</span>',
+    'sec-jobs':'Jobs <span style="color:var(--rule2); font-weight:400; font-size:14px; margin:0 4px;">›</span>',
+    // Category tabs
+    'tab-latest':'Latest','tab-national':'National','tab-world':'World','tab-business':'Business','tab-sports':'Sports',
+    // Hero sidebar
+    'hs1-h':'Top opposition leaders signal formation of new alliance in parliament',
+    'hs2-h':'Reserves stable: IMF releases positive review of Bangladesh economy',
+    'hs3-h':'HSC exam results to be published next Wednesday — Education Board',
+    'anyt1-h':'Dhaka air pollution: what lies beneath the crisis',
+    'pop1-h':'How far can Bangladesh go in the World Cup qualifiers?',
+    'pop2-h':'Record remittance: $2.5 billion in May',
+    // Special section
+    'sp1-h':'New rights for women garment workers in Bangladesh',
+    'sp1-p':'A new wage structure is set to be introduced after a long campaign.',
+    'sp2-h':'Who is behind river encroachments: shocking findings revealed',
+    'sp2-p':'73 rivers across the country have been illegally seized, reports say.',
+    'sp3-h':'A new generation of Bengali literature: pens of the digital age',
+    'sp3-p':'A new wave of Bengali writing is emerging on social media.',
+    'sp4-h':'AI and Bangladesh\'s jobs: hope or fear?',
+    'sp4-p':'3 million workers could gain tech skills over the next decade.',
+    // Sarbik
+    'sb1-h':'New metro rail route to have 28 stations, completion by 2027',
+    'sb2-h':'Dengue cases cross 5,000 mark; new campaign launched',
+    'sb3-h':'Bangladesh climate crisis: BDT 50bn coastal protection project approved',
+    'sb3-p':'The government has drawn up a new master plan to tackle rising sea levels.',
+    'sb4-h':'New Gaza ceasefire proposal; talks ongoing',
+    'sb5-h':'Export record broken; April earnings reach $5.3 billion',
+    // Region
+    'r1-h':'Factory fire in Narayanganj; 3 injured',
+    'r2-h':'Chattogram port sets new cargo handling record',
+    'r3-h':'Rajshahi mango production reaches 500,000 tonnes this year',
+    'r4-h':'Flood warning for Sylhet; preparations underway',
+    // Saradesh
+    'sd1-h':'New flyover construction begins to ease Dhaka traffic congestion',
+    'sd1-p':'Foundation stone laid for expressway from Uttara to Motijheel.',
+    'sd2-h':'New wage structure takes effect in Gazipur garment factories',
+    'sd3-h':'Historic ruling to protect Sundarbans: High Court orders industry shutdown',
+    'sd3-p':'All industrial establishments within 5km of the forest ordered to relocate.',
+    'sd4-h':'New technology introduced at Chattogram port for import-export',
+    'sd4-p':'Clearance time cut by 40% thanks to automation.',
+    'sd5-h':'New wages being implemented in tea gardens; workers pleased',
+    // National
+    'nat1-h':'Amended Cyber Security Act passed in parliament',
+    'nat1-p':'A new bill has been passed revising the contested clauses.',
+    'nat2-h':'EC releases election roadmap; schedule set for December',
+    'nat2-p':'Voter list update work will begin in August.',
+    'nat3-h':'Proposal for new special anti-corruption court approved',
+    'nat3-p':'A special tribunal aimed at rapid case resolution.',
+    'nat4-h':'New plastic ban to take effect from July',
+    'nat4-p':'Subsidies for jute bags to replace single-use plastics.',
+    // Special news
+    'sn1-h':'New cancer treatment centre being established in Bangladesh',
+    'sn1-p':'President inaugurates state-of-the-art cancer unit at Dhaka Medical.',
+    'sn2-h':'Central university admission test system finalised',
+    'sn2-p':'New admission system to take effect nationwide from 2027.',
+    'sn3-h':'Bangladesh\'s first AI research centre inaugurated at BUET',
+    'sn3-p':'The new centre will work on Bangla language technology.',
+    'sn4-h':'Government announces new master plan for Sundarbans protection',
+    'sn4-p':'Plans to expand buffer zone and impose industrial restrictions.',
+    // World
+    'wn1-h':'New talks on Gaza ceasefire proposal begin in Qatar',
+    'wn1-p':'A new peace plan is being drawn up with US mediation.',
+    'wn2-h':'Fresh India-Pakistan tensions over Kashmir',
+    'wn2-p':'Security has been reinforced on both sides of the border.',
+    'wn3-h':'New US trade tariff policy impacting global markets',
+    'wn3-p':'Analysis of potential impact on Bangladesh garment exports.',
+    'wn4-h':'Bangladesh joins China\'s new Belt and Road project',
+    'wn4-p':'Talks on a new loan agreement are ongoing between both nations.',
+    // Business
+    'bn1-h':'DSE index surpasses 7,000; trading volume hits BDT 2 billion',
+    'bn1-p':'Positive sentiment growing among investors.',
+    'bn2-h':'Garment exports hit record high; April earnings $4.2 billion',
+    'bn2-p':'Demand in European markets has risen significantly.',
+    'bn3-h':'Central bank sets new policy interest rate',
+    'bn3-p':'Interest rate held at 8.5% to control inflation.',
+    'bn4-h':'Record remittance: $2.5 billion in May',
+    'bn4-p':'Inflows from the Middle East have risen most sharply.',
+    // Entertainment
+    'ent1-h':"Eid cinema audiences surge: 'Mayar Jal' earns BDT 50m in first week",
+    'ent1-p':'This debut director\'s film has won praise from critics.',
+    'ent2-h':'Artcell releases new album; bathed in listeners\' love',
+    'ent3-h':'Record viewers for Ramadan special series; highest TRP',
+    'today-events':'Today\'s Events',
+    'ev1':'International Literary Conference at Dhaka University',
+    'ev2':'National Film Awards ceremony at 8pm',
+    'ev3':'Bangladesh vs West Indies 3rd ODI at 3pm',
+    // Economy
+    'ec1-h':'Tax relief for small entrepreneurs announced in upcoming budget',
+    'ec1-p':'Proposal to raise the tax ceiling from BDT 400k to 500k annually.',
+    'ec2-h':'Inflation falls to 8.9% — lowest rate of the year',
+    'ec2-p':'Easing of essential goods prices brings relief to ordinary people.',
+    'ec3-h':'Japan to invest $5 billion in Bangladesh infrastructure',
+    'ec3-p':'Plans to set up Japanese factories in special economic zones.',
+    'ec4-h':'Modern farming technology boosts production by 15%',
+    'ec4-p':'Smart irrigation and drone-based farming ushers in a new era.',
+    // Sports
+    'sp-cr-h':'Bangladesh win by 7 wickets; series level',
+    'sp-cr-p':'Tigers secure historic victory thanks to Liton Das\'s 118-run innings.',
+    'sp-fb-h':'Abahani top the DPL points table',
+    'sp-tn-h':'Roland Garros: Nadal reaches quarters again',
+    'sp-ol-h':'Bangladesh\'s archery preparations ongoing',
+    // Opinion
+    'op1-auth':'Prof. Muhammad Ali · University of Dhaka',
+    'op1-h':'Revival of democracy: the path to institutional reform',
+    'op1-p':'Good governance is impossible without strengthening state institutions.',
+    'op2-auth':'Dr. Salma Begum · Economist',
+    'op2-h':'Combating inflation requires a long-term strategy',
+    'op2-p':'Short-term measures offer temporary relief, but structural reform is essential for a lasting solution.',
+    'op3-auth':'Anisuzzaman Khan · Lawyer',
+    'op3-h':'Judicial independence: challenges and prospects',
+    'op3-p':'Ensuring transparency in the appointment of judges is the need of the hour.',
+    // Jobs
+    'job1-org':'Bangladesh Bank','job1-h':'Recruitment notice for Assistant Director posts; 250 vacancies',
+    'job2-org':'Bangladesh Power Development Board','job2-h':'Recruitment for engineer and technician posts; 500 positions',
+    'job3-org':'Directorate of Primary Education','job3-h':'45,000 assistant teacher posts in primary schools',
+    'job4-org':'Grameenphone','job4-h':'Software engineer recruitment ongoing; 2 years experience required',
+  }
+};
+
+function setLang(l) {
+  currentLang = l;
+  document.documentElement.lang = l === 'en' ? 'en' : 'bn';
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.lang-btn[onclick="setLang('${l}')"]`).classList.add('active');
+
+  const t = translations[l];
+
+  // Topbar
+  setText('topbar-date', t['topbar-date']);
+  setText('topbar-edition', t['topbar-edition']);
+  setText('topbar-weather', t['topbar-weather']);
+  setText('epaper-btn-span', t['epaper-btn']);
+  setText('subscribe-btn-span', t['subscribe-btn-text']);
+
+  // Masthead
+  setText('logo-bn-el', t['logo-bn']);
+  setText('logo-en-el', t['logo-en']);
+  setText('logo-tagline-el', t['logo-tagline']);
+  setText('ornament-founder-el', t['ornament-founder']);
+  setText('ornament-editor-el', t['ornament-editor']);
+  const si = document.getElementById('searchInput');
+  if (si) si.placeholder = t['search-placeholder'];
+  setText('edition-tag-el', t['edition-tag']);
+  setText('edition-meta-el', t['edition-meta']);
+  setText('edition-price-el', t['edition-price']);
+
+  // Navbar
+  document.querySelectorAll('.nav-link').forEach((btn, i) => {
+    const key = 'nav-' + i;
+    if (t[key]) {
+      // preserve the hot-dot span if present
+      const dot = btn.querySelector('.hot-dot');
+      btn.textContent = t[key];
+      if (dot) btn.appendChild(dot);
+    }
+  });
+
+  // Breaking news
+  const bl = document.querySelector('.breaking-label');
+  if (bl) {
+    const icon = bl.querySelector('i');
+    bl.textContent = t['breaking-label'];
+    if (icon) bl.prepend(icon);
+  }
+  const bt = document.querySelector('.ticker-inner');
+  if (bt) bt.innerHTML = t['breaking-text'];
+
+  // Hero
+  setText('hero-headline-el', t['hero-headline']);
+  setText('hero-summary-el', t['hero-summary']);
+
+  // Footer
+  setText('footer-logo-bn-el', t['footer-logo-bn']);
+  setText('footer-tagline-el', t['footer-tagline']);
+  setText('footer-copyright-el', t['footer-copyright']);
+
+  // Dark toggle label
+  const darkLabel = document.getElementById('darkLabel');
+  if (darkLabel) {
+    const isDark = document.documentElement.dataset.theme === 'dark';
+    darkLabel.textContent = isDark ? t['dark-label-light'] : t['dark-label-dark'];
+  }
+
+  // Translate all data-t elements
+  document.querySelectorAll('[data-t]').forEach(el => {
+    const key = el.getAttribute('data-t');
+    const val = articleT[l] && articleT[l][key];
+    if (val !== undefined) el.innerHTML = val;
+  });
+
+  localStorage.setItem('da-lang', l);
+}
+function setText(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.innerHTML = val;
+}
+
+// Persist language on load
+(function(){
+  const saved = localStorage.getItem('da-lang');
+  if (saved && saved !== 'bn') setLang(saved);
+})();
+
+// ── NAVBAR ACTIVE ──
+function setNav(el) {
+  document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ── MODAL ──
+function openModal(id) { document.getElementById(id).classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow = ''; }
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) closeModal(m.id); });
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.open').forEach(m => closeModal(m.id)); });
+
+// ── PLAN SELECT ──
+function selectPlan(el) {
+  document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+// ── SEARCH ──
+function doRegionSearch() {
+  const bibhag = document.getElementById('bibhag').value;
+  const zila = document.getElementById('zila').value;
+  if (!bibhag) {
+    alert('অনুগ্রহ করে একটি বিভাগ বেছে নিন।');
+    return;
+  }
+  const label = zila || bibhag;
+  alert(label + ' এর সংবাদ শীঘ্রই আসছে।');
+}
+
+function doSearch() {
+  const q = document.getElementById('searchInput').value.trim();
+  if (q) alert('অনুসন্ধান: "' + q + '"\n(সার্চ ফিচার শীঘ্রই আসছে)');
+}
+document.getElementById('searchInput').addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
+
+// ── BACK TO TOP ──
+window.addEventListener('scroll', () => {
+  document.getElementById('backTop').classList.toggle('visible', window.scrollY > 400);
+});
+
+// ── ZILA DATA ──
+const zilaData = {
+  dhaka: ['ঢাকা','গাজীপুর','নারায়ণগঞ্জ','মুন্সিগঞ্জ','মানিকগঞ্জ','নরসিংদী','টাঙ্গাইল','কিশোরগঞ্জ','ময়মনসিংহ','ফরিদপুর'],
+  chattogram: ['চট্টগ্রাম','কক্সবাজার','ফেনী','কুমিল্লা','নোয়াখালী','লক্ষ্মীপুর','চাঁদপুর','ব্রাহ্মণবাড়িয়া','খাগড়াছড়ি','রাঙ্গামাটি'],
+  rajshahi: ['রাজশাহী','নাটোর','নওগাঁ','চাঁপাইনবাবগঞ্জ','পাবনা','সিরাজগঞ্জ','বগুড়া','জয়পুরহাট'],
+  khulna: ['খুলনা','বাগেরহাট','সাতক্ষীরা','যশোর','ঝিনাইদহ','মাগুরা','নড়াইল','কুষ্টিয়া','মেহেরপুর','চুয়াডাঙ্গা'],
+  sylhet: ['সিলেট','মৌলভীবাজার','হবিগঞ্জ','সুনামগঞ্জ'],
+  barishal: ['বরিশাল','পটুয়াখালী','ভোলা','পিরোজপুর','ঝালকাঠি','বরগুনা'],
+  rangpur: ['রংপুর','দিনাজপুর','কুড়িগ্রাম','লালমনিরহাট','নীলফামারী','গাইবান্ধা','ঠাকুরগাঁও','পঞ্চগড়'],
+  mymensingh: ['ময়মনসিংহ','নেত্রকোণা','জামালপুর','শেরপুর']
+};
+
+function updateZila() {
+  const bibhag = document.getElementById('bibhag').value;
+  const zilaSelect = document.getElementById('zila');
+  zilaSelect.innerHTML = '<option value="">— জেলা বেছে নিন —</option>';
+  (zilaData[bibhag] || []).forEach(z => {
+    const o = document.createElement('option');
+    o.textContent = z;
+    zilaSelect.appendChild(o);
+  });
+}
+
+// ── CALENDAR ──
+let calYear = 2026, calMonth = 4; // 0-indexed, May = 4
+const bnMonths = ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+const bnDays = ['র','সো','ম','বু','বৃ','শু','শ'];
+
+function toBnNum(n) {
+  return String(n).replace(/[0-9]/g, d => '০১২৩৪৫৬৭৮৯'[d]);
+}
+
+function renderCalendar() {
+  document.getElementById('calTitle').textContent = bnMonths[calMonth] + ' ' + toBnNum(calYear);
+  const grid = document.getElementById('calGrid');
+  grid.innerHTML = '';
+  bnDays.forEach(d => {
+    const el = document.createElement('div');
+    el.className = 'cal-day-name';
+    el.textContent = d;
+    grid.appendChild(el);
+  });
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  const today = new Date();
+  for (let i = 0; i < firstDay; i++) {
+    const el = document.createElement('div');
+    el.className = 'cal-day empty';
+    grid.appendChild(el);
+  }
+  for (let d = 1; d <= daysInMonth; d++) {
+    const el = document.createElement('div');
+    const isToday = d === today.getDate() && calMonth === today.getMonth() && calYear === today.getFullYear();
+    const dow = new Date(calYear, calMonth, d).getDay();
+    el.className = 'cal-day' + (isToday ? ' today' : '') + (dow === 5 && !isToday ? ' friday' : '');
+    el.textContent = toBnNum(d);
+    grid.appendChild(el);
+  }
+}
+function changeMonth(dir) {
+  calMonth += dir;
+  if (calMonth < 0) { calMonth = 11; calYear--; }
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  renderCalendar();
+}
+renderCalendar();
+
+
+// ════════════════════════════════════════════════════════════════
+//  CONFIG — replace with your deployed Apps Script Web App URL
+// ════════════════════════════════════════════════════════════════
+const API_URL = 'https://script.google.com/macros/s/AKfycbxRD_OgMUJqGn_ztjZR68MBYHVRxjrimfCnL2IOgR9NW6qIEPF2ltjgpXjCEU9qRjFM/exec';
+// Example: 'https://script.google.com/macros/s/AKfycby.../exec'
+
+// ════════════════════════════════════════════════════════════════
+//  FETCH HELPERS
+// ════════════════════════════════════════════════════════════════
+async function apiFetch(action, params = {}) {
+  const qs = new URLSearchParams({ action, ...params }).toString();
+  try {
+    const res = await fetch(`${API_URL}?${qs}`);
+    const data = await res.json();
+    return data.ok ? data.data : null;
+  } catch(e) {
+    console.warn('API fetch failed:', e);
+    return null;
+  }
+}
+
+// ════════════════════════════════════════════════════════════════
+//  SKELETON / LOADING HELPERS
+// ════════════════════════════════════════════════════════════════
+function skeletonCard(lines = 3) {
+  return `<div class="skel-card">
+    <div class="skel-img skel"></div>
+    ${Array(lines).fill('<div class="skel-line skel"></div>').join('')}
+    <div class="skel-line skel" style="width:55%"></div>
+  </div>`;
+}
+
+function showSkeleton(containerId, count = 4, lines = 3) {
+  const el = document.getElementById(containerId);
+  if (el) el.innerHTML = Array(count).fill(skeletonCard(lines)).join('');
+}
+
+// ════════════════════════════════════════════════════════════════
+//  RENDER HELPERS
+// ════════════════════════════════════════════════════════════════
+function articleImg(url, cls = 'rphoto photo', style = '') {
+  if (url) {
+    return `<img src="${escHtml(url)}" class="${cls.replace(' photo','')}" style="${style}; width:100%; height:100%; object-fit:cover;" alt="" loading="lazy" onerror="this.closest('.img-wrap').classList.add('photo'); this.remove()">`;
+  }
+  return '';
+}
+
+function wrapImg(url, cls, style='') {
+  return `<div class="img-wrap ${cls}" style="${style}">${articleImg(url, cls, style)}</div>`;
+}
+
+function timeAgo(ts) {
+  if (!ts) return '';
+  const diff = (Date.now() - new Date(ts)) / 1000;
+  if (diff < 60) return 'এইমাত্র';
+  if (diff < 3600) return Math.floor(diff/60) + ' মিনিট আগে';
+  if (diff < 86400) return Math.floor(diff/3600) + ' ঘণ্টা আগে';
+  return Math.floor(diff/86400) + ' দিন আগে';
+}
+
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function renderCatRowItem(a) {
+  return `<div class="cat-row-item">
+    ${wrapImg(a.image_url, 'rphoto photo')}
+    <span class="kicker">${escHtml(a.subsection || a.section)}</span>
+    <h4>${escHtml(a.headline_bn)}</h4>
+    <p style="font-size:12px;color:var(--ink3);">${escHtml(a.summary_bn)}</p>
+    <div class="byline">${escHtml(a.reporter)}</div>
+  </div>`;
+}
+
+function renderSidebarStory(a, photoH = '') {
+  const hStyle = photoH ? `height:${photoH}` : '';
+  return `<div class="sidebar-story">
+    ${wrapImg(a.image_url, 'sidebar-photo photo', hStyle)}
+    <span class="kicker">${escHtml(a.subsection || a.section)}</span>
+    <h3>${escHtml(a.headline_bn)}</h3>
+    <span class="time-tag">${timeAgo(a.timestamp)}</span>
+  </div>`;
+}
+
+// ════════════════════════════════════════════════════════════════
+//  MAIN LOAD — fetches all data and renders page
+// ════════════════════════════════════════════════════════════════
+async function loadFromAPI() {
+  // Show loading indicator
+  document.getElementById('api-status').textContent = 'সংবাদ লোড হচ্ছে…';
+  document.getElementById('api-status').style.display = 'block';
+
+  const data = await apiFetch('hero');
+  if (!data) {
+    document.getElementById('api-status').textContent = '⚠ সংবাদ লোড করা যায়নি — স্ট্যাটিক কন্টেন্ট দেখানো হচ্ছে।';
+    setTimeout(() => { document.getElementById('api-status').style.display = 'none'; }, 4000);
+    return;
+  }
+
+  document.getElementById('api-status').style.display = 'none';
+
+  // ── Breaking ticker ──
+  if (data.breaking && data.breaking.length) {
+    const tickerEl = document.querySelector('.ticker-inner');
+    if (tickerEl) {
+      tickerEl.innerHTML = data.breaking.join(' &nbsp;·&nbsp; ');
+    }
+  }
+
+  // ── Hero center (featured article) ──
+  if (data.featured) {
+    const f = data.featured;
+    const heroHeadline = document.getElementById('hero-headline-el');
+    const heroSummary  = document.getElementById('hero-summary-el');
+    const heroPhoto    = document.querySelector('.hero-photo');
+    if (heroHeadline) heroHeadline.textContent = f.headline_bn;
+    if (heroSummary)  heroSummary.textContent  = f.summary_bn;
+    if (heroPhoto && f.image_url) {
+      heroPhoto.innerHTML = '';
+      heroPhoto.classList.remove('photo');
+      const img = document.createElement('img');
+      img.src = f.image_url; img.alt = f.headline_bn;
+      img.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+      img.loading = 'eager';
+      img.onerror = () => { heroPhoto.classList.add('photo'); img.remove(); };
+      heroPhoto.appendChild(img);
+    }
+  }
+
+  // ── Hero left sidebar ──
+  if (data.sidebar && data.sidebar.length) {
+    const sidebarEl = document.getElementById('hero-sidebar-stories');
+    if (sidebarEl) {
+      sidebarEl.innerHTML = data.sidebar
+        .slice(0,3)
+        .map(a => renderSidebarStory(a))
+        .join('');
+    }
+  }
+
+  // ── Section rows ──
+  const sectionMap = {
+    'জাতীয়':  'section-national',
+    'বিশ্ব':   'section-world',
+    'বাণিজ্য': 'section-business',
+    'অর্থনীতি':'section-economy',
+    'খেলা':    'section-sports-list',
+    'আনন্দ':   'section-entertainment',
+    'মতামত':   'section-opinion',
+    'চাকরি':   'section-jobs',
+    'বিশেষ':   'section-special',
+    'সারাদেশ': 'section-local',
+  };
+
+  Object.entries(sectionMap).forEach(([sec, elId]) => {
+    const el = document.getElementById(elId);
+    if (!el) return;
+    const articles = (data.sections && data.sections[sec]) || [];
+    if (!articles.length) return;
+
+    if (elId === 'section-sports-list') {
+      // Sports uses a different layout — just update headlines
+      el.innerHTML = articles.slice(0,3).map(a => `
+        <div class="sidebar-story">
+          ${wrapImg(a.image_url,'sidebar-photo photo','height:80px')}
+          <span class="kicker">${escHtml(a.subsection||a.section)}</span>
+          <h3 style="font-size:13px;">${escHtml(a.headline_bn)}</h3>
+        </div>`).join('');
+      return;
+    }
+
+    if (elId === 'section-opinion') {
+      el.innerHTML = articles.slice(0,3).map(a => `
+        <div class="opinion-card">
+          <div class="op-author">${escHtml(a.reporter)}</div>
+          <h4>${escHtml(a.headline_bn)}</h4>
+          <p>${escHtml(a.summary_bn)}</p>
+        </div>`).join('');
+      return;
+    }
+
+    if (elId === 'section-entertainment') {
+      el.innerHTML = articles.slice(0,3).map((a,i) => i===0
+        ? `<div class="ananda-big">
+            ${wrapImg(a.image_url,'card-photo photo','')}
+            <span class="kicker">${escHtml(a.subsection||a.section)}</span>
+            <h3>${escHtml(a.headline_bn)}</h3>
+            <p style="font-size:13px;color:var(--ink2);">${escHtml(a.summary_bn)}</p>
+            <div class="byline">${escHtml(a.reporter)}</div>
+          </div>`
+        : `<div class="ananda-small">
+            ${wrapImg(a.image_url,'card-photo photo','')}
+            <span class="kicker">${escHtml(a.subsection||a.section)}</span>
+            <h4>${escHtml(a.headline_bn)}</h4>
+            <div class="byline">${escHtml(a.reporter)}</div>
+          </div>`
+      ).join('');
+      return;
+    }
+
+    // Default: cat-row-grid style
+    el.innerHTML = articles.slice(0,4).map(renderCatRowItem).join('');
+  });
+
+  // ── Local / region list ──
+  if (data.sections && data.sections['সারাদেশ']) {
+    const el = document.getElementById('section-local-list');
+    if (el) {
+      el.innerHTML = data.sections['সারাদেশ'].slice(0,4).map(a => `
+        <div class="region-item">
+          <div class="rthumb photo"></div>
+          <h5>${escHtml(a.headline_bn)}</h5>
+        </div>`).join('');
+    }
+  }
+}
+
+// ════════════════════════════════════════════════════════════════
+//  SEARCH against API
+// ════════════════════════════════════════════════════════════════
+async function doSearch() {
+  const q = document.getElementById('searchInput').value.trim();
+  if (!q) return;
+  const results = await apiFetch('articles', { limit: 20 });
+  if (!results) { alert('সার্চ করা যায়নি।'); return; }
+  const filtered = results.filter(a =>
+    (a.headline_bn||'').includes(q) ||
+    (a.summary_bn||'').includes(q) ||
+    (a.section||'').includes(q)
+  );
+  if (!filtered.length) {
+    alert('"' + q + '" — কোনো সংবাদ পাওয়া যায়নি।');
+    return;
+  }
+  // Show results in a simple overlay
+  showSearchResults(filtered, q);
+}
+
+function showSearchResults(articles, query) {
+  let overlay = document.getElementById('search-results-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'search-results-overlay';
+    overlay.style.cssText = `position:fixed;inset:0;background:var(--modal-overlay);z-index:999;
+      display:flex;align-items:flex-start;justify-content:center;padding:60px 16px;overflow-y:auto;`;
+    overlay.onclick = e => { if (e.target === overlay) overlay.remove(); };
+    document.body.appendChild(overlay);
+  }
+  overlay.innerHTML = `
+    <div style="background:var(--paper);width:100%;max-width:700px;padding:24px;position:relative;">
+      <button onclick="document.getElementById('search-results-overlay').remove()"
+        style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink);">✕</button>
+      <h3 style="font-family:'Noto Serif Bengali',serif;font-size:18px;margin-bottom:16px;color:var(--ink);">
+        "${escHtml(query)}" — ${articles.length}টি ফলাফল
+      </h3>
+      ${articles.map(a => `
+        <div style="border-bottom:1px solid var(--rule2);padding:12px 0;">
+          <span class="kicker">${escHtml(a.section)}</span>
+          <h4 style="font-family:'Noto Serif Bengali',serif;font-size:15px;color:var(--ink);margin:4px 0;">
+            ${escHtml(a.headline_bn)}
+          </h4>
+          <p style="font-size:12px;color:var(--ink3);">${escHtml(a.summary_bn)}</p>
+          <span class="time-tag">${timeAgo(a.timestamp)} · ${escHtml(a.reporter)}</span>
+        </div>`).join('')}
+    </div>`;
+  overlay.style.display = 'flex';
+}
+
+// ── Run on page load ──
+document.addEventListener('DOMContentLoaded', loadFromAPI);
+
+</script>
+</body>
+</html>
