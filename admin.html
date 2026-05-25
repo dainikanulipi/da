@@ -374,6 +374,8 @@ function adminLogin() {
   if (!url.startsWith('http')) { showErr('সঠিক URL দিন।'); return; }
   API_URL   = url;
   ADMIN_KEY = key;
+  // Save URL in localStorage (persists across sessions), key in sessionStorage only
+  localStorage.setItem('anulipi_admin_url', url);
   sessionStorage.setItem('anulipi_admin', JSON.stringify({ url, key }));
   launchApp();
 }
@@ -397,6 +399,12 @@ function launchApp() {
 // Auto-restore session
 (function() {
   applyTheme(theme);
+  // Pre-fill saved URL so user doesn't have to retype it
+  const savedUrl = localStorage.getItem('anulipi_admin_url');
+  if (savedUrl) {
+    const urlInput = document.getElementById('l-url');
+    if (urlInput) urlInput.value = savedUrl;
+  }
   const s = sessionStorage.getItem('anulipi_admin');
   if (s) {
     const d = JSON.parse(s);
