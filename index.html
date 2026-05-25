@@ -493,7 +493,7 @@ function parseCSV(raw) {
 
 // ── FETCH ──
 async function fetchData() {
-  if (CFG.SHEET_ID === 'YOUR_GOOGLE_SHEET_ID_HERE') { articles=[]; return; }
+  if (CFG.SHEET_ID === '1G53jr4WwDMt6eiG-8ARvL7HyL4yquknECiUuQujUC8w') { articles=[]; return; }
   try {
     const url = `https://docs.google.com/spreadsheets/d/${CFG.SHEET_ID}/pub?output=csv&gid=${CFG.SHEET_GID}&cachebust=${Date.now()}`;
     const res = await fetch(url);
