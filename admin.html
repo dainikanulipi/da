@@ -2,7 +2,7 @@
 <html lang="bn" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>অ্যাডমিন প্যানেল | দৈনিক অনুলিপি</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -12,122 +12,211 @@
   --txt:#efefef;--txt2:#aaa;--txt3:#555;--bdr:#2d2d2d;
   --green:#22c55e;--amber:#f59e0b;--blue:#3b82f6;--purple:#a855f7;
   --danger:#ef4444;
+  --sidebar-w:220px;
 }
 [data-theme=light]{
   --bg:#e8e8e8;--sur:#fff;--sur2:#f5f5f5;--sur3:#eaeaea;
   --txt:#111;--txt2:#555;--txt3:#bbb;--bdr:#e0e0e0;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Noto Sans Bengali',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;transition:background .3s,color .3s;}
+html{-webkit-text-size-adjust:100%;}
+body{font-family:'Noto Sans Bengali',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;transition:background .3s,color .3s;overflow-x:hidden;}
 a{color:inherit;text-decoration:none;}
 button{font-family:inherit;cursor:pointer;}
 input,select,textarea{font-family:inherit;}
 
-/* ── LOCK ── */
-#lock{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);padding:20px;}
-.lock-box{background:var(--sur);border-top:4px solid var(--red);padding:40px 36px;width:100%;max-width:400px;text-align:center;transition:background .3s;}
-.lock-logo{font-family:'Noto Serif Bengali',serif;font-size:28px;font-weight:700;margin-bottom:4px;}
-.lock-logo em{color:var(--red);font-style:normal;}
-.lock-sub{font-size:11px;color:var(--txt3);letter-spacing:1px;margin-bottom:20px;}
-.lock-title{font-size:18px;font-weight:700;margin-bottom:5px;}
-.lock-desc{font-size:13px;color:var(--txt2);margin-bottom:22px;}
-.lf{width:100%;padding:10px 13px;border:1px solid var(--bdr);font-size:14px;background:var(--sur2);color:var(--txt);margin-bottom:10px;outline:none;transition:border-color .2s,background .3s;}
-.lf:focus{border-color:var(--red);}
-.lbtn{width:100%;background:var(--red);color:#fff;border:none;padding:11px;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s;}
-.lbtn:hover{background:var(--dkred);}
-.lerr{color:var(--red);font-size:13px;margin-top:8px;display:none;}
-
-/* ── LAYOUT ── */
-#app{display:none;min-height:100vh;}
-.sidebar{
-  position:fixed;top:0;left:0;width:220px;height:100vh;
-  background:var(--sur);border-right:1px solid var(--bdr);
-  display:flex;flex-direction:column;z-index:200;
-  transition:background .3s,border-color .3s,transform .3s;
-  overflow-y:auto;
+/* ════════════════════════════════
+   LOCK SCREEN
+════════════════════════════════ */
+#lock{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:var(--bg);padding:20px;
 }
-.sb-logo{padding:18px 16px;border-bottom:1px solid var(--bdr);}
-.sb-logo .sbl{font-family:'Noto Serif Bengali',serif;font-size:20px;font-weight:700;}
+.lock-box{
+  background:var(--sur);border-top:4px solid var(--red);
+  padding:36px 32px;width:100%;max-width:400px;text-align:center;
+  transition:background .3s;
+}
+.lock-logo{font-family:'Noto Serif Bengali',serif;font-size:26px;font-weight:700;margin-bottom:4px;}
+.lock-logo em{color:var(--red);font-style:normal;}
+.lock-sub{font-size:11px;color:var(--txt3);letter-spacing:1px;margin-bottom:18px;}
+.lock-shield{font-size:40px;margin-bottom:10px;}
+.lock-title{font-size:17px;font-weight:700;margin-bottom:4px;}
+.lock-desc{font-size:12.5px;color:var(--txt2);margin-bottom:20px;line-height:1.6;}
+.lf{
+  width:100%;padding:11px 13px;border:1px solid var(--bdr);
+  font-size:16px;background:var(--sur2);color:var(--txt);
+  margin-bottom:10px;outline:none;transition:border-color .2s,background .3s;
+  -webkit-appearance:none;border-radius:0;
+}
+.lf:focus{border-color:var(--red);}
+.lbtn{
+  width:100%;background:var(--red);color:#fff;border:none;
+  padding:13px;font-size:15px;font-weight:700;cursor:pointer;
+  transition:background .2s;min-height:46px;
+}
+.lbtn:active{background:var(--dkred);}
+.lerr{color:var(--red);font-size:13px;margin-top:8px;display:none;line-height:1.5;}
+
+/* ════════════════════════════════
+   APP SHELL
+════════════════════════════════ */
+#app{display:none;min-height:100vh;}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;
+  background:var(--sur);border-right:1px solid var(--bdr);
+  display:flex;flex-direction:column;z-index:400;
+  transition:background .3s,border-color .3s,transform .3s;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+}
+.sb-logo{padding:16px 14px;border-bottom:1px solid var(--bdr);flex-shrink:0;}
+.sb-logo .sbl{font-family:'Noto Serif Bengali',serif;font-size:19px;font-weight:700;}
 .sb-logo .sbl em{color:var(--red);font-style:normal;}
-.sb-logo .sbsub{font-size:10px;color:var(--txt3);margin-top:2px;letter-spacing:.5px;}
-.sb-nav{flex:1;padding:10px 0;}
-.sn{display:flex;align-items:center;gap:10px;padding:11px 18px;font-size:13.5px;font-weight:600;color:var(--txt2);cursor:pointer;border-left:3px solid transparent;transition:all .2s;}
+.sb-logo .sbsub{font-size:9.5px;color:var(--txt3);margin-top:2px;letter-spacing:.8px;text-transform:uppercase;}
+.sb-nav{flex:1;padding:8px 0;}
+.sn{
+  display:flex;align-items:center;gap:10px;padding:12px 16px;
+  font-size:13.5px;font-weight:600;color:var(--txt2);cursor:pointer;
+  border-left:3px solid transparent;transition:all .2s;
+  -webkit-tap-highlight-color:transparent;
+}
 .sn:hover,.sn.on{color:var(--txt);border-left-color:var(--red);background:var(--sur2);}
-.sn .ic{font-size:16px;width:20px;text-align:center;flex-shrink:0;}
-.sb-bottom{padding:12px 16px;border-top:1px solid var(--bdr);display:flex;gap:8px;align-items:center;}
-.theme-btn{background:var(--sur2);border:1px solid var(--bdr);width:32px;height:32px;border-radius:50%;font-size:14px;display:flex;align-items:center;justify-content:center;color:var(--txt2);transition:all .3s;}
+.sn .ic{font-size:15px;width:20px;text-align:center;flex-shrink:0;}
+.sb-bottom{
+  padding:12px 14px;border-top:1px solid var(--bdr);
+  display:flex;gap:8px;align-items:center;flex-shrink:0;
+  padding-bottom:max(12px,env(safe-area-inset-bottom));
+}
+.theme-btn{
+  background:var(--sur2);border:1px solid var(--bdr);
+  width:34px;height:34px;border-radius:50%;font-size:14px;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--txt2);transition:all .3s;flex-shrink:0;
+}
 .theme-btn:hover{border-color:var(--red);}
-.lo-btn{flex:1;background:none;border:1px solid var(--bdr);padding:7px;font-size:12.5px;color:var(--txt2);transition:all .2s;}
+.lo-btn{
+  flex:1;background:none;border:1px solid var(--bdr);
+  padding:7px;font-size:12.5px;color:var(--txt2);transition:all .2s;
+}
 .lo-btn:hover{background:var(--danger);color:#fff;border-color:var(--danger);}
 
-/* MOBILE TOGGLE */
-.mob-toggle{display:none;position:fixed;top:12px;left:12px;z-index:300;background:var(--red);color:#fff;border:none;width:38px;height:38px;font-size:18px;align-items:center;justify-content:center;}
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;}
+/* ── TOP BAR (mobile) ── */
+.topbar-mob{
+  display:none;position:fixed;top:0;left:0;right:0;height:52px;
+  background:var(--sur);border-bottom:1px solid var(--bdr);
+  align-items:center;padding:0 12px;gap:10px;z-index:300;
+  box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+.mob-hamburger{
+  background:none;border:none;width:36px;height:36px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;color:var(--txt);flex-shrink:0;
+}
+.topbar-title{font-size:14px;font-weight:700;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+.topbar-actions{display:flex;gap:6px;align-items:center;}
 
-/* MAIN */
-.main{margin-left:220px;padding:24px;min-height:100vh;transition:margin .3s;}
-.page-head{margin-bottom:22px;}
-.page-head h2{font-family:'Noto Serif Bengali',serif;font-size:22px;font-weight:700;}
-.page-head p{font-size:13px;color:var(--txt2);margin-top:3px;}
+/* ── OVERLAY ── */
+.overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.5);z-index:350;
+  -webkit-tap-highlight-color:transparent;
+}
+.overlay.open{display:block;}
 
-/* STAT CARDS */
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
-.stat-card{background:var(--sur);padding:18px;border-left:4px solid;transition:background .3s;}
+/* ── MAIN CONTENT ── */
+.main{
+  margin-left:var(--sidebar-w);padding:22px;
+  min-height:100vh;transition:margin .3s;
+  max-width:100%;overflow-x:hidden;
+}
+
+/* ════════════════════════════════
+   PAGE HEAD
+════════════════════════════════ */
+.page-head{margin-bottom:20px;}
+.page-head h2{font-family:'Noto Serif Bengali',serif;font-size:21px;font-weight:700;word-break:break-word;}
+.page-head p{font-size:12.5px;color:var(--txt2);margin-top:3px;}
+
+/* ════════════════════════════════
+   STAT CARDS
+════════════════════════════════ */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+.stat-card{
+  background:var(--sur);padding:16px;border-left:4px solid;
+  transition:background .3s;min-width:0;
+}
 .stat-card.total{border-color:var(--blue);}
 .stat-card.pub{border-color:var(--green);}
 .stat-card.draft{border-color:var(--amber);}
 .stat-card.authors{border-color:var(--purple);}
-.stat-card .sv{font-size:32px;font-weight:700;line-height:1;}
-.stat-card .sl{font-size:12px;color:var(--txt2);margin-top:5px;font-weight:600;}
-.stat-card .si{font-size:22px;float:right;margin-top:-4px;opacity:.6;}
+.stat-card .sc-top{display:flex;justify-content:space-between;align-items:flex-start;}
+.stat-card .sv{font-size:30px;font-weight:700;line-height:1;}
+.stat-card .si{font-size:20px;opacity:.55;}
+.stat-card .sl{font-size:11.5px;color:var(--txt2);margin-top:6px;font-weight:600;}
 
-/* CHART */
-.chart-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px;}
-.chart-card{background:var(--sur);padding:18px;transition:background .3s;}
-.chart-card h4{font-size:13.5px;font-weight:700;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--bdr);}
-.bar-chart{display:flex;flex-direction:column;gap:7px;}
-.bc-row{display:flex;align-items:center;gap:8px;}
-.bc-label{font-size:12px;color:var(--txt2);width:90px;flex-shrink:0;text-align:right;}
-.bc-track{flex:1;background:var(--sur3);height:20px;position:relative;overflow:hidden;}
-.bc-fill{height:100%;background:var(--red);transition:width .6s ease;display:flex;align-items:center;padding-left:6px;}
-.bc-fill span{font-size:11px;color:#fff;font-weight:700;white-space:nowrap;}
-.donut-wrap{display:flex;justify-content:center;align-items:center;gap:20px;flex-wrap:wrap;}
-.donut-legend{display:flex;flex-direction:column;gap:6px;}
-.dl-item{display:flex;align-items:center;gap:6px;font-size:12px;}
-.dl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
-.activity-grid{display:flex;align-items:flex-end;gap:4px;height:60px;}
+/* ════════════════════════════════
+   CHARTS
+════════════════════════════════ */
+.chart-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+.chart-card{background:var(--sur);padding:16px;transition:background .3s;min-width:0;}
+.chart-card h4{font-size:13px;font-weight:700;margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--bdr);}
+.bar-chart{display:flex;flex-direction:column;gap:6px;}
+.bc-row{display:flex;align-items:center;gap:7px;}
+.bc-label{font-size:11px;color:var(--txt2);width:72px;flex-shrink:0;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.bc-track{flex:1;background:var(--sur3);height:18px;overflow:hidden;min-width:0;}
+.bc-fill{height:100%;transition:width .6s ease;display:flex;align-items:center;padding-left:5px;}
+.bc-fill span{font-size:10px;color:#fff;font-weight:700;white-space:nowrap;}
+.activity-grid{display:flex;align-items:flex-end;gap:3px;height:56px;}
 .ag-bar{flex:1;background:var(--red);opacity:.7;border-radius:2px 2px 0 0;min-height:3px;transition:height .4s;}
 .ag-bar:hover{opacity:1;}
-.ag-labels{display:flex;gap:4px;margin-top:4px;}
+.ag-labels{display:flex;gap:3px;margin-top:4px;}
 .ag-label{flex:1;font-size:9px;color:var(--txt3);text-align:center;overflow:hidden;white-space:nowrap;}
+.top-auth-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bdr);font-size:12.5px;}
+.top-auth-row:last-child{border-bottom:none;}
 
-/* ARTICLES TABLE */
-.table-card{background:var(--sur);transition:background .3s;margin-bottom:20px;}
-.table-toolbar{padding:14px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--bdr);flex-wrap:wrap;}
-.table-toolbar h4{font-size:14px;font-weight:700;margin-right:auto;}
-.srch{padding:7px 12px;border:1px solid var(--bdr);font-size:13px;background:var(--sur2);color:var(--txt);outline:none;width:200px;transition:border-color .2s,background .3s;}
+/* ════════════════════════════════
+   TABLE CARD (desktop)
+════════════════════════════════ */
+.table-card{background:var(--sur);transition:background .3s;margin-bottom:18px;}
+.table-toolbar{
+  padding:12px 14px;display:flex;align-items:center;
+  gap:8px;border-bottom:1px solid var(--bdr);flex-wrap:wrap;
+}
+.table-toolbar h4{font-size:13.5px;font-weight:700;margin-right:auto;white-space:nowrap;}
+.srch{
+  padding:7px 11px;border:1px solid var(--bdr);font-size:13px;
+  background:var(--sur2);color:var(--txt);outline:none;
+  width:190px;transition:border-color .2s,background .3s;
+  -webkit-appearance:none;border-radius:0;
+}
 .srch:focus{border-color:var(--red);}
-.filter-sel{padding:7px 10px;border:1px solid var(--bdr);font-size:13px;background:var(--sur2);color:var(--txt);outline:none;transition:background .3s;}
-.tbl-wrap{overflow-x:auto;}
+.filter-sel{
+  padding:7px 9px;border:1px solid var(--bdr);font-size:13px;
+  background:var(--sur2);color:var(--txt);outline:none;
+  transition:background .3s;-webkit-appearance:none;border-radius:0;
+}
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
 table{width:100%;border-collapse:collapse;font-size:13px;}
 thead{background:var(--sur2);}
-th{padding:10px 12px;text-align:left;font-weight:700;font-size:12px;color:var(--txt2);white-space:nowrap;border-bottom:1px solid var(--bdr);}
-td{padding:10px 12px;border-bottom:1px solid var(--bdr);vertical-align:middle;}
+th{padding:10px 11px;text-align:left;font-weight:700;font-size:11.5px;color:var(--txt2);white-space:nowrap;border-bottom:1px solid var(--bdr);}
+td{padding:9px 11px;border-bottom:1px solid var(--bdr);vertical-align:middle;}
 tr:hover td{background:var(--sur2);}
 tr:last-child td{border-bottom:none;}
-.art-thumb{width:44px;height:34px;object-fit:cover;flex-shrink:0;}
-.art-nothumb{width:44px;height:34px;background:var(--sur3);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
-.title-cell{max-width:220px;}
-.title-cell .tc-title{font-weight:700;font-size:13px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:2px;}
-.title-cell .tc-en{font-size:11px;color:var(--txt3);display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;}
-.badge{display:inline-block;padding:2px 8px;font-size:10.5px;font-weight:700;border-radius:2px;white-space:nowrap;}
+.art-thumb{width:42px;height:32px;object-fit:cover;display:block;}
+.art-nothumb{width:42px;height:32px;background:var(--sur3);display:flex;align-items:center;justify-content:center;font-size:13px;}
+.title-cell{max-width:200px;}
+.tc-title{font-weight:700;font-size:12.5px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:2px;word-break:break-word;}
+.tc-en{font-size:10.5px;color:var(--txt3);display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;}
+.badge{display:inline-block;padding:2px 8px;font-size:10px;font-weight:700;border-radius:2px;white-space:nowrap;}
 .badge.pub{background:#dcfce7;color:#166534;}
 .badge.draft{background:#fef9c3;color:#854d0e;}
 [data-theme=dark] .badge.pub{background:#14532d;color:#86efac;}
 [data-theme=dark] .badge.draft{background:#422006;color:#fcd34d;}
-.cat-badge{background:var(--sur3);color:var(--txt2);font-size:11px;padding:2px 7px;font-weight:600;white-space:nowrap;}
-.action-btns{display:flex;gap:5px;flex-wrap:nowrap;}
-.ab{border:none;padding:5px 10px;font-size:11.5px;font-weight:700;cursor:pointer;transition:opacity .2s;white-space:nowrap;}
+.cat-badge{font-size:10.5px;padding:2px 7px;font-weight:600;white-space:nowrap;border-radius:2px;}
+.action-btns{display:flex;gap:4px;flex-wrap:nowrap;}
+.ab{border:none;padding:5px 9px;font-size:11px;font-weight:700;cursor:pointer;transition:opacity .2s;white-space:nowrap;}
 .ab:hover{opacity:.8;}
 .ab.edit{background:#dbeafe;color:#1d4ed8;}
 .ab.tog-pub{background:#dcfce7;color:#166534;}
@@ -137,83 +226,223 @@ tr:last-child td{border-bottom:none;}
 [data-theme=dark] .ab.tog-pub{background:#14532d;color:#86efac;}
 [data-theme=dark] .ab.tog-draft{background:#422006;color:#fcd34d;}
 [data-theme=dark] .ab.del{background:#4c0519;color:#fca5a5;}
-.pagination{padding:12px 16px;display:flex;gap:6px;align-items:center;border-top:1px solid var(--bdr);}
-.pg-btn{background:var(--sur2);border:1px solid var(--bdr);padding:5px 11px;font-size:13px;cursor:pointer;color:var(--txt2);transition:all .2s;}
-.pg-btn.on,.pg-btn:hover{background:var(--red);color:#fff;border-color:var(--red);}
-.pg-info{font-size:12px;color:var(--txt3);margin-left:auto;}
 
-/* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:500;display:none;align-items:center;justify-content:center;padding:16px;}
+/* ── PAGINATION ── */
+.pagination{padding:10px 14px;display:flex;gap:5px;align-items:center;border-top:1px solid var(--bdr);flex-wrap:wrap;}
+.pg-btn{background:var(--sur2);border:1px solid var(--bdr);padding:5px 10px;font-size:12.5px;cursor:pointer;color:var(--txt2);transition:all .2s;min-height:32px;}
+.pg-btn:disabled{opacity:.4;cursor:not-allowed;}
+.pg-btn.on,.pg-btn:hover:not(:disabled){background:var(--red);color:#fff;border-color:var(--red);}
+.pg-info{font-size:11.5px;color:var(--txt3);margin-left:auto;}
+
+/* ════════════════════════════════
+   MOBILE ARTICLE CARDS
+   (replaces table on small screens)
+════════════════════════════════ */
+.art-cards-list{display:none;flex-direction:column;gap:1px;background:var(--bdr);}
+.art-card-mob{
+  background:var(--sur);padding:12px 14px;
+  display:flex;gap:10px;align-items:flex-start;
+  transition:background .2s;
+}
+.art-card-mob:active{background:var(--sur2);}
+.acm-thumb{width:60px;height:46px;object-fit:cover;flex-shrink:0;border-radius:2px;}
+.acm-nothumb{width:60px;height:46px;background:var(--sur3);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.acm-body{flex:1;min-width:0;}
+.acm-top{display:flex;align-items:center;gap:5px;margin-bottom:4px;flex-wrap:wrap;}
+.acm-title{font-size:13.5px;font-weight:700;line-height:1.4;margin-bottom:4px;word-break:break-word;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.acm-meta{font-size:11px;color:var(--txt3);display:flex;gap:8px;flex-wrap:wrap;margin-bottom:7px;}
+.acm-actions{display:flex;gap:5px;flex-wrap:wrap;}
+.acm-actions .ab{padding:6px 10px;font-size:11.5px;flex:1;text-align:center;min-height:32px;display:flex;align-items:center;justify-content:center;gap:3px;}
+
+/* ════════════════════════════════
+   MODAL
+════════════════════════════════ */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.65);
+  z-index:500;display:none;align-items:center;justify-content:center;padding:16px;
+}
 .modal-overlay.open{display:flex;}
-.modal{background:var(--sur);width:100%;max-width:720px;max-height:90vh;display:flex;flex-direction:column;transition:background .3s;}
-.modal-head{padding:16px 20px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
-.modal-head h3{font-size:17px;font-weight:700;}
-.modal-close{background:none;border:none;font-size:22px;color:var(--txt2);cursor:pointer;padding:0 4px;}
-.modal-body{overflow-y:auto;padding:20px;flex:1;}
-.modal-foot{padding:14px 20px;border-top:1px solid var(--bdr);display:flex;gap:8px;justify-content:flex-end;flex-shrink:0;}
-.fr{margin-bottom:14px;}
-.fr label{display:block;font-size:12.5px;font-weight:700;margin-bottom:5px;color:var(--txt2);}
-.fr input,.fr select,.fr textarea{width:100%;padding:9px 12px;border:1px solid var(--bdr);font-size:13.5px;font-family:'Noto Serif Bengali',serif;background:var(--sur2);color:var(--txt);outline:none;transition:border-color .2s,background .3s;}
+.modal{
+  background:var(--sur);width:100%;max-width:700px;
+  max-height:92vh;display:flex;flex-direction:column;transition:background .3s;
+}
+.modal-head{
+  padding:15px 18px;border-bottom:1px solid var(--bdr);
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
+}
+.modal-head h3{font-size:16px;font-weight:700;}
+.modal-close{background:none;border:none;font-size:22px;color:var(--txt2);cursor:pointer;padding:0 4px;line-height:1;}
+.modal-body{overflow-y:auto;padding:18px;flex:1;-webkit-overflow-scrolling:touch;}
+.modal-foot{
+  padding:12px 18px;border-top:1px solid var(--bdr);
+  display:flex;gap:8px;justify-content:flex-end;flex-shrink:0;
+  padding-bottom:max(12px,env(safe-area-inset-bottom));
+}
+.fr{margin-bottom:13px;}
+.fr label{display:block;font-size:12px;font-weight:700;margin-bottom:5px;color:var(--txt2);}
+.fr input,.fr select,.fr textarea{
+  width:100%;padding:9px 11px;border:1px solid var(--bdr);
+  font-size:16px;font-family:'Noto Serif Bengali',serif;
+  background:var(--sur2);color:var(--txt);outline:none;
+  transition:border-color .2s,background .3s;
+  -webkit-appearance:none;border-radius:0;
+}
 .fr input:focus,.fr select:focus,.fr textarea:focus{border-color:var(--red);}
-.fr textarea{resize:vertical;min-height:120px;line-height:1.9;}
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.lang-tabs{display:flex;border-bottom:2px solid var(--bdr);margin-bottom:14px;}
-.ltab{padding:8px 18px;font-size:13px;font-weight:700;cursor:pointer;border:none;background:none;color:var(--txt3);border-bottom:2px solid transparent;margin-bottom:-2px;}
+.fr textarea{resize:vertical;min-height:110px;line-height:1.9;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+.lang-tabs{display:flex;border-bottom:2px solid var(--bdr);margin-bottom:13px;}
+.ltab{
+  padding:8px 16px;font-size:13px;font-weight:700;cursor:pointer;
+  border:none;background:none;color:var(--txt3);
+  border-bottom:2px solid transparent;margin-bottom:-2px;
+  transition:all .2s;
+}
 .ltab.on{color:var(--red);border-bottom-color:var(--red);}
 .lang-panel{display:none;}
 .lang-panel.on{display:block;}
-.mbtn{padding:9px 22px;border:none;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;}
+.mbtn{padding:10px 20px;border:none;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;min-height:42px;}
 .mbtn.save{background:var(--red);color:#fff;}
 .mbtn.save:hover{background:var(--dkred);}
 .mbtn.cancel{background:var(--sur3);color:var(--txt2);}
-.mbtn.cancel:hover{background:var(--bdr);}
 .mbtn:disabled{opacity:.5;cursor:not-allowed;}
 
-/* CONFIRM DIALOG */
-.confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:600;display:none;align-items:center;justify-content:center;padding:16px;}
+/* ════════════════════════════════
+   CONFIRM DIALOG
+════════════════════════════════ */
+.confirm-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.7);
+  z-index:600;display:none;align-items:center;justify-content:center;padding:16px;
+}
 .confirm-overlay.open{display:flex;}
-.confirm-box{background:var(--sur);padding:28px;max-width:380px;width:100%;text-align:center;}
-.confirm-box .ci{font-size:40px;margin-bottom:12px;}
-.confirm-box h3{font-size:18px;font-weight:700;margin-bottom:8px;}
-.confirm-box p{font-size:13px;color:var(--txt2);margin-bottom:22px;line-height:1.6;}
+.confirm-box{background:var(--sur);padding:26px 20px;max-width:360px;width:100%;text-align:center;}
+.confirm-box .ci{font-size:36px;margin-bottom:10px;}
+.confirm-box h3{font-size:17px;font-weight:700;margin-bottom:7px;}
+.confirm-box p{font-size:13px;color:var(--txt2);margin-bottom:20px;line-height:1.6;word-break:break-word;}
 .confirm-btns{display:flex;gap:8px;justify-content:center;}
-.cbtn{padding:10px 24px;border:none;font-size:14px;font-weight:700;cursor:pointer;}
+.cbtn{padding:11px 24px;border:none;font-size:14px;font-weight:700;cursor:pointer;min-height:44px;flex:1;max-width:140px;}
 .cbtn.yes{background:var(--danger);color:#fff;}
 .cbtn.no{background:var(--sur3);color:var(--txt2);}
 
-/* TOAST */
-.toast{position:fixed;bottom:20px;right:20px;z-index:700;padding:12px 20px;font-size:13.5px;font-weight:600;max-width:320px;display:none;animation:slideIn .3s ease;}
+/* ════════════════════════════════
+   TOAST
+════════════════════════════════ */
+.toast{
+  position:fixed;bottom:20px;right:16px;z-index:700;
+  padding:12px 18px;font-size:13px;font-weight:600;
+  max-width:calc(100vw - 32px);display:none;animation:slideIn .3s ease;
+  word-break:break-word;
+  bottom:max(20px,env(safe-area-inset-bottom));
+}
 .toast.ok{background:#22c55e;color:#fff;}
 .toast.err{background:var(--danger);color:#fff;}
 .toast.info{background:var(--blue);color:#fff;}
-@keyframes slideIn{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes slideIn{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
 
-/* EMPTY */
-.empty-state{text-align:center;padding:60px 20px;color:var(--txt3);}
-.empty-state .ei{font-size:44px;margin-bottom:12px;}
-
-/* LOADING */
-.loading-row td{text-align:center;padding:40px;color:var(--txt3);}
-.spin{width:28px;height:28px;border:3px solid var(--bdr);border-top-color:var(--red);border-radius:50%;animation:sp .7s linear infinite;display:inline-block;}
+/* ── STATES ── */
+.empty-state{text-align:center;padding:50px 20px;color:var(--txt3);}
+.empty-state .ei{font-size:40px;margin-bottom:10px;}
+.empty-state p{font-size:13px;}
+.loading-row td{text-align:center;padding:36px;color:var(--txt3);}
+.spin{width:26px;height:26px;border:3px solid var(--bdr);border-top-color:var(--red);border-radius:50%;animation:sp .7s linear infinite;display:inline-block;}
 @keyframes sp{to{transform:rotate(360deg)}}
 
-/* RESPONSIVE */
+/* ════════════════════════════════
+   RESPONSIVE
+════════════════════════════════ */
+
+/* ── Tablet 900px ── */
 @media(max-width:900px){
   .stats-grid{grid-template-columns:repeat(2,1fr);}
   .chart-row{grid-template-columns:1fr;}
+  .main{padding:18px;}
 }
+
+/* ── Mobile 700px: sidebar off-canvas, top bar ── */
 @media(max-width:700px){
-  .sidebar{transform:translateX(-100%);}
-  .sidebar.open{transform:translateX(0);}
-  .main{margin-left:0;}
-  .mob-toggle{display:flex;}
-  .overlay.open{display:block;}
-  .stats-grid{grid-template-columns:repeat(2,1fr);}
+  :root{--sidebar-w:240px;}
+
+  /* Sidebar off-canvas */
+  .sidebar{transform:translateX(-100%);box-shadow:none;}
+  .sidebar.open{transform:translateX(0);box-shadow:4px 0 20px rgba(0,0,0,.3);}
+
+  /* Show top bar, hide desktop hamburger */
+  .topbar-mob{display:flex;}
+
+  /* Push content down under topbar */
+  .main{margin-left:0;padding:14px;padding-top:66px;}
+
+  /* Stats 2-col */
+  .stats-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
+
+  /* Search row stacks */
+  .table-toolbar{padding:10px 12px;gap:7px;}
+  .table-toolbar h4{width:100%;margin-right:0;}
+  .srch{width:100%;order:2;}
+  .filter-sel{width:100%;order:3;}
+  .table-toolbar .ab{order:4;}
+
+  /* Hide desktop table, show mobile cards */
+  .tbl-wrap{display:none;}
+  .art-cards-list{display:flex;}
+
+  /* Pagination compact */
+  .pagination{padding:10px 12px;justify-content:center;}
+  .pg-info{width:100%;text-align:center;margin:4px 0 0;}
+
+  /* Modal bottom sheet */
+  .modal-overlay{padding:0;align-items:flex-end;}
+  .modal{max-width:100%;max-height:96vh;border-radius:0;}
   .two-col{grid-template-columns:1fr;}
+  .modal-foot{justify-content:stretch;}
+  .mbtn{flex:1;}
+
+  /* Confirm full-width buttons */
+  .cbtn{flex:1;max-width:none;}
 }
+
+/* ── Small mobile 480px ── */
 @media(max-width:480px){
-  .stats-grid{grid-template-columns:1fr;}
-  .main{padding:14px;}
+  .stats-grid{grid-template-columns:1fr 1fr;gap:8px;}
+  .stat-card{padding:12px 10px;}
+  .stat-card .sv{font-size:26px;}
+  .stat-card .sl{font-size:10.5px;}
+  .main{padding:10px;padding-top:62px;}
+  .page-head h2{font-size:18px;}
+  .page-head p{font-size:11.5px;}
+  .lock-box{padding:24px 16px;}
+  .chart-card{padding:12px;}
+  .bc-label{width:60px;font-size:10px;}
+  .acm-actions .ab{font-size:11px;padding:6px 7px;}
+}
+
+/* ── Extra small 360px ── */
+@media(max-width:360px){
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .stat-card .sv{font-size:22px;}
+  .main{padding:8px;padding-top:60px;}
+  .acm-thumb,.acm-nothumb{width:48px;height:37px;}
+}
+
+/* ── Touch targets ── */
+@media(hover:none){
+  .sn{min-height:46px;}
+  .lbtn,.mbtn,.cbtn{min-height:48px;}
+  .pg-btn{min-height:38px;min-width:38px;}
+  .ab{min-height:34px;}
+  .theme-btn,.mob-hamburger{width:40px;height:40px;}
+  .srch,.filter-sel,.lf,.fr input,.fr select,.fr textarea{min-height:44px;font-size:16px !important;}
+}
+
+/* ── Safe area insets ── */
+@supports(padding:max(0px)){
+  .sidebar{padding-bottom:env(safe-area-inset-bottom);}
+  .topbar-mob{padding-top:env(safe-area-inset-top);height:calc(52px + env(safe-area-inset-top));}
+  .main{padding-top:calc(66px + env(safe-area-inset-top));}
+}
+@media(min-width:701px){
+  @supports(padding:max(0px)){
+    .main{padding-top:22px;}
+  }
 }
 </style>
 </head>
@@ -226,35 +455,57 @@ tr:last-child td{border-bottom:none;}
 <div id="lock">
   <div class="lock-box">
     <div class="lock-logo">দৈনিক অনু<em>লি</em>পি</div>
-    <div class="lock-sub">DAINIK ANULIPI</div>
-    <div style="font-size:36px;margin-bottom:12px">🛡️</div>
+    <div class="lock-sub">DAINIK ANULIPI · ADMIN</div>
+    <div class="lock-shield">🛡️</div>
     <div class="lock-title">অ্যাডমিন প্যানেল</div>
     <div class="lock-desc">শুধুমাত্র অনুমোদিত অ্যাডমিনদের জন্য।</div>
-    <input class="lf" type="text"     id="l-url" placeholder="Apps Script Web App URL">
+    <input class="lf" type="url" id="l-url" placeholder="Apps Script Web App URL" autocomplete="off" inputmode="url">
     <input class="lf" type="password" id="l-key" placeholder="Admin Secret Key" onkeydown="if(event.key==='Enter')adminLogin()">
-    <button class="lbtn" onclick="adminLogin()">প্রবেশ করুন</button>
+    <button class="lbtn" onclick="adminLogin()">প্রবেশ করুন →</button>
     <div class="lerr" id="lerr"></div>
   </div>
 </div>
 
 <!-- APP -->
 <div id="app">
-  <button class="mob-toggle" onclick="toggleSidebar()">☰</button>
-  <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+  <!-- SIDEBAR OVERLAY -->
+  <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+  <!-- MOBILE TOP BAR -->
+  <div class="topbar-mob" id="topbar-mob">
+    <button class="mob-hamburger" onclick="toggleSidebar()" aria-label="মেনু">☰</button>
+    <span class="topbar-title" id="topbar-title">ড্যাশবোর্ড</span>
+    <div class="topbar-actions">
+      <button class="theme-btn" id="theme-btn-mob" onclick="toggleTheme()">🌙</button>
+    </div>
+  </div>
 
   <!-- SIDEBAR -->
   <div class="sidebar" id="sidebar">
     <div class="sb-logo">
       <div class="sbl">দৈনিক অনু<em>লি</em>পি</div>
-      <div class="sbsub">ADMIN PANEL</div>
+      <div class="sbsub">Admin Panel</div>
     </div>
     <nav class="sb-nav">
-      <div class="sn on" id="sn-dashboard" onclick="showPage('dashboard')"><span class="ic">📊</span> ড্যাশবোর্ড</div>
-      <div class="sn"    id="sn-articles"  onclick="showPage('articles')"> <span class="ic">📰</span> সব সংবাদ</div>
-      <div class="sn"    id="sn-published" onclick="showPage('published')"><span class="ic">✅</span> প্রকাশিত</div>
-      <div class="sn"    id="sn-drafts"    onclick="showPage('drafts')">   <span class="ic">📝</span> ড্রাফট</div>
-      <div class="sn"    onclick="window.open('index.html','_blank')">     <span class="ic">🌐</span> সাইট দেখুন</div>
-      <div class="sn"    onclick="window.open('submit.html','_blank')">    <span class="ic">📤</span> রিপোর্টার পোর্টাল</div>
+      <div class="sn on" id="sn-dashboard" onclick="showPage('dashboard');closeSidebar()">
+        <span class="ic">📊</span> ড্যাশবোর্ড
+      </div>
+      <div class="sn" id="sn-articles" onclick="showPage('articles');closeSidebar()">
+        <span class="ic">📰</span> সব সংবাদ
+      </div>
+      <div class="sn" id="sn-published" onclick="showPage('published');closeSidebar()">
+        <span class="ic">✅</span> প্রকাশিত
+      </div>
+      <div class="sn" id="sn-drafts" onclick="showPage('drafts');closeSidebar()">
+        <span class="ic">📝</span> ড্রাফট
+      </div>
+      <div class="sn" onclick="window.open('index.html','_blank')">
+        <span class="ic">🌐</span> সাইট দেখুন
+      </div>
+      <div class="sn" onclick="window.open('submit.html','_blank')">
+        <span class="ic">📤</span> রিপোর্টার পোর্টাল
+      </div>
     </nav>
     <div class="sb-bottom">
       <button class="theme-btn" id="theme-btn" onclick="toggleTheme()">🌙</button>
@@ -262,9 +513,9 @@ tr:last-child td{border-bottom:none;}
     </div>
   </div>
 
-  <!-- MAIN -->
+  <!-- MAIN CONTENT -->
   <div class="main" id="main-content">
-    <!-- content rendered here -->
+    <!-- rendered by JS -->
   </div>
 </div>
 
@@ -290,7 +541,7 @@ tr:last-child td{border-bottom:none;}
         </div>
         <div class="fr">
           <label>তারিখ</label>
-          <input type="text" id="edit-date">
+          <input type="text" id="edit-date" placeholder="YYYY-MM-DD">
         </div>
       </div>
       <div class="fr">
@@ -299,7 +550,7 @@ tr:last-child td{border-bottom:none;}
       </div>
       <div class="fr">
         <label>ছবির URL</label>
-        <input type="text" id="edit-img">
+        <input type="url" id="edit-img" placeholder="https://…" inputmode="url">
       </div>
       <div class="lang-tabs">
         <button class="ltab on" id="etab-bn" onclick="switchEditTab('bn')">🇧🇩 বাংলা</button>
@@ -308,17 +559,17 @@ tr:last-child td{border-bottom:none;}
       <div class="lang-panel on" id="epanel-bn">
         <div class="fr"><label>শিরোনাম (বাংলা)</label><input type="text" id="edit-title-bn"></div>
         <div class="fr"><label>সারাংশ (বাংলা)</label><input type="text" id="edit-summary-bn"></div>
-        <div class="fr"><label>বিস্তারিত (বাংলা)</label><textarea id="edit-content-bn" style="min-height:180px"></textarea></div>
+        <div class="fr"><label>বিস্তারিত (বাংলা)</label><textarea id="edit-content-bn" style="min-height:150px"></textarea></div>
       </div>
       <div class="lang-panel" id="epanel-en">
         <div class="fr"><label>Headline (English)</label><input type="text" id="edit-title-en" style="font-family:sans-serif"></div>
         <div class="fr"><label>Summary (English)</label><input type="text" id="edit-summary-en" style="font-family:sans-serif"></div>
-        <div class="fr"><label>Content (English)</label><textarea id="edit-content-en" style="min-height:180px;font-family:sans-serif"></textarea></div>
+        <div class="fr"><label>Content (English)</label><textarea id="edit-content-en" style="min-height:150px;font-family:sans-serif"></textarea></div>
       </div>
     </div>
     <div class="modal-foot">
       <button class="mbtn cancel" onclick="closeModal()">বাতিল</button>
-      <button class="mbtn save" id="save-btn" onclick="saveEdit()">💾 সংরক্ষণ করুন</button>
+      <button class="mbtn save" id="save-btn" onclick="saveEdit()">💾 সংরক্ষণ</button>
     </div>
   </div>
 </div>
@@ -331,7 +582,7 @@ tr:last-child td{border-bottom:none;}
     <p id="confirm-msg">আপনি কি নিশ্চিত?</p>
     <div class="confirm-btns">
       <button class="cbtn no" onclick="closeConfirm()">না</button>
-      <button class="cbtn yes" id="confirm-yes">হ্যাঁ, করুন</button>
+      <button class="cbtn yes" id="confirm-yes">হ্যাঁ</button>
     </div>
   </div>
 </div>
@@ -348,6 +599,7 @@ const PER_PAGE = 15;
 let curFilter = '';
 let curSearch = '';
 let curPageId = 'dashboard';
+let curStatusFilter = '';
 let theme = localStorage.getItem('anulipi_admin_theme') || 'dark';
 
 const CAT_COLORS = {
@@ -360,8 +612,11 @@ const CAT_COLORS = {
 function applyTheme(t) {
   theme = t;
   document.documentElement.setAttribute('data-theme', t);
-  const btn = document.getElementById('theme-btn');
-  if (btn) btn.textContent = t === 'dark' ? '☀️' : '🌙';
+  const icon = t === 'dark' ? '☀️' : '🌙';
+  const btn1 = document.getElementById('theme-btn');
+  const btn2 = document.getElementById('theme-btn-mob');
+  if (btn1) btn1.textContent = icon;
+  if (btn2) btn2.textContent = icon;
   localStorage.setItem('anulipi_admin_theme', t);
 }
 function toggleTheme() { applyTheme(theme === 'dark' ? 'light' : 'dark'); }
@@ -374,7 +629,6 @@ function adminLogin() {
   if (!url.startsWith('http')) { showErr('সঠিক URL দিন।'); return; }
   API_URL   = url;
   ADMIN_KEY = key;
-  // Save URL in localStorage (persists across sessions), key in sessionStorage only
   localStorage.setItem('anulipi_admin_url', url);
   sessionStorage.setItem('anulipi_admin', JSON.stringify({ url, key }));
   launchApp();
@@ -390,7 +644,7 @@ function adminLogout() {
 }
 function launchApp() {
   document.getElementById('lock').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
+  document.getElementById('app').style.display  = 'block';
   applyTheme(theme);
   showPage('dashboard');
   loadArticles();
@@ -398,12 +652,10 @@ function launchApp() {
 
 // Auto-restore session
 (function() {
-  applyTheme(theme);
-  // Pre-fill saved URL so user doesn't have to retype it
   const savedUrl = localStorage.getItem('anulipi_admin_url');
   if (savedUrl) {
-    const urlInput = document.getElementById('l-url');
-    if (urlInput) urlInput.value = savedUrl;
+    const el = document.getElementById('l-url');
+    if (el) el.value = savedUrl;
   }
   const s = sessionStorage.getItem('anulipi_admin');
   if (s) {
@@ -415,18 +667,35 @@ function launchApp() {
 
 // ── SIDEBAR ──
 function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('open');
-  document.getElementById('overlay').classList.toggle('open');
+  const sb  = document.getElementById('sidebar');
+  const ov  = document.getElementById('overlay');
+  const open = sb.classList.toggle('open');
+  ov.classList.toggle('open', open);
 }
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+
+// ── PAGES ──
+const PAGE_TITLES = {
+  dashboard: 'ড্যাশবোর্ড',
+  articles:  'সব সংবাদ',
+  published: 'প্রকাশিত',
+  drafts:    'ড্রাফট',
+};
 function showPage(id) {
   curPageId = id;
   document.querySelectorAll('.sn').forEach(n => n.classList.remove('on'));
   const el = document.getElementById('sn-' + id);
   if (el) el.classList.add('on');
+  const title = PAGE_TITLES[id] || id;
+  const tb = document.getElementById('topbar-title');
+  if (tb) tb.textContent = title;
   if (id === 'dashboard') renderDashboard();
-  else if (id === 'articles') renderArticlesPage('');
-  else if (id === 'published') renderArticlesPage('published');
-  else if (id === 'drafts')    renderArticlesPage('draft');
+  else if (id === 'articles')  { curStatusFilter='';          curPage=1; renderArticlesPage('');  }
+  else if (id === 'published') { curStatusFilter='published'; curPage=1; renderArticlesPage('published'); }
+  else if (id === 'drafts')    { curStatusFilter='draft';     curPage=1; renderArticlesPage('draft'); }
 }
 
 // ── DATA ──
@@ -438,15 +707,12 @@ async function loadArticles() {
     else toast('err', '❌ ডেটা লোড ব্যর্থ: ' + (d.error || ''));
   } catch(e) { toast('err', '❌ সংযোগ ব্যর্থ: ' + e.message); }
 }
-
 function refreshCurrentPage() {
   if (curPageId === 'dashboard') renderDashboard();
-  else if (curPageId === 'articles')  renderArticlesPage('');
-  else if (curPageId === 'published') renderArticlesPage('published');
-  else if (curPageId === 'drafts')    renderArticlesPage('draft');
+  else renderArticlesPage(curStatusFilter);
 }
 
-// ── API CALLS ──
+// ── API ──
 async function apiPost(payload) {
   const res = await fetch(API_URL, {
     method: 'POST',
@@ -465,7 +731,9 @@ function toast(type, msg, dur = 3500) {
   el._t = setTimeout(() => el.style.display = 'none', dur);
 }
 
-// ── DASHBOARD ──
+// ════════════════════════════════
+//  DASHBOARD
+// ════════════════════════════════
 function renderDashboard() {
   const pub    = allArticles.filter(a => a.status === 'published').length;
   const draft  = allArticles.filter(a => a.status !== 'published').length;
@@ -474,18 +742,16 @@ function renderDashboard() {
   allArticles.forEach(a => { cats[a.category] = (cats[a.category] || 0) + 1; });
   const maxCat  = Math.max(...Object.values(cats), 1);
 
-  // Activity last 7 days
   const now = new Date();
   const days = [];
   for (let i = 6; i >= 0; i--) {
-    const d = new Date(now); d.setDate(now.getDate() - i);
+    const d  = new Date(now); d.setDate(now.getDate() - i);
     const ds = d.toDateString();
     const count = allArticles.filter(a => a.timestamp && new Date(a.timestamp).toDateString() === ds).length;
     days.push({ label: d.getDate() + '/' + (d.getMonth() + 1), count });
   }
   const maxDay = Math.max(...days.map(d => d.count), 1);
 
-  // Top authors
   const authorMap = {};
   allArticles.forEach(a => { authorMap[a.author] = (authorMap[a.author] || 0) + 1; });
   const topAuthors = Object.entries(authorMap).sort((a,b)=>b[1]-a[1]).slice(0,5);
@@ -498,23 +764,19 @@ function renderDashboard() {
 
     <div class="stats-grid">
       <div class="stat-card total">
-        <span class="si">📰</span>
-        <div class="sv">${allArticles.length}</div>
+        <div class="sc-top"><div class="sv">${allArticles.length}</div><span class="si">📰</span></div>
         <div class="sl">মোট সংবাদ</div>
       </div>
       <div class="stat-card pub">
-        <span class="si">✅</span>
-        <div class="sv">${pub}</div>
+        <div class="sc-top"><div class="sv">${pub}</div><span class="si">✅</span></div>
         <div class="sl">প্রকাশিত</div>
       </div>
       <div class="stat-card draft">
-        <span class="si">📝</span>
-        <div class="sv">${draft}</div>
+        <div class="sc-top"><div class="sv">${draft}</div><span class="si">📝</span></div>
         <div class="sl">ড্রাফট</div>
       </div>
       <div class="stat-card authors">
-        <span class="si">✍️</span>
-        <div class="sv">${authors}</div>
+        <div class="sc-top"><div class="sv">${authors}</div><span class="si">✍️</span></div>
         <div class="sl">রিপোর্টার</div>
       </div>
     </div>
@@ -525,57 +787,75 @@ function renderDashboard() {
         <div class="bar-chart">
           ${Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([cat,cnt]) => `
             <div class="bc-row">
-              <span class="bc-label">${cat}</span>
+              <span class="bc-label" title="${cat}">${cat}</span>
               <div class="bc-track">
                 <div class="bc-fill" style="width:${(cnt/maxCat*100).toFixed(0)}%;background:${CAT_COLORS[cat]||'var(--red)'}">
                   <span>${cnt}</span>
                 </div>
               </div>
-            </div>`).join('') || '<p style="color:var(--txt3);font-size:13px">কোনো ডেটা নেই</p>'}
+            </div>`).join('') || '<p style="color:var(--txt3);font-size:13px;padding:8px 0">কোনো ডেটা নেই</p>'}
         </div>
       </div>
 
       <div class="chart-card">
         <h4>📅 গত ৭ দিনের কার্যক্রম</h4>
         <div class="activity-grid">
-          ${days.map(d => `<div class="ag-bar" style="height:${(d.count/maxDay*100).toFixed(0)}%" title="${d.label}: ${d.count}টি সংবাদ"></div>`).join('')}
+          ${days.map(d => `<div class="ag-bar" style="height:${Math.max(4,(d.count/maxDay*100)).toFixed(0)}%" title="${d.label}: ${d.count}টি"></div>`).join('')}
         </div>
-        <div class="ag-labels">
-          ${days.map(d => `<div class="ag-label">${d.label}</div>`).join('')}
-        </div>
+        <div class="ag-labels">${days.map(d => `<div class="ag-label">${d.label}</div>`).join('')}</div>
         <div style="margin-top:14px">
-          <h4 style="font-size:13px;margin-bottom:10px">🏆 শীর্ষ রিপোর্টার</h4>
+          <h4 style="font-size:12.5px;margin-bottom:9px;padding-bottom:6px;border-bottom:1px solid var(--bdr)">🏆 শীর্ষ রিপোর্টার</h4>
           ${topAuthors.map(([name,cnt],i) => `
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bdr);font-size:13px;">
-              <span>${['🥇','🥈','🥉','4.','5.'][i]} ${name}</span>
-              <span style="font-weight:700;color:var(--red)">${cnt}টি</span>
-            </div>`).join('') || '<p style="color:var(--txt3);font-size:13px">কোনো ডেটা নেই</p>'}
+            <div class="top-auth-row">
+              <span style="font-size:12.5px">${['🥇','🥈','🥉','4.','5.'][i]} ${name}</span>
+              <span style="font-weight:700;color:var(--red);font-size:12.5px">${cnt}টি</span>
+            </div>`).join('') || '<p style="color:var(--txt3);font-size:13px;padding:8px 0">কোনো ডেটা নেই</p>'}
         </div>
       </div>
     </div>
 
     <div class="table-card">
       <div class="table-toolbar"><h4>🕐 সর্বশেষ ১০টি সংবাদ</h4></div>
-      ${renderTable(allArticles.slice(0, 10), false)}
+      ${renderDesktopTable(allArticles.slice(0,10), false)}
+      ${renderMobileCards(allArticles.slice(0,10), false)}
     </div>`;
 }
 
-// ── ARTICLES PAGE ──
+// ════════════════════════════════
+//  ARTICLES PAGE
+// ════════════════════════════════
 function renderArticlesPage(statusFilter) {
+  curStatusFilter = statusFilter;
   let filtered = allArticles;
   if (statusFilter) filtered = filtered.filter(a => a.status === statusFilter);
   if (curSearch)    filtered = filtered.filter(a =>
-    a.titleBn.includes(curSearch) || a.titleEn.toLowerCase().includes(curSearch.toLowerCase()) ||
-    a.author.includes(curSearch)  || a.category.includes(curSearch));
+    (a.titleBn||'').includes(curSearch) ||
+    (a.titleEn||'').toLowerCase().includes(curSearch.toLowerCase()) ||
+    (a.author||'').includes(curSearch)  ||
+    (a.category||'').includes(curSearch));
   if (curFilter)    filtered = filtered.filter(a => a.category === curFilter);
 
   const total  = filtered.length;
   const pages  = Math.ceil(total / PER_PAGE) || 1;
   if (curPage > pages) curPage = 1;
   const paged  = filtered.slice((curPage - 1) * PER_PAGE, curPage * PER_PAGE);
-
   const cats   = [...new Set(allArticles.map(a => a.category))];
-  const label  = statusFilter === 'published' ? '✅ প্রকাশিত সংবাদ' : statusFilter === 'draft' ? '📝 ড্রাফট সংবাদ' : '📰 সব সংবাদ';
+  const label  = statusFilter === 'published' ? '✅ প্রকাশিত সংবাদ'
+               : statusFilter === 'draft'     ? '📝 ড্রাফট সংবাদ'
+               : '📰 সব সংবাদ';
+
+  // Pagination HTML
+  const maxPageBtns = window.innerWidth < 480 ? 3 : 7;
+  let pgBtns = '';
+  for (let p = 1; p <= pages; p++) {
+    if (pages > maxPageBtns) {
+      if (p !== 1 && p !== pages && Math.abs(p - curPage) > 1) {
+        if (p === 2 || p === pages - 1) pgBtns += `<span style="color:var(--txt3);padding:0 2px">…</span>`;
+        continue;
+      }
+    }
+    pgBtns += `<button class="pg-btn ${p===curPage?'on':''}" onclick="curPage=${p};renderArticlesPage('${statusFilter}')">${p}</button>`;
+  }
 
   document.getElementById('main-content').innerHTML = `
     <div class="page-head">
@@ -585,49 +865,52 @@ function renderArticlesPage(statusFilter) {
     <div class="table-card">
       <div class="table-toolbar">
         <h4>${label}</h4>
-        <input class="srch" type="text" placeholder="🔍 খুঁজুন…" value="${curSearch}" oninput="curSearch=this.value;curPage=1;renderArticlesPage('${statusFilter}')">
+        <input class="srch" type="search" placeholder="🔍 খুঁজুন…" value="${curSearch}"
+          oninput="curSearch=this.value;curPage=1;renderArticlesPage('${statusFilter}')">
         <select class="filter-sel" onchange="curFilter=this.value;curPage=1;renderArticlesPage('${statusFilter}')">
           <option value="">সব বিভাগ</option>
           ${cats.map(c => `<option value="${c}" ${curFilter===c?'selected':''}>${c}</option>`).join('')}
         </select>
-        <button class="ab edit" onclick="loadArticles().then(()=>renderArticlesPage('${statusFilter}'))">🔄 রিফ্রেশ</button>
+        <button class="ab edit" style="white-space:nowrap" onclick="loadArticles()">🔄 রিফ্রেশ</button>
       </div>
-      ${renderTable(paged, true)}
+      ${renderDesktopTable(paged, true)}
+      ${renderMobileCards(paged, true)}
       <div class="pagination">
         <button class="pg-btn" onclick="curPage=Math.max(1,curPage-1);renderArticlesPage('${statusFilter}')" ${curPage===1?'disabled':''}>‹</button>
-        ${Array.from({length:pages},(_,i)=>i+1).map(p=>
-          `<button class="pg-btn ${p===curPage?'on':''}" onclick="curPage=${p};renderArticlesPage('${statusFilter}')">${p}</button>`
-        ).join('')}
-        <button class="pg-btn" onclick="curPage=Math.min(pages,curPage+1);renderArticlesPage('${statusFilter}')" ${curPage===pages?'disabled':''}>›</button>
+        ${pgBtns}
+        <button class="pg-btn" onclick="curPage=Math.min(${pages},curPage+1);renderArticlesPage('${statusFilter}')" ${curPage===pages?'disabled':''}>›</button>
         <span class="pg-info">${(curPage-1)*PER_PAGE+1}–${Math.min(curPage*PER_PAGE,total)} / ${total}</span>
       </div>
     </div>`;
 }
 
-// ── TABLE HTML ──
-function renderTable(arts, showAll) {
-  if (!arts.length) return `<div class="empty-state"><div class="ei">📭</div><p>কোনো সংবাদ পাওয়া যায়নি</p></div>`;
+// ════════════════════════════════
+//  DESKTOP TABLE (hidden on mobile via CSS)
+// ════════════════════════════════
+function renderDesktopTable(arts, showActions) {
+  if (!arts.length) return `<div class="tbl-wrap"><div class="empty-state"><div class="ei">📭</div><p>কোনো সংবাদ পাওয়া যায়নি</p></div></div>`;
   return `<div class="tbl-wrap"><table>
     <thead><tr>
       <th>ছবি</th><th>শিরোনাম</th><th>বিভাগ</th><th>রিপোর্টার</th>
-      <th>তারিখ</th><th>অবস্থা</th>${showAll?'<th>কার্যক্রম</th>':''}
+      <th>তারিখ</th><th>অবস্থা</th>${showActions?'<th>কার্যক্রম</th>':''}
     </tr></thead>
     <tbody>
       ${arts.map(a => `<tr>
         <td>${a.imageUrl
-          ? `<img class="art-thumb" src="${a.imageUrl}" onerror="this.outerHTML='<div class=art-nothumb>📰</div>'" alt="">`
+          ? `<img class="art-thumb" src="${a.imageUrl}" onerror="this.outerHTML='<div class=art-nothumb>📰</div>'" alt="" loading="lazy">`
           : `<div class="art-nothumb">📰</div>`}</td>
         <td class="title-cell">
           <div class="tc-title">${a.titleBn||'(শিরোনাম নেই)'}</div>
           <div class="tc-en">${a.titleEn||''}</div>
         </td>
         <td><span class="cat-badge" style="background:${CAT_COLORS[a.category]||'var(--red)'};color:#fff">${a.category||'—'}</span></td>
-        <td style="font-size:12.5px">${a.author||'—'}</td>
-        <td style="font-size:12px;white-space:nowrap">${a.date||'—'}</td>
+        <td style="font-size:12px;white-space:nowrap">${a.author||'—'}</td>
+        <td style="font-size:11.5px;white-space:nowrap">${a.date||'—'}</td>
         <td><span class="badge ${a.status==='published'?'pub':'draft'}">${a.status==='published'?'প্রকাশিত':'ড্রাফট'}</span></td>
-        ${showAll?`<td><div class="action-btns">
+        ${showActions?`<td><div class="action-btns">
           <button class="ab edit" onclick='openEdit(${JSON.stringify(a).replace(/'/g,"&#39;")})'>✏️</button>
-          <button class="ab ${a.status==='published'?'tog-draft':'tog-pub'}" onclick="toggleStatus('${a.slug}','${a.status==='published'?'draft':'published'}',this)">
+          <button class="ab ${a.status==='published'?'tog-draft':'tog-pub'}"
+            onclick="toggleStatus('${a.slug}','${a.status==='published'?'draft':'published'}',this)">
             ${a.status==='published'?'📝 ড্রাফট':'✅ প্রকাশ'}
           </button>
           <button class="ab del" onclick="confirmDelete('${a.slug}','${(a.titleBn||'').replace(/'/g,"&#39;")}')">🗑️</button>
@@ -637,15 +920,49 @@ function renderTable(arts, showAll) {
   </table></div>`;
 }
 
+// ════════════════════════════════
+//  MOBILE CARDS (shown only on mobile via CSS)
+// ════════════════════════════════
+function renderMobileCards(arts, showActions) {
+  if (!arts.length) return `<div class="art-cards-list"><div class="empty-state"><div class="ei">📭</div><p>কোনো সংবাদ পাওয়া যায়নি</p></div></div>`;
+  return `<div class="art-cards-list">
+    ${arts.map(a => `
+      <div class="art-card-mob">
+        ${a.imageUrl
+          ? `<img class="acm-thumb" src="${a.imageUrl}" loading="lazy" onerror="this.outerHTML='<div class=acm-nothumb>📰</div>'" alt="">`
+          : `<div class="acm-nothumb">📰</div>`}
+        <div class="acm-body">
+          <div class="acm-top">
+            <span class="cat-badge" style="background:${CAT_COLORS[a.category]||'var(--red)'};color:#fff;font-size:10px">${a.category||'—'}</span>
+            <span class="badge ${a.status==='published'?'pub':'draft'}">${a.status==='published'?'প্রকাশিত':'ড্রাফট'}</span>
+          </div>
+          <div class="acm-title">${a.titleBn||'(শিরোনাম নেই)'}</div>
+          <div class="acm-meta">
+            <span>✍️ ${a.author||'—'}</span>
+            <span>🕐 ${a.date||'—'}</span>
+          </div>
+          ${showActions ? `<div class="acm-actions">
+            <button class="ab edit" onclick='openEdit(${JSON.stringify(a).replace(/'/g,"&#39;")})'>✏️ সম্পাদনা</button>
+            <button class="ab ${a.status==='published'?'tog-draft':'tog-pub'}"
+              onclick="toggleStatus('${a.slug}','${a.status==='published'?'draft':'published'}',this)">
+              ${a.status==='published'?'📝 ড্রাফট':'✅ প্রকাশ'}
+            </button>
+            <button class="ab del" onclick="confirmDelete('${a.slug}','${(a.titleBn||'').replace(/'/g,"&#39;")}')">🗑️</button>
+          </div>` : ''}
+        </div>
+      </div>`).join('')}
+  </div>`;
+}
+
 // ── TOGGLE STATUS ──
 async function toggleStatus(slug, newStatus, btn) {
   btn.disabled = true;
   try {
-    const r = await apiPost({ action: 'setStatus', slug, status: newStatus });
+    const r = await apiPost({ action:'setStatus', slug, status:newStatus });
     if (r.success) {
       const art = allArticles.find(a => a.slug === slug);
       if (art) art.status = newStatus;
-      toast('ok', newStatus === 'published' ? '✅ সংবাদ প্রকাশিত হয়েছে!' : '📝 ড্রাফটে নেওয়া হয়েছে');
+      toast('ok', newStatus==='published' ? '✅ সংবাদ প্রকাশিত!' : '📝 ড্রাফটে নেওয়া হয়েছে');
       refreshCurrentPage();
     } else toast('err', '❌ ' + (r.error || 'ব্যর্থ'));
   } catch(e) { toast('err', '❌ ' + e.message); }
@@ -657,7 +974,7 @@ let _deleteSlug = '';
 function confirmDelete(slug, title) {
   _deleteSlug = slug;
   document.getElementById('confirm-title').textContent = 'সংবাদ মুছুন';
-  document.getElementById('confirm-msg').textContent = `"${title}" মুছে ফেলবেন? এটি ফেরত আনা যাবে না।`;
+  document.getElementById('confirm-msg').textContent   = `"${title}" মুছে ফেলবেন? এটি ফেরত আনা যাবে না।`;
   document.getElementById('confirm-yes').onclick = doDelete;
   document.getElementById('confirm-overlay').classList.add('open');
 }
@@ -665,7 +982,7 @@ function closeConfirm() { document.getElementById('confirm-overlay').classList.r
 async function doDelete() {
   closeConfirm();
   try {
-    const r = await apiPost({ action: 'delete', slug: _deleteSlug });
+    const r = await apiPost({ action:'delete', slug:_deleteSlug });
     if (r.success) {
       allArticles = allArticles.filter(a => a.slug !== _deleteSlug);
       toast('ok', '🗑️ সংবাদ মুছে ফেলা হয়েছে।');
@@ -695,14 +1012,16 @@ function openEdit(art) {
   document.getElementById('edit-content-en').value = art.contentEn;
   switchEditTab('bn');
   document.getElementById('edit-modal').classList.add('open');
+  // Scroll modal to top
+  setTimeout(()=>{ const mb=document.querySelector('.modal-body'); if(mb) mb.scrollTop=0; }, 50);
 }
 function closeModal() { document.getElementById('edit-modal').classList.remove('open'); }
 async function saveEdit() {
-  const btn  = document.getElementById('save-btn');
-  btn.disabled = true; btn.textContent = '⏳ সংরক্ষণ হচ্ছে…';
+  const btn = document.getElementById('save-btn');
+  btn.disabled = true; btn.textContent = '⏳ সংরক্ষণ…';
   try {
     const r = await apiPost({
-      action:    'update',
+      action:'update',
       slug:      document.getElementById('edit-slug').value,
       category:  document.getElementById('edit-cat').value,
       date:      document.getElementById('edit-date').value,
@@ -721,12 +1040,15 @@ async function saveEdit() {
       await loadArticles();
     } else toast('err', '❌ ' + (r.error || 'আপডেট ব্যর্থ'));
   } catch(e) { toast('err', '❌ ' + e.message); }
-  finally { btn.disabled = false; btn.textContent = '💾 সংরক্ষণ করুন'; }
+  finally { btn.disabled = false; btn.textContent = '💾 সংরক্ষণ'; }
 }
-
-// Close modal on outside click
 document.getElementById('edit-modal').addEventListener('click', function(e) {
   if (e.target === this) closeModal();
+});
+
+// Close sidebar on outside tap (for mobile)
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeModal(); closeConfirm(); closeSidebar(); }
 });
 </script>
 </body>
