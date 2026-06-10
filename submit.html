@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>রিপোর্টার পোর্টাল | দৈনিক অনুলিপি</title>
+<link rel="icon" type="image/png" href="assets/favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -28,6 +29,11 @@ a{text-decoration:none;color:inherit;}
 .logo-bn{font-family:'Noto Serif Bengali',serif;font-size:28px;font-weight:700;line-height:1;cursor:pointer;}
 .logo-bn em{color:var(--red);font-style:normal;}
 .logo-sub{font-size:10px;color:var(--txt3);letter-spacing:1px;margin-top:1px;}
+.logo-img{height:62px;width:auto;max-width:177px;object-fit:contain;display:block;}
+.logo-img-light{display:block;}
+.logo-img-dark{display:none;}
+[data-theme=dark] .logo-img-light{display:none;}
+[data-theme=dark] .logo-img-dark{display:block;}
 .hdr-r{display:flex;align-items:center;gap:8px;}
 .portal-tag{background:var(--red);color:#fff;padding:5px 14px;font-size:12px;font-weight:700;}
 .theme-btn{background:var(--tog-bg);border:none;width:30px;height:30px;border-radius:50%;font-size:14px;display:flex;align-items:center;justify-content:center;color:var(--tog-c);cursor:pointer;transition:all .3s;}
@@ -212,8 +218,8 @@ a{text-decoration:none;color:inherit;}
 <div class="hdr">
   <div class="wrap">
     <div onclick="location.href='index.html'" style="cursor:pointer">
-      <div class="logo-bn">দৈনিক অনু<em>লি</em>পি</div>
-      <div class="logo-sub">DAINIK ANULIPI</div>
+      <img src="assets/logo.png"      alt="দৈনিক অনুলিপি" class="logo-img logo-img-light">
+      <img src="assets/logo-dark.png" alt="দৈনিক অনুলিপি" class="logo-img logo-img-dark">
     </div>
     <div class="hdr-r">
       <button class="theme-btn" id="theme-btn" onclick="toggleTheme()">🌙</button>
