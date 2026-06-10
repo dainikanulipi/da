@@ -1146,6 +1146,13 @@ function route() {
 <style>
 @keyframes popIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
 
+/* ── ABOUT POPUP LOGO ── */
+.about-logo{height:64px;width:auto;max-width:220px;object-fit:contain;margin:0 auto;}
+.about-logo-light{display:block;}
+.about-logo-dark{display:none;}
+[data-theme=dark] .about-logo-light{display:none;}
+[data-theme=dark] .about-logo-dark{display:block;}
+
 /* ── AUTO-UPDATE BANNER ── */
 #update-banner{
   position:fixed;bottom:-80px;left:50%;transform:translateX(-50%);
@@ -1190,12 +1197,10 @@ const INFO_CONTENT = {
   about: {
     title: '🗞️ আমাদের সম্পর্কে',
     body: `
-      <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid var(--bdr);">
-        <div>
-          <div style="font-size:28px;font-weight:700;font-family:'Noto Serif Bengali',serif;color:var(--txt);letter-spacing:-1px;">দৈনিক অনু<span style="color:var(--red)">লি</span>পি</div>
-          <div style="font-size:11px;color:var(--txt3);letter-spacing:1px;margin-top:2px;font-family:'Noto Sans Bengali',sans-serif;">DAINIK ANULIPI · THE DAILY ANULIPI</div>
-          <div style="font-size:12px;color:var(--txt2);font-style:italic;margin-top:3px;">সত্যের সন্ধানে, নিষ্ঠিক প্রকাশে!</div>
-        </div>
+      <div style="margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid var(--bdr);text-align:center;">
+        <img src="assets/logo.png"      alt="দৈনিক অনুলিপি" class="about-logo about-logo-light">
+        <img src="assets/logo-dark.png" alt="দৈনিক অনুলিপি" class="about-logo about-logo-dark">
+        <div style="font-size:12px;color:var(--txt2);font-style:italic;margin-top:8px;">সত্যের সন্ধানে, নিষ্ঠিক প্রকাশে!</div>
       </div>
 
       <div style="background:var(--sur2);border-left:4px solid var(--red);padding:14px 16px;margin-bottom:18px;">
