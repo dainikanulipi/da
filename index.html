@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="bn" data-theme="light" dir="ltr">
 <head>
+<!-- BASIC SEO META -->
 <meta name="google-site-verification" content="CrmvnItIALEJmUgbVzhpY8_ze_nwZpjrUZggcJi19Bk" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,23 +10,30 @@
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="canonical" href="https://dainikanulipi.github.io/DA/" id="meta-canonical">
 
-<!-- Open Graph / Social sharing -->
+<!-- FACEBOOK / OPEN GRAPH SHARING TAGS -->
 <meta property="og:type" content="website" id="meta-og-type">
 <meta property="og:url" content="https://dainikanulipi.github.io/DA/" id="meta-og-url">
 <meta property="og:title" content="দৈনিক অনুলিপি | সর্বশেষ সংবাদ" id="meta-og-title">
 <meta property="og:description" content="সত্যের সন্ধানে, নিষ্ঠিক প্রকাশে! — দৈনিক অনুলিপি, বাংলাদেশের অনলাইন সংবাদ পোর্টাল।" id="meta-og-desc">
 <meta property="og:image" content="https://dainikanulipi.github.io/DA/assets/preview.jpg" id="meta-og-img">
+
+<!-- TWITTER/X SHARING TAGS -->
 <meta name="twitter:card" content="summary_large_image" id="meta-tw-card">
 <meta name="twitter:title" content="দৈনিক অনুলিপি | সর্বশেষ সংবাদ" id="meta-tw-title">
 <meta name="twitter:description" content="সত্যের সন্ধানে, নিষ্ঠিক প্রকাশে!" id="meta-tw-desc">
 <meta name="twitter:image" content="https://dainikanulipi.github.io/DA/assets/preview.jpg" id="meta-tw-img">
 
-<!-- Mobile browser bar color -->
+<!-- BROWSER ADDRESS-BAR THEME COLOR (Android Chrome) -->
 <meta name="theme-color" content="#C8102E">
 
+<!-- GOOGLE FONTS: Bengali serif/sans + Arabic (for RTL fallback) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+
+<!-- ══════════════════════════════════════════════
+     SITE-WIDE CSS (theme variables, layout, components, responsive)
+     ══════════════════════════════════════════════ -->
 <style>
 /* ── THEME VARIABLES ── */
 :root{
@@ -54,214 +62,224 @@ body{
   font-family:'Noto Serif Bengali',serif;
   background:var(--bg);color:var(--txt);
   transition:background .3s,color .3s;
-  min-height:100vh;font-size:16px;line-height:1.5;
+  min-height:100vh;font-size:17px;line-height:1.6;
 }
 a{text-decoration:none;color:inherit;}
 img{display:block;max-width:100%;}
 button{font-family:inherit;cursor:pointer;}
-.wrap{max-width:1200px;margin:0 auto;padding:0 14px;}
+.wrap{max-width:1240px;margin:0 auto;padding:0 16px;}
 
 /* ── TOPBAR ── */
-.topbar{background:var(--topbar);color:#666;font-family:'Noto Sans Bengali',sans-serif;font-size:12px;padding:5px 0;transition:background .3s;}
-.topbar .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;}
-.topbar-r{display:flex;gap:14px;}
+.topbar{background:var(--topbar);color:#666;font-family:'Noto Sans Bengali',sans-serif;font-size:13px;padding:6px 0;transition:background .3s;}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;}
+.topbar-r{display:flex;gap:16px;}
 .topbar-r a{color:#555;transition:color .2s;}
 .topbar-r a:hover{color:#ddd;}
 
 /* ── MASTHEAD ── */
-.mast{background:var(--sur);border-bottom:3px solid var(--red);padding:10px 0;transition:background .3s;}
-.mast .wrap{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.mast{background:var(--sur);border-bottom:3px solid var(--red);padding:14px 0;transition:background .3s;}
+.mast .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
 .logo{cursor:pointer;flex-shrink:0;}
-.logo-bn{font-size:46px;font-weight:700;color:var(--txt);line-height:1;letter-spacing:-2px;transition:color .3s;}
+.logo-bn{font-size:50px;font-weight:700;color:var(--txt);line-height:1;letter-spacing:-2px;transition:color .3s;}
 .logo-bn em{color:var(--red);font-style:normal;}
-.logo-en{font-size:11px;color:var(--txt3);letter-spacing:1.2px;text-transform:uppercase;margin-top:2px;font-family:'Noto Sans Bengali',sans-serif;}
-.logo-tag{font-size:13px;color:var(--txt2);font-style:italic;margin-top:2px;transition:color .3s;}
-.logo-img{height:70px;width:auto;max-width:200px;object-fit:contain;display:block;}
-@media(max-width:960px){.logo-img{height:62px;max-width:177px;}}
-@media(max-width:768px){.logo-img{height:54px;max-width:154px;}}
-@media(max-width:600px){.logo-img{height:46px;max-width:131px;}}
-@media(max-width:380px){.logo-img{height:38px;max-width:109px;}}
+.logo-en{font-size:12px;color:var(--txt3);letter-spacing:1.2px;text-transform:uppercase;margin-top:2px;font-family:'Noto Sans Bengali',sans-serif;}
+.logo-tag{font-size:14.5px;color:var(--txt2);font-style:italic;margin-top:4px;transition:color .3s;}
+.logo-img{height:84px;width:auto;max-width:240px;object-fit:contain;display:block;}
+@media(max-width:960px){.logo-img{height:74px;max-width:210px;}}
+@media(max-width:768px){.logo-img{height:64px;max-width:182px;}}
+@media(max-width:600px){.logo-img{height:54px;max-width:154px;}}
+@media(max-width:380px){.logo-img{height:46px;max-width:131px;}}
 /* Theme switching: show/hide logo variants */
 .logo-img-light{display:block;}
 .logo-img-dark{display:none;}
 [data-theme=dark] .logo-img-light{display:none;}
 [data-theme=dark] .logo-img-dark{display:block;}
 /* Footer logo always uses dark-theme (light) logo */
-.footer-logo-img{height:60px;width:auto;max-width:171px;object-fit:contain;display:block;margin-bottom:4px;}
-@media(max-width:600px){.footer-logo-img{height:48px;max-width:137px;}}
-.mast-r{display:flex;flex-direction:column;align-items:flex-end;gap:8px;}
-.epaper-btn{background:var(--red);color:#fff;border:none;padding:7px 18px;font-size:14.5px;font-weight:700;transition:background .2s;}
+.footer-logo-img{height:72px;width:auto;max-width:205px;object-fit:contain;display:block;margin-bottom:6px;}
+@media(max-width:600px){.footer-logo-img{height:56px;max-width:160px;}}
+.mast-r{display:flex;flex-direction:column;align-items:flex-end;gap:10px;}
+.epaper-btn{background:var(--red);color:#fff;border:none;padding:8px 22px;font-size:15.5px;font-weight:700;transition:background .2s;}
 .epaper-btn:hover{background:var(--dkred);}
-.ctrl-row{display:flex;align-items:center;gap:8px;}
-.theme-btn{background:var(--tog-bg);border:none;width:30px;height:30px;border-radius:50%;font-size:14px;display:flex;align-items:center;justify-content:center;color:var(--tog-c);transition:all .3s;}
+.ctrl-row{display:flex;align-items:center;gap:10px;}
+.theme-btn{background:var(--tog-bg);border:none;width:34px;height:34px;border-radius:50%;font-size:15px;display:flex;align-items:center;justify-content:center;color:var(--tog-c);transition:all .3s;}
 .theme-btn:hover{transform:rotate(20deg);}
 .lang-grp{display:flex;border:1px solid var(--bdr);overflow:hidden;transition:border-color .3s;}
-.lb{background:none;border:none;padding:4px 9px;font-size:11px;font-weight:700;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;transition:all .2s;}
+.lb{background:none;border:none;padding:5px 11px;font-size:12px;font-weight:700;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;transition:all .2s;}
 .lb.on{background:var(--red);color:#fff;}
 .lb:hover:not(.on){background:var(--sur3);}
 
 /* ── TICKER ── */
-.ticker-wrap{background:var(--ticker);color:#fff;display:flex;align-items:stretch;overflow:hidden;min-height:34px;transition:background .3s;}
-.ticker-lbl{background:var(--ticker-lbl);padding:0 15px;font-weight:700;font-size:13px;display:flex;align-items:center;white-space:nowrap;flex-shrink:0;font-family:'Noto Sans Bengali',sans-serif;transition:background .3s;}
+.ticker-wrap{background:var(--ticker);color:#fff;display:flex;align-items:stretch;overflow:hidden;min-height:38px;transition:background .3s;}
+.ticker-lbl{background:var(--ticker-lbl);padding:0 18px;font-weight:700;font-size:14px;display:flex;align-items:center;white-space:nowrap;flex-shrink:0;font-family:'Noto Sans Bengali',sans-serif;transition:background .3s;}
 [data-theme=dark] .ticker-lbl{color:#ddd;}
 .ticker-track{flex:1;overflow:hidden;display:flex;align-items:center;}
-.ticker-inner{display:inline-flex;gap:44px;white-space:nowrap;animation:tick 45s linear infinite;padding:0 22px;}
+.ticker-inner{display:inline-flex;gap:50px;white-space:nowrap;animation:tick 45s linear infinite;padding:0 26px;}
 .ticker-inner:hover{animation-play-state:paused;}
-.ti{font-size:13px;cursor:pointer;}
-.ti::before{content:'◆ ';font-size:8px;opacity:.6;}
+.ti{font-size:14px;cursor:pointer;}
+.ti::before{content:'◆ ';font-size:9px;opacity:.6;}
 @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
 /* ── NAV ── */
 .nav{background:var(--nav-bg);border-bottom:1px solid var(--bdr);position:sticky;top:0;z-index:300;box-shadow:0 2px 10px var(--shd);transition:background .3s,border-color .3s;}
 .nav .wrap{display:flex;align-items:stretch;overflow-x:auto;scrollbar-width:none;}
 .nav .wrap::-webkit-scrollbar{display:none;}
-.nl{padding:11px 12px;font-size:13px;font-weight:700;white-space:nowrap;border-bottom:3px solid transparent;color:var(--txt2);transition:all .2s;cursor:pointer;font-family:'Noto Sans Bengali',sans-serif;display:flex;align-items:center;border:none;background:none;}
+.nl{padding:13px 15px;font-size:14.5px;font-weight:700;white-space:nowrap;border-bottom:3px solid transparent;color:var(--txt2);transition:all .2s;cursor:pointer;font-family:'Noto Sans Bengali',sans-serif;display:flex;align-items:center;border:none;background:none;}
 .nl:hover,.nl.on{color:var(--red);border-bottom:3px solid var(--red);}
-.hbg{padding:0 12px;display:flex;align-items:center;color:var(--txt2);font-size:18px;cursor:pointer;flex-shrink:0;border:none;background:none;}
+.hbg{padding:0 14px;display:flex;align-items:center;color:var(--txt2);font-size:20px;cursor:pointer;flex-shrink:0;border:none;background:none;}
 
 /* ── MOBILE NAV OVERLAY ── */
 .mob-nav-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.55);}
 .mob-nav-overlay.open{display:flex;}
-.mob-panel{background:var(--sur);width:272px;max-width:84vw;overflow-y:auto;transition:background .3s;padding-bottom:20px;}
-.mnp-top{padding:12px 18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bdr);margin-bottom:6px;}
-.mnp-top .brand{font-weight:700;font-size:17px;color:var(--red);}
-.mnp-close-btn{background:none;border:none;font-size:22px;color:var(--txt2);}
-.mnp-link{display:block;padding:10px 22px;font-size:15px;font-weight:600;color:var(--txt);border-inline-start:3px solid transparent;transition:all .2s;cursor:pointer;font-family:'Noto Sans Bengali',sans-serif;}
+.mob-panel{background:var(--sur);width:290px;max-width:84vw;overflow-y:auto;transition:background .3s;padding-bottom:24px;}
+.mnp-top{padding:14px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bdr);margin-bottom:8px;}
+.mnp-top .brand{font-weight:700;font-size:19px;color:var(--red);}
+.mnp-close-btn{background:none;border:none;font-size:24px;color:var(--txt2);}
+.mnp-link{display:block;padding:12px 24px;font-size:16px;font-weight:600;color:var(--txt);border-inline-start:3px solid transparent;transition:all .2s;cursor:pointer;font-family:'Noto Sans Bengali',sans-serif;}
 .mnp-link:hover,.mnp-link.on{color:var(--red);border-inline-start-color:var(--red);background:var(--sur2);}
-.mnp-ctrl{padding:14px 22px;display:flex;gap:8px;align-items:center;border-top:1px solid var(--bdr);margin-top:6px;}
+.mnp-ctrl{padding:16px 24px;display:flex;gap:10px;align-items:center;border-top:1px solid var(--bdr);margin-top:8px;}
 
 /* ── PAGE ── */
-.page{padding:16px 0 52px;}
+.page{padding:20px 0 60px;}
 
 /* ── SECTION HEAD ── */
-.sh{display:flex;align-items:center;margin-bottom:13px;}
-.sh h3{background:var(--red);color:#fff;padding:5px 15px;font-size:13.5px;font-weight:700;font-family:'Noto Sans Bengali',sans-serif;flex-shrink:0;}
+.sh{display:flex;align-items:center;margin-bottom:16px;}
+.sh h3{background:var(--red);color:#fff;padding:6px 18px;font-size:14.5px;font-weight:700;font-family:'Noto Sans Bengali',sans-serif;flex-shrink:0;}
 .sh-line{flex:1;height:2px;background:linear-gradient(to right,var(--red),transparent);}
-.sh-more{font-size:12px;color:var(--red);font-weight:700;white-space:nowrap;padding-inline-start:10px;font-family:'Noto Sans Bengali',sans-serif;cursor:pointer;}
+.sh-more{font-size:13px;color:var(--red);font-weight:700;white-space:nowrap;padding-inline-start:12px;font-family:'Noto Sans Bengali',sans-serif;cursor:pointer;}
 .sh-more:hover{text-decoration:underline;}
 
 /* ── HERO ── */
-.hero-grid{display:grid;grid-template-columns:1.9fr 1fr;gap:13px;margin-bottom:20px;}
+.hero-grid{display:grid;grid-template-columns:1.9fr 1fr;gap:16px;margin-bottom:24px;}
 .hm{background:var(--sur);overflow:hidden;cursor:pointer;transition:box-shadow .2s,background .3s;display:flex;flex-direction:column;}
 .hm:hover{box-shadow:0 5px 24px var(--shd);}
 .hm-img{position:relative;width:100%;overflow:hidden;flex-shrink:0;}
 .hm-img::before{content:'';display:block;padding-top:56.25%;}
 .hm-img img,.hm-img-inner{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;transition:transform .4s;}
-.hm-img .img-fallback{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:32px;}
+.hm-img .img-fallback{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:36px;}
 .hm:hover .hm-img img,.hm:hover .hm-img-inner{transform:scale(1.04);}
-.hm-body{padding:14px 16px 16px;}
-.hm-body h2{font-size:21px;font-weight:700;line-height:1.6;margin-bottom:7px;}
-.hm-body .ex{font-size:13px;color:var(--txt2);line-height:1.7;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.hm-body{padding:18px 20px 20px;}
+.hm-body h2{font-size:24px;font-weight:700;line-height:1.6;margin-bottom:8px;}
+.hm-body .ex{font-size:14.5px;color:var(--txt2);line-height:1.7;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
 
-.hs{display:flex;flex-direction:column;gap:9px;}
-.sc{background:var(--sur);padding:9px;display:flex;gap:9px;cursor:pointer;border-inline-start:3px solid transparent;transition:all .2s;overflow:hidden;}
+/* CARDS CONFIG INCREMENTAL SHIFT */
+.hs{display:flex;flex-direction:column;gap:11px;}
+.sc{background:var(--sur);padding:11px;display:flex;gap:11px;cursor:pointer;border-inline-start:3px solid transparent;transition:all .2s;overflow:hidden;}
 .sc:hover{border-inline-start-color:var(--red);background:var(--sur2);}
-.sc-thumb{width:86px;height:64px;flex-shrink:0;overflow:hidden;}
+.sc-thumb{width:96px;height:72px;flex-shrink:0;overflow:hidden;}
 .sc-thumb img{width:100%;height:100%;object-fit:cover;}
-.sc-nothumb{width:86px;height:64px;background:var(--sur3);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px;}
-.sc-body h4{font-size:13px;font-weight:700;line-height:1.5;margin-bottom:3px;}
+.sc-nothumb{width:96px;height:72px;background:var(--sur3);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px;}
+.sc-body h4{font-size:14.5px;font-weight:700;line-height:1.5;margin-bottom:4px;}
 
 /* ── CARDS GRID ── */
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-bottom:24px;}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px;}
 .nc{background:var(--sur);overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s,background .3s;display:flex;flex-direction:column;}
 .nc:hover{transform:translateY(-3px);box-shadow:0 7px 22px var(--shd);}
 .nc-img{position:relative;width:100%;overflow:hidden;}
 .nc-img::before{content:'';display:block;padding-top:56.25%;}
 .nc-img img,.nc-img-inner{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;transition:transform .4s;}
-.nc-img .img-fallback{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:30px;background:var(--sur3);}
+.nc-img .img-fallback{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:34px;background:var(--sur3);}
 .nc:hover .nc-img img,.nc:hover .nc-img-inner{transform:scale(1.06);}
-.nc-body{padding:10px 12px 13px;flex:1;display:flex;flex-direction:column;}
-.nc-body h4{font-size:14.5px;font-weight:700;line-height:1.55;margin-bottom:4px;flex:1;}
-.nc-body .ex{font-size:12px;color:var(--txt2);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.nc-body{padding:12px 14px 15px;flex:1;display:flex;flex-direction:column;}
+.nc-body h4{font-size:16px;font-weight:700;line-height:1.55;margin-bottom:5px;flex:1;}
+.nc-body .ex{font-size:13.5px;color:var(--txt2);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
 
 /* ── PILLS ── */
-.pill{display:inline-block;color:#fff;font-size:10px;font-weight:700;padding:2px 7px;margin-bottom:7px;font-family:'Noto Sans Bengali',sans-serif;}
-.meta{margin-top:7px;font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;}
+.pill{display:inline-block;color:#fff;font-size:11px;font-weight:700;padding:3px 8px;margin-bottom:8px;font-family:'Noto Sans Bengali',sans-serif;}
+.meta{margin-top:8px;font-size:12px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;}
 
 /* ── STATES ── */
 .loading{text-align:center;padding:80px 20px;}
 .spin{width:40px;height:40px;margin:0 auto 14px;border:3px solid var(--bdr);border-top-color:var(--red);border-radius:50%;animation:sp .7s linear infinite;}
 @keyframes sp{to{transform:rotate(360deg)}}
-.loading p{color:var(--txt2);font-size:15px;}
+.loading p{color:var(--txt2);font-size:16px;}
 .empty{text-align:center;padding:90px 20px;background:var(--sur);transition:background .3s;}
 .empty .ei{font-size:52px;margin-bottom:14px;}
-.empty h3{font-size:20px;font-weight:700;margin-bottom:7px;}
-.empty p{font-size:14px;color:var(--txt2);}
+.empty h3{font-size:22px;font-weight:700;margin-bottom:7px;}
+.empty p{font-size:15px;color:var(--txt2);}
 .not-found{text-align:center;padding:80px 20px;background:var(--sur);transition:background .3s;}
-.not-found h2{font-size:22px;margin-bottom:9px;}
+.not-found h2{font-size:24px;margin-bottom:9px;}
 .not-found p{color:var(--txt2);margin-bottom:16px;}
-.not-found button{background:var(--red);color:#fff;border:none;padding:9px 24px;font-size:14px;font-family:inherit;}
+.not-found button{background:var(--red);color:#fff;border:none;padding:10px 26px;font-size:15px;font-family:inherit;}
 
 /* ── ARTICLE ── */
-.art-card{background:var(--sur);margin-bottom:13px;transition:background .3s;}
-.art-hd{padding:18px 20px;}
-.art-hd h1{font-size:26px;font-weight:700;line-height:1.65;margin-bottom:11px;}
-.art-meta-row{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--txt2);font-family:'Noto Sans Bengali',sans-serif;margin-bottom:11px;}
-.art-lead{font-size:15.5px;color:var(--txt2);line-height:1.85;font-style:italic;border-inline-start:4px solid var(--red);padding-inline-start:13px;}
+.art-card{background:var(--sur);margin-bottom:16px;transition:background .3s;}
+.art-hd{padding:20px 24px;}
+.art-hd h1{font-size:28px;font-weight:700;line-height:1.65;margin-bottom:12px;}
+.art-meta-row{display:flex;gap:16px;flex-wrap:wrap;font-size:13.5px;color:var(--txt2);font-family:'Noto Sans Bengali',sans-serif;margin-bottom:12px;}
+.art-lead{font-size:17px;color:var(--txt2);line-height:1.85;font-style:italic;border-inline-start:4px solid var(--red);padding-inline-start:15px;}
 .art-img-card{padding:0 !important;position:relative;}
 .art-hero-wrap{width:100%;overflow:hidden;line-height:0;}
-.art-hero{width:100%;height:auto;max-height:520px;object-fit:cover;display:block;aspect-ratio:16/9;}
-.art-caption{font-size:11px;color:var(--txt3);text-align:center;padding:4px 10px 11px;font-style:italic;font-family:'Noto Sans Bengali',sans-serif;}
-.art-body{background:var(--sur);padding:20px;transition:background .3s;word-break:break-word;overflow-wrap:anywhere;}
-.art-lead{font-size:15.5px;color:var(--txt2);line-height:1.85;font-style:italic;border-inline-start:4px solid var(--red);padding-inline-start:13px;word-break:break-word;overflow-wrap:anywhere;}
-.art-body p{font-size:16px;line-height:2.15;margin-bottom:16px;color:var(--txt);word-break:break-word;overflow-wrap:anywhere;}
-.art-hd h1{font-size:26px;font-weight:700;line-height:1.65;margin-bottom:11px;word-break:break-word;overflow-wrap:anywhere;}
+.art-hero{width:100%;height:auto;max-height:540px;object-fit:cover;display:block;aspect-ratio:16/9;}
+.art-caption{font-size:12px;color:var(--txt3);text-align:center;padding:5px 12px 12px;font-style:italic;font-family:'Noto Sans Bengali',sans-serif;}
+.art-body{background:var(--sur);padding:24px;transition:background .3s;word-break:break-word;overflow-wrap:anywhere;}
+.art-lead{font-size:17px;color:var(--txt2);line-height:1.85;font-style:italic;border-inline-start:4px solid var(--red);padding-inline-start:15px;word-break:break-word;overflow-wrap:anywhere;}
+.art-body p{font-size:17.5px;line-height:2.15;margin-bottom:18px;color:var(--txt);word-break:break-word;overflow-wrap:anywhere;}
+.art-hd h1{font-size:28px;font-weight:700;line-height:1.65;margin-bottom:12px;word-break:break-word;overflow-wrap:anywhere;}
 .art-body p:last-child{margin-bottom:0;}
-.tl-status{font-size:12px;color:var(--txt3);padding:5px 0;font-style:italic;font-family:'Noto Sans Bengali',sans-serif;margin-bottom:6px;}
+.tl-status{font-size:13px;color:var(--txt3);padding:6px 0;font-style:italic;font-family:'Noto Sans Bengali',sans-serif;margin-bottom:8px;}
 
 /* SHARE */
-.share-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:18px;padding-top:14px;border-top:1px solid var(--bdr);}
-.share-lbl{font-size:13px;font-weight:700;font-family:'Noto Sans Bengali',sans-serif;}
-.sbtn{padding:7px 14px;border:none;font-size:12px;font-weight:700;display:flex;align-items:center;gap:4px;transition:opacity .2s;font-family:'Noto Sans Bengali',sans-serif;cursor:pointer;}
+.share-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:20px;padding-top:16px;border-top:1px solid var(--bdr);}
+.share-lbl{font-size:14px;font-weight:700;font-family:'Noto Sans Bengali',sans-serif;}
+.sbtn{padding:8px 16px;border:none;font-size:13px;font-weight:700;display:flex;align-items:center;gap:5px;transition:opacity .2s;font-family:'Noto Sans Bengali',sans-serif;cursor:pointer;}
 .sbtn:hover{opacity:.8;}
 .sbtn.fb{background:#1877f2;color:#fff;}
 .sbtn.wa{background:#25d366;color:#fff;}
 .sbtn.cp{background:var(--sur3);color:var(--txt);border:1px solid var(--bdr);}
-.copied{font-size:11.5px;color:green;display:none;}
+.copied{font-size:12.5px;color:green;display:none;}
 
 /* SIDEBAR */
-.sidebar-w{background:var(--sur);padding:13px;margin-bottom:13px;transition:background .3s;}
-.sw-head{font-size:13px;font-weight:700;border-bottom:2px solid var(--red);padding-bottom:6px;margin-bottom:10px;font-family:'Noto Sans Bengali',sans-serif;}
-.sw-item{display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--bdr);cursor:pointer;min-width:0;}
+.sidebar-w{background:var(--sur);padding:15px;margin-bottom:15px;transition:background .3s;}
+.sw-head{font-size:14px;font-weight:700;border-bottom:2px solid var(--red);padding-bottom:6px;margin-bottom:12px;font-family:'Noto Sans Bengali',sans-serif;}
+.sw-item{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--bdr);cursor:pointer;min-width:0;}
 .sw-item:last-child{border-bottom:none;padding-bottom:0;}
 .sw-item:hover h6{color:var(--red);}
-.sw-thumb{width:62px;height:48px;object-fit:cover;flex-shrink:0;overflow:hidden;display:block;}
-.sw-nothumb{width:62px;height:48px;background:var(--sur3);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:15px;}
+.sw-thumb{width:68px;height:52px;object-fit:cover;flex-shrink:0;overflow:hidden;display:block;}
+.sw-nothumb{width:68px;height:52px;background:var(--sur3);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px;}
 .sw-item>div{min-width:0;flex:1;}
-.sw-item h6{font-size:12px;font-weight:600;line-height:1.45;transition:color .2s;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;word-break:break-word;}
+.sw-item h6{font-size:13px;font-weight:600;line-height:1.45;transition:color .2s;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;word-break:break-word;}
 
 /* BACK */
-.back{display:inline-flex;align-items:center;gap:5px;color:var(--red);font-weight:700;font-size:12.5px;cursor:pointer;margin-bottom:11px;padding:4px 0;font-family:'Noto Sans Bengali',sans-serif;transition:gap .2s;border:none;background:none;}
-.load-more-wrap{display:flex;justify-content:center;margin:4px 0 26px;}
-.load-more-btn{background:var(--sur);border:1px solid var(--bdr);color:var(--red);font-weight:700;font-size:13.5px;padding:10px 28px;font-family:'Noto Sans Bengali',sans-serif;transition:all .2s;}
+.back{display:inline-flex;align-items:center;gap:6px;color:var(--red);font-weight:700;font-size:13.5px;cursor:pointer;margin-bottom:12px;padding:5px 0;font-family:'Noto Sans Bengali',sans-serif;transition:gap .2s;border:none;background:none;}
+.load-more-wrap{display:flex;justify-content:center;margin:6px 0 28px;}
+.load-more-btn{background:var(--sur);border:1px solid var(--bdr);color:var(--red);font-weight:700;font-size:14.5px;padding:11px 32px;font-family:'Noto Sans Bengali',sans-serif;transition:all .2s;}
 .load-more-btn:hover{background:var(--red);color:#fff;border-color:var(--red);}
-.totop-btn{position:fixed;bottom:22px;right:22px;width:44px;height:44px;border-radius:50%;background:var(--red);color:#fff;border:none;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px var(--shd);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s;z-index:9000;}
+.totop-btn{position:fixed;bottom:24px;right:24px;width:48px;height:48px;border-radius:50%;background:var(--red);color:#fff;border:none;font-size:20px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px var(--shd);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s;z-index:9000;}
 .totop-btn.show{opacity:1;visibility:visible;transform:translateY(0);}
 .totop-btn:hover{background:var(--dkred);}
-html[dir=rtl] .totop-btn{right:auto;left:22px;}
-.search-btn{background:var(--tog-bg);border:none;width:30px;height:30px;border-radius:50%;font-size:14px;display:flex;align-items:center;justify-content:center;color:var(--tog-c);transition:all .3s;}
+html[dir=rtl] .totop-btn{right:auto;left:24px;}
+.search-btn{background:var(--tog-bg);border:none;width:34px;height:34px;border-radius:50%;font-size:15px;display:flex;align-items:center;justify-content:center;color:var(--tog-c);transition:all .3s;}
 .search-btn:hover{transform:scale(1.1);}
 .search-bar-wrap{background:var(--nav-bg);border-bottom:1px solid var(--bdr);overflow:hidden;max-height:0;transition:max-height .25s ease;}
-.search-bar-wrap.open{max-height:64px;}
-.search-bar-wrap .wrap{display:flex;align-items:center;gap:8px;padding:10px 14px;}
-.search-input{flex:1;border:1px solid var(--bdr);background:var(--sur);color:var(--txt);padding:9px 12px;font-size:14px;font-family:inherit;outline:none;transition:border-color .2s;}
+.search-bar-wrap.open{max-height:68px;}
+.search-bar-wrap .wrap{display:flex;align-items:center;gap:10px;padding:12px 16px;}
+.search-input{flex:1;border:1px solid var(--bdr);background:var(--sur);color:var(--txt);padding:10px 14px;font-size:15px;font-family:inherit;outline:none;transition:border-color .2s;}
 .search-input:focus{border-color:var(--red);}
-.search-go,.search-close{background:var(--red);color:#fff;border:none;padding:9px 14px;font-size:13px;font-weight:700;flex-shrink:0;}
+.search-go,.search-close{background:var(--red);color:#fff;border:none;padding:10px 16px;font-size:14px;font-weight:700;flex-shrink:0;}
 .search-close{background:var(--sur3);color:var(--txt);}
-.search-results-info{font-size:13px;color:var(--txt2);margin-bottom:14px;font-family:'Noto Sans Bengali',sans-serif;}
+.search-results-info{font-size:14px;color:var(--txt2);margin-bottom:16px;font-family:'Noto Sans Bengali',sans-serif;}
 .back:hover{gap:9px;}
 
 /* ── FOOTER ── */
-footer{background:var(--foot);color:#555;padding:28px 0 0;transition:background .3s;}
-.fg{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:24px;padding-bottom:20px;border-bottom:1px solid #1e1e1e;}
-.fl-logo{font-size:26px;font-weight:700;color:#ddd;font-family:'Noto Serif Bengali',serif;}
+footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background .3s;}
+.fg{display:grid;grid-template-columns:2fr 1fr 1fr;gap:28px;padding-bottom:24px;border-bottom:1px solid #1e1e1e;}
+.fl-logo{font-size:28px;font-weight:700;color:#fff;font-family:'Noto Serif Bengali',serif;}
 .fl-logo em{color:var(--red);font-style:normal;}
-.fl-tag{font-size:11px;color:#333;font-style:italic;margin-top:3px;}
-.fl-info{font-size:11px;color:#3a3a3a;line-height:1.9;margin-top:10px;}
-.fc h5{color:#888;font-size:12px;font-weight:700;margin-bottom:9px;padding-bottom:6px;border-bottom:1px solid #1e1e1e;font-family:'Noto Sans Bengali',sans-serif;}
-.fc a{display:block;color:#444;font-size:12px;margin-bottom:5px;font-family:'Noto Sans Bengali',sans-serif;transition:color .2s;cursor:pointer;}
+.fl-tag{font-size:12.5px;color:#fff;font-style:italic;margin-top:4px;}
+.fl-info{font-size:12.5px;color:#fff;line-height:2;margin-top:12px;}
+.fc h5{color:#fff;font-size:13.5px;font-weight:700;margin-bottom:11px;padding-bottom:6px;border-bottom:1px solid #1e1e1e;font-family:'Noto Sans Bengali',sans-serif;}
+.fc a{display:block;color:#fff;font-size:13.5px;margin-bottom:6px;font-family:'Noto Sans Bengali',sans-serif;transition:color .2s;cursor:pointer;}
 .fc a:hover{color:var(--red);}
-.fb-bot{text-align:center;padding:10px;font-size:11px;color:#2e2e2e;font-family:'Noto Sans Bengali',sans-serif;}
+.fb-bot{text-align:center;padding:12px;font-size:12px;color:#fff;font-family:'Noto Sans Bengali',sans-serif;}
+
+/* ── FOOTER NOTICE ── */
+.footer-notice{max-width:760px;margin:0 auto 22px;padding:16px 20px;text-align:center;background:#161616;border:1px solid #262626;border-top:3px solid var(--red);}
+.footer-notice-title{font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;font-family:'Noto Sans Bengali',sans-serif;}
+.footer-notice p{font-size:12.5px;line-height:1.85;color:#bbb;font-family:'Noto Sans Bengali',sans-serif;margin:0;}
+@media(max-width:600px){
+  .footer-notice{padding:14px 16px;margin-bottom:16px;}
+  .footer-notice p{font-size:12px;}
+}
 
 
 /* ── AD SLOTS ── */
@@ -269,15 +287,15 @@ footer{background:var(--foot);color:#555;padding:28px 0 0;transition:background 
   background:var(--sur);
   border:1px dashed var(--bdr);
   text-align:center;
-  margin-bottom:20px;
+  margin-bottom:24px;
   transition:background .3s,border-color .3s;
   overflow:hidden;
   position:relative;
   padding:0;
 }
 .ad-slot .ad-label{
-  font-size:9px;color:var(--txt3);letter-spacing:1px;
-  text-transform:uppercase;padding:5px 0 3px;
+  font-size:10px;color:var(--txt3);letter-spacing:1px;
+  text-transform:uppercase;padding:6px 0 4px;
   font-family:'Noto Sans Bengali',sans-serif;
   line-height:1;
 }
@@ -318,21 +336,21 @@ footer{background:var(--foot);color:#555;padding:28px 0 0;transition:background 
   background:var(--sur2);
 }
 
-.ad-ph-icon{font-size:20px;opacity:.35;}
-.ad-ph-txt{font-size:11px;color:var(--txt3);font-style:italic;font-family:'Noto Sans Bengali',sans-serif;}
-.ad-ph-size{font-size:9px;color:var(--txt3);opacity:.55;font-family:'Noto Sans Bengali',sans-serif;letter-spacing:.5px;}
+.ad-ph-icon{font-size:22px;opacity:.35;}
+.ad-ph-txt{font-size:12px;color:var(--txt3);font-style:italic;font-family:'Noto Sans Bengali',sans-serif;}
+.ad-ph-size{font-size:10px;color:var(--txt3);opacity:.55;font-family:'Noto Sans Bengali',sans-serif;letter-spacing:.5px;}
 
 @media(max-width:600px){
-  .ad-slot{margin-bottom:14px;}
+  .ad-slot{margin-bottom:16px;}
   /* On very small screens banner gets too short — set a min height */
   .ad-banner{min-height:44px;}
 }
 
 /* img-fallback for no-image state */
-.img-fallback{width:100%;height:100%;background:var(--sur3);display:flex;align-items:center;justify-content:center;font-size:32px;}
+.img-fallback{width:100%;height:100%;background:var(--sur3);display:flex;align-items:center;justify-content:center;font-size:36px;}
 
 /* ── ART-LAYOUT COLUMNS ── */
-.art-layout{display:grid;grid-template-columns:1fr 305px;gap:15px;align-items:start;}
+.art-layout{display:grid;grid-template-columns:1fr 305px;gap:18px;align-items:start;}
 .art-main-col{min-width:0;overflow:hidden;word-break:break-word;overflow-wrap:anywhere;}
 .art-sidebar-col{min-width:0;}
 
@@ -345,104 +363,104 @@ footer{background:var(--foot);color:#555;padding:28px 0 0;transition:background 
   .art-layout{grid-template-columns:1fr;} /* sidebar stacks below on tablet */
   .art-sidebar-col{display:none;} /* hide sidebar on tablet — show related articles instead */
   .fg{grid-template-columns:1fr 1fr;}
-  .logo-bn{font-size:36px;}
+  .logo-bn{font-size:40px;}
 }
 
 /* Small tablet / large phone: 600px–768px */
 @media(max-width:768px){
-  .wrap{padding:0 12px;}
-  .topbar .wrap{flex-direction:column;align-items:flex-start;gap:3px;}
-  .topbar-r{gap:10px;flex-wrap:wrap;}
-  .mast .wrap{flex-wrap:nowrap;gap:8px;}
-  .logo-bn{font-size:32px;}
-  .logo-en{font-size:10px;}
-  .logo-tag{font-size:12px;}
-  .epaper-btn{padding:6px 12px;font-size:13px;}
+  .wrap{padding:0 14px;}
+  .topbar .wrap{flex-direction:column;align-items:flex-start;gap:4px;}
+  .topbar-r{gap:12px;flex-wrap:wrap;}
+  .mast .wrap{flex-wrap:nowrap;gap:10px;}
+  .logo-bn{font-size:34px;}
+  .logo-en{font-size:11px;}
+  .logo-tag{font-size:13px;}
+  .epaper-btn{padding:7px 14px;font-size:14px;}
   .cards{grid-template-columns:repeat(2,1fr);}
-  .art-hd h1{font-size:20px;}
-  .art-body p{font-size:15px;}
-  .share-row{gap:5px;}
-  .sbtn{padding:6px 11px;}
+  .art-hd h1{font-size:22px;}
+  .art-body p{font-size:16px;}
+  .share-row{gap:6px;}
+  .sbtn{padding:7px 12px;}
 }
 
 /* Mobile: ≤600px */
 @media(max-width:600px){
-  .wrap{padding:0 10px;}
+  .wrap{padding:0 12px;}
   .topbar .wrap{flex-direction:row;justify-content:flex-end;}
   #date-display{display:none;}
-  .mast{padding:8px 0;}
+  .mast{padding:10px 0;}
   .mast .wrap{flex-direction:row;align-items:center;justify-content:space-between;}
-  .logo-bn{font-size:26px;letter-spacing:-1px;}
+  .logo-bn{font-size:28px;letter-spacing:-1px;}
   .logo-en{display:none;}
-  .logo-tag{font-size:11px;margin-top:1px;}
-  .mast-r{flex-direction:row;align-items:center;gap:6px;flex-shrink:0;}
-  .epaper-btn{padding:5px 10px;font-size:12px;}
-  .ctrl-row{gap:5px;}
+  .logo-tag{font-size:12px;margin-top:2px;}
+  .mast-r{flex-direction:row;align-items:center;gap:8px;flex-shrink:0;}
+  .epaper-btn{padding:6px 12px;font-size:13px;}
+  .ctrl-row{gap:6px;}
   .lang-grp{border:none;} /* keep lang on mobile, remove border */
-  .lb{padding:4px 6px;font-size:10px;}
+  .lb{padding:5px 8px;font-size:11px;}
 
-  .ticker-lbl{padding:0 10px;font-size:12px;}
-  .ticker-inner{gap:28px;}
-  .ti{font-size:12px;}
+  .ticker-lbl{padding:0 12px;font-size:13px;}
+  .ticker-inner{gap:32px;}
+  .ti{font-size:13px;}
 
   .hero-grid{grid-template-columns:1fr;}
-  .hm-body{padding:12px;}
-  .hm-body h2{font-size:16px;line-height:1.5;}
-  .hm-body .ex{font-size:12px;}
+  .hm-body{padding:14px;}
+  .hm-body h2{font-size:18px;line-height:1.5;}
+  .hm-body .ex{font-size:13.5px;}
 
-  .hs{gap:7px;}
-  .sc-thumb,.sc-nothumb{width:72px;height:54px;}
-  .sc-body h4{font-size:12.5px;}
+  .hs{gap:8px;}
+  .sc-thumb,.sc-nothumb{width:80px;height:60px;}
+  .sc-body h4{font-size:13.5px;}
 
   .cards{grid-template-columns:1fr;}
-  .nc-body h4{font-size:13.5px;}
-  .nc-body .ex{font-size:12px;}
+  .nc-body h4{font-size:14.5px;}
+  .nc-body .ex{font-size:13px;}
 
-  .sh h3{font-size:12.5px;padding:4px 12px;}
-  .sh-more{font-size:11.5px;}
+  .sh h3{font-size:13.5px;padding:5px 14px;}
+  .sh-more{font-size:12px;}
 
   .art-layout{grid-template-columns:1fr;gap:0;}
   .art-sidebar-col{display:none;}
-  .art-hd{padding:13px 12px 12px;}
-  .art-hd h1{font-size:18px;line-height:1.55;}
-  .art-meta-row{gap:8px;font-size:11.5px;}
-  .art-lead{font-size:14px;line-height:1.7;padding-inline-start:10px;}
-  .art-caption{font-size:10.5px;padding:4px 10px 9px;}
-  .art-body{padding:12px;}
-  .art-body p{font-size:14.5px;line-height:2;}
-  .art-card{margin-bottom:8px;}
-  .share-row{gap:5px;flex-wrap:wrap;}
-  .share-lbl{width:100%;margin-bottom:2px;}
-  .sbtn{padding:8px 12px;font-size:12px;flex:1;justify-content:center;}
-  .tl-status{font-size:11px;}
+  .art-hd{padding:15px 14px 14px;}
+  .art-hd h1{font-size:20px;line-height:1.55;}
+  .art-meta-row{gap:10px;font-size:12px;}
+  .art-lead{font-size:15px;line-height:1.7;padding-inline-start:12px;}
+  .art-caption{font-size:11px;padding:5px 11px 10px;}
+  .art-body{padding:14px;}
+  .art-body p{font-size:15.5px;line-height:2;}
+  .art-card{margin-bottom:10px;}
+  .share-row{gap:6px;flex-wrap:wrap;}
+  .share-lbl{width:100%;margin-bottom:3px;}
+  .sbtn{padding:9px 14px;font-size:13px;flex:1;justify-content:center;}
+  .tl-status{font-size:12px;}
 
-  .share-row{gap:5px;}
-  .sbtn{padding:7px 10px;font-size:11.5px;}
+  .share-row{gap:6px;}
+  .sbtn{padding:8px 12px;font-size:12.5px;}
 
-  .sw-item{gap:6px;padding:7px 0;}
-  .sw-thumb,.sw-nothumb{width:52px;height:40px;}
-  .sw-item h6{font-size:11.5px;}
+  .sw-item{gap:8px;padding:8px 0;}
+  .sw-thumb,.sw-nothumb{width:56px;height:44px;}
+  .sw-item h6{font-size:12.5px;}
 
   .fg{grid-template-columns:1fr;}
-  .fc h5{font-size:11.5px;}
-  .fc a{font-size:11.5px;}
-  .fl-logo{font-size:20px;}
+  .fc h5{font-size:12.5px;}
+  .fc a{font-size:12.5px;}
+  .fl-logo{font-size:22px;}
 
-  footer{padding:20px 0 0;}
+  footer{padding:24px 0 0;}
 
-  .page{padding:12px 0 40px;}
+  .page{padding:15px 0 45px;}
 }
 
 /* Extra small: ≤380px */
 @media(max-width:380px){
-  .logo-bn{font-size:22px;}
-  .hm-body h2{font-size:15px;}
-  .art-hd h1{font-size:16px;}
-  .art-hd{padding:11px 10px;}
-  .art-body{padding:10px;}
-  .art-body p{font-size:14px;line-height:1.9;}
-  .art-lead{font-size:13px;}
-  .sbtn{padding:7px 8px;font-size:11.5px;}
+  .logo-bn{font-size:24px;}
+  .hm-body h2{font-size:16px;}
+  .art-hd h1{font-size:18px;}
+  .art-hd{padding:12px 11px;}
+  .art-body{padding:11px;}
+  .art-body p{font-size:15px;line-height:1.9;}
+  .art-lead{font-size:14px;}
+  .sbtn{padding:8px 10px;font-size:12.5px;}
   .epaper-btn{display:none;}
 }
 
@@ -456,23 +474,23 @@ footer{background:var(--foot);color:#555;padding:28px 0 0;transition:background 
 
 /* Touch-friendly tap targets */
 @media(hover:none){
-  .nl{padding:13px 14px;}
-  .hbg{padding:0 14px;}
-  .mnp-link{padding:13px 22px;}
+  .nl{padding:14px 16px;}
+  .hbg{padding:0 16px;}
+  .mnp-link{padding:14px 24px;}
   .sc,.nc,.hm{-webkit-tap-highlight-color:rgba(200,16,46,.1);}
 }
 
 /* Safe area insets for notched phones */
 @supports(padding:max(0px)){
   .nav{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right);}
-  .mast .wrap{padding-left:max(14px,env(safe-area-inset-left));padding-right:max(14px,env(safe-area-inset-right));}
-  footer .wrap{padding-left:max(14px,env(safe-area-inset-left));padding-right:max(14px,env(safe-area-inset-right));}
+  .mast .wrap{padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right));}
+  footer .wrap{padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right));}
 }
 </style>
 </head>
 <body>
 
-<!-- TOPBAR -->
+<!-- TOP BAR: thin strip above the header — shows today's date and quick links (reporter portal, contact, advertise) -->
 <div class="topbar">
   <div class="wrap">
     <span id="date-display">লোড হচ্ছে...</span>
@@ -484,7 +502,7 @@ footer{background:var(--foot);color:#555;padding:28px 0 0;transition:background 
   </div>
 </div>
 
-<!-- MASTHEAD -->
+<!-- HEADER / MASTHEAD: site logo + tagline (left), e-paper button, search/theme toggle and language switch (right) -->
 <header class="mast">
   <div class="wrap">
     <div class="logo" onclick="nav('')">
@@ -506,7 +524,7 @@ footer{background:var(--foot);color:#555;padding:28px 0 0;transition:background 
   </div>
 </header>
 
-<!-- SEARCH BAR -->
+<!-- SEARCH BAR: hidden by default, slides open when the 🔍 icon in the header is clicked -->
 <div class="search-bar-wrap" id="search-bar-wrap">
   <div class="wrap">
     <input type="text" class="search-input" id="search-input" placeholder="অনুসন্ধান করুন…" onkeydown="if(event.key==='Enter')doSearch()">
@@ -515,7 +533,7 @@ footer{background:var(--foot);color:#555;padding:28px 0 0;transition:background 
   </div>
 </div>
 
-<!-- TICKER -->
+<!-- BREAKING NEWS TICKER: red strip with auto-scrolling headlines, filled in by buildTicker() -->
 <div class="ticker-wrap">
   <div class="ticker-lbl" id="ticker-lbl">শিরোনাম</div>
   <div class="ticker-track">
@@ -523,7 +541,7 @@ footer{background:var(--foot);color:#555;padding:28px 0 0;transition:background 
   </div>
 </div>
 
-<!-- NAV -->
+<!-- MAIN NAV: sticky category menu, visible on desktop/tablet (collapses to ☰ hamburger on small screens) -->
 <nav class="nav">
   <div class="wrap">
     <button class="hbg" onclick="openMobNav()">☰</button>
@@ -541,11 +559,14 @@ footer{background:var(--foot);color:#555;padding:28px 0 0;transition:background 
   </div>
 </nav>
 
-<!-- MOBILE NAV -->
+<!-- MOBILE NAV: slide-in side panel shown on small screens via the ☰ button, with category links + theme/language controls -->
 <div class="mob-nav-overlay" id="mob-nav" onclick="closeMobNav(event)">
   <div class="mob-panel">
     <div class="mnp-top">
-      <span class="brand"><img src="assets/logo.png" alt="দৈনিক অনুলিপি" style="height:32px;width:auto;object-fit:contain;vertical-align:middle;"></span>
+      <span class="brand">
+        <img src="assets/logo.png" alt="দৈনিক অনুলিপি" class="logo-img-light" style="height:38px;width:auto;max-width:none;object-fit:contain;vertical-align:middle;">
+        <img src="assets/logo-dark.png" alt="দৈনিক অনুলিপি" class="logo-img-dark" style="height:38px;width:auto;max-width:none;object-fit:contain;vertical-align:middle;">
+      </span>
       <button class="mnp-close-btn" onclick="closeMobNav()">✕</button>
     </div>
     <div class="mnp-link" onclick="nav('');closeMobNav()" id="mnp-home">সর্বশেষ সংবাদ</div>
@@ -556,7 +577,7 @@ footer{background:var(--foot);color:#555;padding:28px 0 0;transition:background 
     <div class="mnp-link" onclick="navCat('বাণিজ্য');closeMobNav()" id="mnp-বাণিজ্য">বাণিজ্য</div>
     <div class="mnp-link" onclick="navCat('অর্থনীতি');closeMobNav()" id="mnp-অর্থনীতি">অর্থনীতি</div>
     <div class="mnp-link" onclick="navCat('খেলা');closeMobNav()" id="mnp-খেলা">খেলা</div>
-    <div class="mnp-link" onclick="navCat('আনন্দ সময়');closeMobNav()" id="mnp-আনন্দ সময়">আনন্দ সময়</div>
+    <div class="mnp-link" onclick="navCat('আনন্দ সময়');closeMobNav()" id="mnp-আনন্দ সময়"> আনন্দ সময়</div>
     <div class="mnp-link" onclick="navCat('চাকরি');closeMobNav()" id="mnp-চাকরি">চাকরি</div>
     <div class="mnp-link" onclick="navCat('মতামত');closeMobNav()" id="mnp-মতামত">মতামত</div>
     <div class="mnp-ctrl">
@@ -569,32 +590,31 @@ footer{background:var(--foot);color:#555;padding:28px 0 0;transition:background 
   </div>
 </div>
 
-<!-- MAIN -->
+<!-- MAIN CONTENT: dynamically filled by the router (route()) — shows home page, category page, article page, or search results -->
 <div class="wrap"><div class="page" id="content">
   <div class="loading"><div class="spin"></div><p>সংবাদ লোড হচ্ছে…</p></div>
 </div></div>
 
-<!-- AD BEFORE FOOTER -->
+<!-- PERSISTENT FOOTER AD: banner ad shown above the footer on every page, injected by boot() -->
 <div class="wrap" style="padding-bottom:10px">
   <div id="footer-ad-container"></div>
 </div>
 
-<!-- TO TOP -->
+<!-- SCROLL-TO-TOP BUTTON: fixed bottom-right, fades in after scrolling down 200px -->
 <button class="totop-btn" id="toTopBtn" onclick="window.scrollTo({top:0,left:0,behavior:'smooth'})" aria-label="Scroll to top">↑</button>
 
 
-<!-- FOOTER -->
+<!-- SITE FOOTER: logo/info column, category links, info links, notice box, and copyright bar -->
 <footer>
   <div class="wrap">
     <div class="fg">
+      <!-- FOOTER COL 1: logo, tagline, founder/editor names -->
       <div>
         <img src="assets/logo-dark.png" alt="দৈনিক অনুলিপি" class="footer-logo-img">
         <div class="fl-tag" id="footer-tagline">সত্যের সন্ধানে, নিষ্ঠিক প্রকাশে!</div>
-        <div class="fl-info" id="footer-info">প্রতিষ্ঠাতা ও প্রধান প্রকাশক: অনিক অধিকারী<br>প্রতিষ্ঠাতা ও প্রধান সম্পাদক: মো: ফারহান শাহরিয়ার<br>© ২০২৬ দৈনিক অনুলিপি কর্তৃক সংরক্ষিত।<br><br><strong>জরুরি ঘোষণা:</strong><br>এই নিউজ পোর্টালটি বর্তমানে ‘পরীক্ষামূলক সম্প্রচার’ কার্যক্রম পরিচালনা করছে।
-আমরা সচেতনভাবে রাজনৈতিক সংবাদ এড়িয়ে চলি এবং শুধুমাত্র বিনোদন, তথ্য ও জনস্বার্থমূলক সংবাদ প্রকাশ করি।
-এখানে প্রকাশিত সংবাদের দায়ভার সংশ্লিষ্ট লেখকদের, পোর্টাল কর্তৃপক্ষের নয়।
-রেজিস্ট্রেশন প্রক্রিয়া এবং পূর্ণাঙ্গ সম্প্রচারে।</div>
+        <div class="fl-info" id="footer-info">প্রতিষ্ঠাতা ও প্রকাশক: অনিক অধিকারী<br>প্রতিষ্ঠাতা ও প্রধান সম্পাদক: মো: ফারহান শাহরিয়ার</div>
       </div>
+      <!-- FOOTER COL 2: category quick links -->
       <div class="fc">
         <h5 id="footer-cat-heading">বিভাগ</h5>
         <a onclick="navCat('জাতীয়')" id="ft-জাতীয়">জাতীয়</a>
@@ -602,15 +622,13 @@ footer{background:var(--foot);color:#555;padding:28px 0 0;transition:background 
         <a onclick="navCat('বিশ্ব সংবাদ')" id="ft-বিশ্ব সংবাদ">বিশ্ব সংবাদ</a>
         <a onclick="navCat('বাণিজ্য')" id="ft-বাণিজ্য">বাণিজ্য</a>
         <a onclick="navCat('অর্থনীতি')" id="ft-অর্থনীতি">অর্থনীতি</a>
-      </div>
-      <div class="fc">
-        <h5 id="footer-more-heading">আরও</h5>
         <a onclick="navCat('খেলা')" id="ft-খেলা">খেলা</a>
         <a onclick="navCat('আনন্দ সময়')" id="ft-আনন্দ সময়">আনন্দ সময়</a>
         <a onclick="navCat('চাকরি')" id="ft-চাকরি">চাকরি</a>
         <a onclick="navCat('মতামত')" id="ft-মতামত">মতামত</a>
         <a onclick="navCat('বিশেষ সংবাদ')" id="ft-বিশেষ সংবাদ">বিশেষ সংবাদ</a>
       </div>
+      <!-- FOOTER COL 3: about/contact/advertise/reporter/privacy links (open popups or new pages) -->
       <div class="fc">
         <h5 id="footer-info-heading">তথ্য</h5>
         <a onclick="openInfoPopup('about')" style="cursor:pointer;" id="ft-about">আমাদের সম্পর্কে</a>
@@ -620,10 +638,23 @@ footer{background:var(--foot);color:#555;padding:28px 0 0;transition:background 
         <a onclick="openInfoPopup('privacy')" style="cursor:pointer;" id="ft-privacy">গোপনীয়তা নীতি</a>
       </div>
     </div>
+    <!-- FOOTER NOTICE: centered "জরুরি ঘোষণা / Important Notice" box, text swaps with language -->
+    <div class="footer-notice" id="footer-notice">
+      <div class="footer-notice-title" id="footer-notice-title">⚠️ জরুরি ঘোষণা</div>
+      <p id="footer-notice-text">এই নিউজ পোর্টালটি বর্তমানে "পরীক্ষামূলক সম্প্রচার" কার্যক্রম পরিচালনা করছে। আমরা সচেতনভাবে রাজনৈতিক সংবাদ এড়িয়ে চলি এবং শুধুমাত্র বিনোদন, তথ্য ও জনস্বার্থমূলক সংবাদ প্রকাশ করি। এখানে প্রকাশিত সংবাদের দায়ভার সংশ্লিষ্ট লেখকদের, পোর্টাল কর্তৃপক্ষের নয়। রেজিস্ট্রেশন প্রক্রিয়া এবং পূর্ণাঙ্গ সম্প্রচারের কাজ চলমান।</p>
+    </div>
+    <!-- COPYRIGHT BAR: bottom-most strip of the footer -->
     <div class="fb-bot" id="footer-bottom">দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — সর্বস্বত্ব সংরক্ষিত ২০২৬</div>
   </div>
 </footer>
 
+<!-- ══════════════════════════════════════════════
+     MAIN APP SCRIPT
+     Handles: config, language strings (bn/en), theme & language switching,
+     translation, data fetching, ticker, card/section rendering,
+     hash-based routing (home / category / article / search), and
+     auto-update polling for new articles.
+     ══════════════════════════════════════════════ -->
 <script>
 // ══════════════════════════════════════════════
 //  CONFIG — fill in before going live
@@ -664,14 +695,14 @@ function resetMeta() {
 const S = {
   bn:{dir:'ltr',lang:'bn',breaking:'শিরোনাম',latest:'সর্বশেষ সংবাদ',noNews:'কোনো সংবাদ নেই',noNewsMsg:'এখন পর্যন্ত কোনো সংবাদ প্রকাশিত হয়নি।',loading:'সংবাদ লোড হচ্ছে…',share:'শেয়ার করুন:',fb:'ফেসবুক',wa:'হোয়াটসঅ্যাপ',copy:'লিংক কপি',copied:'✓ কপি!',back:'← পেছনে',related:'সম্পর্কিত সংবাদ',recent:'সাম্প্রতিক সংবাদ',more:'আরও দেখুন →',notFound:'সংবাদটি পাওয়া যায়নি',notFoundMsg:'আপনি যে সংবাদটি খুঁজছেন তা পাওয়া যাচ্ছে না।',tagline:'সত্যের সন্ধানে, নিষ্ঠিক প্রকাশে!',translating:'অনুবাদ হচ্ছে…',translateErr:'অনুবাদ ব্যর্থ',epaper:'ই-পেপার',by:'',goHome:'হোমে ফিরুন',searchPh:'অনুসন্ধান করুন…',searchBtn:'খুঁজুন',searchResults:'অনুসন্ধানের ফলাফল',searchFor:'এর জন্য ফলাফল',resultsFound:'টি সংবাদ পাওয়া গেছে',noResults:'কোনো সংবাদ পাওয়া যায়নি',noResultsMsg:'অন্য শব্দ দিয়ে চেষ্টা করুন।',
     navHome:'সর্বশেষ',navHomeFull:'সর্বশেষ সংবাদ',tbReporter:'রিপোর্টার পোর্টাল',tbContact:'যোগাযোগ',tbAds:'বিজ্ঞাপন',
-    ftCatHeading:'বিভাগ',ftMoreHeading:'আরও',ftInfoHeading:'তথ্য',ftAbout:'আমাদের সম্পর্কে',ftContact:'যোগাযোগ করুন',ftAdvertise:'বিজ্ঞাপন দিন',ftReporter:'রিপোর্টার পোর্টাল',ftPrivacy:'গোপনীয়তা নীতি',
-    footerInfo:'প্রতিষ্ঠাতা ও প্রধান প্রকাশক: অনিক অধিকারী<br>প্রতিষ্ঠাতা ও প্রধান সম্পাদক: মো: ফারহান শাহরিয়ার<br>© ২০২৬ দৈনিক অনুলিপি কর্তৃক সংরক্ষিত।<br><br><strong>জরুরি ঘোষণা:</strong><br>এই নিউজ পোর্টালটি বর্তমানে ‘পরীক্ষামূলক সম্প্রচার’ কার্যক্রম পরিচালনা করছে। আমরা সচেতনভাবে রাজনৈতিক সংবাদ এড়িয়ে চলি এবং শুধুমাত্র বিনোদন, তথ্য ও জনস্বার্থমূলক সংবাদ প্রকাশ করি। এখানে প্রকাশিত সংবাদের দায়ভার সংশ্লিষ্ট লেখকদের, পোর্টাল কর্তৃপক্ষের নয়। রেজিস্ট্রেশন প্রক্রিয়া এবং পূর্ণাঙ্গ সম্প্রচারে।',
-    footerBottom:'দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — সর্বস্বত্ব সংরক্ষিত ২০২৬',visitWebsite:'🌐 ওয়েবসাইট ভিজিট করুন'},
+    ftCatHeading:'বিভাগ',ftInfoHeading:'তথ্য',ftAbout:'আমাদের সম্পর্কে',ftContact:'যোগাযোগ করুন',ftAdvertise:'বিজ্ঞাপন দিন',ftReporter:'রিপোর্টার পোর্টাল',ftPrivacy:'গোপনীয়তা নীতি',
+    footerInfo:'প্রতিষ্ঠাতা ও প্রকাশক: অনিক অধিকারী<br>প্রতিষ্ঠাতা ও প্রধান সম্পাদক: মো: ফারহান শাহরিয়ার',
+    footerBottom:'দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — সর্বস্বত্ব সংরক্ষিত ২০২৬',visitWebsite:'🌐 ওয়েবসাইট ভিজিট করুন',footerNoticeTitle:'⚠️ জরুরি ঘোষণা',footerNoticeText:'এই নিউজ পোর্টালটি বর্তমানে "পরীক্ষামূলক সম্প্রচার" কার্যক্রম পরিচালনা করছে। আমরা সচেতনভাবে রাজনৈতিক সংবাদ এড়িয়ে চলি এবং শুধুমাত্র বিনোদন, তথ্য ও জনস্বার্থমূলক সংবাদ প্রকাশ করি। এখানে প্রকাশিত সংবাদের দায়ভার সংশ্লিষ্ট লেখকদের, পোর্টাল কর্তৃপক্ষের নয়। রেজিস্ট্রেশন প্রক্রিয়া এবং পূর্ণাঙ্গ সম্প্রচারের কাজ চলমান।'},
   en:{dir:'ltr',lang:'en',breaking:'Breaking',latest:'Latest News',noNews:'No News Available',noNewsMsg:'No articles published yet. Check back soon.',loading:'Loading news…',share:'Share:',fb:'Facebook',wa:'WhatsApp',copy:'Copy Link',copied:'✓ Copied!',back:'← Back',related:'Related News',recent:'Recent News',more:'See more →',notFound:'Article Not Found',notFoundMsg:'The article you are looking for could not be found.',tagline:'In pursuit of truth, with dedication!',translating:'Translating…',translateErr:'Translation failed',epaper:'E-Paper',by:'By',goHome:'Go Home',searchPh:'Search…',searchBtn:'Search',searchResults:'Search Results',searchFor:'Results for',resultsFound:'articles found',noResults:'No articles found',noResultsMsg:'Try different keywords.',
     navHome:'Latest',navHomeFull:'Latest News',tbReporter:'Reporter Portal',tbContact:'Contact',tbAds:'Advertise',
-    ftCatHeading:'Categories',ftMoreHeading:'More',ftInfoHeading:'Information',ftAbout:'About Us',ftContact:'Contact Us',ftAdvertise:'Advertise With Us',ftReporter:'Reporter Portal',ftPrivacy:'Privacy Policy',
-    footerInfo:'Founder & Chief Publisher: Anik Adhikari<br>Founder & Editor-in-Chief: Md. Farhan Shahriar<br>© 2026 Dainik Anulipi. All rights reserved.<br><br><strong>Important Notice:</strong><br>This news portal is currently running on a \'trial broadcast\' basis. We consciously avoid political news and publish only entertainment, informational, and public-interest content. Responsibility for news published here lies with the respective authors, not the portal authority. The registration process and full broadcast are underway.',
-    footerBottom:'দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — All rights reserved 2026',visitWebsite:'🌐 Visit Website'},
+    ftCatHeading:'Categories',ftInfoHeading:'Information',ftAbout:'About Us',ftContact:'Contact Us',ftAdvertise:'Advertise With Us',ftReporter:'Reporter Portal',ftPrivacy:'Privacy Policy',
+    footerInfo:'Founder & Publisher: Anik Adhikari<br>Founder & Editor-in-Chief: Md. Farhan Shahriar',
+    footerBottom:'দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — All rights reserved 2026',visitWebsite:'🌐 Visit Website',footerNoticeTitle:'⚠️ Important Notice',footerNoticeText:'This news portal is currently running on a "trial broadcast" basis. We consciously avoid political news and publish only entertainment, informational, and public-interest content. Responsibility for news published here lies with the respective authors, not the portal authority. The registration process and full broadcast are underway.'},
 };
 
 // ── CATEGORY NAME TRANSLATIONS (for nav/footer labels) ──
@@ -745,7 +776,6 @@ function applyLang(l) {
   document.getElementById('footer-tagline').textContent = s.tagline;
   document.getElementById('footer-info').innerHTML = s.footerInfo;
   document.getElementById('footer-cat-heading').textContent = s.ftCatHeading;
-  document.getElementById('footer-more-heading').textContent = s.ftMoreHeading;
   document.getElementById('footer-info-heading').textContent = s.ftInfoHeading;
   document.getElementById('ft-about').textContent = s.ftAbout;
   document.getElementById('ft-contact').textContent = s.ftContact;
@@ -753,6 +783,8 @@ function applyLang(l) {
   document.getElementById('ft-reporter').textContent = s.ftReporter;
   document.getElementById('ft-privacy').textContent = s.ftPrivacy;
   document.getElementById('footer-bottom').textContent = s.footerBottom;
+  document.getElementById('footer-notice-title').textContent = s.footerNoticeTitle;
+  document.getElementById('footer-notice-text').textContent = s.footerNoticeText;
   const visitLink = document.getElementById('popup-visit-link');
   if(visitLink) visitLink.textContent = s.visitWebsite;
 
@@ -1357,9 +1389,7 @@ function route() {
 })();
 </script>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- CONTACT / বিজ্ঞাপন POPUP                  -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- CONTACT/ADVERTISE POPUP: hidden modal opened via openContactPopup() — shows phone, email, WhatsApp, Facebook links -->
 <div id="contact-popup-overlay" onclick="closeContactPopup(event)" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);align-items:center;justify-content:center;">
   <div style="background:var(--sur);width:100%;max-width:420px;margin:16px;border-top:4px solid var(--red);box-shadow:0 20px 60px rgba(0,0,0,.35);animation:popIn .22s ease;max-height:90vh;overflow-y:auto;">
     <div style="padding:18px 20px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bdr);position:sticky;top:0;background:var(--sur);z-index:1;">
@@ -1389,15 +1419,13 @@ function route() {
         </a>
       </div>
       <a href="https://dainikanulipi.github.io/DA/#" target="_blank" rel="noopener" id="popup-visit-link" style="display:block;background:var(--red);color:#fff;text-align:center;padding:11px;font-size:14px;font-weight:700;font-family:'Noto Sans Bengali',sans-serif;text-decoration:none;" onmouseover="this.style.background='var(--dkred)'" onmouseout="this.style.background='var(--red)'">
-        🌐 ওয়েবসাইট ভিজিট করুন
+        🌐 🌐 ওয়েবসাইট ভিজিট করুন
       </a>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ -->
-<!-- INFO POPUP (আমাদের সম্পর্কে / গোপনীয়তা)  -->
-<!-- ═══════════════════════════════════════════ -->
+<!-- ABOUT/PRIVACY POPUP: hidden modal opened via openInfoPopup('about'|'privacy') — content filled from INFO_CONTENT -->
 <div id="info-popup-overlay" onclick="closeInfoPopup(event)" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);align-items:center;justify-content:center;">
   <div style="background:var(--sur);width:100%;max-width:520px;margin:16px;border-top:4px solid var(--red);box-shadow:0 20px 60px rgba(0,0,0,.35);animation:popIn .22s ease;max-height:88vh;overflow-y:auto;">
     <div style="padding:18px 20px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bdr);position:sticky;top:0;background:var(--sur);z-index:1;">
@@ -1411,11 +1439,12 @@ function route() {
   </div>
 </div>
 
+<!-- POPUP ANIMATION + AUTO-UPDATE BANNER STYLES -->
 <style>
 @keyframes popIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
 
 /* ── ABOUT POPUP LOGO ── */
-.about-logo{height:64px;width:auto;max-width:220px;object-fit:contain;margin:0 auto;}
+.about-logo{height:68px;width:auto;max-width:240px;object-fit:contain;margin:0 auto;}
 .about-logo-light{display:block;}
 .about-logo-dark{display:none;}
 [data-theme=dark] .about-logo-light{display:none;}
@@ -1447,6 +1476,11 @@ function route() {
 }
 </style>
 
+<!-- ══════════════════════════════════════════════
+     POPUP LOGIC: open/close handlers for the contact/advertise
+     popup and the about/privacy info popup (with bn/en content),
+     plus Escape-key handling to close either popup.
+     ══════════════════════════════════════════════ -->
 <script>
 /* ── CONTACT POPUP ── */
 function openContactPopup(type) {
@@ -1482,7 +1516,7 @@ const INFO_CONTENT_BN = {
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;">
         <div style="background:var(--sur2);padding:12px 14px;border:1px solid var(--bdr);">
-          <div style="font-size:10px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-bottom:4px;">প্রতিষ্ঠাতা ও প্রধান প্রকাশক</div>
+          <div style="font-size:10px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-bottom:4px;">প্রতিষ্ঠাতা ও প্রকাশক</div>
           <div style="font-size:13.5px;font-weight:700;">অনিক অধিকারী</div>
         </div>
         <div style="background:var(--sur2);padding:12px 14px;border:1px solid var(--bdr);">
@@ -1505,7 +1539,7 @@ const INFO_CONTENT_BN = {
       <div style="display:flex;flex-direction:column;gap:0;">
         <div style="padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--bdr);">
           <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;font-family:'Noto Sans Bengali',sans-serif;">📋 তথ্য সংগ্রহ</div>
-          <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">আমরা কেবলমাত্র পোর্টালের সেবা উন্নত করার জন্য প্রয়োজনীয় তথ্য সংগ্রহ করি। পাঠকদের ব্যক্তিগত তথ্য কোনো তৃতীয় পক্ষের কাছে বিক্রি বা হস্তান্তর করা হয় না।</p>
+          <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">আমরা কেবলমাত্র পোর্টালের সেবা উন্নত করার জন্য প্রয়োজনীয় তথ্য সংগ্রহ করি। পাঠকদের ব্যক্তিগত তথ্য কোনো তৃতীয় পক্ষের কাছে বিক্রি বা হস্তান্তর করা হয় সম্মেলনে।</p>
         </div>
         <div style="padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--bdr);">
           <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;font-family:'Noto Sans Bengali',sans-serif;">🍪 কুকিজ ব্যবহার</div>
@@ -1548,7 +1582,7 @@ const INFO_CONTENT_EN = {
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;">
         <div style="background:var(--sur2);padding:12px 14px;border:1px solid var(--bdr);">
-          <div style="font-size:10px;color:var(--txt3);margin-bottom:4px;">Founder & Chief Publisher</div>
+          <div style="font-size:10px;color:var(--txt3);margin-bottom:4px;">Founder & Publisher</div>
           <div style="font-size:13.5px;font-weight:700;">Anik Adhikari</div>
         </div>
         <div style="background:var(--sur2);padding:12px 14px;border:1px solid var(--bdr);">
