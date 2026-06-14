@@ -1,15 +1,25 @@
 <!DOCTYPE html>
 <html lang="bn" data-theme="light" dir="ltr">
 <head>
+<!-- BASIC SEO + ICON -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="দৈনিক অনুলিপি ই-পেপার — আজকের সংখ্যা পড়ুন">
 <title>দৈনিক অনুলিপি | ই-পেপার</title>
 <link rel="icon" type="image/png" href="assets/favicon.png">
+
+<!-- GOOGLE FONTS: Bengali serif/sans -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+
+<!-- PDF.JS: renders the e-paper PDF pages to canvas (used in fullscreen viewer) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+<!-- ══════════════════════════════════════════════
+     PAGE CSS (theme variables, masthead/nav, e-paper
+     viewer/toolbar/book area, fullscreen, footer, responsive)
+     ══════════════════════════════════════════════ -->
 <style>
 :root{
   --red:#C8102E;--dkred:#9e0b22;
@@ -205,6 +215,15 @@ footer{background:var(--foot);color:#555;padding:28px 0 0;transition:background 
 .fc a:hover{color:var(--red);}
 .fb-bot{text-align:center;padding:10px;font-size:11px;color:#2e2e2e;font-family:'Noto Sans Bengali',sans-serif;}
 
+/* ── FOOTER NOTICE ── */
+.footer-notice{max-width:760px;margin:0 auto 20px;padding:14px 18px;text-align:center;background:#161616;border:1px solid #232323;border-top:3px solid var(--red);}
+.footer-notice-title{font-size:12.5px;font-weight:700;color:var(--red);margin-bottom:6px;font-family:'Noto Sans Bengali',sans-serif;}
+.footer-notice p{font-size:11.5px;line-height:1.85;color:#888;font-family:'Noto Sans Bengali',sans-serif;margin:0;}
+@media(max-width:600px){
+  .footer-notice{padding:12px 14px;margin-bottom:14px;}
+  .footer-notice p{font-size:11px;}
+}
+
 @keyframes popIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
 .about-logo{height:64px;width:auto;max-width:220px;object-fit:contain;margin:0 auto;}
 .about-logo-light{display:block;}
@@ -291,7 +310,7 @@ footer{background:var(--foot);color:#555;padding:28px 0 0;transition:background 
 </head>
 <body>
 
-<!-- TOPBAR -->
+<!-- TOP BAR: thin strip above the header — today's date and quick links (home, contact, advertise) -->
 <div class="topbar">
   <div class="wrap">
     <span id="tbar-date"></span>
@@ -303,7 +322,7 @@ footer{background:var(--foot);color:#555;padding:28px 0 0;transition:background 
   </div>
 </div>
 
-<!-- MASTHEAD -->
+<!-- MASTHEAD: site logo + tagline (left), "ই-পেপার" badge, language switch and theme toggle (right) -->
 <div class="mast">
   <div class="wrap">
     <div class="logo" onclick="location.href='index.html'">
@@ -322,7 +341,7 @@ footer{background:var(--foot);color:#555;padding:28px 0 0;transition:background 
   </div>
 </div>
 
-<!-- NAV -->
+<!-- NAV: simple two-item bar — link back to the home page, and the (active) E-Paper tab -->
 <nav class="nav">
   <div class="wrap">
     <button class="nl" id="nav-home" onclick="location.href='index.html'">🏠 হোম</button>
@@ -330,13 +349,14 @@ footer{background:var(--foot);color:#555;padding:28px 0 0;transition:background 
   </div>
 </nav>
 
-<!-- MAIN -->
+<!-- MAIN: date picker + PDF viewer (left) and usage-tips sidebar (right) -->
 <div class="ep-page">
   <div class="wrap">
     <div class="ep-layout">
 
-      <!-- LEFT: Viewer -->
+      <!-- LEFT: E-Paper viewer — date picker bar + PDF embed (via Google Docs viewer) -->
       <div class="ep-left">
+        <!-- DATE BAR: pick a date and click "দেখুন" (View) to load that day's edition -->
         <div class="ed-bar">
           <label id="ed-label">📅 সংখ্যা:</label>
           <input type="date" class="ed-date-input" id="ed-date-input">
@@ -344,6 +364,7 @@ footer{background:var(--foot);color:#555;padding:28px 0 0;transition:background 
           <span class="ed-info" id="ed-info"></span>
         </div>
 
+        <!-- VIEWER SHELL: toolbar (title + download), the PDF embed, and bottom info strip -->
         <div class="ep-viewer">
           <div class="ep-toolbar">
             <span class="ep-toolbar-title" id="ep-toolbar-title">লোড হচ্ছে…</span>
@@ -352,6 +373,7 @@ footer{background:var(--foot);color:#555;padding:28px 0 0;transition:background 
             </div>
           </div>
 
+          <!-- PDF EMBED: iframe loads the day's PDF through Google Docs viewer (src set by loadEdition()) -->
           <div id="book-area" style="left:0;width:100%;height:0;position:relative;padding-bottom:129.4118%;">
             <iframe id="epaper-iframe" src="" style="top:0;left:0;width:100%;height:100%;position:absolute;border:0;" allowfullscreen></iframe>
           </div>
@@ -367,7 +389,7 @@ footer{background:var(--foot);color:#555;padding:28px 0 0;transition:background 
 
       </div>
 
-      <!-- RIGHT: Sidebar -->
+      <!-- RIGHT: Sidebar — short "how to use" tips box -->
       <div class="ep-right">
         <div class="tips-box">
           <div class="sh" style="margin-bottom:10px;"><h3 id="tips-heading">ব্যবহার নির্দেশিকা</h3><div class="sh-line"></div></div>
@@ -383,16 +405,17 @@ footer{background:var(--foot);color:#555;padding:28px 0 0;transition:background 
   </div>
 </div>
 
-<!-- FOOTER -->
+<!-- SITE FOOTER: logo/founder info, category links, info links, notice box, and copyright bar -->
 <footer>
   <div class="wrap">
     <div class="fg">
+      <!-- FOOTER COL 1: logo, tagline, founder/editor + copyright -->
       <div>
         <img src="assets/logo-dark.png" alt="দৈনিক অনুলিপি" class="footer-logo-img">
         <div class="fl-tag" id="footer-tagline">সত্যের সন্ধানে, নিষ্ঠিক প্রকাশে!</div>
-        <div class="fl-info" id="footer-info">প্রতিষ্ঠাতা ও প্রধান প্রকাশক: অনিক অধিকারী<br>প্রতিষ্ঠাতা ও প্রধান সম্পাদক: মো: ফারহান শাহরিয়ার<br>© ২০২৬ দৈনিক অনুলিপি কর্তৃক সংরক্ষিত।<br><br><strong>জরুরি ঘোষণা:</strong><br>এই নিউজ পোর্টালটি বর্তমানে 'পরীক্ষামূলক সম্প্রচার' কার্যক্রম পরিচালনা করছে।
-আমরা সচেতনভাবে রাজনৈতিক সংবাদ এড়িয়ে চলি এবং শুধুমাত্র বিনোদন, তথ্য ও জনস্বার্থমূলক সংবাদ প্রকাশ করি।</div>
+        <div class="fl-info" id="footer-info">প্রতিষ্ঠাতা ও প্রধান প্রকাশক: অনিক অধিকারী<br>প্রতিষ্ঠাতা ও প্রধান সম্পাদক: মো: ফারহান শাহরিয়ার<br>© ২০২৬ দৈনিক অনুলিপি কর্তৃক সংরক্ষিত।</div>
       </div>
+      <!-- FOOTER COL 2: first half of category quick links -->
       <div class="fc">
         <h5 id="footer-cat-heading">বিভাগ</h5>
         <a href="index.html#cat/জাতীয়" id="ft-cat-1">জাতীয়</a>
@@ -401,6 +424,7 @@ footer{background:var(--foot);color:#555;padding:28px 0 0;transition:background 
         <a href="index.html#cat/বাণিজ্য" id="ft-cat-4">বাণিজ্য</a>
         <a href="index.html#cat/অর্থনীতি" id="ft-cat-5">অর্থনীতি</a>
       </div>
+      <!-- FOOTER COL 3: second half of category quick links -->
       <div class="fc">
         <h5 id="footer-more-heading">আরও</h5>
         <a href="index.html#cat/খেলা" id="ft-cat-6">খেলা</a>
@@ -409,6 +433,7 @@ footer{background:var(--foot);color:#555;padding:28px 0 0;transition:background 
         <a href="index.html#cat/মতামত" id="ft-cat-9">মতামত</a>
         <a href="index.html#cat/বিশেষ সংবাদ" id="ft-cat-10">বিশেষ সংবাদ</a>
       </div>
+      <!-- FOOTER COL 4: about/contact/advertise/reporter/privacy links (open popups or new pages) -->
       <div class="fc">
         <h5 id="footer-info-heading">তথ্য</h5>
         <a onclick="openInfoPopup('about')" id="ft-about">আমাদের সম্পর্কে</a>
@@ -418,11 +443,17 @@ footer{background:var(--foot);color:#555;padding:28px 0 0;transition:background 
         <a onclick="openInfoPopup('privacy')" id="ft-privacy">গোপনীয়তা নীতি</a>
       </div>
     </div>
+    <!-- FOOTER NOTICE: centered "জরুরি ঘোষণা / Important Notice" box, text swaps with language -->
+    <div class="footer-notice" id="footer-notice">
+      <div class="footer-notice-title" id="footer-notice-title">⚠️ জরুরি ঘোষণা</div>
+      <p id="footer-notice-text">এই নিউজ পোর্টালটি বর্তমানে "পরীক্ষামূলক সম্প্রচার" কার্যক্রম পরিচালনা করছে। আমরা সচেতনভাবে রাজনৈতিক সংবাদ এড়িয়ে চলি এবং শুধুমাত্র বিনোদন, তথ্য ও জনস্বার্থমূলক সংবাদ প্রকাশ করি। এখানে প্রকাশিত সংবাদের দায়ভার সংশ্লিষ্ট লেখকদের, পোর্টাল কর্তৃপক্ষের নয়। রেজিস্ট্রেশন প্রক্রিয়া এবং পূর্ণাঙ্গ সম্প্রচারের কাজ চলমান।</p>
+    </div>
+    <!-- COPYRIGHT BAR: bottom-most strip of the footer -->
     <div class="fb-bot" id="footer-bottom">দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — সর্বস্বত্ব সংরক্ষিত ২০২৬</div>
   </div>
 </footer>
 
-<!-- FULLSCREEN OVERLAY -->
+<!-- FULLSCREEN OVERLAY: full-window reading mode opened by openFullscreen() — toolbar with page nav + close, and the rendered page canvas -->
 <div class="fs-overlay" id="fs-overlay">
   <div class="fs-topbar">
     <span class="fs-title" id="fs-title">ই-পেপার</span>
@@ -447,7 +478,7 @@ footer{background:var(--foot);color:#555;padding:28px 0 0;transition:background 
   </div>
 </div>
 
-<!-- CONTACT POPUP -->
+<!-- CONTACT/ADVERTISE POPUP: hidden modal opened via openContactPopup() — shows phone, email, WhatsApp, Facebook links -->
 <div id="contact-popup-overlay" onclick="closeContactPopup(event)" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);align-items:center;justify-content:center;">
   <div style="background:var(--sur);width:100%;max-width:420px;margin:16px;border-top:4px solid var(--red);box-shadow:0 20px 60px rgba(0,0,0,.35);animation:popIn .22s ease;max-height:90vh;overflow-y:auto;">
     <div style="padding:18px 20px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bdr);position:sticky;top:0;background:var(--sur);z-index:1;">
@@ -483,7 +514,7 @@ footer{background:var(--foot);color:#555;padding:28px 0 0;transition:background 
   </div>
 </div>
 
-<!-- INFO POPUP -->
+<!-- ABOUT/PRIVACY POPUP: hidden modal opened via openInfoPopup('about'|'privacy') — content filled from INFO_CONTENT / INFO_CONTENT_EN -->
 <div id="info-popup-overlay" onclick="closeInfoPopup(event)" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);align-items:center;justify-content:center;">
   <div style="background:var(--sur);width:100%;max-width:520px;margin:16px;border-top:4px solid var(--red);box-shadow:0 20px 60px rgba(0,0,0,.35);animation:popIn .22s ease;max-height:88vh;overflow-y:auto;">
     <div style="padding:18px 20px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bdr);position:sticky;top:0;background:var(--sur);z-index:1;">
@@ -497,6 +528,13 @@ footer{background:var(--foot);color:#555;padding:28px 0 0;transition:background 
   </div>
 </div>
 
+<!-- ══════════════════════════════════════════════
+     PAGE SCRIPT
+     Handles: PDF.js setup, date/folder helpers, single-page PDF
+     rendering & navigation, thumbnails, fullscreen viewer,
+     edition loading, archive list, theme + language (bn/en)
+     switching, contact/info popups, and keyboard/touch controls.
+     ══════════════════════════════════════════════ -->
 <script>
 // ── PDF.js worker ──
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
@@ -866,7 +904,9 @@ var T = {
     tip1:'তারিখ বেছে সংখ্যা দেখুন', tip2:'বাটন বা কীবোর্ডে পাতা বদলান',
     tip3:'ফুলস্ক্রিনে পড়ুন', tip4:'PDF ডাউনলোড করুন', tip5:'নিচে থাম্বনেইল থেকে যান',
     tagline:'সত্যের সন্ধানে, নিষ্ঠিক প্রকাশে!',
-    footerInfo:'প্রতিষ্ঠাতা ও প্রধান প্রকাশক: অনিক অধিকারী<br>প্রতিষ্ঠাতা ও প্রধান সম্পাদক: মো: ফারহান শাহরিয়ার<br>© ২০২৬ দৈনিক অনুলিপি কর্তৃক সংরক্ষিত।<br><br><strong>জরুরি ঘোষণা:</strong><br>এই নিউজ পোর্টালটি বর্তমানে \'পরীক্ষামূলক সম্প্রচার\' কার্যক্রম পরিচালনা করছে। আমরা সচেতনভাবে রাজনৈতিক সংবাদ এড়িয়ে চলি এবং শুধুমাত্র বিনোদন, তথ্য ও জনস্বার্থমূলক সংবাদ প্রকাশ করি।',
+    footerInfo:'প্রতিষ্ঠাতা ও প্রধান প্রকাশক: অনিক অধিকারী<br>প্রতিষ্ঠাতা ও প্রধান সম্পাদক: মো: ফারহান শাহরিয়ার<br>© ২০২৬ দৈনিক অনুলিপি কর্তৃক সংরক্ষিত।',
+    footerNoticeTitle:'⚠️ জরুরি ঘোষণা',
+    footerNoticeText:'এই নিউজ পোর্টালটি বর্তমানে "পরীক্ষামূলক সম্প্রচার" কার্যক্রম পরিচালনা করছে। আমরা সচেতনভাবে রাজনৈতিক সংবাদ এড়িয়ে চলি এবং শুধুমাত্র বিনোদন, তথ্য ও জনস্বার্থমূলক সংবাদ প্রকাশ করি। এখানে প্রকাশিত সংবাদের দায়ভার সংশ্লিষ্ট লেখকদের, পোর্টাল কর্তৃপক্ষের নয়। রেজিস্ট্রেশন প্রক্রিয়া এবং পূর্ণাঙ্গ সম্প্রচারের কাজ চলমান।',
     fCat:'বিভাগ', fMore:'আরও', fInfo:'তথ্য',
     ftAbout:'আমাদের সম্পর্কে', ftContact:'যোগাযোগ করুন', ftAds:'বিজ্ঞাপন দিন',
     ftReporter:'রিপোর্টার পোর্টাল', ftPrivacy:'গোপনীয়তা নীতি',
@@ -884,7 +924,9 @@ var T = {
     tip1:'Select a date to view an edition', tip2:'Use buttons or keyboard to flip pages',
     tip3:'Read in fullscreen', tip4:'Download the PDF', tip5:'Jump to a page from thumbnails below',
     tagline:'In pursuit of truth, with dedication!',
-    footerInfo:'Founder & Chief Publisher: Anik Adhikari<br>Founder & Editor-in-Chief: Md. Farhan Shahriar<br>© 2026 Dainik Anulipi. All rights reserved.<br><br><strong>Important Notice:</strong><br>This news portal is currently running on a \'trial broadcast\' basis. We consciously avoid political news and publish only entertainment, informational, and public-interest content.',
+    footerInfo:'Founder & Chief Publisher: Anik Adhikari<br>Founder & Editor-in-Chief: Md. Farhan Shahriar<br>© 2026 Dainik Anulipi. All rights reserved.',
+    footerNoticeTitle:'⚠️ Important Notice',
+    footerNoticeText:'This news portal is currently running on a "trial broadcast" basis. We consciously avoid political news and publish only entertainment, informational, and public-interest content. Responsibility for news published here lies with the respective authors, not the portal authority. The registration process and full broadcast are underway.',
     fCat:'Categories', fMore:'More', fInfo:'Information',
     ftAbout:'About Us', ftContact:'Contact Us', ftAds:'Advertise With Us',
     ftReporter:'Reporter Portal', ftPrivacy:'Privacy Policy',
@@ -992,6 +1034,8 @@ function applyLangUI() {
   document.getElementById('tip-5').textContent = t.tip5;
   document.getElementById('footer-tagline').textContent    = t.tagline;
   document.getElementById('footer-info').innerHTML         = t.footerInfo;
+  document.getElementById('footer-notice-title').textContent = t.footerNoticeTitle;
+  document.getElementById('footer-notice-text').textContent  = t.footerNoticeText;
   document.getElementById('footer-cat-heading').textContent= t.fCat;
   document.getElementById('footer-more-heading').textContent= t.fMore;
   document.getElementById('footer-info-heading').textContent= t.fInfo;
