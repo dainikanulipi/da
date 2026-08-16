@@ -125,6 +125,10 @@ button{font-family:inherit;cursor:pointer;}
 .tab-bar .wrap{display:flex;align-items:stretch;}
 .tl{padding:11px 14px;font-size:14.5px;font-weight:700;white-space:nowrap;border-bottom:3px solid transparent;color:var(--txt2);transition:all .2s;cursor:pointer;font-family:'Noto Sans Bengali',sans-serif;border:none;background:none;display:flex;align-items:center;gap:5px;}
 .tl:hover,.tl.on{color:var(--red);border-bottom:3px solid var(--red);}
+.live-dot{width:8px;height:8px;border-radius:50%;background:#999;display:inline-block;transition:background .3s;}
+.live-dot.is-live{background:#ff1f1f;animation:liveDotPulse 1.4s ease-in-out infinite;}
+@keyframes liveDotPulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+.tl-live{color:#ff1f1f;}
 
 /* ── NAV ── */
 .nav{background:var(--nav-bg);border-bottom:1px solid var(--bdr);position:sticky;top:44px;z-index:300;box-shadow:0 2px 10px var(--shd);transition:background .3s,border-color .3s;}
@@ -654,6 +658,7 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
   <div class="wrap">
     <button class="tl on" id="tab-home" onclick="nav('');setActiveNav('home')"><span id="tab-home-label">🌐 অনলাইন সংস্করণ</span></button>
     <button class="tl" id="tab-epaper" onclick="window.location.href='https://dainikanulipi.github.io/da/epaper.html'">📰 <span id="tab-epaper-label">ই-পেপার</span></button>
+    <button class="tl tl-live" id="tab-live" onclick="window.location.href='https://dainikanulipi.github.io/da/live.html'"><span class="live-dot" id="live-dot"></span> <span id="tab-live-label">লাইভ</span></button>
   </div>
 </div>
 
@@ -790,8 +795,57 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
 const CFG = {
   // ← আপনার Apps Script Web App URL এখানে বসান
   SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzm-bOtRWcL1rK3Ie1svpB75ShIpOrIjc07FCns1XZjfSbXJzffeQRpnuT55gq8m1ol/exec',
+
+  // ── LIVE STREAM ──
+  // YouTube: paste your permanent Channel ID (starts with "UC…", found in
+  // YouTube Studio → Settings → Channel → Advanced settings). Once set,
+  // the site ALWAYS shows whatever you're currently streaming — no further
+  // edits needed, ever. Leave empty to skip the YouTube embed.
+  YT_CHANNEL_ID: 'UCV4MqKW7pl0wb58CuddGiEQ',
+  // Handle, used only for the "visit channel" fallback link.
+  YT_CHANNEL: 'dainikanulipi',
+  // Facebook page username — the site links to facebook.com/<page>/live,
+  // which Facebook itself auto-redirects to your current live video (or
+  // your page if nothing's live). No editing needed here either.
+  FB_PAGE: 'dainikanulipi',
 };
 // ══════════════════════════════════════════════
+
+// ── LIVE STATUS DETECTION ──
+// Silently checks whether CFG.YT_CHANNEL_ID is actually streaming right
+// now, using the YouTube IFrame Player API (no API key needed) — the
+// red dot on the লাইভ tab only blinks when a stream is really live.
+function loadYouTubeIframeAPI(cb){
+  if(window.YT && window.YT.Player){ cb(); return; }
+  const prev = window.onYouTubeIframeAPIReady;
+  window.onYouTubeIframeAPIReady = function(){ if(prev) prev(); cb(); };
+  if(!document.getElementById('yt-iframe-api')){
+    const tag = document.createElement('script');
+    tag.id = 'yt-iframe-api';
+    tag.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(tag);
+  }
+}
+function setLiveDotState(isLive){
+  document.querySelectorAll('.live-dot').forEach(d=>d.classList.toggle('is-live', !!isLive));
+}
+function onLiveDetectStateChange(e){
+  const YTS = window.YT.PlayerState;
+  if(e.data===YTS.PLAYING || e.data===YTS.BUFFERING) setLiveDotState(true);
+  else if(e.data===YTS.ENDED || e.data===YTS.CUED || e.data===YTS.UNSTARTED) setLiveDotState(false);
+}
+function onLiveDetectError(){ setLiveDotState(false); }
+function initLiveDetection(){
+  if(!CFG.YT_CHANNEL_ID) return;
+  const frame = document.getElementById('live-detect-frame');
+  if(!frame) return;
+  frame.src = `https://www.youtube.com/embed/live_stream?channel=${CFG.YT_CHANNEL_ID}&mute=1&autoplay=1&enablejsapi=1&origin=${encodeURIComponent(location.origin)}`;
+  loadYouTubeIframeAPI(()=>{
+    new YT.Player('live-detect-frame', {
+      events: { onStateChange: onLiveDetectStateChange, onError: onLiveDetectError }
+    });
+  });
+}
 
 const SITE_URL   = 'https://dainikanulipi.github.io/da/';
 const SITE_TITLE = 'দৈনিক অনুলিপি';
@@ -822,12 +876,14 @@ function resetMeta() {
 // ── LANGUAGE STRINGS ──
 const S = {
   bn:{dir:'ltr',lang:'bn',breaking:'শিরোনাম',latest:'সর্বশেষ সংবাদ',noNews:'সংবাদ ফাইবার কেবলে চড়ে আসছে',noNewsMsg:'আলোর গতিতে ফাইবার অপটিক ক্যাবল বেয়ে আপনার সংবাদ পাঠানো হচ্ছে — মাঝেমধ্যে ঢাকার রাস্তার মতোই একটু জ্যামে আটকে যায়! ততক্ষণে আমাদের ই-পেপার সংস্করণটা দেখে নিন।',loading:'সংবাদ লোড হচ্ছে…',share:'শেয়ার করুন:',fb:'ফেসবুক',wa:'হোয়াটসঅ্যাপ',copy:'লিংক কপি',copied:'✓ কপি!',back:'← পেছনে',related:'সম্পর্কিত সংবাদ',recent:'সাম্প্রতিক সংবাদ',more:'আরও দেখুন →',notFound:'সংবাদটি পাওয়া যায়নি',notFoundMsg:'আপনি যে সংবাদটি খুঁজছেন তা পাওয়া যাচ্ছে না।',tagline:'সত্যের সন্ধানে, নির্ভীক প্রকাশে!',translating:'অনুবাদ হচ্ছে…',translateErr:'অনুবাদ ব্যর্থ',epaper:'ই-পেপার',by:'',goHome:'হোমে ফিরুন',searchPh:'অনুসন্ধান করুন…',searchBtn:'খুঁজুন',searchResults:'অনুসন্ধানের ফলাফল',searchFor:'এর জন্য ফলাফল',resultsFound:'টি সংবাদ পাওয়া গেছে',noResults:'কোনো সংবাদ পাওয়া যায়নি',noResultsMsg:'অন্য শব্দ দিয়ে চেষ্টা করুন।',
-    navHome:'সর্বশেষ',navHomeFull:'সর্বশেষ সংবাদ',tabHome:'🌐 অনলাইন সংস্করণ',tabEpaper:'ই-পেপার',tbReporter:'রিপোর্টার পোর্টাল',tbContact:'যোগাযোগ',tbAds:'বিজ্ঞাপন',
+    navHome:'সর্বশেষ',navHomeFull:'সর্বশেষ সংবাদ',tabHome:'🌐 অনলাইন সংস্করণ',tabEpaper:'ই-পেপার',tabLive:'লাইভ',tbReporter:'রিপোর্টার পোর্টাল',tbContact:'যোগাযোগ',tbAds:'বিজ্ঞাপন',
+    liveTitle:'🔴 সরাসরি সম্প্রচার',liveNote:'YouTube বর্তমানে যা সম্প্রচার করছে তা এখানে স্বয়ংক্রিয়ভাবে দেখানো হয় — কিছু সম্প্রচার না চললে একটি খালি স্ক্রিন দেখাতে পারে।',liveWatchYt:'YouTube-এ খুলুন',liveWatchFb:'Facebook-এ দেখুন',liveNoAuto:'📡 ব্রাউজারেই সরাসরি দেখানোর সেটআপ শীঘ্রই আসছে। এখন নিচের বাটনে চাপুন — লাইভ থাকলে সরাসরি সেখানে নিয়ে যাবে, না থাকলে চ্যানেল/পেজ দেখাবে।',liveAltPrompt:'অন্য জায়গায় দেখতে চান?',
     ftCatHeading:'বিভাগ',ftInfoHeading:'তথ্য',ftAbout:'আমাদের সম্পর্কে',ftContact:'যোগাযোগ করুন',ftAdvertise:'বিজ্ঞাপন দিন',ftReporter:'রিপোর্টার পোর্টাল',ftPrivacy:'গোপনীয়তা নীতি',
     footerInfo:'প্রতিষ্ঠাতা ও প্রকাশক: অনিক অধিকারী<br>প্রতিষ্ঠাতা ও প্রধান সম্পাদক: মো: ফারহান শাহরিয়ার',
     footerBottom:'দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — সর্বস্বত্ব সংরক্ষিত ২০২৬',visitWebsite:'🌐 ওয়েবসাইট ভিজিট করুন',footerNoticeTitle:'⚠️ জরুরি ঘোষণা',footerNoticeText:'এই নিউজ পোর্টালটি বর্তমানে "পরীক্ষামূলক সম্প্রচার" কার্যক্রম পরিচালনা করছে। আমরা সচেতনভাবে রাজনৈতিক সংবাদ এড়িয়ে চলি এবং শুধুমাত্র বিনোদন, তথ্য ও জনস্বার্থমূলক সংবাদ প্রকাশ করি। এখানে প্রকাশিত সংবাদের দায়ভার সংশ্লিষ্ট লেখকদের, পোর্টাল কর্তৃপক্ষের নয়। রেজিস্ট্রেশন প্রক্রিয়া এবং পূর্ণাঙ্গ সম্প্রচারের কাজ চলমান।'},
   en:{dir:'ltr',lang:'en',breaking:'Breaking',latest:'Latest News',noNews:'News Is Riding the Fiber Cable',noNewsMsg:"Your stories are zipping over at the speed of light through our fiber-optic cables \u2014 though even light hits a bit of traffic sometimes. Hang tight, or hop over to our E-Paper edition while you wait.",loading:'Loading news…',share:'Share:',fb:'Facebook',wa:'WhatsApp',copy:'Copy Link',copied:'✓ Copied!',back:'← Back',related:'Related News',recent:'Recent News',more:'See more →',notFound:'Article Not Found',notFoundMsg:'The article you are looking for could not be found.',tagline:'In pursuit of truth, In fearless expression!',translating:'Translating…',translateErr:'Translation failed',epaper:'E-Paper',by:'By',goHome:'Go Home',searchPh:'Search…',searchBtn:'Search',searchResults:'Search Results',searchFor:'Results for',resultsFound:'articles found',noResults:'No articles found',noResultsMsg:'Try different keywords.',
-    navHome:'Latest',navHomeFull:'Latest News',tabHome:'🌐 Online Version',tabEpaper:'E-Paper',tbReporter:'Reporter Portal',tbContact:'Contact',tbAds:'Advertise',
+    navHome:'Latest',navHomeFull:'Latest News',tabHome:'🌐 Online Version',tabEpaper:'E-Paper',tabLive:'Live',tbReporter:'Reporter Portal',tbContact:'Contact',tbAds:'Advertise',
+    liveTitle:'🔴 Live Broadcast',liveNote:'This automatically shows whatever is currently live on our YouTube channel — it may look blank if nothing is streaming right now.',liveWatchYt:'Open in YouTube',liveWatchFb:'Watch on Facebook',liveNoAuto:'📡 In-browser playback setup is coming soon. For now, tap a button below — it opens the live stream directly if we\u2019re live, or our channel/page if not.',liveAltPrompt:'Prefer to watch elsewhere?',
     ftCatHeading:'Categories',ftInfoHeading:'Information',ftAbout:'About Us',ftContact:'Contact Us',ftAdvertise:'Advertise With Us',ftReporter:'Reporter Portal',ftPrivacy:'Privacy Policy',
     footerInfo:'Founder & Publisher: Anik Adhikari<br>Founder & Editor-in-Chief: Md. Farhan Shahriar',
     footerBottom:'দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — All rights reserved 2026',visitWebsite:'🌐 Visit Website',footerNoticeTitle:'⚠️ Important Notice',footerNoticeText:'This news portal is currently running on a "trial broadcast" basis. We consciously avoid political news and publish only entertainment, informational, and public-interest content. Responsibility for news published here lies with the respective authors, not the portal authority. The registration process and full broadcast are underway.'},
@@ -888,8 +944,10 @@ function applyLang(l) {
   // ── TAB BAR ──
   const tabHomeLabel = document.getElementById('tab-home-label');
   const tabEpaperLabel = document.getElementById('tab-epaper-label');
+  const tabLiveLabel = document.getElementById('tab-live-label');
   if(tabHomeLabel) tabHomeLabel.textContent = s.tabHome;
   if(tabEpaperLabel) tabEpaperLabel.textContent = s.tabEpaper;
+  if(tabLiveLabel) tabLiveLabel.textContent = s.tabLive;
 
   // ── NAV / MOBILE NAV / FOOTER CATEGORY LABELS ──
   document.getElementById('nl-home').textContent = s.navHome;
@@ -1485,6 +1543,7 @@ setTimeout(hideSiteLoader, SITE_LOADER_MAX_MS); // hard cap — fires regardless
 
   await fetchData();
   buildTicker();
+  initLiveDetection();
   // Inject persistent hero ad (below nav, every page) — always hero.png
   const heroAdEl = document.getElementById('hero-ad-container');
   if(heroAdEl) heroAdEl.innerHTML = adHero();
@@ -1875,5 +1934,11 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') { closeContactPopup(); closeInfoPopup(); }
 });
 </script>
+
+<!-- LIVE STATUS DETECTOR: invisible, off-screen iframe used only to check whether
+     the channel is actually streaming right now (drives the লাইভ tab's dot) -->
+<div style="position:absolute;width:2px;height:2px;overflow:hidden;opacity:0;pointer-events:none;left:-9999px;top:-9999px;" aria-hidden="true">
+  <iframe id="live-detect-frame" src="" title="live status detector" allow="autoplay"></iframe>
+</div>
 </body>
 </html>
