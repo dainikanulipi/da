@@ -82,6 +82,9 @@ button{font-family:inherit;cursor:pointer;}
 .nav .wrap::-webkit-scrollbar{display:none;}
 .nl{padding:11px 14px;font-size:13px;font-weight:700;white-space:nowrap;border-bottom:3px solid transparent;color:var(--txt2);transition:all .2s;cursor:pointer;font-family:'Noto Sans Bengali',sans-serif;border:none;background:none;display:flex;align-items:center;gap:5px;}
 .nl:hover,.nl.on{color:var(--red);border-bottom:3px solid var(--red);}
+.live-dot-ep{width:8px;height:8px;border-radius:50%;background:#999;display:inline-block;transition:background .3s;}
+.live-dot-ep.is-live{background:#ff1f1f;animation:liveDotPulseEp 1.4s ease-in-out infinite;}
+@keyframes liveDotPulseEp{0%,100%{opacity:1;}50%{opacity:.3;}}
 
 /* PAGE LAYOUT */
 .ep-page{padding:20px 0 0;}
@@ -418,6 +421,7 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
   <div class="wrap">
     <button class="nl" id="nav-home" onclick="location.href='https://dainikanulipi.github.io/da/'">🌐 অনলাইন সংস্করণ</button>
     <button class="nl on" id="nav-epaper">📰 ই-পেপার</button>
+    <button class="nl" id="nav-live" onclick="location.href='https://dainikanulipi.github.io/da/live.html'"><span class="live-dot-ep"></span> <span id="nav-live-label">লাইভ</span></button>
   </div>
 </nav>
 
@@ -651,6 +655,47 @@ if(lang==='ar') lang='bn';
 
 // ── CONFIG ──
 const PDF_BASE_PATH = 'https://dainikanulipi.github.io/da/assets/epapers/';
+
+// ── LIVE STREAM CONFIG — keep YT_CHANNEL_ID in sync with index.html/live.html ──
+const CFG = {
+  YT_CHANNEL_ID: 'UCV4MqKW7pl0wb58CuddGiEQ',
+};
+
+// ── LIVE STATUS DETECTION ──
+// Silently checks whether CFG.YT_CHANNEL_ID is actually streaming right
+// now, using the YouTube IFrame Player API (no API key needed) — the
+// red dot on the লাইভ tab only blinks when a stream is really live.
+function loadYouTubeIframeAPI(cb){
+  if(window.YT && window.YT.Player){ cb(); return; }
+  const prev = window.onYouTubeIframeAPIReady;
+  window.onYouTubeIframeAPIReady = function(){ if(prev) prev(); cb(); };
+  if(!document.getElementById('yt-iframe-api')){
+    const tag = document.createElement('script');
+    tag.id = 'yt-iframe-api';
+    tag.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(tag);
+  }
+}
+function setLiveDotState(isLive){
+  document.querySelectorAll('.live-dot-ep').forEach(d=>d.classList.toggle('is-live', !!isLive));
+}
+function onLiveDetectStateChange(e){
+  const YTS = window.YT.PlayerState;
+  if(e.data===YTS.PLAYING || e.data===YTS.BUFFERING) setLiveDotState(true);
+  else if(e.data===YTS.ENDED || e.data===YTS.CUED || e.data===YTS.UNSTARTED) setLiveDotState(false);
+}
+function onLiveDetectError(){ setLiveDotState(false); }
+function initLiveDetection(){
+  if(!CFG.YT_CHANNEL_ID) return;
+  const frame = document.getElementById('live-detect-frame');
+  if(!frame) return;
+  frame.src = `https://www.youtube.com/embed/live_stream?channel=${CFG.YT_CHANNEL_ID}&mute=1&autoplay=1&enablejsapi=1&origin=${encodeURIComponent(location.origin)}`;
+  loadYouTubeIframeAPI(()=>{
+    new YT.Player('live-detect-frame', {
+      events: { onStateChange: onLiveDetectStateChange, onError: onLiveDetectError }
+    });
+  });
+}
 
 // ── STATE ──
 let pdfDoc        = null;
@@ -1182,7 +1227,7 @@ var CAT_EN = {'জাতীয়':'National','সারাদেশ':'Across th
 var T = {
   bn:{
     home:'অনলাইন সংস্করণ', contact:'যোগাযোগ', ads:'বিজ্ঞাপন',
-    badge:'📰 ই-পেপার', navHome:'🌐 অনলাইন সংস্করণ', navEpaper:'📰 ই-পেপার',
+    badge:'📰 ই-পেপার', navHome:'🌐 অনলাইন সংস্করণ', navEpaper:'📰 ই-পেপার', navLive:'লাইভ',
     edLabel:'📅 সংখ্যা:', edBtn:'দেখুন',
     loading:'লোড হচ্ছে…', noEdition:'এই তারিখের সংখ্যা পাওয়া যায়নি।',
     tipsHeading:'ব্যবহার নির্দেশিকা',
@@ -1213,7 +1258,7 @@ var T = {
   },
   en:{
     home:'Online Version', contact:'Contact', ads:'Advertise',
-    badge:'📰 E-Paper', navHome:'🌐 Online Version', navEpaper:'📰 E-Paper',
+    badge:'📰 E-Paper', navHome:'🌐 Online Version', navEpaper:'📰 E-Paper', navLive:'Live',
     edLabel:'📅 Edition:', edBtn:'View',
     loading:'Loading…', noEdition:'No edition found for this date.',
     tipsHeading:'How to Use',
@@ -1326,6 +1371,7 @@ function applyLangUI() {
   const mastBadge = document.getElementById('mast-badge'); if(mastBadge) mastBadge.textContent = t.badge;
   document.getElementById('nav-home').textContent     = t.navHome;
   document.getElementById('nav-epaper').textContent   = t.navEpaper;
+  document.getElementById('nav-live-label').textContent = t.navLive;
   document.getElementById('ed-label').textContent     = t.edLabel;
   document.getElementById('ed-go-btn').textContent    = t.edBtn;
   const toolTitle = document.getElementById('ep-toolbar-title');
@@ -1388,6 +1434,7 @@ function applyLangUI() {
 async function init(){
   applyTheme(); setLang(lang);
   buildArchive();
+  initLiveDetection();
   const params=new URLSearchParams(window.location.search);
   const explicitDate = params.get('date');
   if(!explicitDate) showSpinner();
@@ -1404,5 +1451,11 @@ document.addEventListener('DOMContentLoaded',init);
     toTopBtn.classList.toggle('show', window.scrollY > 200);
   });
 </script>
+
+<!-- LIVE STATUS DETECTOR: invisible, off-screen iframe used only to check whether
+     the channel is actually streaming right now (drives the লাইভ tab's dot) -->
+<div style="position:absolute;width:2px;height:2px;overflow:hidden;opacity:0;pointer-events:none;left:-9999px;top:-9999px;" aria-hidden="true">
+  <iframe id="live-detect-frame" src="" title="live status detector" allow="autoplay"></iframe>
+</div>
 </body>
 </html>
