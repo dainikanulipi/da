@@ -13,12 +13,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
 
-<!-- PDF.JS: renders the e-paper PDF pages to canvas (used in fullscreen viewer) -->
+<!-- PDF.JS: renders each e-paper PDF page to an image (fed into the flipbook) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<!-- STPAGEFLIP: the actual flipbook engine (drag-corner page turning) -->
+<script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
 
 <!-- ══════════════════════════════════════════════
      PAGE CSS (theme variables, masthead/nav, e-paper
-     viewer/toolbar/book area, fullscreen, footer, responsive)
+     viewer/toolbar/book area, footer, responsive)
      ══════════════════════════════════════════════ -->
 <style>
 :root{
@@ -132,6 +134,38 @@ button{font-family:inherit;cursor:pointer;}
 .ep-spinner{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:#888;z-index:5;}
 .ep-spinner .spin{width:36px;height:36px;border:3px solid #444;border-top-color:var(--red);border-radius:50%;animation:spin .75s linear infinite;}
 .ep-spinner p{font-size:13px;font-family:'Noto Sans Bengali',sans-serif;}
+.ep-load-stack{position:relative;width:64px;height:80px;perspective:400px;margin-bottom:2px;}
+.ep-load-leaf{position:absolute;top:0;left:0;width:64px;height:80px;background:linear-gradient(135deg,#fff,#eee);border:1px solid var(--bdr);border-radius:2px;box-shadow:0 4px 14px rgba(0,0,0,.25);transform-origin:left center;}
+.ep-load-leaf::before{content:'';position:absolute;left:8px;right:8px;top:12px;height:2px;background:#ccc;box-shadow:0 8px 0 #ccc,0 16px 0 #ccc,0 24px 0 #ddd,0 32px 0 #ddd,0 40px 0 #ddd;}
+.ep-load-leaf.l1{z-index:3;background:linear-gradient(135deg,var(--red),#a8121f);border-color:var(--red);animation:epLeafFlip 1.6s cubic-bezier(.6,0,.4,1) infinite;}
+.ep-load-leaf.l1::before{display:none;}
+.ep-load-leaf.l2{z-index:2;}
+.ep-load-leaf.l3{z-index:1;transform:translateX(2px);}
+@keyframes epLeafFlip{
+  0%{transform:rotateY(0deg);}
+  35%{transform:rotateY(-150deg);}
+  50%{transform:rotateY(-150deg);}
+  85%{transform:rotateY(0deg);}
+  100%{transform:rotateY(0deg);}
+}
+.ep-load-text{font-size:13px;font-family:'Noto Sans Bengali',sans-serif;color:var(--txt2);animation:epTextPulse 1.6s ease-in-out infinite;letter-spacing:.2px;}
+@keyframes epTextPulse{0%,100%{opacity:1;}50%{opacity:.55;}}
+.ep-load-bar{width:150px;height:4px;border-radius:3px;background:var(--bdr);overflow:hidden;position:relative;}
+.ep-load-bar-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--red),#ff5b5b);border-radius:3px;transition:width .25s ease;}
+
+/* SITE-WIDE SPLASH LOADER */
+.site-loader{position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;background:var(--bg);transition:opacity .5s ease,visibility .5s ease;}
+.site-loader.hide{opacity:0;visibility:hidden;pointer-events:none;}
+.site-loader-logo{height:64px;width:auto;max-width:220px;object-fit:contain;animation:siteLoaderFadeIn .8s ease both;}
+.site-loader-logo.logo-img-light{display:block;}
+.site-loader-logo.logo-img-dark{display:none;}
+[data-theme=dark] .site-loader-logo.logo-img-light{display:none;}
+[data-theme=dark] .site-loader-logo.logo-img-dark{display:block;}
+@keyframes siteLoaderFadeIn{0%{opacity:0;transform:translateY(-6px);}100%{opacity:1;transform:translateY(0);}}
+.site-loader-stack{margin-bottom:0;}
+.site-loader-logo-fallback{display:none;font-size:30px;font-weight:700;font-family:'Noto Serif Bengali',serif;color:var(--txt);animation:siteLoaderFadeIn .8s ease both;}
+.site-loader-logo-fallback em{color:var(--red);font-style:normal;}
+.site-loader-text{font-size:13.5px;font-family:'Noto Sans Bengali',sans-serif;color:var(--txt2);animation:epTextPulse 1.6s ease-in-out infinite;letter-spacing:.3px;}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* ERROR */
@@ -158,30 +192,6 @@ button{font-family:inherit;cursor:pointer;}
 .thumb-num{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.65);color:#fff;font-size:10px;font-weight:700;text-align:center;padding:2px 0;font-family:'Noto Sans Bengali',sans-serif;}
 .thumb-item.active .thumb-num{background:var(--red);}
 
-/* FULLSCREEN OVERLAY */
-.fs-overlay{display:none;position:fixed;inset:0;z-index:9000;background:#111;flex-direction:column;}
-.fs-overlay.open{display:flex;}
-.fs-topbar{background:#0a0a0a;border-bottom:1px solid #1e1e1e;padding:9px 14px;display:flex;align-items:center;gap:10px;flex-shrink:0;flex-wrap:wrap;}
-.fs-title{color:#999;font-size:12.5px;font-family:'Noto Sans Bengali',sans-serif;flex:1;min-width:100px;}
-.fs-controls{display:flex;align-items:center;gap:5px;}
-.fs-btn{background:#1e1e1e;border:1px solid #333;color:#bbb;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .18s;}
-.fs-btn:hover{background:var(--red);border-color:var(--red);color:#fff;}
-.fs-btn:disabled{opacity:.2;pointer-events:none;}
-.fs-close{background:#1e1e1e;border:1px solid #333;color:#888;font-size:13px;padding:6px 12px;font-family:'Noto Sans Bengali',sans-serif;transition:all .2s;}
-.fs-close:hover{background:var(--red);border-color:var(--red);color:#fff;}
-.fs-pg{color:#555;font-size:12px;font-family:'Noto Sans Bengali',sans-serif;min-width:80px;text-align:center;}
-.fs-body{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;padding:20px 54px;}
-.fs-stage{display:flex;align-items:stretch;box-shadow:0 24px 80px rgba(0,0,0,.9);max-height:100%;max-width:100%;}
-.fs-page{background:#fff;position:relative;line-height:0;overflow:hidden;flex-shrink:0;}
-.fs-page canvas{display:block;max-height:calc(100vh - 100px);width:auto;}
-.fs-page.fs-left{border:none;box-shadow:none;}
-.fs-page.fs-right{display:none !important;}
-.fs-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.06);color:#fff;border:none;width:40px;height:70px;font-size:20px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
-.fs-nav:hover{background:var(--red);}
-.fs-nav:disabled{opacity:.1;pointer-events:none;}
-.fs-nav.left{left:6px;}
-.fs-nav.right{right:6px;}
-
 /* SECTION HEADER */
 .sh{display:flex;align-items:center;margin-bottom:12px;}
 .sh h3{background:var(--red);color:#fff;padding:5px 13px;font-size:12.5px;font-weight:700;font-family:'Noto Sans Bengali',sans-serif;flex-shrink:0;}
@@ -201,9 +211,17 @@ button{font-family:inherit;cursor:pointer;}
 .totop-btn{position:fixed;bottom:24px;right:24px;width:48px;height:48px;border-radius:50%;background:var(--red);color:#fff;border:none;font-size:20px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px var(--shd);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s;z-index:9000;}
 .totop-btn.show{opacity:1;visibility:visible;transform:translateY(0);}
 .totop-btn:hover{background:var(--dkred);}
-.tips-box{background:var(--sur);border:1px solid var(--bdr);padding:14px 16px;margin-top:14px;box-shadow:0 1px 8px var(--shd);display:flex;flex-direction:column;}
+.tips-box{background:var(--sur);border:1px solid var(--bdr);padding:12px 16px;margin-top:14px;box-shadow:0 1px 8px var(--shd);}
+.tips-summary{display:flex;align-items:center;justify-content:space-between;cursor:pointer;list-style:none;padding:4px 0;user-select:none;}
+.tips-summary::-webkit-details-marker{display:none;}
+.tips-summary h3{margin:0;}
+.tips-box:not([open]) .tips-summary{border-bottom:none;}
+.tips-box[open] .tips-summary{border-bottom:1px solid var(--bdr);padding-bottom:10px;margin-bottom:2px;}
+.tips-chevron{font-size:16px;color:var(--red);transition:transform .2s ease;flex-shrink:0;}
+.tips-box[open] .tips-chevron{transform:rotate(180deg);}
 .tip-group-label{font-size:11px;font-weight:700;font-family:'Noto Sans Bengali',sans-serif;color:var(--red);text-transform:uppercase;letter-spacing:.6px;padding:10px 0 4px;border-bottom:1px solid var(--bdr);margin-bottom:2px;}
 .tip-group-label:first-of-type{padding-top:2px;}
+.tips-body{display:flex;flex-direction:column;}
 .tip-row{display:flex;align-items:flex-start;gap:10px;padding:7px 0;font-size:12.5px;line-height:1.65;font-family:'Noto Sans Bengali',sans-serif;color:var(--txt2);}
 .tip-row span:first-child{font-size:15px;flex-shrink:0;line-height:1.65;}
 .tip-row+.tip-row{border-top:1px solid var(--bdr);}
@@ -276,7 +294,6 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
 @media(max-width:599px){
   .fg{grid-template-columns:1fr;}
   footer{padding:24px 0 0;}
-  .fs-body{padding:12px 44px;}
   .topbar .wrap{flex-direction:column;gap:4px;text-align:center;}
   .topbar-r{justify-content:center;}
   .mast .wrap{flex-direction:column;align-items:flex-start;gap:8px;}
@@ -296,11 +313,6 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
   .sh h3{font-size:12px;}
   .nav .wrap{gap:0;}
   .nl{font-size:12px;padding:9px 10px;}
-  
-  .fs-topbar{flex-wrap:wrap;gap:6px;padding:7px 10px;}
-  .fs-btn{width:28px;height:28px;font-size:12px;}
-  .fs-close{font-size:12px;padding:5px 10px;}
-  .fs-body{padding:10px 38px;}
 }
 
 /* ── Very Small Phone (< 380px) ── */
@@ -310,16 +322,58 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
   .ep-toolbar-title{display:none;}
   .thumb-item canvas{width:44px !important;height:66px !important;}
   .wrap{padding:0 10px;}
-}</style>
+
+/* PAGE-TURN ANIMATION (Kalbela-style curl, single page at a time) */
+#book-area{perspective:2400px;}
+.pt-clone{
+  position:absolute;top:0;left:0;
+  transform-style:preserve-3d;backface-visibility:hidden;
+  box-shadow:0 8px 30px rgba(0,0,0,.5);
+  will-change:transform,box-shadow;
+  pointer-events:none;z-index:15;
+}
+.pt-clone img{display:block;width:100%;height:100%;}
+.pt-clone.pt-next{transform-origin:left center;animation:ptCurlNext .55s cubic-bezier(.4,0,.2,1) forwards;}
+.pt-clone.pt-prev{transform-origin:right center;animation:ptCurlPrev .55s cubic-bezier(.4,0,.2,1) forwards;}
+@keyframes ptCurlNext{
+  0%{transform:rotateY(0deg);box-shadow:-4px 0 18px rgba(0,0,0,.35);}
+  100%{transform:rotateY(-150deg);box-shadow:0 0 0 rgba(0,0,0,0);}
+}
+@keyframes ptCurlPrev{
+  0%{transform:rotateY(0deg);box-shadow:4px 0 18px rgba(0,0,0,.35);}
+  100%{transform:rotateY(150deg);box-shadow:0 0 0 rgba(0,0,0,0);}
+.pt-corner{position:absolute;width:56px;height:56px;z-index:16;cursor:grab;touch-action:none;}
+.pt-corner.pt-corner-r{right:0;bottom:0;background:linear-gradient(135deg,transparent 50%,rgba(255,255,255,.16) 50%);}
+.pt-corner.pt-corner-l{left:0;bottom:0;background:linear-gradient(225deg,transparent 50%,rgba(255,255,255,.16) 50%);}
+.pt-corner:active{cursor:grabbing;}
+.pt-drag-clone,.pt-drag-under{position:absolute;top:0;left:0;transform-style:preserve-3d;backface-visibility:hidden;z-index:15;pointer-events:none;}
+.pt-drag-under{z-index:14;box-shadow:none;}
+.pt-drag-clone{box-shadow:0 8px 18px rgba(0,0,0,.5);}
+.pt-drag-clone img,.pt-drag-under img{display:block;width:100%;height:100%;}
+</style>
 </head>
 <body>
+
+<!-- SITE LOADER: full-page splash shown until the first edition finishes loading -->
+<div id="site-loader" class="site-loader">
+  <img src="assets/logo.png"      alt="দৈনিক অনুলিপি" class="site-loader-logo logo-img-light" onerror="this.style.display='none';document.getElementById('site-loader-logo-fallback').style.display='block';">
+  <img src="assets/logo-dark.png" alt="দৈনিক অনুলিপি" class="site-loader-logo logo-img-dark"  onerror="this.style.display='none';document.getElementById('site-loader-logo-fallback').style.display='block';">
+  <div id="site-loader-logo-fallback" class="site-loader-logo-fallback">দৈনিক <em>অনুলিপি</em></div>
+  <div class="ep-load-stack site-loader-stack">
+    <div class="ep-load-leaf l3"></div>
+    <div class="ep-load-leaf l2"></div>
+    <div class="ep-load-leaf l1"></div>
+  </div>
+  <p class="site-loader-text">পত্রিকা প্রস্তুত হচ্ছে…</p>
+</div>
+
 
 <!-- TOP BAR: thin strip above the header — today's date and quick links (home, contact, advertise) -->
 <div class="topbar">
   <div class="wrap">
     <span id="tbar-date"></span>
     <div class="topbar-r">
-      <a href="index.html" id="tb-home">হোম</a>
+      <a href="https://dainikanulipi.github.io/da/" id="tb-home">অনলাইন সংস্করণ</a>
       <a onclick="openContactPopup('যোগাযোগ')" id="tb-contact">যোগাযোগ</a>
       <a onclick="openContactPopup('বিজ্ঞাপন')" id="tb-ads">বিজ্ঞাপন</a>
     </div>
@@ -329,7 +383,7 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
 <!-- MASTHEAD: site logo + tagline (left), "ই-পেপার" badge, language switch and theme toggle (right) -->
 <div class="mast">
   <div class="wrap">
-    <div class="logo" onclick="location.href='index.html'">
+    <div class="logo" onclick="location.href='https://dainikanulipi.github.io/da/'">
       <img src="assets/logo.png"      alt="দৈনিক অনুলিপি" class="logo-img logo-img-light">
       <img src="assets/logo-dark.png" alt="দৈনিক অনুলিপি" class="logo-img logo-img-dark">
       <div class="logo-tag" id="mast-tagline">সত্যের সন্ধানে, নির্ভীক প্রকাশে!</div>
@@ -347,7 +401,7 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
 <!-- NAV: simple two-item bar — link back to the home page, and the (active) E-Paper tab -->
 <nav class="nav">
   <div class="wrap">
-    <button class="nl" id="nav-home" onclick="location.href='index.html'">🏠 হোম</button>
+    <button class="nl" id="nav-home" onclick="location.href='https://dainikanulipi.github.io/da/'">🌐 অনলাইন সংস্করণ</button>
     <button class="nl on" id="nav-epaper">📰 ই-পেপার</button>
   </div>
 </nav>
@@ -378,7 +432,6 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
             <button class="tb-btn" onclick="changeZoom(0.2)" title="Zoom in">+</button>
             <button class="tb-btn" onclick="resetZoom()" title="Reset zoom">⊙</button>
             <div class="tb-sep"></div>
-            <button class="tb-btn" onclick="openFullscreen()" title="Fullscreen">⛶</button>
           </div>
 
           <!-- PAGE BUTTONS ROW -->
@@ -386,10 +439,10 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
             <span id="page-btn-loading" style="font-size:12px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;">লোড হচ্ছে…</span>
           </div>
 
-          <!-- PDF CANVAS VIEWER -->
-          <div id="book-area" style="position:relative;background:var(--viewer-bg);min-height:560px;overflow:hidden;cursor:grab;user-select:none;">
-            <div id="canvas-wrap" style="position:absolute;top:0;left:0;transform-origin:top left;will-change:transform;">
-              <canvas id="canvas-main" style="display:block;"></canvas>
+          <!-- FLIPBOOK VIEWER -->
+          <div id="book-area" class="book-area" style="position:relative;background:var(--viewer-bg);overflow:hidden;user-select:none;display:flex;align-items:center;justify-content:center;">
+            <div id="book-zoom-wrap" style="transform-origin:center center;width:100%;height:100%;display:flex;align-items:center;justify-content:center;">
+              <div id="book-flip" style="width:100%;height:100%;"></div>
             </div>
             <!-- CTRL+SCROLL HINT (shows briefly when user scrolls without Ctrl) -->
             <div id="zoom-hint" style="display:none;position:absolute;inset:0;z-index:20;background:rgba(0,0,0,.55);align-items:center;justify-content:center;pointer-events:none;">
@@ -400,8 +453,13 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
             </div>
             <!-- SPINNER -->
             <div id="ep-spinner" style="display:none;position:absolute;inset:0;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:#888;z-index:5;background:var(--viewer-bg);">
-              <div style="width:36px;height:36px;border:3px solid #444;border-top-color:var(--red);border-radius:50%;animation:spin .75s linear infinite;"></div>
-              <p style="font-size:13px;font-family:'Noto Sans Bengali',sans-serif;">লোড হচ্ছে…</p>
+              <div class="ep-load-stack">
+                <div class="ep-load-leaf l3"></div>
+                <div class="ep-load-leaf l2"></div>
+                <div class="ep-load-leaf l1"></div>
+              </div>
+              <p id="ep-spinner-text" class="ep-load-text">লোড হচ্ছে…</p>
+              <div class="ep-load-bar"><div class="ep-load-bar-fill" id="ep-load-bar-fill"></div></div>
             </div>
             <!-- ERROR -->
             <div id="ep-error" style="display:none;position:absolute;inset:0;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#666;text-align:center;padding:30px;z-index:5;">
@@ -419,36 +477,37 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
           </div>
         </div>
 
-        <!-- TIPS: usage guide below the PDF viewer -->
-        <div class="tips-box">
-          <div class="sh" style="margin-bottom:10px;"><h3 id="tips-heading">ব্যবহার নির্দেশিকা</h3><div class="sh-line"></div></div>
+        <!-- TIPS: usage guide below the PDF viewer — collapsed by default to save space -->
+        <details class="tips-box">
+          <summary class="tips-summary">
+            <h3 id="tips-heading">ব্যবহার নির্দেশিকা</h3>
+            <span class="tips-chevron">▾</span>
+          </summary>
 
-          <div class="tip-group-label" id="tip-group-1">📖 সংখ্যা খোলা</div>
-          <div class="tip-row"><span>📅</span><span id="tip-1">ক্যালেন্ডার থেকে তারিখ বেছে <strong>"দেখুন"</strong>-এ ক্লিক করুন — সেদিনের সংখ্যা লোড হবে</span></div>
-          <div class="tip-row"><span>🗂️</span><span id="tip-2">পেজ নম্বর বোতামে ক্লিক করে সরাসরি যেকোনো পাতায় যান; পাশের <strong>❮ ❯</strong> তীরচিহ্নেও পাতা পাল্টানো যায়</span></div>
+          <div class="tips-body">
+            <div class="tip-group-label" id="tip-group-1">📖 সংখ্যা খোলা</div>
+            <div class="tip-row"><span>📅</span><span id="tip-1">ক্যালেন্ডার থেকে তারিখ বেছে <strong>"দেখুন"</strong>-এ ক্লিক করুন — সেদিনের সংখ্যা লোড হবে</span></div>
+            <div class="tip-row"><span>🗂️</span><span id="tip-2">পেজ নম্বর বোতামে ক্লিক করে সরাসরি যেকোনো পাতায় যান; পাশের <strong>❮ ❯</strong> তীরচিহ্নেও পাতা পাল্টানো যায়</span></div>
 
-          <div class="tip-group-label" id="tip-group-2">🔍 জুম ও প্যান</div>
-          <div class="tip-row"><span>🖥️</span><span id="tip-3">কম্পিউটারে <strong>Ctrl + স্ক্রল</strong> করে ছবির ভেতরে জুম করুন; টুলবারের <strong>+</strong> / <strong>−</strong> বোতামও ব্যবহার করতে পারেন</span></div>
-          <div class="tip-row"><span>📱</span><span id="tip-4">মোবাইলে দুই আঙুল দিয়ে <strong>পিঞ্চ</strong> করে জুম করুন; দ্রুত জুম করতে স্ক্রিনে <strong>দুইবার ট্যাপ</strong> করুন</span></div>
-          <div class="tip-row"><span>🖱️</span><span id="tip-5">জুম করার পর পাতা ধরে <strong>টেনে সরান</strong> (ড্র্যাগ) — মোবাইলে এক আঙুলে স্লাইড করুন</span></div>
+            <div class="tip-group-label" id="tip-group-2">🔍 জুম ও প্যান</div>
+            <div class="tip-row"><span>🖥️</span><span id="tip-3">কম্পিউটারে <strong>Ctrl + স্ক্রল</strong> করে ছবির ভেতরে জুম করুন; টুলবারের <strong>+</strong> / <strong>−</strong> বোতামও ব্যবহার করতে পারেন</span></div>
+            <div class="tip-row"><span>📱</span><span id="tip-4">মোবাইলে দুই আঙুল দিয়ে <strong>পিঞ্চ</strong> করে জুম করুন; দ্রুত জুম করতে স্ক্রিনে <strong>দুইবার ট্যাপ</strong> করুন</span></div>
+            <div class="tip-row"><span>🖱️</span><span id="tip-5">জুম করার পর পাতা ধরে <strong>টেনে সরান</strong> (ড্র্যাগ) — মোবাইলে এক আঙুলে স্লাইড করুন</span></div>
 
-          <div class="tip-group-label" id="tip-group-3">⌨️ কীবোর্ড শর্টকাট</div>
-          <div class="tip-row tip-shortcuts">
-            <span>⌨️</span>
-            <span id="tip-6">
-              <span class="tip-sc-grid">
-                <span class="sc-key">← / →</span><span id="tip-sc-1">আগের / পরের পাতা</span>
-                <span class="sc-key">+ / −</span><span id="tip-sc-2">জুম বাড়ান / কমান</span>
-                <span class="sc-key">0</span><span id="tip-sc-3">জুম রিসেট করুন</span>
-                <span class="sc-key">Esc</span><span id="tip-sc-4">ফুলস্ক্রিন / পপআপ বন্ধ করুন</span>
+            <div class="tip-group-label" id="tip-group-3">⌨️ কীবোর্ড শর্টকাট</div>
+            <div class="tip-row tip-shortcuts">
+              <span>⌨️</span>
+              <span id="tip-6">
+                <span class="tip-sc-grid">
+                  <span class="sc-key">← / →</span><span id="tip-sc-1">আগের / পরের পাতা</span>
+                  <span class="sc-key">+ / −</span><span id="tip-sc-2">জুম বাড়ান / কমান</span>
+                  <span class="sc-key">0</span><span id="tip-sc-3">জুম রিসেট করুন</span>
+                  <span class="sc-key">Esc</span><span id="tip-sc-4">পপআপ বন্ধ করুন</span>
+                </span>
               </span>
-            </span>
+            </div>
           </div>
-
-          <div class="tip-group-label" id="tip-group-4">⛶ ফুলস্ক্রিন</div>
-          <div class="tip-row"><span>⛶</span><span id="tip-7">টুলবারের ফুলস্ক্রিন আইকনে ক্লিক করলে বিজ্ঞাপনমুক্ত বড় পর্দায় পেপার পড়া যাবে; <strong>Esc</strong> চেপে বা <strong>✕ বন্ধ</strong> বোতামে বেরিয়ে আসুন</span></div>
-
-        </div>
+        </details>
 
       </div>
 
@@ -470,17 +529,17 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
       <div class="fc">
         <h5 id="footer-cat-heading">বিভাগ</h5>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 12px;">
-          <a href="index.html" id="ft-সর্বশেষ">সর্বশেষ</a>
-          <a href="index.html#cat/অর্থনীতি" id="ft-cat-5">অর্থনীতি</a>
-          <a href="index.html#cat/জাতীয়" id="ft-cat-1">জাতীয়</a>
+          <a href="https://dainikanulipi.github.io/da/" id="ft-সর্বশেষ">সর্বশেষ</a>
+          <a href="https://dainikanulipi.github.io/da/#cat/অর্থনীতি" id="ft-cat-5">অর্থনীতি</a>
+          <a href="https://dainikanulipi.github.io/da/#cat/জাতীয়" id="ft-cat-1">জাতীয়</a>
           <a href="sports.html" id="ft-cat-6">খেলা</a>
-          <a href="index.html#cat/সারাদেশ" id="ft-cat-2">সারাদেশ</a>
-          <a href="index.html#cat/আনন্দ সময়" id="ft-cat-7">আনন্দ সময়</a>
-          <a href="index.html#cat/বিশ্ব সংবাদ" id="ft-cat-3">বিশ্ব সংবাদ</a>
-          <a href="index.html#cat/চাকরি" id="ft-cat-8">চাকরি</a>
-          <a href="index.html#cat/বাণিজ্য" id="ft-cat-4">বাণিজ্য</a>
-          <a href="index.html#cat/মতামত" id="ft-cat-9">মতামত</a>
-          <a href="index.html#cat/বিশেষ সংবাদ" id="ft-cat-10" style="grid-column:1/-1;">বিশেষ সংবাদ</a>
+          <a href="https://dainikanulipi.github.io/da/#cat/সারাদেশ" id="ft-cat-2">সারাদেশ</a>
+          <a href="https://dainikanulipi.github.io/da/#cat/আনন্দ সময়" id="ft-cat-7">আনন্দ সময়</a>
+          <a href="https://dainikanulipi.github.io/da/#cat/বিশ্ব সংবাদ" id="ft-cat-3">বিশ্ব সংবাদ</a>
+          <a href="https://dainikanulipi.github.io/da/#cat/চাকরি" id="ft-cat-8">চাকরি</a>
+          <a href="https://dainikanulipi.github.io/da/#cat/বাণিজ্য" id="ft-cat-4">বাণিজ্য</a>
+          <a href="https://dainikanulipi.github.io/da/#cat/মতামত" id="ft-cat-9">মতামত</a>
+          <a href="https://dainikanulipi.github.io/da/#cat/বিশেষ সংবাদ" id="ft-cat-10" style="grid-column:1/-1;">বিশেষ সংবাদ</a>
         </div>
       </div>
       <!-- FOOTER COL 3: about/contact/advertise/reporter/privacy links -->
@@ -502,31 +561,6 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
     <div class="fb-bot" id="footer-bottom">দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — সর্বস্বত্ব সংরক্ষিত ২০২৬</div>
   </div>
 </footer>
-
-<!-- FULLSCREEN OVERLAY: full-window reading mode opened by openFullscreen() — toolbar with page nav + close, and the rendered page canvas -->
-<div class="fs-overlay" id="fs-overlay">
-  <div class="fs-topbar">
-    <span class="fs-title" id="fs-title">ই-পেপার</span>
-    <div class="fs-controls">
-      <button class="fs-btn" id="fs-prev" onclick="goPage(-1)" disabled>❮</button>
-      <span class="fs-pg" id="fs-pg">—</span>
-      <button class="fs-btn" id="fs-next" onclick="goPage(1)" disabled>❯</button>
-    </div>
-    <button class="fs-close" id="fs-close-btn" onclick="closeFullscreen()">✕ বন্ধ</button>
-  </div>
-  <div class="fs-body" id="fs-body">
-    <button class="fs-nav left" id="fs-nav-left" onclick="goPage(-1)" disabled>❮</button>
-    <div class="fs-stage" id="fs-stage">
-      <div class="fs-page fs-left" id="fs-left-page">
-        <canvas id="fs-canvas-left"></canvas>
-      </div>
-      <div class="fs-page fs-right" id="fs-right-page">
-        <canvas id="fs-canvas-right"></canvas>
-      </div>
-    </div>
-    <button class="fs-nav right" id="fs-nav-right" onclick="goPage(1)" disabled>❯</button>
-  </div>
-</div>
 
 <!-- CONTACT/ADVERTISE POPUP: hidden modal opened via openContactPopup() — shows phone, email, WhatsApp, Facebook links -->
 <div id="contact-popup-overlay" onclick="closeContactPopup(event)" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);align-items:center;justify-content:center;">
@@ -581,7 +615,7 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
 <!-- ══════════════════════════════════════════════
      PAGE SCRIPT
      Handles: PDF.js setup, date/folder helpers, single-page PDF
-     rendering & navigation, thumbnails, fullscreen viewer,
+     rendering & navigation, thumbnails,
      edition loading, archive list, theme + language (bn/en)
      switching, contact/info popups, and keyboard/touch controls.
      ══════════════════════════════════════════════ -->
@@ -598,12 +632,16 @@ const PDF_BASE_PATH = 'https://dainikanulipi.github.io/da/assets/epapers/';
 
 // ── STATE ──
 let pdfDoc        = null;
+let pageFlip       = null; // St.PageFlip instance
+let normalPageFlip = null; // the flipbook shown inline on the page (single page)
 let currentPage   = 1;
 let totalPages    = 0;
-let baseScale     = 1;    // fit-to-width scale
 let userZoom      = 1.0;  // multiplier (1 = 100%)
-let isFS          = false;
 let currentDateStr = '';
+
+let renderedImages = [];
+let renderedPageW  = 0;
+let renderedPageH  = 0;
 
 // ── PAN STATE ──
 let isPanning = false, panStartX = 0, panStartY = 0, panOffX = 0, panOffY = 0, panCurX = 0, panCurY = 0;
@@ -630,82 +668,125 @@ function folderStrToDisplayShort(s){
   return `${toBnDigits(dd)} ${months[parseInt(mm,10)-1]}, ${toBnDigits('20'+yy)}`;
 }
 function pdfPath(dateStr){return `${PDF_BASE_PATH}${dateStr}.pdf`;}
-
-// ── COMPUTE BASE SCALE (fit page width to viewer) ──
-async function computeBaseScale(){
-  if(!pdfDoc) return 1;
-  const page = await pdfDoc.getPage(1);
-  const vp0  = page.getViewport({scale:1});
-  const area = document.getElementById('book-area');
-  return (area.offsetWidth || 800) / vp0.width;
+function shiftDateStr(dateStr, deltaDays){
+  const [dd,mm,yy] = dateStr.split('-');
+  const d = new Date(2000+parseInt(yy,10), parseInt(mm,10)-1, parseInt(dd,10));
+  d.setDate(d.getDate()+deltaDays);
+  return `${String(d.getDate()).padStart(2,'0')}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getFullYear()).slice(-2)}`;
+}
+async function pdfExists(path){
+  try{ const res = await fetch(path, {method:'HEAD'}); return res.ok; }
+  catch(e){ return false; }
+}
+// Walks backward day-by-day from today (up to 2 weeks) to find the most recent
+// edition that's actually been published, instead of assuming today's is up yet.
+async function findLatestAvailableDate(maxDaysBack=14){
+  let d = todayStr();
+  for(let i=0;i<=maxDaysBack;i++){
+    if(await pdfExists(pdfPath(d))) return d;
+    d = shiftDateStr(d, -1);
+  }
+  return todayStr(); // nothing found in range — fall back to today (will show the normal error state)
 }
 
-// ── RENDER CURRENT PAGE ──
-async function renderPage(){
-  if(!pdfDoc) return;
-  const canvas = document.getElementById('canvas-main');
-  const wrap   = document.getElementById('canvas-wrap');
-  const page   = await pdfDoc.getPage(currentPage);
-  const scale  = baseScale * userZoom;
-  const vp     = page.getViewport({scale});
-  canvas.width  = vp.width;
-  canvas.height = vp.height;
-  await page.render({canvasContext: canvas.getContext('2d'), viewport: vp}).promise;
+// ── RENDER ALL PAGES TO IMAGES (fed into the flipbook) ──
+async function renderAllPagesToImages(){
+  const spinTxt = document.getElementById('ep-spinner-text');
+  const barFill = document.getElementById('ep-load-bar-fill');
+  const images = [];
+  const first  = await pdfDoc.getPage(1);
+  const vp0    = first.getViewport({scale:1});
+  const targetW = Math.min(1400, vp0.width * 1.8); // higher resolution for a sharper flipbook, still capped for memory/perf
+  const scale   = targetW / vp0.width;
 
-  // Center wrap if smaller than area
-  const area = document.getElementById('book-area');
-  area.style.minHeight = Math.max(vp.height + 40, 300) + 'px';
-  clampPan();
-  applyPan();
-  updateIndicator();
-  updatePageBtns();
-  if(isFS) await renderFSPage();
+  for(let i=1;i<=totalPages;i++){
+    spinTxt.textContent = `পাতা লোড হচ্ছে… ${toBnDigits(String(i))}/${toBnDigits(String(totalPages))}`;
+    if(barFill) barFill.style.width = `${Math.round((i/totalPages)*100)}%`;
+    const page = await pdfDoc.getPage(i);
+    const vp   = page.getViewport({scale});
+    const off  = document.createElement('canvas');
+    off.width = vp.width; off.height = vp.height;
+    await page.render({canvasContext: off.getContext('2d'), viewport: vp}).promise;
+    images.push(off.toDataURL('image/jpeg', 0.92));
+  }
+  renderedImages = images;
+  renderedPageW  = Math.round(vp0.width*scale);
+  renderedPageH  = Math.round(vp0.height*scale);
+  return {images, pageW: renderedPageW, pageH: renderedPageH};
 }
 
-// ── PAN LOGIC ──
-function clampPan(){
-  const area   = document.getElementById('book-area');
-  const canvas = document.getElementById('canvas-main');
-  const aW = area.offsetWidth;
-  const cW = canvas.width, cH = canvas.height;
-  const maxX = Math.max(0, (cW - aW) / 2);
-  const maxY = Math.max(0, cH / 2);
-  panCurX = Math.max(-maxX, Math.min(maxX, panCurX));
-  panCurY = Math.max(-maxY, Math.min(maxY, panCurY));
-}
-function applyPan(){
-  const area   = document.getElementById('book-area');
-  const canvas = document.getElementById('canvas-main');
-  const wrap   = document.getElementById('canvas-wrap');
-  const aW = area.offsetWidth, aH = area.offsetHeight;
-  const cW = canvas.width,     cH = canvas.height;
-  const baseX = Math.max(0, (aW - cW) / 2);
-  const baseY = Math.max(0, (aH - cH) / 2);
-  wrap.style.transform = `translate(${baseX + panCurX}px, ${baseY + panCurY}px)`;
+// ── BUILD / REBUILD THE INLINE (SINGLE-PAGE) FLIPBOOK ──
+function buildFlipbook(images, pageW, pageH){
+  if(normalPageFlip){ try{ normalPageFlip.destroy(); }catch(e){} normalPageFlip=null; }
+  // NOTE: PageFlip.destroy() removes its own container element from the DOM
+  // (not just its contents), so #book-flip no longer exists after the first
+  // edition switch. Always rebuild it fresh inside the stable #book-zoom-wrap
+  // parent instead of reusing the old (possibly already-removed) node.
+  const wrap = document.getElementById('book-zoom-wrap');
+  wrap.innerHTML = '';
+  const holder = document.createElement('div');
+  holder.id = 'book-flip';
+  holder.style.cssText = 'width:100%;height:100%;';
+  wrap.appendChild(holder);
+
+  normalPageFlip = new St.PageFlip(holder, {
+    width: pageW,
+    height: pageH,
+    size: 'stretch',
+    minWidth: 220,
+    maxWidth: pageW * 3,
+    minHeight: 300,
+    maxHeight: pageH * 3,
+    showCover: false,          // (showCover:true forces a blank "inside cover" page next to page 1 in portrait mode — not wanted here)
+    usePortrait: true,        // single page at a time, always (never a spread)
+    mobileScrollSupport: false,
+    maxShadowOpacity: 0.5,
+    flippingTime: 600
+  });
+  normalPageFlip.loadFromImages(images);
+  normalPageFlip.on('flip', e=>{
+    currentPage = e.data + 1;
+    updateIndicator();
+    updatePageBtns();
+  });
+  pageFlip = normalPageFlip;
 }
 
-// ── PAN & ZOOM EVENTS (Google Maps-style) ──
+// ── ZOOM (applied to the whole book, centered; drag-to-pan only once zoomed) ──
+function applyZoomTransform(){
+  document.getElementById('book-zoom-wrap').style.transform = `translate(${panCurX}px,${panCurY}px) scale(${userZoom})`;
+}
+function changeZoom(delta){
+  userZoom = Math.max(1, Math.min(3, userZoom + delta));
+  if(userZoom<=1) { panCurX=0; panCurY=0; }
+  document.getElementById('zoom-label').textContent = Math.round(userZoom*100)+'%';
+  applyZoomTransform();
+}
+function resetZoom(){
+  userZoom=1; panCurX=0; panCurY=0;
+  document.getElementById('zoom-label').textContent='100%';
+  applyZoomTransform();
+}
+
+// ── PAN & ZOOM EVENTS ── (only takes over drag once zoomed in — at 100% the
+// flipbook's own corner-drag page-turning owns the pointer)
 (function setupPan(){
   const area = document.getElementById('book-area');
 
-  // ── Mouse drag to pan ──
   area.addEventListener('mousedown', e=>{
-    if(e.button!==0) return;
-    isPanning=true; panStartX=e.clientX-panCurX; panStartY=e.clientY-panCurY;
-    area.style.cursor='grabbing'; e.preventDefault();
+    if(userZoom<=1.001 || e.button!==0) return;
+    isPanning=true; panStartX=e.clientX-panCurX; panStartY=e.clientY-panCurY; e.preventDefault();
   });
   window.addEventListener('mousemove', e=>{
     if(!isPanning) return;
     panCurX=e.clientX-panStartX; panCurY=e.clientY-panStartY;
-    clampPan(); applyPan();
+    applyZoomTransform();
   });
-  window.addEventListener('mouseup', ()=>{ isPanning=false; document.getElementById('book-area').style.cursor='grab'; });
+  window.addEventListener('mouseup', ()=>{ isPanning=false; });
 
-  // ── Wheel: only zoom when Ctrl/Meta held (Google Maps style); otherwise let page scroll ──
   let hintTimer=null;
   area.addEventListener('wheel', e=>{
     if(!e.ctrlKey && !e.metaKey){
-      // Show hint briefly
       const hint=document.getElementById('zoom-hint');
       hint.style.display='flex';
       clearTimeout(hintTimer);
@@ -713,117 +794,53 @@ function applyPan(){
       return;
     }
     e.preventDefault();
-    const rect   = area.getBoundingClientRect();
-    const pxInArea = { x: e.clientX - rect.left, y: e.clientY - rect.top };
     const factor = e.deltaY < 0 ? 1.12 : 1/1.12;
-    applyZoomAt(factor, pxInArea);
+    userZoom = Math.max(1, Math.min(3, userZoom*factor));
+    if(userZoom<=1){ panCurX=0; panCurY=0; }
+    document.getElementById('zoom-label').textContent = Math.round(userZoom*100)+'%';
+    applyZoomTransform();
   },{passive:false});
 
-  // ── Touch: single finger pan, two-finger pinch-to-zoom ──
-  let lastTouchX=0, lastTouchY=0;
-  let lastPinchDist=0;
-
+  let lastPinchDist=0, lastTouchX=0, lastTouchY=0;
   area.addEventListener('touchstart', e=>{
-    if(e.touches.length===1){
-      lastTouchX=e.touches[0].clientX;
-      lastTouchY=e.touches[0].clientY;
-    } else if(e.touches.length===2){
-      lastPinchDist=Math.hypot(
-        e.touches[1].clientX-e.touches[0].clientX,
-        e.touches[1].clientY-e.touches[0].clientY
-      );
+    if(e.touches.length===2){
+      lastPinchDist=Math.hypot(e.touches[1].clientX-e.touches[0].clientX, e.touches[1].clientY-e.touches[0].clientY);
+    } else if(e.touches.length===1 && userZoom>1.001){
+      lastTouchX=e.touches[0].clientX; lastTouchY=e.touches[0].clientY;
     }
   },{passive:true});
-
   area.addEventListener('touchmove', e=>{
-    if(e.touches.length===1 && lastPinchDist===0){
-      // single-finger pan
-      const dx=e.touches[0].clientX-lastTouchX;
-      const dy=e.touches[0].clientY-lastTouchY;
-      lastTouchX=e.touches[0].clientX;
-      lastTouchY=e.touches[0].clientY;
-      panCurX+=dx; panCurY+=dy; clampPan(); applyPan();
-    } else if(e.touches.length===2){
+    if(e.touches.length===2){
       e.preventDefault();
-      const dist=Math.hypot(
-        e.touches[1].clientX-e.touches[0].clientX,
-        e.touches[1].clientY-e.touches[0].clientY
-      );
+      const dist=Math.hypot(e.touches[1].clientX-e.touches[0].clientX, e.touches[1].clientY-e.touches[0].clientY);
       if(lastPinchDist>0){
-        const factor = dist / lastPinchDist;
-        const midX   = (e.touches[0].clientX+e.touches[1].clientX)/2;
-        const midY   = (e.touches[0].clientY+e.touches[1].clientY)/2;
-        const rect   = area.getBoundingClientRect();
-        applyZoomAt(factor, {x:midX-rect.left, y:midY-rect.top});
+        const factor = dist/lastPinchDist;
+        userZoom = Math.max(1, Math.min(3, userZoom*factor));
+        document.getElementById('zoom-label').textContent = Math.round(userZoom*100)+'%';
+        applyZoomTransform();
       }
       lastPinchDist=dist;
+    } else if(e.touches.length===1 && userZoom>1.001){
+      const dx=e.touches[0].clientX-lastTouchX, dy=e.touches[0].clientY-lastTouchY;
+      lastTouchX=e.touches[0].clientX; lastTouchY=e.touches[0].clientY;
+      panCurX+=dx; panCurY+=dy; applyZoomTransform();
     }
   },{passive:false});
-
   area.addEventListener('touchend', e=>{
-    if(e.touches.length < 2) lastPinchDist=0;
-    if(e.touches.length === 0){ lastTouchX=0; lastTouchY=0; }
+    if(e.touches.length<2) lastPinchDist=0;
   },{passive:true});
 
-  // ── Double-tap to zoom in (mobile) ──
   let lastTap=0;
   area.addEventListener('touchend', e=>{
     if(e.changedTouches.length!==1) return;
     const now=Date.now();
     if(now-lastTap<320){
-      const t=e.changedTouches[0];
-      const rect=area.getBoundingClientRect();
-      if(userZoom>1.05){ resetZoom(); } else { applyZoomAt(2,{x:t.clientX-rect.left,y:t.clientY-rect.top}); }
-      e.preventDefault();
+      if(userZoom>1.05){ resetZoom(); }
+      else { userZoom=2; document.getElementById('zoom-label').textContent='200%'; applyZoomTransform(); }
     }
     lastTap=now;
-  },{passive:false});
+  },{passive:true});
 })();
-
-// ── Zoom centered on a point inside book-area ──
-function applyZoomAt(factor, pt){
-  // pt = {x, y} in pixels relative to book-area top-left
-  const area    = document.getElementById('book-area');
-  const canvas  = document.getElementById('canvas-main');
-  const aW = area.offsetWidth, aH = area.offsetHeight;
-  const cW = canvas.width,     cH = canvas.height;
-
-  // Current rendered position of canvas top-left inside area
-  const baseX = Math.max(0,(aW-cW)/2);
-  const baseY = Math.max(0,(aH-cH)/2);
-  const canvasLeft = baseX + panCurX;
-  const canvasTop  = baseY + panCurY;
-
-  // Where on the canvas (in canvas px) is the pointer?
-  const ptOnCanvasX = pt.x - canvasLeft;
-  const ptOnCanvasY = pt.y - canvasTop;
-
-  const oldZoom = userZoom;
-  userZoom = Math.max(0.5, Math.min(5, userZoom * factor));
-  const zoomRatio = userZoom / oldZoom;
-
-  // Adjust pan so the pointer stays fixed
-  panCurX = pt.x - (baseX + ptOnCanvasX * zoomRatio);
-  panCurY = pt.y - (baseY + ptOnCanvasY * zoomRatio);
-
-  document.getElementById('zoom-label').textContent = Math.round(userZoom*100)+'%';
-  showSpinner();
-  renderPage().then(hideSpinner);
-}
-
-// ── ZOOM (toolbar buttons) ──
-function changeZoom(delta){
-  const area = document.getElementById('book-area');
-  const pt   = {x: area.offsetWidth/2, y: area.offsetHeight/2};
-  const factor = delta > 0 ? 1 + delta : 1/(1-delta);
-  applyZoomAt(factor, pt);
-}
-function resetZoom(){
-  userZoom=1; panCurX=0; panCurY=0;
-  document.getElementById('zoom-label').textContent='100%';
-  showSpinner();
-  renderPage().then(hideSpinner);
-}
 
 // ── PAGE BUTTONS ──
 function buildPageBtns(){
@@ -848,49 +865,39 @@ function updatePageBtns(){
   });
 }
 
-// ── NAV ──
+// ── NAV ── (StPageFlip owns the actual turning + its native corner-drag)
 function goPage(delta){
-  const next = Math.max(1, Math.min(totalPages, currentPage + delta));
-  if(next===currentPage) return;
-  currentPage=next; panCurX=0; panCurY=0;
-  showSpinner();
-  renderPage().then(hideSpinner);
+  if(!pageFlip) return;
+  if(delta > 0) pageFlip.flipNext(); else pageFlip.flipPrev();
 }
 function jumpToPage(n){
-  currentPage = Math.max(1, Math.min(n, totalPages));
-  panCurX=0; panCurY=0;
-  showSpinner();
-  renderPage().then(hideSpinner);
+  if(!pageFlip) return;
+  const target = Math.max(1, Math.min(n, totalPages));
+  pageFlip.turnToPage(target - 1);
 }
 function updateIndicator(){
   const cur = lang==='en' ? String(currentPage) : toBnDigits(String(currentPage));
   const tot = lang==='en' ? String(totalPages)  : toBnDigits(String(totalPages));
   document.getElementById('page-indicator').textContent=`${cur} / ${tot}`;
 }
-
-// ── FULLSCREEN RENDER ──
-async function renderFSPage(){
-  const canvas = document.getElementById('fs-canvas-left');
-  const page   = await pdfDoc.getPage(currentPage);
-  const maxW   = window.innerWidth - 100;
-  const maxH   = window.innerHeight - 90;
-  const vp0    = page.getViewport({scale:1});
-  const scale  = Math.min(maxW/vp0.width, maxH/vp0.height) * userZoom;
-  const vp     = page.getViewport({scale});
-  canvas.width=vp.width; canvas.height=vp.height;
-  await page.render({canvasContext:canvas.getContext('2d'),viewport:vp}).promise;
-  syncFSNav();
-  document.getElementById('fs-pg').textContent=`${toBnDigits(String(currentPage))} / ${toBnDigits(String(totalPages))}`;
-  document.getElementById('fs-title').textContent=document.getElementById('ep-toolbar-title').textContent;
-}
-function syncFSNav(){
-  const atStart=currentPage<=1, atEnd=currentPage>=totalPages;
-  ['fs-prev','fs-nav-left'].forEach(id=>{const el=document.getElementById(id);if(el)el.disabled=atStart;});
-  ['fs-next','fs-nav-right'].forEach(id=>{const el=document.getElementById(id);if(el)el.disabled=atEnd;});
-}
-
 // ── SPINNER ──
-function showSpinner(){ document.getElementById('ep-spinner').style.display='flex'; }
+function showSpinner(){
+  document.getElementById('ep-spinner').style.display='flex';
+  const barFill = document.getElementById('ep-load-bar-fill');
+  if(barFill) barFill.style.width='0%';
+}
+// ── SITE-WIDE SPLASH LOADER ── (hides as soon as loading finishes, but never stays up longer than 1s regardless)
+const SITE_LOADER_MAX_MS = 1000;
+let siteLoaderHidden = false;
+function hideSiteLoader(){
+  if(siteLoaderHidden) return;
+  siteLoaderHidden = true;
+  const el = document.getElementById('site-loader');
+  if(!el) return;
+  el.classList.add('hide');
+  setTimeout(()=>el.remove(), 600);
+}
+setTimeout(hideSiteLoader, SITE_LOADER_MAX_MS); // hard cap — fires regardless of load state
 function hideSpinner(){ document.getElementById('ep-spinner').style.display='none'; }
 function showError(path){
   document.getElementById('ep-error').style.display='flex';
@@ -900,18 +907,6 @@ function showError(path){
 }
 function hideError(){ document.getElementById('ep-error').style.display='none'; }
 
-// ── FULLSCREEN ──
-function openFullscreen(){
-  isFS=true;
-  document.getElementById('fs-overlay').classList.add('open');
-  document.body.style.overflow='hidden';
-  renderFSPage();
-}
-function closeFullscreen(){
-  isFS=false;
-  document.getElementById('fs-overlay').classList.remove('open');
-  document.body.style.overflow='';
-}
 
 // ── LOAD EDITION ──
 async function loadEdition(dateStr){
@@ -930,18 +925,22 @@ async function loadEdition(dateStr){
   showSpinner();
   document.getElementById('page-btn-row').innerHTML='<span id="page-btn-loading" style="font-size:12px;color:var(--txt3);font-family:\'Noto Sans Bengali\',sans-serif;">লোড হচ্ছে…</span>';
   document.getElementById('page-indicator').textContent='—';
-  pdfDoc=null; currentPage=1; totalPages=0; panCurX=0; panCurY=0;
+  pdfDoc=null; currentPage=1; totalPages=0; panCurX=0; panCurY=0; userZoom=1;
+  document.getElementById('zoom-label').textContent='100%';
 
   try {
     pdfDoc = await pdfjsLib.getDocument(path).promise;
     totalPages = pdfDoc.numPages;
-    baseScale  = await computeBaseScale();
+    const {images, pageW, pageH} = await renderAllPagesToImages();
+    buildFlipbook(images, pageW, pageH);
     buildPageBtns();
-    await renderPage();
+    updateIndicator();
     hideSpinner();
+    hideSiteLoader();
   } catch(e){
     hideSpinner();
     showError(path);
+    hideSiteLoader();
   }
 }
 
@@ -996,7 +995,7 @@ document.addEventListener('keydown',e=>{
   if(e.key==='+') changeZoom(0.2);
   if(e.key==='-') changeZoom(-0.2);
   if(e.key==='0') resetZoom();
-  if(e.key==='Escape'){ closeFullscreen(); closeContactPopup(); closeInfoPopup(); }
+  if(e.key==='Escape'){ closeContactPopup(); closeInfoPopup(); }
 });
 
 // ── CONTACT POPUP ──
@@ -1094,20 +1093,19 @@ var CAT_EN = {'জাতীয়':'National','সারাদেশ':'Across th
 
 var T = {
   bn:{
-    home:'হোম', contact:'যোগাযোগ', ads:'বিজ্ঞাপন',
-    badge:'📰 ই-পেপার', navHome:'🏠 হোম', navEpaper:'📰 ই-পেপার',
+    home:'অনলাইন সংস্করণ', contact:'যোগাযোগ', ads:'বিজ্ঞাপন',
+    badge:'📰 ই-পেপার', navHome:'🌐 অনলাইন সংস্করণ', navEpaper:'📰 ই-পেপার',
     edLabel:'📅 সংখ্যা:', edBtn:'দেখুন',
     loading:'লোড হচ্ছে…', noEdition:'এই তারিখের সংখ্যা পাওয়া যায়নি।',
     tipsHeading:'ব্যবহার নির্দেশিকা',
-    tipGroup1:'📖 সংখ্যা খোলা', tipGroup2:'🔍 জুম ও প্যান', tipGroup3:'⌨️ কীবোর্ড শর্টকাট', tipGroup4:'⛶ ফুলস্ক্রিন',
+    tipGroup1:'📖 সংখ্যা খোলা', tipGroup2:'🔍 জুম ও প্যান', tipGroup3:'⌨️ কীবোর্ড শর্টকাট',
     tip1:'ক্যালেন্ডার থেকে তারিখ বেছে <strong>"দেখুন"</strong>-এ ক্লিক করুন — সেদিনের সংখ্যা লোড হবে',
     tip2:'পেজ নম্বর বোতামে ক্লিক করে সরাসরি যেকোনো পাতায় যান; পাশের <strong>❮ ❯</strong> তীরচিহ্নেও পাতা পাল্টানো যায়',
     tip3:'কম্পিউটারে <strong>Ctrl + স্ক্রল</strong> করে ছবির ভেতরে জুম করুন; টুলবারের <strong>+</strong> / <strong>−</strong> বোতামও ব্যবহার করতে পারেন',
     tip4:'মোবাইলে দুই আঙুল দিয়ে <strong>পিঞ্চ</strong> করে জুম করুন; দ্রুত জুম করতে স্ক্রিনে <strong>দুইবার ট্যাপ</strong> করুন',
     tip5:'জুম করার পর পাতা ধরে <strong>টেনে সরান</strong> (ড্র্যাগ) — মোবাইলে এক আঙুলে স্লাইড করুন',
     tip6:'',
-    tipSc1:'আগের / পরের পাতা', tipSc2:'জুম বাড়ান / কমান', tipSc3:'জুম রিসেট করুন', tipSc4:'ফুলস্ক্রিন / পপআপ বন্ধ করুন',
-    tip7:'টুলবারের ফুলস্ক্রিন আইকনে ক্লিক করলে বিজ্ঞাপনমুক্ত বড় পর্দায় পেপার পড়া যাবে; <strong>Esc</strong> চেপে বা <strong>✕ বন্ধ</strong> বোতামে বেরিয়ে আসুন',
+    tipSc1:'আগের / পরের পাতা', tipSc2:'জুম বাড়ান / কমান', tipSc3:'জুম রিসেট করুন', tipSc4:'পপআপ বন্ধ করুন',
     tip8:'',
     tagline:'সত্যের সন্ধানে, নির্ভীক প্রকাশে!',
     footerInfo:'প্রতিষ্ঠাতা ও প্রকাশক: অনিক অধিকারী<br>প্রতিষ্ঠাতা ও প্রধান সম্পাদক: মো: ফারহান শাহরিয়ার',
@@ -1117,25 +1115,24 @@ var T = {
     ftAbout:'আমাদের সম্পর্কে', ftContact:'যোগাযোগ করুন', ftAds:'বিজ্ঞাপন দিন',
     ftReporter:'রিপোর্টার পোর্টাল', ftPrivacy:'গোপনীয়তা নীতি',
     footerBottom:'দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — সর্বস্বত্ব সংরক্ষিত ২০২৬',
-    fsClose:'✕ বন্ধ', visitWebsite:'🌐 ওয়েবসাইট ভিজিট করুন',
+    visitWebsite:'🌐 ওয়েবসাইট ভিজিট করুন',
     contactTitle:'📬 যোগাযোগ করুন', adsTitle:'📢 বিজ্ঞাপন দিন',
     cats:['জাতীয়','সারাদেশ','বিশ্ব সংবাদ','বাণিজ্য','অর্থনীতি','খেলা','আনন্দ সময়','চাকরি','মতামত','বিশেষ সংবাদ'],
   },
   en:{
-    home:'Home', contact:'Contact', ads:'Advertise',
-    badge:'📰 E-Paper', navHome:'🏠 Home', navEpaper:'📰 E-Paper',
+    home:'Online Version', contact:'Contact', ads:'Advertise',
+    badge:'📰 E-Paper', navHome:'🌐 Online Version', navEpaper:'📰 E-Paper',
     edLabel:'📅 Edition:', edBtn:'View',
     loading:'Loading…', noEdition:'No edition found for this date.',
     tipsHeading:'How to Use',
-    tipGroup1:'📖 Opening an Edition', tipGroup2:'🔍 Zoom & Pan', tipGroup3:'⌨️ Keyboard Shortcuts', tipGroup4:'⛶ Fullscreen',
+    tipGroup1:'📖 Opening an Edition', tipGroup2:'🔍 Zoom & Pan', tipGroup3:'⌨️ Keyboard Shortcuts',
     tip1:'Pick a date from the calendar and click <strong>"View"</strong> — that day\'s edition will load',
     tip2:'Click any page-number button to jump directly to that page; use the <strong>❮ ❯</strong> arrows to step through pages',
     tip3:'On desktop, hold <strong>Ctrl + Scroll</strong> to zoom in/out; the <strong>+</strong> / <strong>−</strong> toolbar buttons also work',
     tip4:'On mobile, <strong>pinch</strong> with two fingers to zoom; <strong>double-tap</strong> to quickly zoom in or reset',
     tip5:'After zooming, <strong>drag</strong> the page to pan around — on mobile, slide with one finger',
     tip6:'',
-    tipSc1:'Previous / Next page', tipSc2:'Zoom in / Zoom out', tipSc3:'Reset zoom', tipSc4:'Close fullscreen / popup',
-    tip7:'Click the fullscreen icon in the toolbar for a distraction-free full-screen reading view; press <strong>Esc</strong> or <strong>✕ Close</strong> to exit',
+    tipSc1:'Previous / Next page', tipSc2:'Zoom in / Zoom out', tipSc3:'Reset zoom', tipSc4:'Close popup',
     tip8:'',
     tagline:'In pursuit of truth, In fearless expression!',
     footerInfo:'Founder & Publisher: Anik Adhikari<br>Founder & Editor-in-Chief: Md. Farhan Shahriar',
@@ -1145,7 +1142,7 @@ var T = {
     ftAbout:'About Us', ftContact:'Contact Us', ftAds:'Advertise With Us',
     ftReporter:'Reporter Portal', ftPrivacy:'Privacy Policy',
     footerBottom:'দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — All rights reserved 2026',
-    fsClose:'✕ Close', visitWebsite:'🌐 Visit Website',
+    visitWebsite:'🌐 Visit Website',
     contactTitle:'📬 Contact Us', adsTitle:'📢 Advertise With Us',
     cats:['National','Across the Country','World','Business','Economy','Sports','Entertainment','Jobs','Opinion','Special News'],
   }
@@ -1242,7 +1239,6 @@ function applyLangUI() {
   document.getElementById('tip-group-1').textContent = t.tipGroup1;
   document.getElementById('tip-group-2').textContent = t.tipGroup2;
   document.getElementById('tip-group-3').textContent = t.tipGroup3;
-  document.getElementById('tip-group-4').textContent = t.tipGroup4;
   document.getElementById('tip-1').innerHTML = t.tip1;
   document.getElementById('tip-2').innerHTML = t.tip2;
   document.getElementById('tip-3').innerHTML = t.tip3;
@@ -1252,7 +1248,6 @@ function applyLangUI() {
   document.getElementById('tip-sc-2').textContent = t.tipSc2;
   document.getElementById('tip-sc-3').textContent = t.tipSc3;
   document.getElementById('tip-sc-4').textContent = t.tipSc4;
-  document.getElementById('tip-7').innerHTML = t.tip7;
 
   document.getElementById('mast-tagline').textContent     = t.tagline;
   document.getElementById('footer-tagline').textContent    = t.tagline;
@@ -1267,7 +1262,6 @@ function applyLangUI() {
   document.getElementById('ft-reporter').textContent = t.ftReporter;
   document.getElementById('ft-privacy').textContent  = t.ftPrivacy;
   document.getElementById('footer-bottom').textContent     = t.footerBottom;
-  document.getElementById('fs-close-btn') && (document.getElementById('fs-close-btn').textContent = t.fsClose);
   const visitLink = document.querySelector('#contact-popup-overlay a[href*="dainikanulipi.github"]');
   if(visitLink) visitLink.textContent = t.visitWebsite;
 
@@ -1288,13 +1282,15 @@ function applyLangUI() {
 }
 
 // ── INIT ──
-function init(){
+async function init(){
   applyTheme(); setLang(lang);
-  const today=new Date();
-  document.getElementById('ed-date-input').value=`${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
   buildArchive();
   const params=new URLSearchParams(window.location.search);
-  loadEdition(params.get('date')||todayStr());
+  const explicitDate = params.get('date');
+  if(!explicitDate) showSpinner();
+  const dateToLoad = explicitDate || await findLatestAvailableDate();
+  document.getElementById('ed-date-input').value = folderStrToInputVal(dateToLoad);
+  loadEdition(dateToLoad);
 }
 document.addEventListener('DOMContentLoaded',init);
 </script>
