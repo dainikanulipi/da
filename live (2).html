@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="bn" data-theme="light" dir="ltr">
+<head>
+<!-- BASIC SEO + ICON -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="দৈনিক অনুলিপি — সরাসরি সম্প্রচার দেখুন">
+<title>দৈনিক অনুলিপি | সরাসরি সম্প্রচার</title>
+<link rel="icon" type="image/png" href="assets/favicon.png" id="fav-icon">
+
+<!-- OPEN GRAPH / TWITTER CARD (for FB/WhatsApp/Twitter share previews) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="দৈনিক অনুলিপি | Dainik Anulipi">
+<meta property="og:title" content="দৈনিক অনুলিপি | সরাসরি সম্প্রচার">
+<meta property="og:description" content="দৈনিক অনুলিপি — সরাসরি সম্প্রচার দেখুন">
+<meta property="og:image" content="https://dainikanulipi.github.io/da/assets/logo.png">
+<meta property="og:url" content="https://dainikanulipi.github.io/da/live.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="দৈনিক অনুলিপি | সরাসরি সম্প্রচার">
+<meta name="twitter:description" content="দৈনিক অনুলিপি — সরাসরি সম্প্রচার দেখুন">
+<meta name="twitter:image" content="https://dainikanulipi.github.io/da/assets/logo.png">
+
+<!-- GOOGLE FONTS: Bengali serif/sans -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+
+<!-- ══════════════════════════════════════════════
+     PAGE CSS (theme variables, masthead/nav, live
+     viewer, footer, responsive) — mirrors epaper.html
+     ══════════════════════════════════════════════ -->
+<style>
+:root{
+  --red:#C8102E;--dkred:#9e0b22;
+  --bg:#dcdcdc;--sur:#fff;--sur2:#f5f5f5;--sur3:#eaeaea;
+  --txt:#111;--txt2:#555;--txt3:#999;
+  --bdr:#e0e0e0;--shd:rgba(0,0,0,.08);
+  --nav-bg:#fff;--topbar:#1a1a1a;--foot:#0f0f0f;
+  --tog-bg:#eee;--tog-c:#444;
+  --viewer-bg:#111;
+}
+[data-theme=dark]{
+  --bg:#0d0d0d;--sur:#1b1b1b;--sur2:#212121;--sur3:#2b2b2b;
+  --txt:#efefef;--txt2:#aaa;--txt3:#565656;
+  --bdr:#2d2d2d;--shd:rgba(0,0,0,.55);
+  --nav-bg:#161616;--topbar:#080808;--foot:#080808;
+  --tog-bg:#2e2e2e;--tog-c:#ddd;
+  --viewer-bg:#000;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Serif Bengali',serif;background:var(--bg);color:var(--txt);transition:background .3s,color .3s;min-height:100vh;}
+a{text-decoration:none;color:inherit;}
+img{display:block;max-width:100%;}
+button{font-family:inherit;cursor:pointer;}
+.wrap{max-width:1240px;margin:0 auto;padding:0 16px;}
+
+/* TOPBAR */
+.topbar{background:var(--topbar);color:#555;font-family:'Noto Sans Bengali',sans-serif;font-size:11.5px;padding:5px 0;}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;}
+.topbar-r{display:flex;gap:14px;}
+.topbar-r a{color:#555;transition:color .2s;cursor:pointer;}
+.topbar-r a:hover{color:#ddd;}
+
+/* MASTHEAD */
+.mast{background:var(--sur);border-bottom:3px solid var(--red);padding:12px 0;transition:background .3s;}
+.mast .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.logo{cursor:pointer;flex-shrink:0;}
+.logo-tag{font-size:12.5px;color:var(--txt2);font-style:italic;margin-top:3px;}
+.logo-img{height:62px;width:auto;max-width:177px;object-fit:contain;display:block;}
+.logo-img-light{display:block;}
+.logo-img-dark{display:none;}
+[data-theme=dark] .logo-img-light{display:none;}
+[data-theme=dark] .logo-img-dark{display:block;}
+.footer-logo-img{height:72px;width:auto;max-width:205px;object-fit:contain;display:block;margin-bottom:6px;}
+@media(max-width:600px){.footer-logo-img{height:56px;max-width:160px;}}
+.mast-r{display:flex;align-items:center;gap:10px;}
+.theme-btn{background:var(--tog-bg);border:none;width:32px;height:32px;border-radius:50%;font-size:14px;display:flex;align-items:center;justify-content:center;color:var(--tog-c);transition:all .3s;}
+.theme-btn:hover{transform:rotate(20deg);}
+.lang-grp{display:flex;gap:3px;}
+.lb{background:var(--tog-bg);border:none;color:var(--tog-c);font-size:11.5px;font-weight:700;padding:4px 9px;font-family:'Noto Sans Bengali',sans-serif;transition:all .2s;}
+.lb.on{background:var(--red);color:#fff;}
+.lb:hover:not(.on){background:var(--sur3);}
+
+/* NAV */
+.nav{background:var(--nav-bg);border-bottom:1px solid var(--bdr);position:sticky;top:0;z-index:300;box-shadow:0 2px 12px var(--shd);transition:background .3s,border-color .3s;}
+.nav .wrap{display:flex;align-items:stretch;overflow-x:auto;scrollbar-width:none;}
+.nav .wrap::-webkit-scrollbar{display:none;}
+.nl{padding:11px 14px;font-size:13px;font-weight:700;white-space:nowrap;border-bottom:3px solid transparent;color:var(--txt2);transition:all .2s;cursor:pointer;font-family:'Noto Sans Bengali',sans-serif;border:none;background:none;display:flex;align-items:center;gap:5px;}
+.nl:hover,.nl.on{color:var(--red);border-bottom:3px solid var(--red);}
+.live-dot{width:8px;height:8px;border-radius:50%;background:#999;display:inline-block;transition:background .3s;}
+.live-dot.is-live{background:#ff1f1f;animation:liveDotPulse 1.4s ease-in-out infinite;}
+@keyframes liveDotPulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+/* PAGE LAYOUT */
+.lv-page{padding:20px 0 0;}
+
+/* HEADER STRIP ABOVE PLAYER */
+.lv-head{background:var(--sur);border:1px solid var(--bdr);border-top:3px solid var(--red);padding:14px 16px;margin-bottom:14px;box-shadow:0 1px 6px var(--shd);}
+.lv-head h1{font-size:19px;font-weight:700;color:var(--txt);display:flex;align-items:center;gap:9px;}
+.lv-note{font-size:12.5px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-top:6px;line-height:1.7;}
+
+/* VIEWER SHELL */
+.lv-viewer{background:var(--sur);border:1px solid var(--bdr);box-shadow:0 2px 18px var(--shd);overflow:hidden;}
+.lv-stage{position:relative;}
+.lv-frame-wrap{position:relative;width:100%;padding-top:56.25%;background:var(--viewer-bg);}
+.lv-frame-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+.lv-fallback{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:30px;color:#ccc;}
+.lv-fallback .fi{font-size:44px;}
+.lv-fallback p{font-size:14px;line-height:1.85;font-family:'Noto Sans Bengali',sans-serif;color:#ccc;max-width:440px;}
+
+/* OFFLINE OVERLAY — shown over the frame once a broadcast that was
+   playing has ended, instead of leaving a frozen/blank video visible */
+.lv-offline-overlay{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:30px;background:var(--viewer-bg);color:#fff;z-index:5;}
+.lv-offline-overlay.show{display:flex;}
+.lv-offline-overlay .fi{font-size:40px;}
+.lv-offline-overlay p{font-size:14px;line-height:1.85;font-family:'Noto Sans Bengali',sans-serif;color:#eee;max-width:420px;margin:0;}
+
+/* WATCH-ELSEWHERE STRIP */
+.lv-strip{background:var(--sur2);border-top:1px solid var(--bdr);padding:16px;display:flex;flex-direction:column;align-items:center;gap:10px;}
+.lv-strip-label{font-size:12px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;}
+.lv-btn-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.lv-btn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--bdr);color:var(--txt2);background:var(--sur);padding:9px 18px;font-size:13px;font-weight:700;font-family:'Noto Sans Bengali',sans-serif;transition:all .2s;}
+.lv-btn:hover{border-color:var(--red);color:var(--red);}
+.lv-btn.yt:hover{background:#ff0000;border-color:#ff0000;color:#fff;}
+.lv-btn.fb:hover{background:#1877f2;border-color:#1877f2;color:#fff;}
+
+/* SOON BOX */
+.lv-soon{background:var(--sur);border:1px solid var(--bdr);border-top:3px solid var(--red);margin-top:14px;padding:16px 18px;box-shadow:0 1px 8px var(--shd);display:flex;gap:12px;align-items:flex-start;}
+.lv-soon .si{font-size:22px;flex-shrink:0;}
+.lv-soon p{font-size:13.5px;line-height:1.85;color:var(--txt2);font-family:'Noto Sans Bengali',sans-serif;}
+
+/* FOOTER */
+footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background .3s;}
+.fg{display:grid;grid-template-columns:2fr 1fr 1fr;gap:28px;padding-bottom:24px;border-bottom:1px solid #1e1e1e;}
+.fl-tag{font-size:14px;color:#fff;font-style:italic;margin-top:4px;}
+.fl-info{font-size:14px;color:#fff;line-height:2;margin-top:12px;}
+.fl-social{display:flex;gap:10px;margin-top:16px;}
+.fl-social a{width:36px;height:36px;border-radius:50%;background:#1e1e1e;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s;flex-shrink:0;}
+.fl-social a:hover{transform:translateY(-2px);}
+.fl-social a.soc-fb:hover{background:#1877f2;}
+.fl-social a.soc-yt:hover{background:#ff0000;}
+.fl-social a:hover svg path{fill:#fff;}
+.fc h5{color:#fff;font-size:15px;font-weight:700;margin-bottom:11px;padding-bottom:6px;border-bottom:1px solid #1e1e1e;font-family:'Noto Sans Bengali',sans-serif;}
+.fc a{display:block;color:#fff;font-size:15px;margin-bottom:6px;font-family:'Noto Sans Bengali',sans-serif;transition:color .2s;cursor:pointer;}
+.fc a:hover{color:var(--red);}
+.fb-bot{text-align:center;padding:12px;font-size:13.5px;color:#fff;font-family:'Noto Sans Bengali',sans-serif;}
+
+.footer-notice{max-width:760px;margin:0 auto 22px;padding:16px 20px;text-align:center;background:#161616;border:1px solid #262626;border-top:3px solid var(--red);}
+.footer-notice-title{font-size:15px;font-weight:700;color:var(--red);margin-bottom:6px;font-family:'Noto Sans Bengali',sans-serif;}
+.footer-notice p{font-size:14px;line-height:1.85;color:#bbb;font-family:'Noto Sans Bengali',sans-serif;margin:0;}
+@media(max-width:600px){
+  .footer-notice{padding:14px 16px;margin-bottom:16px;}
+  .footer-notice p{font-size:13.5px;}
+}
+
+@keyframes popIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+.about-logo{height:64px;width:auto;max-width:220px;object-fit:contain;margin:0 auto;}
+.about-logo-light{display:block;}
+.about-logo-dark{display:none;}
+[data-theme=dark] .about-logo-light{display:none;}
+[data-theme=dark] .about-logo-dark{display:block;}
+
+/* SITE-WIDE SPLASH LOADER */
+.site-loader{position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;background:var(--bg);transition:opacity .5s ease,visibility .5s ease;}
+.site-loader.hide{opacity:0;visibility:hidden;pointer-events:none;}
+.site-loader-logo{height:64px;width:auto;max-width:220px;object-fit:contain;animation:siteLoaderFadeIn .8s ease both;}
+.site-loader-logo.logo-img-light{display:block;}
+.site-loader-logo.logo-img-dark{display:none;}
+[data-theme=dark] .site-loader-logo.logo-img-light{display:none;}
+[data-theme=dark] .site-loader-logo.logo-img-dark{display:block;}
+@keyframes siteLoaderFadeIn{0%{opacity:0;transform:translateY(-6px);}100%{opacity:1;transform:translateY(0);}}
+.site-loader-logo-fallback{display:none;font-size:30px;font-weight:700;font-family:'Noto Serif Bengali',serif;color:var(--txt);animation:siteLoaderFadeIn .8s ease both;}
+.site-loader-logo-fallback em{color:var(--red);font-style:normal;}
+.site-loader-text{font-size:13.5px;font-family:'Noto Sans Bengali',sans-serif;color:var(--txt2);animation:epTextPulse 1.6s ease-in-out infinite;letter-spacing:.3px;}
+@keyframes epTextPulse{0%,100%{opacity:1;}50%{opacity:.55;}}
+
+/* LIVE-THEMED LOADER: a spinning globe with signal arcs beaming outward
+   — "broadcasting to your screen" */
+.lv-load-globe{position:relative;width:78px;height:78px;display:flex;align-items:center;justify-content:center;margin-bottom:-2px;}
+.lv-globe-body{width:42px;height:42px;border-radius:50%;border:2px solid var(--txt3);position:relative;overflow:hidden;background:var(--sur2);animation:lvGlobeSpin 7s linear infinite;}
+.lv-globe-eq{position:absolute;left:0;right:0;top:50%;height:2px;background:var(--txt3);opacity:.8;transform:translateY(-50%);}
+.lv-globe-merid{position:absolute;top:-2px;bottom:-2px;left:50%;border-left:2px solid var(--txt3);border-radius:50%;opacity:.8;}
+.lv-globe-merid.m1{width:42px;transform:translateX(-50%) scaleX(.4);}
+.lv-globe-merid.m2{width:42px;transform:translateX(-50%) scaleX(.85);}
+@keyframes lvGlobeSpin{to{transform:rotate(360deg);}}
+.lv-signal-arc{position:absolute;border-radius:50%;border-style:solid;border-color:var(--red) var(--red) transparent transparent;opacity:0;animation:lvArcBeam 2.2s ease-in-out infinite;}
+.lv-signal-arc.a1{width:54px;height:54px;top:1px;right:1px;border-width:2.5px;animation-delay:0s;}
+.lv-signal-arc.a2{width:66px;height:66px;top:-5px;right:-5px;border-width:2.5px;animation-delay:.3s;}
+.lv-signal-arc.a3{width:78px;height:78px;top:-11px;right:-11px;border-width:2.5px;animation-delay:.6s;}
+@keyframes lvArcBeam{
+  0%{opacity:0;transform:scale(.85);}
+  30%{opacity:.9;transform:scale(1);}
+  65%{opacity:.9;transform:scale(1);}
+  100%{opacity:0;transform:scale(1.08);}
+}
+/* dark mode: --txt3 is too close to the near-black background to read as
+   a globe, and the red arcs need a glow to stand out instead of just
+   looking flat against the dark backdrop */
+[data-theme=dark] .lv-globe-body{border-color:var(--txt2);background:var(--sur3);}
+[data-theme=dark] .lv-globe-eq{background:var(--txt2);}
+[data-theme=dark] .lv-globe-merid{border-left-color:var(--txt2);}
+[data-theme=dark] .lv-signal-arc{filter:drop-shadow(0 0 5px rgba(255,60,80,.65));}
+
+.totop-btn{position:fixed;bottom:24px;right:24px;width:48px;height:48px;border-radius:50%;background:var(--red);color:#fff;border:none;font-size:20px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px var(--shd);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s;z-index:9000;}
+.totop-btn.show{opacity:1;visibility:visible;transform:translateY(0);}
+.totop-btn:hover{background:var(--dkred);}
+
+/* ══ RESPONSIVE ══ */
+@media(max-width:1239px){.wrap{padding:0 14px;}}
+@media(max-width:960px){.fg{grid-template-columns:1fr 1fr;}}
+@media(max-width:700px){.topbar{font-size:11px;}.lv-head h1{font-size:17px;}}
+@media(max-width:599px){
+  .fg{grid-template-columns:1fr;}
+  footer{padding:24px 0 0;}
+  .topbar .wrap{flex-direction:column;gap:4px;text-align:center;}
+  .topbar-r{justify-content:center;}
+  .mast .wrap{flex-direction:column;align-items:flex-start;gap:8px;}
+  .mast-r{align-self:flex-end;}
+  .logo-img{height:50px;}
+  .nav .wrap{gap:0;}
+  .nl{font-size:12px;padding:9px 10px;}
+  .lv-btn{padding:8px 14px;font-size:12.5px;}
+}
+</style>
+</head>
+<body>
+
+<!-- SITE LOADER -->
+<div id="site-loader" class="site-loader">
+  <img src="assets/logo.png"      alt="দৈনিক অনুলিপি" class="site-loader-logo logo-img-light" onerror="this.style.display='none';document.getElementById('site-loader-logo-fallback').style.display='block';">
+  <img src="assets/logo-dark.png" alt="দৈনিক অনুলিপি" class="site-loader-logo logo-img-dark"  onerror="this.style.display='none';document.getElementById('site-loader-logo-fallback').style.display='block';">
+  <div id="site-loader-logo-fallback" class="site-loader-logo-fallback">দৈনিক <em>অনুলিপি</em></div>
+  <div class="lv-load-globe" aria-hidden="true">
+    <div class="lv-globe-body">
+      <span class="lv-globe-merid m1"></span>
+      <span class="lv-globe-merid m2"></span>
+      <span class="lv-globe-eq"></span>
+    </div>
+    <span class="lv-signal-arc a1"></span>
+    <span class="lv-signal-arc a2"></span>
+    <span class="lv-signal-arc a3"></span>
+  </div>
+  <p class="site-loader-text">সরাসরি সম্প্রচার প্রস্তুত হচ্ছে…</p>
+</div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="wrap">
+    <span id="tbar-date"></span>
+    <div class="topbar-r">
+      <a href="https://dainikanulipi.github.io/da/" id="tb-home">অনলাইন সংস্করণ</a>
+      <a onclick="openContactPopup('যোগাযোগ')" id="tb-contact">যোগাযোগ</a>
+      <a onclick="openContactPopup('বিজ্ঞাপন')" id="tb-ads">বিজ্ঞাপন</a>
+    </div>
+  </div>
+</div>
+
+<!-- MASTHEAD -->
+<div class="mast">
+  <div class="wrap">
+    <div class="logo" onclick="location.href='https://dainikanulipi.github.io/da/'">
+      <img src="assets/logo.png"      alt="দৈনিক অনুলিপি" class="logo-img logo-img-light">
+      <img src="assets/logo-dark.png" alt="দৈনিক অনুলিপি" class="logo-img logo-img-dark">
+      <div class="logo-tag" id="mast-tagline">সত্যের সন্ধানে, নির্ভীক প্রকাশে!</div>
+    </div>
+    <div class="mast-r">
+      <button class="theme-btn" onclick="toggleTheme()" id="theme-btn" title="থিম পরিবর্তন">🌙</button>
+      <div class="lang-grp">
+        <button class="lb on" id="lb-bn" onclick="setLang('bn')">বাং</button>
+        <button class="lb"    id="lb-en" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="wrap">
+    <button class="nl" id="nav-home" onclick="location.href='https://dainikanulipi.github.io/da/'">🌐 অনলাইন সংস্করণ</button>
+    <button class="nl" id="nav-epaper" onclick="location.href='https://dainikanulipi.github.io/da/epaper.html'">📰 ই-পেপার</button>
+    <button class="nl on" id="nav-live"><span class="live-dot"></span> লাইভ</button>
+  </div>
+</nav>
+
+<!-- MAIN: live stream page -->
+<div class="lv-page">
+  <div class="wrap">
+
+    <div class="lv-head">
+      <h1 id="lv-title">🔴 সরাসরি সম্প্রচার</h1>
+      <p class="lv-note" id="lv-note">YouTube বর্তমানে যা সম্প্রচার করছে তা এখানে স্বয়ংক্রিয়ভাবে দেখানো হয় — কিছু সম্প্রচার না চললে একটি খালি স্ক্রিন দেখাতে পারে।</p>
+    </div>
+
+    <div class="lv-viewer">
+      <div class="lv-stage">
+        <div class="lv-frame-wrap" id="lv-frame-wrap">
+          <!-- filled in by initLive() -->
+        </div>
+        <div class="lv-offline-overlay" id="lv-offline-overlay">
+          <div class="fi">📡</div>
+          <p id="lv-offline-text"></p>
+        </div>
+      </div>
+      <div class="lv-strip">
+        <div class="lv-strip-label" id="lv-alt-prompt">অন্য জায়গায় দেখতে চান?</div>
+        <div class="lv-btn-row">
+          <a class="lv-btn yt" id="lv-yt-link" href="#" target="_blank" rel="noopener">📺 <span id="lv-yt-label">YouTube-এ খুলুন</span></a>
+          <a class="lv-btn fb" id="lv-fb-link" href="#" target="_blank" rel="noopener">📘 <span id="lv-fb-label">Facebook-এ দেখুন</span></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="lv-soon" id="lv-soon-box" style="display:none;">
+      <div class="si">📡</div>
+      <p id="lv-soon-text"></p>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="fg">
+      <div>
+        <img src="assets/logo-dark.png" alt="দৈনিক অনুলিপি" class="footer-logo-img">
+        <div class="fl-tag" id="footer-tagline">সত্যের সন্ধানে, নির্ভীক প্রকাশে!</div>
+        <div class="fl-info" id="footer-info">প্রতিষ্ঠাতা ও প্রকাশক: অনিক অধিকারী<br>প্রতিষ্ঠাতা ও প্রধান সম্পাদক: মো: ফারহান শাহরিয়ার</div>
+        <div class="fl-social">
+          <a href="https://facebook.com/dainikanulipi" target="_blank" rel="noopener" class="soc-fb" aria-label="Facebook"><svg viewBox="0 0 320 512" width="15" height="15"><path fill="#1877f2" d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"/></svg></a>
+          <a href="https://youtube.com/@dainikanulipi" target="_blank" rel="noopener" class="soc-yt" aria-label="YouTube"><svg viewBox="0 0 576 512" width="19" height="19"><path fill="#ff0000" d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232 337.6V174.4L361 256l-129 81.6z"/></svg></a>
+        </div>
+      </div>
+      <div class="fc">
+        <h5 id="footer-cat-heading">বিভাগ</h5>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 12px;">
+          <a href="https://dainikanulipi.github.io/da/" id="ft-সর্বশেষ">সর্বশেষ</a>
+          <a href="https://dainikanulipi.github.io/da/#cat/অর্থনীতি" id="ft-cat-5">অর্থনীতি</a>
+          <a href="https://dainikanulipi.github.io/da/#cat/জাতীয়" id="ft-cat-1">জাতীয়</a>
+          <a href="sports.html" id="ft-cat-6">খেলা</a>
+          <a href="https://dainikanulipi.github.io/da/#cat/সারাদেশ" id="ft-cat-2">সারাদেশ</a>
+          <a href="https://dainikanulipi.github.io/da/#cat/আনন্দ সময়" id="ft-cat-7">আনন্দ সময়</a>
+          <a href="https://dainikanulipi.github.io/da/#cat/বিশ্ব সংবাদ" id="ft-cat-3">বিশ্ব সংবাদ</a>
+          <a href="https://dainikanulipi.github.io/da/#cat/চাকরি" id="ft-cat-8">চাকরি</a>
+          <a href="https://dainikanulipi.github.io/da/#cat/বাণিজ্য" id="ft-cat-4">বাণিজ্য</a>
+          <a href="https://dainikanulipi.github.io/da/#cat/মতামত" id="ft-cat-9">মতামত</a>
+          <a href="https://dainikanulipi.github.io/da/#cat/বিশেষ সংবাদ" id="ft-cat-10" style="grid-column:1/-1;">বিশেষ সংবাদ</a>
+        </div>
+      </div>
+      <div class="fc">
+        <h5 id="footer-info-heading">তথ্য</h5>
+        <a onclick="openInfoPopup('about')" id="ft-about">আমাদের সম্পর্কে</a>
+        <a onclick="openContactPopup('যোগাযোগ')" id="ft-contact">যোগাযোগ করুন</a>
+        <a onclick="openContactPopup('বিজ্ঞাপন')" id="ft-advertise">বিজ্ঞাপন দিন</a>
+        <a href="submit.html" target="_blank" id="ft-reporter">রিপোর্টার পোর্টাল</a>
+        <a onclick="openInfoPopup('privacy')" id="ft-privacy">গোপনীয়তা নীতি</a>
+      </div>
+    </div>
+    <div class="footer-notice" id="footer-notice">
+      <div class="footer-notice-title" id="footer-notice-title">⚠️ জরুরি ঘোষণা</div>
+      <p id="footer-notice-text">এই নিউজ পোর্টালটি বর্তমানে "পরীক্ষামূলক সম্প্রচার" কার্যক্রম পরিচালনা করছে। আমরা সচেতনভাবে রাজনৈতিক সংবাদ এড়িয়ে চলি এবং শুধুমাত্র বিনোদন, তথ্য ও জনস্বার্থমূলক সংবাদ প্রকাশ করি। এখানে প্রকাশিত সংবাদের দায়ভার সংশ্লিষ্ট লেখকদের, পোর্টাল কর্তৃপক্ষের নয়। রেজিস্ট্রেশন প্রক্রিয়া এবং পূর্ণাঙ্গ সম্প্রচারের কাজ চলমান।</p>
+    </div>
+    <div class="fb-bot" id="footer-bottom">দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — সর্বস্বত্ব সংরক্ষিত ২০২৬</div>
+  </div>
+</footer>
+
+<!-- CONTACT/ADVERTISE POPUP -->
+<div id="contact-popup-overlay" onclick="closeContactPopup(event)" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);align-items:center;justify-content:center;">
+  <div style="background:var(--sur);width:100%;max-width:420px;margin:16px;border-top:4px solid var(--red);box-shadow:0 20px 60px rgba(0,0,0,.35);animation:popIn .22s ease;max-height:90vh;overflow-y:auto;">
+    <div style="padding:18px 20px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bdr);position:sticky;top:0;background:var(--sur);z-index:1;">
+      <div>
+        <div id="popup-title" style="font-size:17px;font-weight:700;color:var(--txt);font-family:'Noto Serif Bengali',serif;"></div>
+        <div style="font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-top:2px;">দৈনিক অনুলিপি</div>
+      </div>
+      <button onclick="closeContactPopup()" style="background:var(--sur3);border:none;width:32px;height:32px;border-radius:50%;font-size:16px;color:var(--txt2);cursor:pointer;flex-shrink:0;">✕</button>
+    </div>
+    <div style="padding:20px;">
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px;">
+        <a href="tel:+8801935128454" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--sur2);border:1px solid var(--bdr);text-decoration:none;color:var(--txt);transition:border-color .2s;" onmouseover="this.style.borderColor='var(--red)'" onmouseout="this.style.borderColor='var(--bdr)'">
+          <span style="font-size:20px;">📞</span>
+          <div><div style="font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;">ফোন / Phone</div><div style="font-size:14px;font-weight:700;">+880 19-3512-8454</div></div>
+        </a>
+        <a href="mailto:dainikanulipi@gmail.com" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--sur2);border:1px solid var(--bdr);text-decoration:none;color:var(--txt);transition:border-color .2s;" onmouseover="this.style.borderColor='var(--red)'" onmouseout="this.style.borderColor='var(--bdr)'">
+          <span style="font-size:20px;">✉️</span>
+          <div><div style="font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;">ইমেইল / Email</div><div style="font-size:14px;font-weight:700;">dainikanulipi@gmail.com</div></div>
+        </a>
+        <a href="https://wa.me/8801935128454" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--sur2);border:1px solid var(--bdr);text-decoration:none;color:var(--txt);transition:border-color .2s;" onmouseover="this.style.borderColor='#25d366'" onmouseout="this.style.borderColor='var(--bdr)'">
+          <span style="font-size:20px;">💬</span>
+          <div><div style="font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;">WhatsApp</div><div style="font-size:14px;font-weight:700;">+880 19-3512-8454</div></div>
+        </a>
+        <a href="https://facebook.com/dainikanulipi" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--sur2);border:1px solid var(--bdr);text-decoration:none;color:var(--txt);transition:border-color .2s;" onmouseover="this.style.borderColor='#1877f2'" onmouseout="this.style.borderColor='var(--bdr)'">
+          <span style="font-size:20px;">📘</span>
+          <div><div style="font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;">Facebook</div><div style="font-size:14px;font-weight:700;">facebook.com/dainikanulipi</div></div>
+        </a>
+      </div>
+      <a href="https://dainikanulipi.github.io/da/" target="_blank" rel="noopener" style="display:block;background:var(--red);color:#fff;text-align:center;padding:11px;font-size:14px;font-weight:700;font-family:'Noto Sans Bengali',sans-serif;text-decoration:none;" onmouseover="this.style.background='var(--dkred)'" onmouseout="this.style.background='var(--red)'">
+        🌐 ওয়েবসাইট ভিজিট করুন
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT/PRIVACY POPUP -->
+<div id="info-popup-overlay" onclick="closeInfoPopup(event)" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);align-items:center;justify-content:center;">
+  <div style="background:var(--sur);width:100%;max-width:520px;margin:16px;border-top:4px solid var(--red);box-shadow:0 20px 60px rgba(0,0,0,.35);animation:popIn .22s ease;max-height:88vh;overflow-y:auto;">
+    <div style="padding:18px 20px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bdr);position:sticky;top:0;background:var(--sur);z-index:1;">
+      <div>
+        <div id="info-popup-title" style="font-size:17px;font-weight:700;color:var(--txt);font-family:'Noto Serif Bengali',serif;"></div>
+        <div style="font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-top:2px;">দৈনিক অনুলিপি</div>
+      </div>
+      <button onclick="closeInfoPopup()" style="background:var(--sur3);border:none;width:32px;height:32px;border-radius:50%;font-size:16px;color:var(--txt2);cursor:pointer;flex-shrink:0;">✕</button>
+    </div>
+    <div id="info-popup-body" style="padding:22px;font-family:'Noto Serif Bengali',serif;font-size:15px;line-height:1.9;color:var(--txt);"></div>
+  </div>
+</div>
+
+<button class="totop-btn" id="toTopBtn" onclick="window.scrollTo({top:0,left:0,behavior:'smooth'})" aria-label="Scroll to top">↑</button>
+
+<!-- ══════════════════════════════════════════════
+     PAGE SCRIPT
+     ══════════════════════════════════════════════ -->
+<script>
+// ══════════════════════════════════════════════
+//  CONFIG — keep in sync with index.html's CFG.YT_CHANNEL_ID / YT_CHANNEL / FB_PAGE
+// ══════════════════════════════════════════════
+const CFG = {
+  YT_CHANNEL_ID: 'UCV4MqKW7pl0wb58CuddGiEQ',
+  YT_CHANNEL: 'dainikanulipi',
+  FB_PAGE: 'dainikanulipi',
+};
+
+// ── "NOTHING LIVE RIGHT NOW" JOKES ──
+// Same self-deprecating, Dhaka-flavored humor as the empty-news state on
+// index.html ("সংবাদ ফাইবার কেবলে চড়ে আসছে" — News Is Riding the Fiber
+// Cable). One is picked at random each time the offline overlay shows.
+const LIVE_JOKES = {
+  bn: [
+    'ক্যামেরাটা মনে হয় এখন চা খেতে গেছে ☕ — সরাসরি সম্প্রচার শুরু হলে এই পাতা নিজে থেকেই বদলে যাবে।',
+    'লাইভ ভ্যানটা মনে হয় কোথাও যানজটে আটকে আছে 🚐 — এই মুহূর্তে সরাসরি কিছু চলছে না, শুরু হলেই এখানে দেখা যাবে।',
+    'স্যাটেলাইট আজ একটু ঘুরপথে আসছে 🛰️ — আপাতত সরাসরি সম্প্রচার নেই, তবে শুরু হলে পাতাটা নিজে থেকেই টের পাবে।',
+    'রিপোর্টার সম্ভবত এখনো মাইক্রোফোনটা খুঁজছেন 🎤 — এখন সরাসরি কিছু নেই, শুরু হলে এখানেই স্বয়ংক্রিয়ভাবে চলে আসবে।',
+    'বিদ্যুৎ চলে গেলে যা হয়! ⚡ আপাতত সম্প্রচার বন্ধ আছে — নতুন কিছু শুরু হওয়া মাত্র এই পাতা নিজে থেকেই আপডেট হবে।'
+  ],
+  en: [
+    "The camera seems to be on a tea break right now ☕ — this page will switch over the moment a broadcast starts.",
+    "The live van might be stuck in traffic somewhere 🚐 — nothing's live at the moment, but it'll show up here the second it is.",
+    "Our satellite is apparently taking the scenic route today 🛰️ — no broadcast right now, this page will notice the instant one begins.",
+    "The reporter may still be looking for a microphone 🎤 — nothing's live at the moment, this page updates itself automatically once it is.",
+    "Classic power-cut timing! ⚡ Nothing's live right now — this page will refresh itself the moment a new broadcast begins."
+  ]
+};
+function pickLiveJoke(){
+  const arr = LIVE_JOKES[lang] || LIVE_JOKES.bn;
+  return arr[Math.floor(Math.random()*arr.length)];
+}
+
+// ── LANG (declared early to avoid TDZ) ──
+var lang = localStorage.getItem('anulipi_lang') || 'bn';
+if(lang==='ar') lang='bn';
+
+var CAT_EN = {'জাতীয়':'National','সারাদেশ':'Across the Country','বিশ্ব সংবাদ':'World','বাণিজ্য':'Business','অর্থনীতি':'Economy','খেলা':'Sports','আনন্দ সময়':'Entertainment','চাকরি':'Jobs','মতামত':'Opinion','বিশেষ সংবাদ':'Special News'};
+
+var T = {
+  bn:{
+    home:'অনলাইন সংস্করণ', contact:'যোগাযোগ', ads:'বিজ্ঞাপন',
+    navHome:'🌐 অনলাইন সংস্করণ', navEpaper:'📰 ই-পেপার', navLive:'লাইভ',
+    liveTitle:'🔴 সরাসরি সম্প্রচার',
+    liveNote:'YouTube বর্তমানে যা সম্প্রচার করছে তা এখানে স্বয়ংক্রিয়ভাবে দেখানো হয় — কিছু সম্প্রচার না চললে একটি খালি স্ক্রিন দেখাতে পারে।',
+    liveWatchYt:'YouTube-এ খুলুন', liveWatchFb:'Facebook-এ দেখুন', liveAltPrompt:'অন্য জায়গায় দেখতে চান?',
+    liveNoAuto:'📡 ব্রাউজারেই সরাসরি দেখানোর সেটআপ শীঘ্রই আসছে। এখন নিচের বাটনে চাপুন — লাইভ থাকলে সরাসরি সেখানে নিয়ে যাবে, না থাকলে চ্যানেল/পেজ দেখাবে।',
+    tagline:'সত্যের সন্ধানে, নির্ভীক প্রকাশে!',
+    footerInfo:'প্রতিষ্ঠাতা ও প্রকাশক: অনিক অধিকারী<br>প্রতিষ্ঠাতা ও প্রধান সম্পাদক: মো: ফারহান শাহরিয়ার',
+    footerNoticeTitle:'⚠️ জরুরি ঘোষণা',
+    footerNoticeText:'এই নিউজ পোর্টালটি বর্তমানে "পরীক্ষামূলক সম্প্রচার" কার্যক্রম পরিচালনা করছে। আমরা সচেতনভাবে রাজনৈতিক সংবাদ এড়িয়ে চলি এবং শুধুমাত্র বিনোদন, তথ্য ও জনস্বার্থমূলক সংবাদ প্রকাশ করি। এখানে প্রকাশিত সংবাদের দায়ভার সংশ্লিষ্ট লেখকদের, পোর্টাল কর্তৃপক্ষের নয়। রেজিস্ট্রেশন প্রক্রিয়া এবং পূর্ণাঙ্গ সম্প্রচারের কাজ চলমান।',
+    fCat:'বিভাগ', fInfo:'তথ্য',
+    ftAbout:'আমাদের সম্পর্কে', ftContact:'যোগাযোগ করুন', ftAds:'বিজ্ঞাপন দিন',
+    ftReporter:'রিপোর্টার পোর্টাল', ftPrivacy:'গোপনীয়তা নীতি',
+    footerBottom:'দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — সর্বস্বত্ব সংরক্ষিত ২০২৬',
+    visitWebsite:'🌐 ওয়েবসাইট ভিজিট করুন',
+    contactTitle:'📬 যোগাযোগ করুন', adsTitle:'📢 বিজ্ঞাপন দিন',
+  },
+  en:{
+    home:'Online Version', contact:'Contact', ads:'Advertise',
+    navHome:'🌐 Online Version', navEpaper:'📰 E-Paper', navLive:'Live',
+    liveTitle:'🔴 Live Broadcast',
+    liveNote:'This automatically shows whatever is currently live on our YouTube channel — it may look blank if nothing is streaming right now.',
+    liveWatchYt:'Open in YouTube', liveWatchFb:'Watch on Facebook', liveAltPrompt:'Prefer to watch elsewhere?',
+    liveNoAuto:'📡 In-browser playback setup is coming soon. For now, tap a button below — it opens the live stream directly if we\u2019re live, or our channel/page if not.',
+    tagline:'In pursuit of truth, In fearless expression!',
+    footerInfo:'Founder & Publisher: Anik Adhikari<br>Founder & Editor-in-Chief: Md. Farhan Shahriar',
+    footerNoticeTitle:'⚠️ Important Notice',
+    footerNoticeText:'This news portal is currently running on a "trial broadcast" basis. We consciously avoid political news and publish only entertainment, informational, and public-interest content. Responsibility for news published here lies with the respective authors, not the portal authority. The registration process and full broadcast are underway.',
+    fCat:'Categories', fInfo:'Information',
+    ftAbout:'About Us', ftContact:'Contact Us', ftAds:'Advertise With Us',
+    ftReporter:'Reporter Portal', ftPrivacy:'Privacy Policy',
+    footerBottom:'দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — All rights reserved 2026',
+    visitWebsite:'🌐 Visit Website',
+    contactTitle:'📬 Contact Us', adsTitle:'📢 Advertise With Us',
+  }
+};
+
+// ── THEME ──
+function toggleTheme(){
+  const html=document.documentElement,isDark=html.getAttribute('data-theme')==='dark';
+  html.setAttribute('data-theme',isDark?'light':'dark');
+  document.getElementById('theme-btn').textContent=isDark?'🌙':'☀️';
+  localStorage.setItem('theme',isDark?'light':'dark');
+}
+function applyTheme(){
+  const saved=localStorage.getItem('theme')||'light';
+  document.documentElement.setAttribute('data-theme',saved);
+  document.getElementById('theme-btn').textContent=saved==='dark'?'☀️':'🌙';
+}
+
+// ── TOPBAR DATE ──
+function toBnDigits(str){const d=['০','১','২','৩','৪','৫','৬','৭','৮','৯'];return String(str).replace(/\d/g,n=>d[n]);}
+function setTopbarDate(){
+  const d=new Date();
+  if(lang==='en'){
+    const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+    document.getElementById('tbar-date').textContent=`${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+  } else {
+    const months=['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+    const days=['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'];
+    document.getElementById('tbar-date').textContent=`${days[d.getDay()]}, ${toBnDigits(String(d.getDate()))} ${months[d.getMonth()]} ${toBnDigits(String(d.getFullYear()))}`;
+  }
+}
+
+// ── CONTACT POPUP ──
+function openContactPopup(type){
+  const isAd = type==='বিজ্ঞাপন';
+  document.getElementById('popup-title').textContent = lang==='en'
+    ? (isAd ? T.en.adsTitle : T.en.contactTitle)
+    : (isAd ? T.bn.adsTitle : T.bn.contactTitle);
+  document.getElementById('contact-popup-overlay').style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function closeContactPopup(e){
+  if(e&&e.target!==document.getElementById('contact-popup-overlay'))return;
+  document.getElementById('contact-popup-overlay').style.display='none';
+  document.body.style.overflow='';
+}
+
+// ── INFO POPUP (about/privacy) ──
+const INFO_CONTENT={
+  about:{
+    title:'🗞️ আমাদের সম্পর্কে',
+    body:`
+      <div style="margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid var(--bdr);text-align:center;">
+        <img src="assets/logo.png" alt="দৈনিক অনুলিপি" class="about-logo about-logo-light">
+        <img src="assets/logo-dark.png" alt="দৈনিক অনুলিপি" class="about-logo about-logo-dark">
+        <div style="font-size:12px;color:var(--txt2);font-style:italic;margin-top:8px;">সত্যের সন্ধানে, নির্ভীক প্রকাশে!</div>
+      </div>
+      <div style="background:var(--sur2);border-left:4px solid var(--red);padding:14px 16px;margin-bottom:18px;">
+        <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:6px;">⚠️ জরুরি ঘোষণা</div>
+        <p style="font-size:13.5px;line-height:1.85;color:var(--txt2);margin:0;">এই নিউজ পোর্টালটি বর্তমানে "পরীক্ষামূলক সম্প্রচার" কার্যক্রম পরিচালনা করছে। আমরা সচেতনভাবে রাজনৈতিক সংবাদ এড়িয়ে চলি এবং শুধুমাত্র বিনোদন, তথ্য ও জনস্বার্থমূলক সংবাদ প্রকাশ করি।</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;">
+        <div style="background:var(--sur2);padding:12px 14px;border:1px solid var(--bdr);">
+          <div style="font-size:10px;color:var(--txt3);margin-bottom:4px;">প্রতিষ্ঠাতা ও প্রকাশক</div>
+          <div style="font-size:13.5px;font-weight:700;">অনিক অধিকারী</div>
+        </div>
+        <div style="background:var(--sur2);padding:12px 14px;border:1px solid var(--bdr);">
+          <div style="font-size:10px;color:var(--txt3);margin-bottom:4px;">প্রতিষ্ঠাতা ও প্রধান সম্পাদক</div>
+          <div style="font-size:13.5px;font-weight:700;">মো: ফারহান শাহরিয়ার</div>
+        </div>
+      </div>
+      <div style="text-align:center;padding-top:4px;">
+        <div style="font-size:11px;color:var(--txt3);">© ২০২৬ দৈনিক অনুলিপি। সর্বস্বত্ব সংরক্ষিত।</div>
+      </div>`
+  },
+  privacy:{
+    title:'🔒 গোপনীয়তা নীতি',
+    body:`
+      <p style="font-size:12px;color:var(--txt3);margin-bottom:16px;">সর্বশেষ হালনাগাদ: জানুয়ারি ২০২৬</p>
+      <div style="padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--bdr);">
+        <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;">📋 তথ্য সংগ্রহ</div>
+        <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">পোর্টালের সেবা উন্নত করতে প্রয়োজনীয় তথ্যই শুধু সংগ্রহ করা হয়। পাঠকের ব্যক্তিগত তথ্য কখনো তৃতীয় পক্ষের কাছে বিক্রি বা হস্তান্তর করা হয় না।</p>
+      </div>
+      <div>
+        <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;">✉️ যোগাযোগ</div>
+        <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">গোপনীয়তা সংক্রান্ত যেকোনো প্রশ্নের জন্য: <a href="mailto:dainikanulipi@gmail.com" style="color:var(--red);font-weight:700;">dainikanulipi@gmail.com</a></p>
+      </div>
+      <div style="text-align:center;padding-top:16px;margin-top:16px;border-top:1px solid var(--bdr);">
+        <div style="font-size:11px;color:var(--txt3);">© ২০২৬ দৈনিক অনুলিপি — সর্বস্বত্ব সংরক্ষিত</div>
+      </div>`
+  }
+};
+var INFO_CONTENT_EN = {
+  about:{
+    title:'🗞️ About Us',
+    body:`
+      <div style="margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid var(--bdr);text-align:center;">
+        <img src="assets/logo.png" alt="Dainik Anulipi" class="about-logo about-logo-light">
+        <img src="assets/logo-dark.png" alt="Dainik Anulipi" class="about-logo about-logo-dark">
+        <div style="font-size:12px;color:var(--txt2);font-style:italic;margin-top:8px;">In pursuit of truth, In fearless expression!</div>
+      </div>
+      <div style="background:var(--sur2);border-left:4px solid var(--red);padding:14px 16px;margin-bottom:18px;">
+        <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:6px;">⚠️ Important Notice</div>
+        <p style="font-size:13.5px;line-height:1.85;color:var(--txt2);margin:0;">This news portal is currently running a "trial broadcast". We consciously avoid political news and publish only entertainment, informational, and public-interest news.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;">
+        <div style="background:var(--sur2);padding:12px 14px;border:1px solid var(--bdr);">
+          <div style="font-size:10px;color:var(--txt3);margin-bottom:4px;">Founder & Chief Publisher</div>
+          <div style="font-size:13.5px;font-weight:700;">Anik Adhikari</div>
+        </div>
+        <div style="background:var(--sur2);padding:12px 14px;border:1px solid var(--bdr);">
+          <div style="font-size:10px;color:var(--txt3);margin-bottom:4px;">Founder & Editor-in-Chief</div>
+          <div style="font-size:13.5px;font-weight:700;">Md. Farhan Shahriar</div>
+        </div>
+      </div>
+      <div style="text-align:center;padding-top:4px;">
+        <div style="font-size:11px;color:var(--txt3);">© 2026 Dainik Anulipi. All rights reserved.</div>
+      </div>`
+  },
+  privacy:{
+    title:'🔒 Privacy Policy',
+    body:`
+      <p style="font-size:12px;color:var(--txt3);margin-bottom:16px;">Last updated: January 2026</p>
+      <div style="padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--bdr);">
+        <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;">📋 Information Collection</div>
+        <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">We only collect information necessary to improve the portal's services. Readers' personal information is never sold or transferred to any third party.</p>
+      </div>
+      <div>
+        <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;">✉️ Contact</div>
+        <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">For any privacy-related questions: <a href="mailto:dainikanulipi@gmail.com" style="color:var(--red);font-weight:700;">dainikanulipi@gmail.com</a></p>
+      </div>
+      <div style="text-align:center;padding-top:16px;margin-top:16px;border-top:1px solid var(--bdr);">
+        <div style="font-size:11px;color:var(--txt3);">© 2026 Dainik Anulipi — All Rights Reserved</div>
+      </div>`
+  }
+};
+function openInfoPopup(type){
+  const c=(lang==='en' ? INFO_CONTENT_EN : INFO_CONTENT)[type]; if(!c)return;
+  document.getElementById('info-popup-title').textContent = c.title;
+  document.getElementById('info-popup-body').innerHTML = c.body;
+  document.getElementById('info-popup-overlay').style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function closeInfoPopup(e){
+  if(e&&e.target!==document.getElementById('info-popup-overlay'))return;
+  document.getElementById('info-popup-overlay').style.display='none';
+  document.body.style.overflow='';
+}
+
+// ── LIVE STATUS DETECTION ──
+// Uses the YouTube IFrame Player API (no API key needed) to check whether
+// the embedded stream above is actually playing — the নav's red dot only
+// blinks when a stream is really live.
+function loadYouTubeIframeAPI(cb){
+  if(window.YT && window.YT.Player){ cb(); return; }
+  const prev = window.onYouTubeIframeAPIReady;
+  window.onYouTubeIframeAPIReady = function(){ if(prev) prev(); cb(); };
+  if(!document.getElementById('yt-iframe-api')){
+    const tag = document.createElement('script');
+    tag.id = 'yt-iframe-api';
+    tag.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(tag);
+  }
+}
+function setLiveDotState(isLive){
+  document.querySelectorAll('.live-dot').forEach(d=>d.classList.toggle('is-live', !!isLive));
+}
+
+// ── LIVE TAB TITLE ──
+// Pulls the *actual* live video's title straight from the YouTube player
+// (via getVideoData() — part of the IFrame Player API, no API key needed)
+// and puts it in the browser tab, e.g. "প্রতিদিনের সংবাদ - সরাসরি | দৈনিক অনুলিপি লাইভ".
+// Falls back to the static default title whenever nothing is live.
+const DEFAULT_TAB_TITLE = document.title;
+const DEFAULT_FAVICON = 'assets/favicon.png';
+let lvPlayer = null;
+let hasEverPlayed = false;
+let firstConnectTimer = null;
+function updateLiveTitle(){
+  if(!lvPlayer) return false;
+  try{
+    const data = lvPlayer.getVideoData();
+    if(data && data.title){
+      document.title = data.title + ' | দৈনিক অনুলিপি লাইভ';
+      return true;
+    }
+  }catch(e){}
+  return false;
+}
+function pollLiveTitle(attemptsLeft){
+  if(updateLiveTitle()) return;
+  if(attemptsLeft<=0) return;
+  setTimeout(()=>pollLiveTitle(attemptsLeft-1), 1000);
+}
+
+// ── LIVE FAVICON ──
+// Draws a small red "on air" dot onto the site's existing favicon at
+// runtime (canvas, no extra image asset needed) and swaps it in while
+// a stream is actually playing — so a background tab still reads as live.
+let liveFaviconDataUrl = null;
+function buildLiveFavicon(cb){
+  if(liveFaviconDataUrl){ cb(liveFaviconDataUrl); return; }
+  const img = new Image();
+  img.onload = ()=>{
+    try{
+      const size = 64;
+      const canvas = document.createElement('canvas');
+      canvas.width = size; canvas.height = size;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, size, size);
+      const r = size*0.30;
+      ctx.beginPath();
+      ctx.arc(size-r*0.85, size-r*0.85, r, 0, Math.PI*2);
+      ctx.fillStyle = '#ff1f1f';
+      ctx.fill();
+      ctx.lineWidth = size*0.07;
+      ctx.strokeStyle = '#fff';
+      ctx.stroke();
+      liveFaviconDataUrl = canvas.toDataURL('image/png');
+      cb(liveFaviconDataUrl);
+    }catch(e){ cb(null); } // canvas can throw if favicon.png is missing/tainted
+  };
+  img.onerror = ()=>cb(null);
+  img.src = DEFAULT_FAVICON;
+}
+function setFaviconLive(isLive){
+  const link = document.getElementById('fav-icon');
+  if(!link) return;
+  if(isLive) buildLiveFavicon(url=>{ if(url) link.href = url; });
+  else link.href = DEFAULT_FAVICON;
+}
+
+// ── OFFLINE OVERLAY ──
+// Once a stream that was actually playing stops (or the channel simply
+// isn't live), show a joke instead of leaving a frozen/blank video on screen.
+function setOfflineOverlay(show){
+  const el = document.getElementById('lv-offline-overlay');
+  if(!el) return;
+  if(show) document.getElementById('lv-offline-text').textContent = pickLiveJoke();
+  el.classList.toggle('show', !!show);
+}
+
+function onLiveDetectReady(e){
+  lvPlayer = e.target;
+  pollLiveTitle(12); // getVideoData() can be empty for a moment right after ready
+}
+function onLiveDetectStateChange(e){
+  const YTS = window.YT.PlayerState;
+  if(e.data===YTS.PLAYING || e.data===YTS.BUFFERING){
+    clearTimeout(firstConnectTimer);
+    hasEverPlayed = true;
+    setLiveDotState(true);
+    setFaviconLive(true);
+    setOfflineOverlay(false);
+    pollLiveTitle(6); // title can also change if a new stream just started
+  } else if(e.data===YTS.ENDED || e.data===YTS.CUED || e.data===YTS.UNSTARTED){
+    setLiveDotState(false);
+    setFaviconLive(false);
+    document.title = DEFAULT_TAB_TITLE;
+    if(hasEverPlayed) setOfflineOverlay(true); // don't flash "ended" while it's still connecting for the first time
+  }
+}
+function onLiveDetectError(){
+  clearTimeout(firstConnectTimer);
+  setLiveDotState(false);
+  setFaviconLive(false);
+  document.title = DEFAULT_TAB_TITLE;
+  setOfflineOverlay(true); // an error here almost always means nothing is live right now
+}
+function initLiveDetection(){
+  loadYouTubeIframeAPI(()=>{
+    new YT.Player('lv-player-frame', {
+      events: { onReady: onLiveDetectReady, onStateChange: onLiveDetectStateChange, onError: onLiveDetectError }
+    });
+  });
+
+  // Watchdog: when a channel has nothing live, the "live_stream" embed
+  // often just renders YouTube's own "video unavailable" screen inside
+  // the iframe WITHOUT ever calling onReady, onStateChange, or onError —
+  // so this timer is deliberately independent of every player event, and
+  // even of the iframe API script loading at all.
+  clearTimeout(firstConnectTimer);
+  firstConnectTimer = setTimeout(()=>{
+    if(!hasEverPlayed) setOfflineOverlay(true);
+  }, 5000);
+
+  // Pause the stream while the tab is in the background to save the
+  // viewer's bandwidth, and resume at the live edge when they come back.
+  document.addEventListener('visibilitychange', ()=>{
+    if(!lvPlayer) return;
+    try{
+      if(document.visibilityState === 'hidden') lvPlayer.pauseVideo();
+      else lvPlayer.playVideo();
+    }catch(e){}
+  });
+}
+
+// ── LIVE PLAYER (this is the whole point of this page) ──
+// If CFG.YT_CHANNEL_ID is set, this embeds whatever is CURRENTLY live on
+// that channel — nothing to update here ever, no matter how often you go
+// live. If it's ever unset, we fall back to plain "/live" links which
+// YouTube/Facebook both auto-redirect to whatever's currently live.
+function initLive(){
+  const t = T[lang];
+  const wrap = document.getElementById('lv-frame-wrap');
+  const soonBox = document.getElementById('lv-soon-box');
+
+  if(CFG.YT_CHANNEL_ID){
+    wrap.innerHTML = `<iframe id="lv-player-frame" src="https://www.youtube.com/embed/live_stream?channel=${CFG.YT_CHANNEL_ID}&autoplay=1&enablejsapi=1&origin=${encodeURIComponent(location.origin)}"
+      title="Live stream" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"
+      allowfullscreen></iframe>`;
+    soonBox.style.display = 'none';
+    initLiveDetection();
+  } else {
+    wrap.innerHTML = `<div class="lv-fallback"><div class="fi">📡</div></div>`;
+    soonBox.style.display = 'flex';
+    document.getElementById('lv-soon-text').textContent = t.liveNoAuto;
+  }
+
+  document.getElementById('lv-yt-link').href = CFG.YT_CHANNEL_ID
+    ? `https://youtube.com/@${CFG.YT_CHANNEL}`
+    : `https://youtube.com/@${CFG.YT_CHANNEL}/live`;
+  document.getElementById('lv-fb-link').href = `https://facebook.com/${CFG.FB_PAGE}/live`;
+}
+
+// ── LANGUAGE ──
+function setLang(l){
+  lang = l;
+  document.documentElement.setAttribute('lang', l);
+  document.querySelectorAll('.lb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('lb-'+l).classList.add('on');
+  localStorage.setItem('anulipi_lang', l);
+  applyLangUI();
+}
+function applyLangUI(){
+  const t = T[lang];
+  const catKeys = ['জাতীয়','সারাদেশ','বিশ্ব সংবাদ','বাণিজ্য','অর্থনীতি','খেলা','আনন্দ সময়','চাকরি','মতামত','বিশেষ সংবাদ'];
+
+  document.getElementById('tb-home').textContent    = t.home;
+  document.getElementById('tb-contact').textContent = t.contact;
+  document.getElementById('tb-ads').textContent      = t.ads;
+  document.getElementById('nav-home').textContent    = t.navHome;
+  document.getElementById('nav-epaper').textContent  = t.navEpaper;
+  document.getElementById('nav-live').innerHTML       = `<span class="live-dot"></span> ${t.navLive}`;
+
+  document.getElementById('lv-title').textContent    = t.liveTitle;
+  document.getElementById('lv-note').textContent     = t.liveNote;
+  document.getElementById('lv-alt-prompt').textContent = t.liveAltPrompt;
+  document.getElementById('lv-yt-label').textContent = t.liveWatchYt;
+  document.getElementById('lv-fb-label').textContent = t.liveWatchFb;
+  if(!CFG.YT_CHANNEL_ID) document.getElementById('lv-soon-text').textContent = t.liveNoAuto;
+  const offlineOverlayEl = document.getElementById('lv-offline-overlay');
+  if(offlineOverlayEl && offlineOverlayEl.classList.contains('show')){
+    document.getElementById('lv-offline-text').textContent = pickLiveJoke();
+  }
+
+  document.getElementById('mast-tagline').textContent   = t.tagline;
+  document.getElementById('footer-tagline').textContent = t.tagline;
+  document.getElementById('footer-info').innerHTML      = t.footerInfo;
+  document.getElementById('footer-notice-title').textContent = t.footerNoticeTitle;
+  document.getElementById('footer-notice-text').textContent  = t.footerNoticeText;
+  document.getElementById('footer-cat-heading').textContent  = t.fCat;
+  document.getElementById('footer-info-heading').textContent = t.fInfo;
+  document.getElementById('ft-about').textContent     = t.ftAbout;
+  document.getElementById('ft-contact').textContent   = t.ftContact;
+  document.getElementById('ft-advertise').textContent = t.ftAds;
+  document.getElementById('ft-reporter').textContent  = t.ftReporter;
+  document.getElementById('ft-privacy').textContent   = t.ftPrivacy;
+  document.getElementById('footer-bottom').textContent = t.footerBottom;
+  const visitLink = document.querySelector('#contact-popup-overlay a[href*="dainikanulipi.github"]');
+  if(visitLink) visitLink.textContent = t.visitWebsite;
+
+  catKeys.forEach((cat,i) => {
+    const el = document.getElementById('ft-cat-'+(i+1));
+    if(el) el.textContent = lang==='en' ? (CAT_EN[cat]||cat) : cat;
+  });
+
+  setTopbarDate();
+}
+
+// ── KEYBOARD ──
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape'){ closeContactPopup(); closeInfoPopup(); }
+});
+
+// ── TO-TOP BUTTON ──
+const toTopBtn = document.getElementById('toTopBtn');
+window.addEventListener('scroll', () => {
+  toTopBtn.classList.toggle('show', window.scrollY > 200);
+});
+
+// ── INIT ──
+function init(){
+  applyTheme();
+  initLive();
+  setLang(lang);
+  const loader = document.getElementById('site-loader');
+  setTimeout(()=>{ if(loader) loader.classList.add('hide'); }, 1000);
+}
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
