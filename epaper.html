@@ -172,7 +172,7 @@ button{font-family:inherit;cursor:pointer;}
 .ep-error{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#666;text-align:center;padding:30px;z-index:5;}
 .ep-error .err-icon{font-size:42px;}
 .ep-error p{font-size:14px;font-family:'Noto Sans Bengali',sans-serif;line-height:1.75;}
-.ep-error small{font-size:11px;color:#444;font-family:monospace;}
+.ep-error small{font-size:12px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;}
 
 /* BOTTOM STRIP */
 .ep-strip{background:var(--sur2);border-top:1px solid var(--bdr);padding:10px 14px;}
@@ -211,14 +211,22 @@ button{font-family:inherit;cursor:pointer;}
 .totop-btn{position:fixed;bottom:24px;right:24px;width:48px;height:48px;border-radius:50%;background:var(--red);color:#fff;border:none;font-size:20px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px var(--shd);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s;z-index:9000;}
 .totop-btn.show{opacity:1;visibility:visible;transform:translateY(0);}
 .totop-btn:hover{background:var(--dkred);}
-.tips-box{background:var(--sur);border:1px solid var(--bdr);padding:12px 16px;margin-top:14px;box-shadow:0 1px 8px var(--shd);}
-.tips-summary{display:flex;align-items:center;justify-content:space-between;cursor:pointer;list-style:none;padding:4px 0;user-select:none;}
+.tips-box{background:var(--sur);border:1px solid var(--bdr);border-top:3px solid var(--red);margin-top:14px;box-shadow:0 1px 8px var(--shd);overflow:hidden;transition:box-shadow .18s,border-color .18s;}
+.tips-box:not([open]):hover{box-shadow:0 4px 16px var(--shd);border-color:var(--red);}
+.tips-summary{display:flex;align-items:center;gap:12px;cursor:pointer;list-style:none;user-select:none;padding:13px 16px;background:var(--sur2);transition:background .18s;}
+.tips-summary:hover{background:var(--sur3);}
 .tips-summary::-webkit-details-marker{display:none;}
-.tips-summary h3{margin:0;}
-.tips-box:not([open]) .tips-summary{border-bottom:none;}
-.tips-box[open] .tips-summary{border-bottom:1px solid var(--bdr);padding-bottom:10px;margin-bottom:2px;}
-.tips-chevron{font-size:16px;color:var(--red);transition:transform .2s ease;flex-shrink:0;}
-.tips-box[open] .tips-chevron{transform:rotate(180deg);}
+.tips-summary-icon{width:32px;height:32px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.tips-summary-text{flex:1;min-width:0;}
+.tips-summary h3{margin:0;font-size:14px;}
+.tips-summary-sub{font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-top:2px;}
+.tips-box[open] .tips-summary{border-bottom:1px solid var(--bdr);}
+.tips-toggle-hint{font-size:11px;font-weight:700;font-family:'Noto Sans Bengali',sans-serif;color:var(--red);white-space:nowrap;flex-shrink:0;}
+.tips-chevron-btn{width:26px;height:26px;border-radius:50%;background:var(--sur);border:1px solid var(--red);color:var(--red);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;transition:transform .25s ease,background .18s;animation:tipsPulse 1.8s ease-in-out 2;}
+.tips-summary:hover .tips-chevron-btn{background:var(--red);color:#fff;}
+.tips-box[open] .tips-chevron-btn{transform:rotate(180deg);background:var(--red);color:#fff;animation:none;}
+@keyframes tipsPulse{0%,100%{box-shadow:0 0 0 0 rgba(200,16,46,.35);}50%{box-shadow:0 0 0 6px rgba(200,16,46,0);}}
+.tips-body{display:flex;flex-direction:column;padding:4px 16px 14px;}
 .tip-group-label{font-size:11px;font-weight:700;font-family:'Noto Sans Bengali',sans-serif;color:var(--red);text-transform:uppercase;letter-spacing:.6px;padding:10px 0 4px;border-bottom:1px solid var(--bdr);margin-bottom:2px;}
 .tip-group-label:first-of-type{padding-top:2px;}
 .tips-body{display:flex;flex-direction:column;}
@@ -313,6 +321,7 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
   .sh h3{font-size:12px;}
   .nav .wrap{gap:0;}
   .nl{font-size:12px;padding:9px 10px;}
+  .tips-toggle-hint{display:none;}
 }
 
 /* ── Very Small Phone (< 380px) ── */
@@ -444,13 +453,6 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
             <div id="book-zoom-wrap" style="transform-origin:center center;width:100%;height:100%;display:flex;align-items:center;justify-content:center;">
               <div id="book-flip" style="width:100%;height:100%;"></div>
             </div>
-            <!-- CTRL+SCROLL HINT (shows briefly when user scrolls without Ctrl) -->
-            <div id="zoom-hint" style="display:none;position:absolute;inset:0;z-index:20;background:rgba(0,0,0,.55);align-items:center;justify-content:center;pointer-events:none;">
-              <div style="background:rgba(0,0,0,.82);color:#fff;padding:12px 20px;border-radius:8px;font-family:'Noto Sans Bengali',sans-serif;font-size:13.5px;text-align:center;line-height:1.7;backdrop-filter:blur(4px);">
-                🖱️ <strong>Ctrl + Scroll</strong> to zoom<br>
-                <span style="font-size:11.5px;color:#bbb;">Pinch on touchscreen</span>
-              </div>
-            </div>
             <!-- SPINNER -->
             <div id="ep-spinner" style="display:none;position:absolute;inset:0;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:#888;z-index:5;background:var(--viewer-bg);">
               <div class="ep-load-stack">
@@ -462,10 +464,10 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
               <div class="ep-load-bar"><div class="ep-load-bar-fill" id="ep-load-bar-fill"></div></div>
             </div>
             <!-- ERROR -->
-            <div id="ep-error" style="display:none;position:absolute;inset:0;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#666;text-align:center;padding:30px;z-index:5;">
+            <div id="ep-error" style="display:none;position:absolute;inset:0;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#666;text-align:center;padding:30px;z-index:5;background:var(--viewer-bg);">
               <div style="font-size:42px;">📭</div>
               <p style="font-size:14px;font-family:'Noto Sans Bengali',sans-serif;line-height:1.75;">এই তারিখের ই-পেপার পাওয়া যায়নি।</p>
-              <small id="ep-error-path" style="font-size:11px;color:#444;font-family:monospace;"></small>
+              <small id="ep-error-path" style="font-size:12px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;max-width:320px;"></small>
             </div>
           </div>
 
@@ -480,19 +482,25 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
         <!-- TIPS: usage guide below the PDF viewer — collapsed by default to save space -->
         <details class="tips-box">
           <summary class="tips-summary">
-            <h3 id="tips-heading">ব্যবহার নির্দেশিকা</h3>
-            <span class="tips-chevron">▾</span>
+            <div class="tips-summary-icon">💡</div>
+            <div class="tips-summary-text">
+              <h3 id="tips-heading">ব্যবহার নির্দেশিকা</h3>
+              <div class="tips-summary-sub" id="tips-sub">সংখ্যা পড়া, পাতা বদলানো ও জুম করার সহজ উপায়</div>
+            </div>
+            <span class="tips-toggle-hint" id="tips-toggle-hint">খুলতে ক্লিক করুন</span>
+            <span class="tips-chevron-btn">▾</span>
           </summary>
 
           <div class="tips-body">
-            <div class="tip-group-label" id="tip-group-1">📖 সংখ্যা খোলা</div>
-            <div class="tip-row"><span>📅</span><span id="tip-1">ক্যালেন্ডার থেকে তারিখ বেছে <strong>"দেখুন"</strong>-এ ক্লিক করুন — সেদিনের সংখ্যা লোড হবে</span></div>
-            <div class="tip-row"><span>🗂️</span><span id="tip-2">পেজ নম্বর বোতামে ক্লিক করে সরাসরি যেকোনো পাতায় যান; পাশের <strong>❮ ❯</strong> তীরচিহ্নেও পাতা পাল্টানো যায়</span></div>
+            <div class="tip-group-label" id="tip-group-1">📖 সংখ্যা খোলা ও পাতা পড়া</div>
+            <div class="tip-row"><span>📅</span><span id="tip-1">তারিখ বেছে <strong>"দেখুন"</strong>-এ ক্লিক করুন — সেদিনের সংখ্যা মুহূর্তেই লোড হয়ে যাবে</span></div>
+            <div class="tip-row"><span>🗂️</span><span id="tip-2">সরাসরি যেকোনো পাতায় যেতে পেজ-নম্বর বোতামে ক্লিক করুন, অথবা পাশের <strong>❮ ❯</strong> বোতামে এক পাতা করে এগিয়ে/পিছিয়ে যান</span></div>
+            <div class="tip-row"><span>👆</span><span id="tip-6b">বইয়ের পাতার কোণা ধরে টেনেও উল্টাতে পারবেন — ঠিক আসল বইয়ের মতো</span></div>
 
             <div class="tip-group-label" id="tip-group-2">🔍 জুম ও প্যান</div>
-            <div class="tip-row"><span>🖥️</span><span id="tip-3">কম্পিউটারে <strong>Ctrl + স্ক্রল</strong> করে ছবির ভেতরে জুম করুন; টুলবারের <strong>+</strong> / <strong>−</strong> বোতামও ব্যবহার করতে পারেন</span></div>
-            <div class="tip-row"><span>📱</span><span id="tip-4">মোবাইলে দুই আঙুল দিয়ে <strong>পিঞ্চ</strong> করে জুম করুন; দ্রুত জুম করতে স্ক্রিনে <strong>দুইবার ট্যাপ</strong> করুন</span></div>
-            <div class="tip-row"><span>🖱️</span><span id="tip-5">জুম করার পর পাতা ধরে <strong>টেনে সরান</strong> (ড্র্যাগ) — মোবাইলে এক আঙুলে স্লাইড করুন</span></div>
+            <div class="tip-row"><span>🖥️</span><span id="tip-3">কম্পিউটারে <strong>Ctrl + স্ক্রল</strong> করুন অথবা টুলবারের <strong>+</strong> / <strong>−</strong> বোতাম চাপুন — ছবির ভেতরে জুম করা যাবে</span></div>
+            <div class="tip-row"><span>📱</span><span id="tip-4">মোবাইলে দুই আঙুলে <strong>পিঞ্চ</strong> করে জুম করুন; দ্রুত জুমের জন্য স্ক্রিনে <strong>দুইবার ট্যাপ</strong> করুন</span></div>
+            <div class="tip-row"><span>🖱️</span><span id="tip-5">জুম করা অবস্থায় পাতা ধরে <strong>টেনে সরান</strong> — মোবাইলে এক আঙুলে স্লাইড করুন</span></div>
 
             <div class="tip-group-label" id="tip-group-3">⌨️ কীবোর্ড শর্টকাট</div>
             <div class="tip-row tip-shortcuts">
@@ -506,6 +514,10 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
                 </span>
               </span>
             </div>
+
+            <div class="tip-group-label" id="tip-group-4">⚙️ থিম ও ভাষা</div>
+            <div class="tip-row"><span>🌙</span><span id="tip-7">উপরে ডানদিকের গোল বোতামে ক্লিক করে ডার্ক/লাইট মোডের মধ্যে পাল্টাতে পারবেন</span></div>
+            <div class="tip-row"><span>🌐</span><span id="tip-8"><strong>বাং</strong> / <strong>EN</strong> বোতামে ক্লিক করে বাংলা ও ইংরেজির মধ্যে পাল্টাতে পারবেন</span></div>
           </div>
         </details>
 
@@ -690,25 +702,61 @@ async function findLatestAvailableDate(maxDaysBack=14){
 }
 
 // ── RENDER ALL PAGES TO IMAGES (fed into the flipbook) ──
+// NOTE: canvas rendering is wrapped per-page in try/catch, so if pdf.js
+// chokes on ONE page (corrupt/oversized/odd embedded content — this can
+// happen on any edition, not just short ones), that page is logged and
+// skipped instead of aborting the whole book and showing the misleading
+// "edition not found" screen.
+const MAX_CANVAS_DIM = 4096; // safe ceiling well under browser canvas limits (Safari caps ~4096-8192, Chrome higher)
 async function renderAllPagesToImages(){
   const spinTxt = document.getElementById('ep-spinner-text');
   const barFill = document.getElementById('ep-load-bar-fill');
   const images = [];
+  const failedPages = [];
   const first  = await pdfDoc.getPage(1);
   const vp0    = first.getViewport({scale:1});
-  const targetW = Math.min(1400, vp0.width * 1.8); // higher resolution for a sharper flipbook, still capped for memory/perf
-  const scale   = targetW / vp0.width;
+  let targetW = Math.min(1400, vp0.width * 1.8); // higher resolution for a sharper flipbook, still capped for memory/perf
+  let scale   = targetW / vp0.width;
+  // guard against unusually tall/wide pages pushing canvas past browser limits
+  if(vp0.height * scale > MAX_CANVAS_DIM) scale = MAX_CANVAS_DIM / vp0.height;
+  if(vp0.width  * scale > MAX_CANVAS_DIM) scale = MAX_CANVAS_DIM / vp0.width;
 
   for(let i=1;i<=totalPages;i++){
     spinTxt.textContent = `পাতা লোড হচ্ছে… ${toBnDigits(String(i))}/${toBnDigits(String(totalPages))}`;
     if(barFill) barFill.style.width = `${Math.round((i/totalPages)*100)}%`;
-    const page = await pdfDoc.getPage(i);
-    const vp   = page.getViewport({scale});
-    const off  = document.createElement('canvas');
-    off.width = vp.width; off.height = vp.height;
-    await page.render({canvasContext: off.getContext('2d'), viewport: vp}).promise;
-    images.push(off.toDataURL('image/jpeg', 0.92));
+    try{
+      const page = await pdfDoc.getPage(i);
+      const vp   = page.getViewport({scale});
+      const off  = document.createElement('canvas');
+      off.width = vp.width; off.height = vp.height;
+      await page.render({canvasContext: off.getContext('2d'), viewport: vp}).promise;
+      images.push(off.toDataURL('image/jpeg', 0.92));
+    }catch(pageErr){
+      console.error(`[epaper] failed to render page ${i}/${totalPages}:`, pageErr);
+      failedPages.push(i);
+      images.push(null); // placeholder — filled in below
+    }
   }
+
+  // if every single page failed, this isn't a "one bad page" situation —
+  // surface it as a real failure so loadEdition's catch shows an error
+  if(images.every(img => img===null)){
+    throw new Error(`All ${totalPages} page(s) failed to render`);
+  }
+
+  // backfill any failed pages with a blank placeholder the same size as a
+  // good page, so the flipbook still gets a full, correctly-numbered set
+  if(failedPages.length){
+    const blank = document.createElement('canvas');
+    blank.width = Math.round(vp0.width*scale); blank.height = Math.round(vp0.height*scale);
+    const ctx = blank.getContext('2d');
+    ctx.fillStyle = '#fff'; ctx.fillRect(0,0,blank.width,blank.height);
+    ctx.fillStyle = '#999'; ctx.font = '20px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('পাতা লোড করা যায়নি', blank.width/2, blank.height/2);
+    const blankUrl = blank.toDataURL('image/jpeg', 0.92);
+    images.forEach((img,idx)=>{ if(img===null) images[idx]=blankUrl; });
+  }
+
   renderedImages = images;
   renderedPageW  = Math.round(vp0.width*scale);
   renderedPageH  = Math.round(vp0.height*scale);
@@ -734,7 +782,7 @@ function buildFlipbook(images, pageW, pageH){
     height: pageH,
     size: 'stretch',
     minWidth: 220,
-    maxWidth: pageW * 3,
+    maxWidth: Math.round(pageW * 1.8),  // stretches for large screens, but stays safely under 2×pageW (a full spread) so it can never switch into landscape/spread mode
     minHeight: 300,
     maxHeight: pageH * 3,
     showCover: false,          // (showCover:true forces a blank "inside cover" page next to page 1 in portrait mode — not wanted here)
@@ -784,13 +832,8 @@ function resetZoom(){
   });
   window.addEventListener('mouseup', ()=>{ isPanning=false; });
 
-  let hintTimer=null;
   area.addEventListener('wheel', e=>{
     if(!e.ctrlKey && !e.metaKey){
-      const hint=document.getElementById('zoom-hint');
-      hint.style.display='flex';
-      clearTimeout(hintTimer);
-      hintTimer=setTimeout(()=>{ hint.style.display='none'; }, 1200);
       return;
     }
     e.preventDefault();
@@ -899,9 +942,19 @@ function hideSiteLoader(){
 }
 setTimeout(hideSiteLoader, SITE_LOADER_MAX_MS); // hard cap — fires regardless of load state
 function hideSpinner(){ document.getElementById('ep-spinner').style.display='none'; }
-function showError(path){
+function showError(path, message){
+  // tear down any flipbook left over from a previously-loaded edition —
+  // the error overlay covers it visually, but it should also just not
+  // exist anymore, so nothing stale can flash/peek through
+  if(normalPageFlip){ try{ normalPageFlip.destroy(); }catch(e){} normalPageFlip=null; pageFlip=null; }
+  const wrap = document.getElementById('book-zoom-wrap');
+  if(wrap) wrap.innerHTML = '<div id="book-flip" style="width:100%;height:100%;"></div>';
+
   document.getElementById('ep-error').style.display='flex';
-  document.getElementById('ep-error-path').textContent=path;
+  // never show the raw asset/file path/URL to the reader — it's an
+  // internal detail, not something a visitor should see. The real path
+  // is still logged to console (see loadEdition's catch) for debugging.
+  document.getElementById('ep-error-path').textContent = message || (lang==='en' ? 'Please try another date from the archive.' : 'অনুগ্রহ করে আর্কাইভ থেকে অন্য একটি তারিখ বেছে নিন।');
   document.getElementById('ep-spinner').style.display='none';
   document.getElementById('page-btn-row').innerHTML='<span style="font-size:12px;color:var(--txt3);font-family:\'Noto Sans Bengali\',sans-serif;">পাওয়া যায়নি</span>';
 }
@@ -928,9 +981,11 @@ async function loadEdition(dateStr){
   pdfDoc=null; currentPage=1; totalPages=0; panCurX=0; panCurY=0; userZoom=1;
   document.getElementById('zoom-label').textContent='100%';
 
+  let pdfLoadedOk = false;
   try {
     pdfDoc = await pdfjsLib.getDocument(path).promise;
     totalPages = pdfDoc.numPages;
+    pdfLoadedOk = true; // PDF itself opened fine — any error past this point is NOT a "not found" issue
     const {images, pageW, pageH} = await renderAllPagesToImages();
     buildFlipbook(images, pageW, pageH);
     buildPageBtns();
@@ -938,15 +993,28 @@ async function loadEdition(dateStr){
     hideSpinner();
     hideSiteLoader();
   } catch(e){
+    console.error(`[epaper] loadEdition(${dateStr}) failed — pdfLoadedOk=${pdfLoadedOk}, path=${path}:`, e);
     hideSpinner();
-    showError(path);
+    // real fetch/parse failure (pdf missing, wrong path, corrupt file) vs.
+    // the pdf loaded fine but rendering/flipbook build blew up afterward —
+    // these are different problems and shouldn't share the same message.
+    // Neither message includes the raw file path/URL — that's an internal
+    // detail, not something a reader should see.
+    showError(path, pdfLoadedOk ? (lang==='en' ? 'There was a problem preparing this edition. Please try again.' : 'পাতা তৈরিতে সমস্যা হয়েছে, একটু পর আবার চেষ্টা করুন।') : undefined);
     hideSiteLoader();
   }
 }
 
 // ── ARCHIVE ──
 function buildArchive(){
-  const list=document.getElementById('arch-list'); list.innerHTML='';
+  // NOTE: this list has no corresponding element in the current page
+  // markup (looks like a leftover archive-sidebar hook). Without this
+  // guard, getElementById() returns null and the very next line throws,
+  // which — since buildArchive() is called synchronously near the top of
+  // init() — silently aborts init() before it ever reaches loadEdition(),
+  // meaning the edition would never auto-load on page open.
+  const list=document.getElementById('arch-list'); if(!list) return;
+  list.innerHTML='';
   list.appendChild(makeArchItem(todayStr(),true));
   for(let i=1;i<=13;i++){
     const d=new Date(); d.setDate(d.getDate()-i);
@@ -997,6 +1065,16 @@ document.addEventListener('keydown',e=>{
   if(e.key==='0') resetZoom();
   if(e.key==='Escape'){ closeContactPopup(); closeInfoPopup(); }
 });
+
+// ── TIPS BOX: swap the "click to expand/collapse" hint as it's toggled ──
+(function setupTipsToggle(){
+  const box = document.querySelector('.tips-box');
+  if(!box) return;
+  box.addEventListener('toggle', ()=>{
+    const t = T[lang];
+    document.getElementById('tips-toggle-hint').textContent = box.open ? t.tipsHintClose : t.tipsHintOpen;
+  });
+})();
 
 // ── CONTACT POPUP ──
 function openContactPopup(type){
@@ -1098,15 +1176,19 @@ var T = {
     edLabel:'📅 সংখ্যা:', edBtn:'দেখুন',
     loading:'লোড হচ্ছে…', noEdition:'এই তারিখের সংখ্যা পাওয়া যায়নি।',
     tipsHeading:'ব্যবহার নির্দেশিকা',
-    tipGroup1:'📖 সংখ্যা খোলা', tipGroup2:'🔍 জুম ও প্যান', tipGroup3:'⌨️ কীবোর্ড শর্টকাট',
-    tip1:'ক্যালেন্ডার থেকে তারিখ বেছে <strong>"দেখুন"</strong>-এ ক্লিক করুন — সেদিনের সংখ্যা লোড হবে',
-    tip2:'পেজ নম্বর বোতামে ক্লিক করে সরাসরি যেকোনো পাতায় যান; পাশের <strong>❮ ❯</strong> তীরচিহ্নেও পাতা পাল্টানো যায়',
-    tip3:'কম্পিউটারে <strong>Ctrl + স্ক্রল</strong> করে ছবির ভেতরে জুম করুন; টুলবারের <strong>+</strong> / <strong>−</strong> বোতামও ব্যবহার করতে পারেন',
-    tip4:'মোবাইলে দুই আঙুল দিয়ে <strong>পিঞ্চ</strong> করে জুম করুন; দ্রুত জুম করতে স্ক্রিনে <strong>দুইবার ট্যাপ</strong> করুন',
-    tip5:'জুম করার পর পাতা ধরে <strong>টেনে সরান</strong> (ড্র্যাগ) — মোবাইলে এক আঙুলে স্লাইড করুন',
+    tipsSub:'সংখ্যা পড়া, পাতা বদলানো ও জুম করার সহজ উপায়',
+    tipsHintOpen:'খুলতে ক্লিক করুন', tipsHintClose:'লুকাতে ক্লিক করুন',
+    tipGroup1:'📖 সংখ্যা খোলা ও পাতা পড়া', tipGroup2:'🔍 জুম ও প্যান', tipGroup3:'⌨️ কীবোর্ড শর্টকাট', tipGroup4:'⚙️ থিম ও ভাষা',
+    tip1:'তারিখ বেছে <strong>"দেখুন"</strong>-এ ক্লিক করুন — সেদিনের সংখ্যা মুহূর্তেই লোড হয়ে যাবে',
+    tip2:'সরাসরি যেকোনো পাতায় যেতে পেজ-নম্বর বোতামে ক্লিক করুন, অথবা পাশের <strong>❮ ❯</strong> বোতামে এক পাতা করে এগিয়ে/পিছিয়ে যান',
+    tip6b:'বইয়ের পাতার কোণা ধরে টেনেও উল্টাতে পারবেন — ঠিক আসল বইয়ের মতো',
+    tip3:'কম্পিউটারে <strong>Ctrl + স্ক্রল</strong> করুন অথবা টুলবারের <strong>+</strong> / <strong>−</strong> বোতাম চাপুন — ছবির ভেতরে জুম করা যাবে',
+    tip4:'মোবাইলে দুই আঙুলে <strong>পিঞ্চ</strong> করে জুম করুন; দ্রুত জুমের জন্য স্ক্রিনে <strong>দুইবার ট্যাপ</strong> করুন',
+    tip5:'জুম করা অবস্থায় পাতা ধরে <strong>টেনে সরান</strong> — মোবাইলে এক আঙুলে স্লাইড করুন',
     tip6:'',
     tipSc1:'আগের / পরের পাতা', tipSc2:'জুম বাড়ান / কমান', tipSc3:'জুম রিসেট করুন', tipSc4:'পপআপ বন্ধ করুন',
-    tip8:'',
+    tip7:'উপরে ডানদিকের গোল বোতামে ক্লিক করে ডার্ক/লাইট মোডের মধ্যে পাল্টাতে পারবেন',
+    tip8:'<strong>বাং</strong> / <strong>EN</strong> বোতামে ক্লিক করে বাংলা ও ইংরেজির মধ্যে পাল্টাতে পারবেন',
     tagline:'সত্যের সন্ধানে, নির্ভীক প্রকাশে!',
     footerInfo:'প্রতিষ্ঠাতা ও প্রকাশক: অনিক অধিকারী<br>প্রতিষ্ঠাতা ও প্রধান সম্পাদক: মো: ফারহান শাহরিয়ার',
     footerNoticeTitle:'⚠️ জরুরি ঘোষণা',
@@ -1125,15 +1207,19 @@ var T = {
     edLabel:'📅 Edition:', edBtn:'View',
     loading:'Loading…', noEdition:'No edition found for this date.',
     tipsHeading:'How to Use',
-    tipGroup1:'📖 Opening an Edition', tipGroup2:'🔍 Zoom & Pan', tipGroup3:'⌨️ Keyboard Shortcuts',
-    tip1:'Pick a date from the calendar and click <strong>"View"</strong> — that day\'s edition will load',
-    tip2:'Click any page-number button to jump directly to that page; use the <strong>❮ ❯</strong> arrows to step through pages',
-    tip3:'On desktop, hold <strong>Ctrl + Scroll</strong> to zoom in/out; the <strong>+</strong> / <strong>−</strong> toolbar buttons also work',
+    tipsSub:'A quick guide to reading, navigating, and zooming',
+    tipsHintOpen:'Click to expand', tipsHintClose:'Click to collapse',
+    tipGroup1:'📖 Opening an Edition', tipGroup2:'🔍 Zoom & Pan', tipGroup3:'⌨️ Keyboard Shortcuts', tipGroup4:'⚙️ Theme & Language',
+    tip1:'Pick a date and click <strong>"View"</strong> — that day\'s edition loads instantly',
+    tip2:'Click any page-number button to jump directly to that page, or use the <strong>❮ ❯</strong> arrows to step through pages',
+    tip6b:'You can also drag a page corner to flip it — just like a real book',
+    tip3:'On desktop, hold <strong>Ctrl + Scroll</strong> or use the toolbar\'s <strong>+</strong> / <strong>−</strong> buttons to zoom in/out',
     tip4:'On mobile, <strong>pinch</strong> with two fingers to zoom; <strong>double-tap</strong> to quickly zoom in or reset',
-    tip5:'After zooming, <strong>drag</strong> the page to pan around — on mobile, slide with one finger',
+    tip5:'While zoomed in, <strong>drag</strong> the page to pan around — on mobile, slide with one finger',
     tip6:'',
     tipSc1:'Previous / Next page', tipSc2:'Zoom in / Zoom out', tipSc3:'Reset zoom', tipSc4:'Close popup',
-    tip8:'',
+    tip7:'Click the round button top-right to switch between dark and light mode',
+    tip8:'Click <strong>বাং</strong> / <strong>EN</strong> to switch between Bengali and English',
     tagline:'In pursuit of truth, In fearless expression!',
     footerInfo:'Founder & Publisher: Anik Adhikari<br>Founder & Editor-in-Chief: Md. Farhan Shahriar',
     footerNoticeTitle:'⚠️ Important Notice',
@@ -1236,11 +1322,16 @@ function applyLangUI() {
   if(toolTitle && toolTitle.textContent.includes('লোড') || toolTitle && toolTitle.textContent.includes('Load'))
     toolTitle.textContent = t.loading;
   document.getElementById('tips-heading').textContent = t.tipsHeading;
+  document.getElementById('tips-sub').textContent     = t.tipsSub;
+  const tipsBoxEl = document.querySelector('.tips-box');
+  document.getElementById('tips-toggle-hint').textContent = (tipsBoxEl && tipsBoxEl.open) ? t.tipsHintClose : t.tipsHintOpen;
   document.getElementById('tip-group-1').textContent = t.tipGroup1;
   document.getElementById('tip-group-2').textContent = t.tipGroup2;
   document.getElementById('tip-group-3').textContent = t.tipGroup3;
+  document.getElementById('tip-group-4').textContent = t.tipGroup4;
   document.getElementById('tip-1').innerHTML = t.tip1;
   document.getElementById('tip-2').innerHTML = t.tip2;
+  document.getElementById('tip-6b').innerHTML = t.tip6b;
   document.getElementById('tip-3').innerHTML = t.tip3;
   document.getElementById('tip-4').innerHTML = t.tip4;
   document.getElementById('tip-5').innerHTML = t.tip5;
@@ -1248,6 +1339,8 @@ function applyLangUI() {
   document.getElementById('tip-sc-2').textContent = t.tipSc2;
   document.getElementById('tip-sc-3').textContent = t.tipSc3;
   document.getElementById('tip-sc-4').textContent = t.tipSc4;
+  document.getElementById('tip-7').innerHTML = t.tip7;
+  document.getElementById('tip-8').innerHTML = t.tip8;
 
   document.getElementById('mast-tagline').textContent     = t.tagline;
   document.getElementById('footer-tagline').textContent    = t.tagline;
