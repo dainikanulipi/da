@@ -200,6 +200,53 @@ button{font-family:inherit;cursor:pointer;}
 .spin{width:40px;height:40px;margin:0 auto 14px;border:3px solid var(--bdr);border-top-color:var(--red);border-radius:50%;animation:sp .7s linear infinite;}
 @keyframes sp{to{transform:rotate(360deg)}}
 .loading p{color:var(--txt2);font-size:16px;}
+
+/* ── SITE-WIDE SPLASH LOADER (shown while the first batch of news loads) ── */
+.site-loader{position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;background:var(--bg);transition:opacity .5s ease,visibility .5s ease;}
+.site-loader.hide{opacity:0;visibility:hidden;pointer-events:none;}
+.site-loader-logo{height:64px;width:auto;max-width:220px;object-fit:contain;animation:siteLoaderFadeIn .8s ease both;}
+.site-loader-logo.logo-img-light{display:block;}
+.site-loader-logo.logo-img-dark{display:none;}
+[data-theme=dark] .site-loader-logo.logo-img-light{display:none;}
+[data-theme=dark] .site-loader-logo.logo-img-dark{display:block;}
+@keyframes siteLoaderFadeIn{0%{opacity:0;transform:translateY(-6px);}100%{opacity:1;transform:translateY(0);}}
+.site-loader-logo-fallback{display:none;font-size:30px;font-weight:700;font-family:'Noto Serif Bengali',serif;color:var(--txt);animation:siteLoaderFadeIn .8s ease both;}
+.site-loader-logo-fallback em{color:var(--red);font-style:normal;}
+.site-loader-text{font-size:13.5px;font-family:'Noto Sans Bengali',sans-serif;color:var(--txt2);animation:siteLoaderTextPulse 1.6s ease-in-out infinite;letter-spacing:.3px;}
+@keyframes siteLoaderTextPulse{0%,100%{opacity:1;}50%{opacity:.55;}}
+
+/* ── PRINTING-PRESS LOADER: ink roller scans down a page, printing lines ── */
+:root{--press-base:#ddd;--press-ink:#333;}
+[data-theme=dark]{--press-base:#333;--press-ink:#eee;}
+.site-loader-stack{position:relative;width:130px;height:86px;}
+.site-loader-page{position:relative;width:100%;height:100%;background:linear-gradient(135deg,#fff,#eee);border:1px solid var(--bdr);border-radius:3px;box-shadow:0 4px 14px rgba(0,0,0,.25);padding:14px 14px;display:flex;flex-direction:column;justify-content:center;gap:8px;overflow:hidden;}
+[data-theme=dark] .site-loader-page{background:linear-gradient(135deg,#242424,#1a1a1a);}
+.site-loader-line{height:5px;border-radius:2px;background:var(--press-base);animation:pressInkLine 2.2s linear infinite;}
+.site-loader-line:nth-child(1){width:88%;animation-delay:0s;}
+.site-loader-line:nth-child(2){width:96%;animation-delay:.32s;}
+.site-loader-line:nth-child(3){width:70%;animation-delay:.64s;}
+.site-loader-line:nth-child(4){width:92%;animation-delay:.96s;}
+.site-loader-line:nth-child(5){width:60%;animation-delay:1.28s;}
+@keyframes pressInkLine{
+  0%{background:var(--press-base);box-shadow:none;}
+  4%{background:var(--red);box-shadow:0 0 7px var(--red);}
+  12%{background:var(--press-ink);box-shadow:none;}
+  82%{background:var(--press-ink);}
+  94%{background:var(--press-base);}
+  100%{background:var(--press-base);}
+}
+.site-loader-roller{position:absolute;left:6px;right:6px;height:7px;border-radius:4px;background:linear-gradient(180deg,#ff5b5b,var(--red));box-shadow:0 0 10px rgba(200,16,46,.65);animation:pressRollerSweep 2.2s cubic-bezier(.45,0,.4,1) infinite;}
+.site-loader-roller::before,.site-loader-roller::after{content:'';position:absolute;top:50%;width:9px;height:9px;border-radius:50%;background:var(--dkred);transform:translateY(-50%);}
+.site-loader-roller::before{left:-11px;}
+.site-loader-roller::after{right:-11px;}
+@keyframes pressRollerSweep{
+  0%{top:10px;opacity:1;}
+  62%{top:66px;opacity:1;}
+  68%{opacity:0;}
+  70%{top:10px;opacity:0;}
+  78%{opacity:1;}
+  100%{top:10px;opacity:1;}
+}
 .empty{text-align:center;padding:90px 20px;background:var(--sur);transition:background .3s;}
 .empty .ei{font-size:52px;margin-bottom:14px;}
 .empty h3{font-size:22px;font-weight:700;margin-bottom:7px;}
@@ -528,6 +575,24 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
 </head>
 <body>
 
+<!-- SITE-WIDE SPLASH LOADER: covers the page while the first batch of news is fetched; hides once boot() finishes (hard-capped so it never sticks around too long) -->
+<div id="site-loader" class="site-loader">
+  <img src="assets/logo.png"      alt="দৈনিক অনুলিপি" class="site-loader-logo logo-img-light" onerror="this.style.display='none';document.getElementById('site-loader-logo-fallback').style.display='block';">
+  <img src="assets/logo-dark.png" alt="দৈনিক অনুলিপি" class="site-loader-logo logo-img-dark"  onerror="this.style.display='none';document.getElementById('site-loader-logo-fallback').style.display='block';">
+  <div id="site-loader-logo-fallback" class="site-loader-logo-fallback">দৈনিক <em>অনুলিপি</em></div>
+  <div class="site-loader-stack">
+    <div class="site-loader-page">
+      <div class="site-loader-line"></div>
+      <div class="site-loader-line"></div>
+      <div class="site-loader-line"></div>
+      <div class="site-loader-line"></div>
+      <div class="site-loader-line"></div>
+    </div>
+    <div class="site-loader-roller"></div>
+  </div>
+  <p class="site-loader-text" id="site-loader-text">পত্রিকা ছাপা হচ্ছে…</p>
+</div>
+
 <!-- TOP BAR: thin strip above the header — shows today's date and quick links (reporter portal, contact, advertise) -->
 <div class="topbar">
   <div class="wrap">
@@ -581,7 +646,7 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
 <!-- TAB BAR: home + e-paper tabs (same style as epaper.html) -->
 <div class="tab-bar">
   <div class="wrap">
-    <button class="tl on" id="tab-home" onclick="nav('');setActiveNav('home')">🏠 <span id="tab-home-label">হোম</span></button>
+    <button class="tl on" id="tab-home" onclick="nav('');setActiveNav('home')"><span id="tab-home-label">🌐 অনলাইন সংস্করণ</span></button>
     <button class="tl" id="tab-epaper" onclick="window.location.href='https://dainikanulipi.github.io/da/epaper.html'">📰 <span id="tab-epaper-label">ই-পেপার</span></button>
   </div>
 </div>
@@ -746,13 +811,13 @@ function resetMeta() {
 
 // ── LANGUAGE STRINGS ──
 const S = {
-  bn:{dir:'ltr',lang:'bn',breaking:'শিরোনাম',latest:'সর্বশেষ সংবাদ',noNews:'কোনো সংবাদ নেই',noNewsMsg:'এখন পর্যন্ত কোনো সংবাদ প্রকাশিত হয়নি।',loading:'সংবাদ লোড হচ্ছে…',share:'শেয়ার করুন:',fb:'ফেসবুক',wa:'হোয়াটসঅ্যাপ',copy:'লিংক কপি',copied:'✓ কপি!',back:'← পেছনে',related:'সম্পর্কিত সংবাদ',recent:'সাম্প্রতিক সংবাদ',more:'আরও দেখুন →',notFound:'সংবাদটি পাওয়া যায়নি',notFoundMsg:'আপনি যে সংবাদটি খুঁজছেন তা পাওয়া যাচ্ছে না।',tagline:'সত্যের সন্ধানে, নির্ভীক প্রকাশে!',translating:'অনুবাদ হচ্ছে…',translateErr:'অনুবাদ ব্যর্থ',epaper:'ই-পেপার',by:'',goHome:'হোমে ফিরুন',searchPh:'অনুসন্ধান করুন…',searchBtn:'খুঁজুন',searchResults:'অনুসন্ধানের ফলাফল',searchFor:'এর জন্য ফলাফল',resultsFound:'টি সংবাদ পাওয়া গেছে',noResults:'কোনো সংবাদ পাওয়া যায়নি',noResultsMsg:'অন্য শব্দ দিয়ে চেষ্টা করুন।',
-    navHome:'সর্বশেষ',navHomeFull:'সর্বশেষ সংবাদ',tabHome:'হোম',tabEpaper:'ই-পেপার',tbReporter:'রিপোর্টার পোর্টাল',tbContact:'যোগাযোগ',tbAds:'বিজ্ঞাপন',
+  bn:{dir:'ltr',lang:'bn',breaking:'শিরোনাম',latest:'সর্বশেষ সংবাদ',noNews:'সংবাদ ফাইবার কেবলে চড়ে আসছে',noNewsMsg:'আলোর গতিতে ফাইবার অপটিক ক্যাবল বেয়ে আপনার সংবাদ পাঠানো হচ্ছে — মাঝেমধ্যে ঢাকার রাস্তার মতোই একটু জ্যামে আটকে যায়! ততক্ষণে আমাদের ই-পেপার সংস্করণটা দেখে নিন।',loading:'সংবাদ লোড হচ্ছে…',share:'শেয়ার করুন:',fb:'ফেসবুক',wa:'হোয়াটসঅ্যাপ',copy:'লিংক কপি',copied:'✓ কপি!',back:'← পেছনে',related:'সম্পর্কিত সংবাদ',recent:'সাম্প্রতিক সংবাদ',more:'আরও দেখুন →',notFound:'সংবাদটি পাওয়া যায়নি',notFoundMsg:'আপনি যে সংবাদটি খুঁজছেন তা পাওয়া যাচ্ছে না।',tagline:'সত্যের সন্ধানে, নির্ভীক প্রকাশে!',translating:'অনুবাদ হচ্ছে…',translateErr:'অনুবাদ ব্যর্থ',epaper:'ই-পেপার',by:'',goHome:'হোমে ফিরুন',searchPh:'অনুসন্ধান করুন…',searchBtn:'খুঁজুন',searchResults:'অনুসন্ধানের ফলাফল',searchFor:'এর জন্য ফলাফল',resultsFound:'টি সংবাদ পাওয়া গেছে',noResults:'কোনো সংবাদ পাওয়া যায়নি',noResultsMsg:'অন্য শব্দ দিয়ে চেষ্টা করুন।',
+    navHome:'সর্বশেষ',navHomeFull:'সর্বশেষ সংবাদ',tabHome:'🌐 অনলাইন সংস্করণ',tabEpaper:'ই-পেপার',tbReporter:'রিপোর্টার পোর্টাল',tbContact:'যোগাযোগ',tbAds:'বিজ্ঞাপন',
     ftCatHeading:'বিভাগ',ftInfoHeading:'তথ্য',ftAbout:'আমাদের সম্পর্কে',ftContact:'যোগাযোগ করুন',ftAdvertise:'বিজ্ঞাপন দিন',ftReporter:'রিপোর্টার পোর্টাল',ftPrivacy:'গোপনীয়তা নীতি',
     footerInfo:'প্রতিষ্ঠাতা ও প্রকাশক: অনিক অধিকারী<br>প্রতিষ্ঠাতা ও প্রধান সম্পাদক: মো: ফারহান শাহরিয়ার',
     footerBottom:'দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — সর্বস্বত্ব সংরক্ষিত ২০২৬',visitWebsite:'🌐 ওয়েবসাইট ভিজিট করুন',footerNoticeTitle:'⚠️ জরুরি ঘোষণা',footerNoticeText:'এই নিউজ পোর্টালটি বর্তমানে "পরীক্ষামূলক সম্প্রচার" কার্যক্রম পরিচালনা করছে। আমরা সচেতনভাবে রাজনৈতিক সংবাদ এড়িয়ে চলি এবং শুধুমাত্র বিনোদন, তথ্য ও জনস্বার্থমূলক সংবাদ প্রকাশ করি। এখানে প্রকাশিত সংবাদের দায়ভার সংশ্লিষ্ট লেখকদের, পোর্টাল কর্তৃপক্ষের নয়। রেজিস্ট্রেশন প্রক্রিয়া এবং পূর্ণাঙ্গ সম্প্রচারের কাজ চলমান।'},
-  en:{dir:'ltr',lang:'en',breaking:'Breaking',latest:'Latest News',noNews:'No News Available',noNewsMsg:'No articles published yet. Check back soon.',loading:'Loading news…',share:'Share:',fb:'Facebook',wa:'WhatsApp',copy:'Copy Link',copied:'✓ Copied!',back:'← Back',related:'Related News',recent:'Recent News',more:'See more →',notFound:'Article Not Found',notFoundMsg:'The article you are looking for could not be found.',tagline:'In pursuit of truth, In fearless expression!',translating:'Translating…',translateErr:'Translation failed',epaper:'E-Paper',by:'By',goHome:'Go Home',searchPh:'Search…',searchBtn:'Search',searchResults:'Search Results',searchFor:'Results for',resultsFound:'articles found',noResults:'No articles found',noResultsMsg:'Try different keywords.',
-    navHome:'Latest',navHomeFull:'Latest News',tabHome:'Home',tabEpaper:'E-Paper',tbReporter:'Reporter Portal',tbContact:'Contact',tbAds:'Advertise',
+  en:{dir:'ltr',lang:'en',breaking:'Breaking',latest:'Latest News',noNews:'News Is Riding the Fiber Cable',noNewsMsg:"Your stories are zipping over at the speed of light through our fiber-optic cables \u2014 though even light hits a bit of traffic sometimes. Hang tight, or hop over to our E-Paper edition while you wait.",loading:'Loading news…',share:'Share:',fb:'Facebook',wa:'WhatsApp',copy:'Copy Link',copied:'✓ Copied!',back:'← Back',related:'Related News',recent:'Recent News',more:'See more →',notFound:'Article Not Found',notFoundMsg:'The article you are looking for could not be found.',tagline:'In pursuit of truth, In fearless expression!',translating:'Translating…',translateErr:'Translation failed',epaper:'E-Paper',by:'By',goHome:'Go Home',searchPh:'Search…',searchBtn:'Search',searchResults:'Search Results',searchFor:'Results for',resultsFound:'articles found',noResults:'No articles found',noResultsMsg:'Try different keywords.',
+    navHome:'Latest',navHomeFull:'Latest News',tabHome:'🌐 Online Version',tabEpaper:'E-Paper',tbReporter:'Reporter Portal',tbContact:'Contact',tbAds:'Advertise',
     ftCatHeading:'Categories',ftInfoHeading:'Information',ftAbout:'About Us',ftContact:'Contact Us',ftAdvertise:'Advertise With Us',ftReporter:'Reporter Portal',ftPrivacy:'Privacy Policy',
     footerInfo:'Founder & Publisher: Anik Adhikari<br>Founder & Editor-in-Chief: Md. Farhan Shahriar',
     footerBottom:'দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — All rights reserved 2026',visitWebsite:'🌐 Visit Website',footerNoticeTitle:'⚠️ Important Notice',footerNoticeText:'This news portal is currently running on a "trial broadcast" basis. We consciously avoid political news and publish only entertainment, informational, and public-interest content. Responsibility for news published here lies with the respective authors, not the portal authority. The registration process and full broadcast are underway.'},
@@ -910,8 +975,9 @@ function parseCSV(raw) {
   return rows;
 }
 
-// ── FETCH ──
-async function fetchData() {
+// ── FETCH ── (retries a couple of times on failure — a single flaky mobile-network
+// attempt shouldn't permanently show "no news" and drive visitors away before real content loads)
+async function fetchData(attempt = 1) {
   if (false) { // SCRIPT_URL configured
     articles = [];
     return;
@@ -921,12 +987,16 @@ async function fetchData() {
     const json = await res.json();
     if (json.success) {
       articles = json.articles.reverse(); // newest first
-    } else {
-      console.warn('API error:', json.error);
-      articles = [];
+      return;
     }
+    console.warn('API error:', json.error);
+    throw new Error(json.error || 'API returned unsuccessful response');
   } catch(e) {
-    console.warn('Fetch failed:', e.message);
+    console.warn(`Fetch attempt ${attempt} failed:`, e.message);
+    if (attempt < 3) {
+      await new Promise(r => setTimeout(r, 800 * attempt)); // brief backoff before retry
+      return fetchData(attempt + 1);
+    }
     articles = [];
   }
 }
@@ -1098,7 +1168,7 @@ function renderHome() {
   const s = S[lang];
   resetMeta();
   if (!articles.length) {
-    set(`<div class="empty"><div class="ei">📰</div><h3>${s.noNews}</h3><p>${s.noNewsMsg}</p></div>`);
+    set(`<div class="empty"><div class="ei">📡</div><h3>${s.noNews}</h3><p>${s.noNewsMsg}</p><a href="https://dainikanulipi.github.io/da/epaper.html" style="display:inline-block;margin-top:14px;background:var(--red);color:#fff;padding:9px 22px;font-size:14px;font-weight:700;font-family:'Noto Sans Bengali',sans-serif;">${s.epaper}</a></div>`);
     return;
   }
   const [hero,...rest] = articles;
@@ -1372,8 +1442,27 @@ function route() {
   }
 }
 
+// ── SITE-WIDE SPLASH LOADER ── (hides as soon as the first batch of news is ready, but never stays up longer than 1.5s regardless — so a slow/broken fetch can't strand the reader behind it)
+const SITE_LOADER_MAX_MS = 4000; // covers a couple of fetchData retries on a slow connection
+const SITE_LOADER_MIN_MS = 1400; // ensure at least one animation cycle is visible even if boot() finishes instantly
+const siteLoaderStart = Date.now();
+let siteLoaderHidden = false;
+function hideSiteLoader(){
+  if(siteLoaderHidden) return;
+  siteLoaderHidden = true; // guard immediately so overlapping calls don't double-schedule
+  const wait = Math.max(0, SITE_LOADER_MIN_MS - (Date.now() - siteLoaderStart));
+  setTimeout(() => {
+    const el = document.getElementById('site-loader');
+    if(!el) return;
+    el.classList.add('hide');
+    setTimeout(()=>el.remove(), 600);
+  }, wait);
+}
+setTimeout(hideSiteLoader, SITE_LOADER_MAX_MS); // hard cap — fires regardless of load state
+
 // ── BOOT ──
 (async function boot() {
+ try {
   applyTheme(theme);
   applyLang(lang); // sets dir/lang attrs
   document.getElementById('date-display').textContent = bengaliDate();
@@ -1473,30 +1562,44 @@ function route() {
   window.dismissUpdateBanner = dismissUpdateBanner;
   window.pendingNewArticles = null; // kept in sync below
 
-  setInterval(async () => {
-    const before = articles.length;
-    const prevLatestSlug = articles[0]?.slug || '';
+  (function pollForUpdates() {
+    const delay = articles.length === 0 ? 5000 : 30000; // poll faster while empty so recovery feels quick
+    setTimeout(async () => {
+      const before = articles.length;
+      const prevLatestSlug = articles[0]?.slug || '';
 
-    // Fetch fresh data into a temp variable without overwriting global yet
-    let fresh = [];
-    try {
-      const res  = await fetch(`${CFG.SCRIPT_URL}?action=getPublished`);
-      const json = await res.json();
-      if (json.success) fresh = json.articles.reverse();
-    } catch { return; } // silently skip on network error
+      // Fetch fresh data into a temp variable without overwriting global yet
+      let fresh = [];
+      try {
+        const res  = await fetch(`${CFG.SCRIPT_URL}?action=getPublished`);
+        const json = await res.json();
+        if (json.success) fresh = json.articles.reverse();
+      } catch { /* silently skip on network error */ }
 
-    if (!fresh.length) return;
+      if (fresh.length) {
+        // Initial load came up empty (e.g. network hiccup survived all retries) —
+        // apply silently the moment real data arrives instead of leaving visitors
+        // stuck on "no news" waiting to notice and click an update banner.
+        if (before === 0) {
+          applyUpdate(fresh);
+        } else {
+          const newLatestSlug = fresh[0]?.slug || '';
+          const newCount = fresh.length - before;
+          // Only notify if there are genuinely new articles
+          if (newLatestSlug !== prevLatestSlug && newCount > 0) {
+            window.pendingNewArticles = fresh; // sync global ref for onclick
+            showUpdateBanner(newCount, fresh);
+          }
+        }
+      }
 
-    const newLatestSlug = fresh[0]?.slug || '';
-    const newCount = fresh.length - before;
+      pollForUpdates(); // reschedule with delay recalculated from current state
+    }, delay);
+  })();
 
-    // Only notify if there are genuinely new articles
-    if (newLatestSlug !== prevLatestSlug && newCount > 0) {
-      window.pendingNewArticles = fresh; // sync global ref for onclick
-      showUpdateBanner(newCount, fresh);
-    }
-  }, 30 * 1000);
-
+ } finally {
+   hideSiteLoader();
+ }
 })();
 </script>
 
