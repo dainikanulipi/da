@@ -92,10 +92,20 @@ button{font-family:inherit;cursor:pointer;}
 
 .ed-bar{background:var(--sur);border:1px solid var(--bdr);border-top:3px solid var(--red);padding:14px 16px;margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;box-shadow:0 1px 6px var(--shd);}
 .ed-bar label{font-size:12.5px;font-weight:700;font-family:'Noto Sans Bengali',sans-serif;color:var(--txt3);white-space:nowrap;}
-.ed-date-input{border:1px solid var(--bdr);background:var(--sur2);color:var(--txt);padding:6px 10px;font-size:13px;font-family:'Noto Sans Bengali',sans-serif;outline:none;transition:border-color .2s;flex:1;min-width:140px;}
+.ed-date-group{display:flex;align-items:stretch;flex:1;min-width:150px;}
+.ed-date-input{border:1px solid var(--bdr);border-left:none;border-right:none;background:var(--sur2);color:var(--txt);padding:6px 10px;font-size:13px;font-family:'Noto Sans Bengali',sans-serif;outline:none;transition:border-color .2s;flex:1;min-width:110px;text-align:center;}
 .ed-date-input:focus{border-color:var(--red);}
+.ed-step-btn{background:var(--sur2);border:1px solid var(--bdr);color:var(--txt2);width:32px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .18s;}
+.ed-step-btn:first-child{border-radius:2px 0 0 2px;}
+.ed-step-btn:last-child{border-radius:0 2px 2px 0;}
+.ed-step-btn:hover:not(:disabled){background:var(--red);color:#fff;border-color:var(--red);}
+.ed-step-btn:disabled{opacity:.35;cursor:not-allowed;pointer-events:none;}
+.ed-today-btn{background:var(--sur2);color:var(--txt2);border:1px solid var(--bdr);padding:7px 14px;font-size:13px;font-weight:700;font-family:'Noto Sans Bengali',sans-serif;transition:all .2s;white-space:nowrap;}
+.ed-today-btn:hover:not(:disabled){background:var(--sur3);color:var(--txt);}
+.ed-today-btn:disabled{opacity:.4;cursor:not-allowed;pointer-events:none;}
 .ed-go-btn{background:var(--red);color:#fff;border:none;padding:7px 20px;font-size:13px;font-weight:700;font-family:'Noto Sans Bengali',sans-serif;transition:background .2s;white-space:nowrap;}
-.ed-go-btn:hover{background:var(--dkred);}
+.ed-go-btn:hover:not(:disabled){background:var(--dkred);}
+.ed-go-btn:disabled{opacity:.6;cursor:not-allowed;pointer-events:none;}
 .ed-info{font-size:12px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-left:auto;}
 
 /* VIEWER SHELL */
@@ -108,6 +118,8 @@ button{font-family:inherit;cursor:pointer;}
 .tb-btn:hover{background:var(--red);color:#fff;border-color:var(--red);}
 .tb-btn:disabled{opacity:.3;pointer-events:none;}
 .tb-sep{width:1px;height:18px;background:var(--bdr);flex-shrink:0;margin:0 2px;}
+.share-toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--topbar);color:#fff;padding:10px 20px;border-radius:6px;font-size:13px;font-weight:700;font-family:'Noto Sans Bengali',sans-serif;box-shadow:0 6px 24px rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:9999;white-space:nowrap;}
+.share-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 .page-indicator{font-size:12px;font-weight:700;font-family:'Noto Sans Bengali',sans-serif;color:var(--txt);white-space:nowrap;padding:0 4px;min-width:70px;text-align:center;}
 .z-label{font-size:11px;font-family:'Noto Sans Bengali',sans-serif;color:var(--txt3);padding:0 4px;min-width:38px;text-align:center;}
 
@@ -302,7 +314,7 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
   .ep-toolbar{flex-wrap:wrap;gap:6px;}
   .ep-toolbar-title{font-size:11.5px;width:100%;order:-1;}
   .ed-bar{flex-wrap:wrap;gap:8px;}
-  .ed-date-input{min-width:120px;}
+  .ed-date-group{min-width:120px;}
   .topbar{font-size:11px;}
   .tips-box{margin-top:14px;}
 }
@@ -323,7 +335,9 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
   .tb-btn{width:26px;height:26px;font-size:12px;}
   .page-indicator{font-size:11px;min-width:54px;}
   .ed-bar{padding:10px 12px;gap:7px;}
-  .ed-date-input{font-size:12px;padding:5px 8px;}
+  .ed-date-input{font-size:12px;padding:5px 6px;}
+  .ed-step-btn{width:28px;font-size:12px;}
+  .ed-today-btn{padding:6px 10px;font-size:12px;}
   .ed-go-btn{padding:6px 14px;font-size:12px;}
   .thumb-item canvas{width:52px !important;height:78px !important;}
   .arch-date{font-size:12px;}
@@ -435,7 +449,12 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
         <!-- DATE BAR: pick a date and click "দেখুন" (View) to load that day's edition -->
         <div class="ed-bar">
           <label id="ed-label">📅 সংখ্যা:</label>
-          <input type="date" class="ed-date-input" id="ed-date-input">
+          <div class="ed-date-group">
+            <button class="ed-step-btn" id="ed-prev-btn" onclick="stepEditionDate(-1)" aria-label="আগের দিন" title="আগের দিন"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+            <input type="date" class="ed-date-input" id="ed-date-input" onchange="loadEdition()">
+            <button class="ed-step-btn" id="ed-next-btn" onclick="stepEditionDate(1)" aria-label="পরের দিন" title="পরের দিন"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+          </div>
+          <button class="ed-today-btn" id="ed-today-btn" onclick="jumpToTodayEdition()">আজ</button>
           <button class="ed-go-btn" id="ed-go-btn" onclick="loadEdition()">দেখুন</button>
           <span class="ed-info" id="ed-info"></span>
         </div>
@@ -451,6 +470,7 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
             <button class="tb-btn" onclick="changeZoom(0.2)" title="Zoom in">+</button>
             <button class="tb-btn" onclick="resetZoom()" title="Reset zoom">⊙</button>
             <div class="tb-sep"></div>
+            <button class="tb-btn" id="tb-share-btn" onclick="shareCurrentPage()" title="শেয়ার করুন" aria-label="শেয়ার করুন"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.6" y1="10.5" x2="15.4" y2="6.5"></line><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"></line></svg></button>
           </div>
 
           <!-- PAGE BUTTONS ROW -->
@@ -506,6 +526,7 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
             <div class="tip-row"><span>📅</span><span id="tip-1">তারিখ বেছে <strong>"দেখুন"</strong>-এ ক্লিক করুন — সেদিনের সংখ্যা মুহূর্তেই লোড হয়ে যাবে</span></div>
             <div class="tip-row"><span>🗂️</span><span id="tip-2">সরাসরি যেকোনো পাতায় যেতে পেজ-নম্বর বোতামে ক্লিক করুন, অথবা পাশের <strong>❮ ❯</strong> বোতামে এক পাতা করে এগিয়ে/পিছিয়ে যান</span></div>
             <div class="tip-row"><span>👆</span><span id="tip-6b">বইয়ের পাতার কোণা ধরে টেনেও উল্টাতে পারবেন — ঠিক আসল বইয়ের মতো</span></div>
+            <div class="tip-row"><span>📤</span><span id="tip-9">টুলবারের শেয়ার বোতামে ক্লিক করলে ঠিক এই তারিখ ও পাতার লিংক কপি হয়ে যাবে — কাউকে পাঠালে সে সরাসরি এই পাতাতেই পৌঁছাবে</span></div>
 
             <div class="tip-group-label" id="tip-group-2">🔍 জুম ও প্যান</div>
             <div class="tip-row"><span>🖥️</span><span id="tip-3">কম্পিউটারে <strong>Ctrl + স্ক্রল</strong> করুন অথবা টুলবারের <strong>+</strong> / <strong>−</strong> বোতাম চাপুন — ছবির ভেতরে জুম করা যাবে</span></div>
@@ -741,6 +762,49 @@ function shiftDateStr(dateStr, deltaDays){
   d.setDate(d.getDate()+deltaDays);
   return `${String(d.getDate()).padStart(2,'0')}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getFullYear()).slice(-2)}`;
 }
+// dd-mm-yy -> real Date object (midnight), for same-day/future comparisons
+function folderStrToDateObj(s){
+  const [dd,mm,yy] = s.split('-');
+  return new Date(2000+parseInt(yy,10), parseInt(mm,10)-1, parseInt(dd,10));
+}
+function isFutureFolderStr(dateStr){
+  const d = folderStrToDateObj(dateStr), t = folderStrToDateObj(todayStr());
+  return d.getTime() > t.getTime();
+}
+
+// ── DATE BAR NAV: prev/next arrows + "আজ" quick jump ──
+// Reflects the currently loaded edition, not the (possibly unconfirmed)
+// value sitting in the date input, so the arrows stay in sync even if
+// findLatestAvailableDate() fell back to an earlier date on load.
+function stepEditionDate(deltaDays){
+  const base = currentDateStr || todayStr();
+  const next = shiftDateStr(base, deltaDays);
+  if(isFutureFolderStr(next)) return; // never let "next" walk past today
+  document.getElementById('ed-date-input').value = folderStrToInputVal(next);
+  loadEdition(next);
+}
+function jumpToTodayEdition(){
+  const t = todayStr();
+  document.getElementById('ed-date-input').value = folderStrToInputVal(t);
+  loadEdition(t);
+}
+// Disables "next day" once we're on today's edition (nothing newer exists
+// yet) and "today" once we're already there; called after every load.
+function updateDateNavButtons(){
+  const nextBtn  = document.getElementById('ed-next-btn');
+  const todayBtn = document.getElementById('ed-today-btn');
+  const onToday  = currentDateStr === todayStr();
+  if(nextBtn)  nextBtn.disabled  = onToday;
+  if(todayBtn) todayBtn.disabled = onToday;
+}
+// Disables date-bar controls while an edition is loading, so a second
+// click can't fire a fetch on top of one already in flight.
+function setDateBarBusy(busy){
+  ['ed-prev-btn','ed-next-btn','ed-today-btn','ed-go-btn','ed-date-input'].forEach(id=>{
+    const el = document.getElementById(id); if(el) el.disabled = busy;
+  });
+  if(!busy) updateDateNavButtons(); // re-apply today/next disabled-state after unlocking
+}
 async function pdfExists(path){
   try{ const res = await fetch(path, {method:'HEAD'}); return res.ok; }
   catch(e){ return false; }
@@ -762,7 +826,17 @@ async function findLatestAvailableDate(maxDaysBack=14){
 // happen on any edition, not just short ones), that page is logged and
 // skipped instead of aborting the whole book and showing the misleading
 // "edition not found" screen.
-const MAX_CANVAS_DIM = 4096; // safe ceiling well under browser canvas limits (Safari caps ~4096-8192, Chrome higher)
+// Safari's REAL hard ceiling is a total-area limit, not a per-side one:
+// width*height <= 16,777,216px (that's exactly 4096×4096). The old code
+// capped BOTH width and height at 4096 independently — fine for square
+// pages, but e-paper pages are portrait (taller than wide), so that threw
+// away a lot of legal resolution. e.g. a typical 0.7 aspect page capped at
+// height=4096 only used ~12M of the 16.7M px Safari actually allows. We
+// cap by AREA instead (with a small safety margin for iOS memory variance)
+// so tall pages get the full resolution budget instead of an arbitrary
+// square-shaped one.
+const MAX_CANVAS_AREA = 15000000; // ~90% of Safari's 16,777,216px hard limit
+const MAX_CANVAS_SIDE = 8192;     // separate per-side sanity cap (Chrome/Firefox allow far more than this; this just stops one dimension running away on extreme aspect ratios)
 async function renderAllPagesToImages(){
   const spinTxt = document.getElementById('ep-spinner-text');
   const barFill = document.getElementById('ep-load-bar-fill');
@@ -770,11 +844,30 @@ async function renderAllPagesToImages(){
   const failedPages = [];
   const first  = await pdfDoc.getPage(1);
   const vp0    = first.getViewport({scale:1});
-  let targetW = Math.min(1400, vp0.width * 1.8); // higher resolution for a sharper flipbook, still capped for memory/perf
+  // Render at a resolution matched to this screen's own physical pixels
+  // (not just its CSS pixels) plus headroom for pinch/scroll zoom (up to
+  // 3×) — most phones report devicePixelRatio 2-3, so sizing off CSS
+  // pixels alone (the old approach) rendered visibly softer than the
+  // screen can actually show. Tied to the viewport instead of a flat
+  // "always render huge" rule so phones with less memory aren't forced
+  // through unnecessarily large canvases every page. We deliberately do
+  // NOT cap this against the PDF's own point-width — e-paper pages are
+  // usually scans, so the page's "points" size (a print measurement) can
+  // be much lower than the actual scan DPI embedded inside it; capping
+  // against it would throw away real detail that's genuinely there.
+  // MAX_CANVAS_AREA/MAX_CANVAS_SIDE below are the only ceiling, for browser safety.
+  const dpr        = Math.min(window.devicePixelRatio || 1, 3);
+  const viewportW  = Math.min(window.innerWidth || 800, 1300);
+  const ZOOM_HEADROOM = 3; // matches the flipbook's own max userZoom
+  let targetW = viewportW * dpr * ZOOM_HEADROOM;
   let scale   = targetW / vp0.width;
-  // guard against unusually tall/wide pages pushing canvas past browser limits
-  if(vp0.height * scale > MAX_CANVAS_DIM) scale = MAX_CANVAS_DIM / vp0.height;
-  if(vp0.width  * scale > MAX_CANVAS_DIM) scale = MAX_CANVAS_DIM / vp0.width;
+  // guard against unusually tall/wide pages pushing canvas past browser
+  // memory/area limits — area-based first (this is the one that actually
+  // matters on iOS Safari), then a per-side backstop for extreme aspect ratios
+  const rawArea = (vp0.width * scale) * (vp0.height * scale);
+  if(rawArea > MAX_CANVAS_AREA) scale *= Math.sqrt(MAX_CANVAS_AREA / rawArea);
+  if(vp0.height * scale > MAX_CANVAS_SIDE) scale = MAX_CANVAS_SIDE / vp0.height;
+  if(vp0.width  * scale > MAX_CANVAS_SIDE) scale = MAX_CANVAS_SIDE / vp0.width;
 
   for(let i=1;i<=totalPages;i++){
     spinTxt.textContent = `পাতা লোড হচ্ছে… ${toBnDigits(String(i))}/${toBnDigits(String(totalPages))}`;
@@ -784,8 +877,15 @@ async function renderAllPagesToImages(){
       const vp   = page.getViewport({scale});
       const off  = document.createElement('canvas');
       off.width = vp.width; off.height = vp.height;
-      await page.render({canvasContext: off.getContext('2d'), viewport: vp}).promise;
-      images.push(off.toDataURL('image/jpeg', 0.92));
+      const octx = off.getContext('2d');
+      octx.imageSmoothingEnabled = true;
+      octx.imageSmoothingQuality = 'high'; // sharper downscaling of embedded photos/graphics during render
+      await page.render({canvasContext: octx, viewport: vp}).promise;
+      // 1.0 = least lossy JPEG encode canvas allows. Text/newsprint columns
+      // are exactly the content JPEG's mid-quality settings blur first
+      // (fine edges + high-frequency detail), so this is worth the modest
+      // extra file size versus the old 0.97.
+      images.push(off.toDataURL('image/jpeg', 1.0));
     }catch(pageErr){
       console.error(`[epaper] failed to render page ${i}/${totalPages}:`, pageErr);
       failedPages.push(i);
@@ -808,7 +908,7 @@ async function renderAllPagesToImages(){
     ctx.fillStyle = '#fff'; ctx.fillRect(0,0,blank.width,blank.height);
     ctx.fillStyle = '#999'; ctx.font = '20px sans-serif'; ctx.textAlign='center';
     ctx.fillText('পাতা লোড করা যায়নি', blank.width/2, blank.height/2);
-    const blankUrl = blank.toDataURL('image/jpeg', 0.92);
+    const blankUrl = blank.toDataURL('image/jpeg', 0.97);
     images.forEach((img,idx)=>{ if(img===null) images[idx]=blankUrl; });
   }
 
@@ -816,6 +916,84 @@ async function renderAllPagesToImages(){
   renderedPageW  = Math.round(vp0.width*scale);
   renderedPageH  = Math.round(vp0.height*scale);
   return {images, pageW: renderedPageW, pageH: renderedPageH};
+}
+
+// ── SHARPEN THE FLIPBOOK'S OWN INTERNAL CANVAS (this is the real fix for
+// "looks soft, and gets worse when zoomed") ──
+// Separate from renderAllPagesToImages() above (which controls the source
+// JPEGs' resolution): page-flip draws those source images onto its OWN
+// <canvas> element every frame, and page-flip's CanvasUI.resizeCanvas()
+// sets that canvas's actual pixel buffer to exactly its CSS display size
+// with NO devicePixelRatio multiplication at all (verified straight from
+// the library's source — UI/CanvasUI.ts just does
+// `canvas.width = parseInt(getComputedStyle(canvas).width)`). So no matter
+// how high-res the source page images are, the on-screen book was always
+// being drawn at 1 real pixel per CSS pixel — soft on any retina screen —
+// and then our pinch/scroll zoom (a CSS transform:scale on the wrapper)
+// stretches that already-soft canvas even further, which is exactly the
+// "zoom korle ar o nosto hoy" symptom.
+// We can't edit the minified CDN library, so instead we intercept the
+// width/height DOM properties on the specific <canvas> element page-flip
+// creates: whenever it sets a logical (CSS-px) size, we allocate a bigger
+// real backing store (logical × sharpFactor), pin the visible CSS size to
+// the logical value with canvas.style, and scale the drawing context to
+// match. This is the standard retina-canvas technique. sharpFactor is
+// recomputed from devicePixelRatio × current zoom level every time the
+// zoom changes, and is capped so the backing store never crosses Safari's
+// real hard canvas-area ceiling (16,777,216px) no matter how far someone
+// zooms in.
+const nativeCanvasWidthDesc  = Object.getOwnPropertyDescriptor(HTMLCanvasElement.prototype, 'width');
+const nativeCanvasHeightDesc = Object.getOwnPropertyDescriptor(HTMLCanvasElement.prototype, 'height');
+const SHARP_SAFE_AREA = 15000000; // ~90% of Safari's 16,777,216px canvas-area hard limit
+let sharpFactor = 1;
+let sharpCanvas = null;
+let sharpDebounce = null;
+
+function sharpenFlipbookCanvas(canvas){
+  sharpCanvas = canvas;
+  Object.defineProperty(canvas, 'width', {
+    configurable: true,
+    get(){ return nativeCanvasWidthDesc.get.call(canvas) / sharpFactor; },
+    set(logicalW){
+      nativeCanvasWidthDesc.set.call(canvas, Math.max(1, Math.round(logicalW * sharpFactor)));
+      canvas.style.width = logicalW + 'px';
+      canvas.getContext('2d').scale(sharpFactor, sharpFactor);
+    }
+  });
+  Object.defineProperty(canvas, 'height', {
+    configurable: true,
+    get(){ return nativeCanvasHeightDesc.get.call(canvas) / sharpFactor; },
+    set(logicalH){
+      nativeCanvasHeightDesc.set.call(canvas, Math.max(1, Math.round(logicalH * sharpFactor)));
+      canvas.style.height = logicalH + 'px';
+      canvas.getContext('2d').scale(sharpFactor, sharpFactor);
+    }
+  });
+}
+
+// Recompute sharpFactor for the CURRENT devicePixelRatio + zoom level, and
+// force page-flip to redraw through it. Reads the canvas's own un-transformed
+// layout box (offsetWidth/Height — unaffected by the wrap's transform:scale,
+// only by real layout) so the area cap is calculated correctly at any zoom.
+function applySharpFactor(){
+  if(!sharpCanvas || !normalPageFlip) return;
+  const dpr = Math.min(window.devicePixelRatio || 1, 3);
+  let desired = dpr * (userZoom || 1);
+  const cw = sharpCanvas.offsetWidth  || 1;
+  const ch = sharpCanvas.offsetHeight || 1;
+  const rawArea = cw * ch * desired * desired;
+  if(rawArea > SHARP_SAFE_AREA) desired = Math.sqrt(SHARP_SAFE_AREA / (cw * ch));
+  desired = Math.max(1, desired);
+  if(Math.abs(desired - sharpFactor) < 0.02) return; // nothing meaningful changed
+  sharpFactor = desired;
+  try{ normalPageFlip.getUI().update(); }catch(e){} // re-runs resizeCanvas() through our intercepted setters at the new factor
+}
+// Debounced version for rapid-fire zoom input (wheel ticks, pinch move) —
+// re-rasterizing on every single event is wasted work mid-gesture; only the
+// settled zoom level needs to be sharp.
+function scheduleSharpen(){
+  clearTimeout(sharpDebounce);
+  sharpDebounce = setTimeout(applySharpFactor, 120);
 }
 
 // ── BUILD / REBUILD THE INLINE (SINGLE-PAGE) FLIPBOOK ──
@@ -837,27 +1015,46 @@ function buildFlipbook(images, pageW, pageH){
     height: pageH,
     size: 'stretch',
     minWidth: 220,
-    maxWidth: Math.round(pageW * 1.8),  // stretches for large screens, but stays safely under 2×pageW (a full spread) so it can never switch into landscape/spread mode
+    // Never let "stretch" enlarge the flipbook past the actual pixel size
+    // we rendered — anything bigger than that is the browser upscaling a
+    // raster image with CSS, which is exactly what turns it soft/blocky.
+    // Since renderAllPagesToImages() already sizes pageW/pageH generously
+    // (screen width × pixel density × zoom headroom), the native size is
+    // already big enough to fill real screens without this extra "room to
+    // grow" — so capping here costs nothing and just removes the blur.
+    maxWidth: pageW,
     minHeight: 300,
-    maxHeight: pageH * 3,
+    maxHeight: pageH,
     showCover: false,          // (showCover:true forces a blank "inside cover" page next to page 1 in portrait mode — not wanted here)
     usePortrait: true,        // single page at a time, always (never a spread)
     mobileScrollSupport: false,
     maxShadowOpacity: 0.5,
-    flippingTime: 600
+    flippingTime: 600,
+    disableFlipByClick: true  // tapping/clicking anywhere on the page no longer turns it — only dragging a corner does. Prev/next buttons (buildPageBtns) still work normally.
   });
   normalPageFlip.loadFromImages(images);
   normalPageFlip.on('flip', e=>{
     currentPage = e.data + 1;
     updateIndicator();
     updatePageBtns();
+    updateShareUrl();
   });
   pageFlip = normalPageFlip;
+
+  // Hook our retina/zoom-aware sharpening onto page-flip's own canvas, then
+  // immediately size it correctly for the current screen + zoom level.
+  const flipCanvas = holder.querySelector('canvas.stf__canvas');
+  if(flipCanvas){
+    sharpFactor = 1; // reset so applySharpFactor() sees a real change and re-applies on this fresh canvas
+    sharpenFlipbookCanvas(flipCanvas);
+    applySharpFactor();
+  }
 }
 
 // ── ZOOM (applied to the whole book, centered; drag-to-pan only once zoomed) ──
 function applyZoomTransform(){
   document.getElementById('book-zoom-wrap').style.transform = `translate(${panCurX}px,${panCurY}px) scale(${userZoom})`;
+  scheduleSharpen(); // re-rasterize page-flip's internal canvas for the new zoom level (see sharpenFlipbookCanvas above)
 }
 function changeZoom(delta){
   userZoom = Math.max(1, Math.min(3, userZoom + delta));
@@ -978,6 +1175,58 @@ function updateIndicator(){
   const tot = lang==='en' ? String(totalPages)  : toBnDigits(String(totalPages));
   document.getElementById('page-indicator').textContent=`${cur} / ${tot}`;
 }
+
+// ── SHARE (deep-link to the currently open date + page) ──
+// Keeps the address bar itself in sync too — date changes via loadEdition(),
+// page changes via the pageFlip 'flip' handler — so copying straight from
+// the URL bar works even without the share button.
+function updateShareUrl(){
+  if(!currentDateStr) return;
+  const url = new URL(location.href);
+  url.searchParams.set('date', currentDateStr);
+  url.searchParams.set('page', String(currentPage));
+  history.replaceState(null, '', url);
+}
+function buildShareUrl(){
+  const url = new URL(location.href);
+  url.searchParams.set('date', currentDateStr);
+  url.searchParams.set('page', String(currentPage));
+  return url.toString();
+}
+let shareToastTimer=null;
+function showShareToast(msg){
+  const el = document.getElementById('share-toast');
+  if(!el) return;
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(shareToastTimer);
+  shareToastTimer = setTimeout(()=>el.classList.remove('show'), 2200);
+}
+async function shareCurrentPage(){
+  if(!currentDateStr || !totalPages) return; // nothing loaded yet
+  const url  = buildShareUrl();
+  const disp = folderStrToDisplay(currentDateStr);
+  const pageNo = lang==='en' ? String(currentPage) : toBnDigits(String(currentPage));
+  const shareText = lang==='en'
+    ? `Dainik Anulipi — ${disp}, page ${pageNo}`
+    : `দৈনিক অনুলিপি — ${disp}, পাতা ${pageNo}`;
+
+  // Mobile/supported browsers: hand off to the native share sheet.
+  if(navigator.share){
+    try{ await navigator.share({title:'দৈনিক অনুলিপি', text:shareText, url}); }
+    catch(e){ /* user cancelled the share sheet — not an error */ }
+    return;
+  }
+  // Desktop fallback: copy the link and confirm with a toast.
+  try{
+    await navigator.clipboard.writeText(url);
+    showShareToast(lang==='en' ? 'Link copied!' : 'লিংক কপি হয়েছে!');
+  } catch(e){
+    // clipboard API blocked (permissions/older browser) — let them copy manually
+    window.prompt(lang==='en' ? 'Copy this link:' : 'এই লিংকটি কপি করুন:', url);
+  }
+}
+
 // ── SPINNER ──
 function showSpinner(){
   document.getElementById('ep-spinner').style.display='flex';
@@ -1017,18 +1266,21 @@ function hideError(){ document.getElementById('ep-error').style.display='none'; 
 
 
 // ── LOAD EDITION ──
-async function loadEdition(dateStr){
+async function loadEdition(dateStr, initialPage){
   if(!dateStr){ const val=document.getElementById('ed-date-input').value; dateStr=val?inputValToFolderStr(val):todayStr(); }
+  if(isFutureFolderStr(dateStr)) dateStr = todayStr(); // guard against a typed/URL date past today — no future editions exist
   currentDateStr=dateStr;
   const path=pdfPath(dateStr);
   const disp=folderStrToDisplay(dateStr);
 
+  document.getElementById('ed-date-input').value = folderStrToInputVal(dateStr); // keep the field in sync if we just clamped it
   document.getElementById('ed-info').textContent=disp;
   document.getElementById('strip-date').textContent=disp;
   document.getElementById('ep-toolbar-title').textContent=`দৈনিক অনুলিপি — ${disp}`;
   document.title=`দৈনিক অনুলিপি ই-পেপার — ${disp}`;
   document.querySelectorAll('.arch-item').forEach(el=>el.classList.toggle('today',el.dataset.date===dateStr));
 
+  setDateBarBusy(true);
   hideError();
   showSpinner();
   document.getElementById('page-btn-row').innerHTML='<span id="page-btn-loading" style="font-size:12px;color:var(--txt3);font-family:\'Noto Sans Bengali\',sans-serif;">লোড হচ্ছে…</span>';
@@ -1044,7 +1296,13 @@ async function loadEdition(dateStr){
     const {images, pageW, pageH} = await renderAllPagesToImages();
     buildFlipbook(images, pageW, pageH);
     buildPageBtns();
+    // land directly on a shared page (from ?page=… or a prev/next/today
+    // jump that carried one along), clamped to a real page in this edition
+    const target = Math.max(1, Math.min(parseInt(initialPage,10) || 1, totalPages));
+    if(target > 1 && pageFlip){ pageFlip.turnToPage(target - 1); currentPage = target; }
     updateIndicator();
+    updatePageBtns();
+    updateShareUrl();
     hideSpinner();
     hideSiteLoader();
   } catch(e){
@@ -1057,6 +1315,8 @@ async function loadEdition(dateStr){
     // detail, not something a reader should see.
     showError(path, pdfLoadedOk ? (lang==='en' ? 'There was a problem preparing this edition. Please try again.' : 'পাতা তৈরিতে সমস্যা হয়েছে, একটু পর আবার চেষ্টা করুন।') : undefined);
     hideSiteLoader();
+  } finally {
+    setDateBarBusy(false); // re-enable the date bar and refresh prev/next/today disabled-state either way
   }
 }
 
@@ -1228,15 +1488,16 @@ var T = {
   bn:{
     home:'অনলাইন সংস্করণ', contact:'যোগাযোগ', ads:'বিজ্ঞাপন',
     badge:'📰 ই-পেপার', navHome:'🌐 অনলাইন সংস্করণ', navEpaper:'📰 ই-পেপার', navLive:'লাইভ',
-    edLabel:'📅 সংখ্যা:', edBtn:'দেখুন',
+    edLabel:'📅 সংখ্যা:', edBtn:'দেখুন', edToday:'আজ', edPrev:'আগের দিন', edNext:'পরের দিন', shareTitle:'শেয়ার করুন',
     loading:'লোড হচ্ছে…', noEdition:'এই তারিখের সংখ্যা পাওয়া যায়নি।',
     tipsHeading:'ব্যবহার নির্দেশিকা',
     tipsSub:'সংখ্যা পড়া, পাতা বদলানো ও জুম করার সহজ উপায়',
     tipsHintOpen:'খুলতে ক্লিক করুন', tipsHintClose:'লুকাতে ক্লিক করুন',
     tipGroup1:'📖 সংখ্যা খোলা ও পাতা পড়া', tipGroup2:'🔍 জুম ও প্যান', tipGroup3:'⌨️ কীবোর্ড শর্টকাট', tipGroup4:'⚙️ থিম ও ভাষা',
-    tip1:'তারিখ বেছে <strong>"দেখুন"</strong>-এ ক্লিক করুন — সেদিনের সংখ্যা মুহূর্তেই লোড হয়ে যাবে',
+    tip1:'তারিখ বেছে নিলেই সংখ্যা লোড হয়ে যাবে — অথবা তীর-বোতামে একদিন করে এগিয়ে/পিছিয়ে যান, কিংবা <strong>"আজ"</strong>-এ ক্লিক করে সরাসরি আজকের সংখ্যায় ফিরুন',
     tip2:'সরাসরি যেকোনো পাতায় যেতে পেজ-নম্বর বোতামে ক্লিক করুন, অথবা পাশের <strong>❮ ❯</strong> বোতামে এক পাতা করে এগিয়ে/পিছিয়ে যান',
     tip6b:'বইয়ের পাতার কোণা ধরে টেনেও উল্টাতে পারবেন — ঠিক আসল বইয়ের মতো',
+    tip9:'টুলবারের শেয়ার বোতামে ক্লিক করলে ঠিক এই তারিখ ও পাতার লিংক কপি হয়ে যাবে — কাউকে পাঠালে সে সরাসরি এই পাতাতেই পৌঁছাবে',
     tip3:'কম্পিউটারে <strong>Ctrl + স্ক্রল</strong> করুন অথবা টুলবারের <strong>+</strong> / <strong>−</strong> বোতাম চাপুন — ছবির ভেতরে জুম করা যাবে',
     tip4:'মোবাইলে দুই আঙুলে <strong>পিঞ্চ</strong> করে জুম করুন; দ্রুত জুমের জন্য স্ক্রিনে <strong>দুইবার ট্যাপ</strong> করুন',
     tip5:'জুম করা অবস্থায় পাতা ধরে <strong>টেনে সরান</strong> — মোবাইলে এক আঙুলে স্লাইড করুন',
@@ -1259,15 +1520,16 @@ var T = {
   en:{
     home:'Online Version', contact:'Contact', ads:'Advertise',
     badge:'📰 E-Paper', navHome:'🌐 Online Version', navEpaper:'📰 E-Paper', navLive:'Live',
-    edLabel:'📅 Edition:', edBtn:'View',
+    edLabel:'📅 Edition:', edBtn:'View', edToday:'Today', edPrev:'Previous day', edNext:'Next day', shareTitle:'Share',
     loading:'Loading…', noEdition:'No edition found for this date.',
     tipsHeading:'How to Use',
     tipsSub:'A quick guide to reading, navigating, and zooming',
     tipsHintOpen:'Click to expand', tipsHintClose:'Click to collapse',
     tipGroup1:'📖 Opening an Edition', tipGroup2:'🔍 Zoom & Pan', tipGroup3:'⌨️ Keyboard Shortcuts', tipGroup4:'⚙️ Theme & Language',
-    tip1:'Pick a date and click <strong>"View"</strong> — that day\'s edition loads instantly',
+    tip1:'Pick a date and it loads right away — or step a day at a time with the arrow buttons, or jump straight back to today\'s edition with <strong>"Today"</strong>',
     tip2:'Click any page-number button to jump directly to that page, or use the <strong>❮ ❯</strong> arrows to step through pages',
     tip6b:'You can also drag a page corner to flip it — just like a real book',
+    tip9:'Click the share button in the toolbar to copy a link to this exact date and page — anyone who opens it lands right here',
     tip3:'On desktop, hold <strong>Ctrl + Scroll</strong> or use the toolbar\'s <strong>+</strong> / <strong>−</strong> buttons to zoom in/out',
     tip4:'On mobile, <strong>pinch</strong> with two fingers to zoom; <strong>double-tap</strong> to quickly zoom in or reset',
     tip5:'While zoomed in, <strong>drag</strong> the page to pan around — on mobile, slide with one finger',
@@ -1374,6 +1636,10 @@ function applyLangUI() {
   document.getElementById('nav-live-label').textContent = t.navLive;
   document.getElementById('ed-label').textContent     = t.edLabel;
   document.getElementById('ed-go-btn').textContent    = t.edBtn;
+  document.getElementById('ed-today-btn').textContent = t.edToday;
+  const prevBtn = document.getElementById('ed-prev-btn'); if(prevBtn){ prevBtn.title = t.edPrev; prevBtn.setAttribute('aria-label', t.edPrev); }
+  const nextBtn = document.getElementById('ed-next-btn'); if(nextBtn){ nextBtn.title = t.edNext; nextBtn.setAttribute('aria-label', t.edNext); }
+  const shareBtn = document.getElementById('tb-share-btn'); if(shareBtn){ shareBtn.title = t.shareTitle; shareBtn.setAttribute('aria-label', t.shareTitle); }
   const toolTitle = document.getElementById('ep-toolbar-title');
   if(toolTitle && toolTitle.textContent.includes('লোড') || toolTitle && toolTitle.textContent.includes('Load'))
     toolTitle.textContent = t.loading;
@@ -1388,6 +1654,7 @@ function applyLangUI() {
   document.getElementById('tip-1').innerHTML = t.tip1;
   document.getElementById('tip-2').innerHTML = t.tip2;
   document.getElementById('tip-6b').innerHTML = t.tip6b;
+  document.getElementById('tip-9').innerHTML = t.tip9;
   document.getElementById('tip-3').innerHTML = t.tip3;
   document.getElementById('tip-4').innerHTML = t.tip4;
   document.getElementById('tip-5').innerHTML = t.tip5;
@@ -1435,16 +1702,19 @@ async function init(){
   applyTheme(); setLang(lang);
   buildArchive();
   initLiveDetection();
+  document.getElementById('ed-date-input').max = folderStrToInputVal(todayStr()); // no picking a future date that can't have an edition yet
   const params=new URLSearchParams(window.location.search);
   const explicitDate = params.get('date');
+  const explicitPage = params.get('page');
   if(!explicitDate) showSpinner();
   const dateToLoad = explicitDate || await findLatestAvailableDate();
   document.getElementById('ed-date-input').value = folderStrToInputVal(dateToLoad);
-  loadEdition(dateToLoad);
+  loadEdition(dateToLoad, explicitPage);
 }
 document.addEventListener('DOMContentLoaded',init);
 </script>
 <button class="totop-btn" id="toTopBtn" onclick="window.scrollTo({top:0,left:0,behavior:'smooth'})" aria-label="Scroll to top">↑</button>
+<div class="share-toast" id="share-toast"></div>
 <script>
   const toTopBtn = document.getElementById('toTopBtn');
   window.addEventListener('scroll', () => {
