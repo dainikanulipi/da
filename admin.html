@@ -349,13 +349,17 @@ tr:last-child td{border-bottom:none;}
 .toast{
   position:fixed;bottom:20px;right:16px;z-index:700;
   padding:12px 18px;font-size:13px;font-weight:600;
-  max-width:calc(100vw - 32px);display:none;animation:slideIn .3s ease;
+  max-width:calc(100vw - 32px);display:none;align-items:center;gap:9px;animation:slideIn .3s ease;
   word-break:break-word;
   bottom:max(20px,env(safe-area-inset-bottom));
 }
+.toast.show{display:flex;}
 .toast.ok{background:#22c55e;color:#fff;}
 .toast.err{background:var(--danger);color:#fff;}
 .toast.info{background:var(--blue);color:#fff;}
+.toast .t-spin{width:14px;height:14px;border:2.5px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:tSpin .7s linear infinite;flex-shrink:0;display:none;}
+.toast.info .t-spin{display:block;}
+@keyframes tSpin{to{transform:rotate(360deg);}}
 @keyframes slideIn{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
 
 /* ── STATES ── */
@@ -469,7 +473,7 @@ tr:last-child td{border-bottom:none;}
 <body>
 
 <!-- TOAST -->
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast"><span class="t-spin"></span><span id="toast-msg"></span></div>
 
 <!-- LOCK -->
 <div id="lock">
@@ -759,11 +763,10 @@ async function apiPost(payload) {
 // ── TOAST ──
 function toast(type, msg, dur = 3500) {
   const el = document.getElementById('toast');
-  el.className = 'toast ' + type;
-  el.textContent = msg;
-  el.style.display = 'block';
+  el.className = 'toast show ' + type;
+  document.getElementById('toast-msg').textContent = msg;
   clearTimeout(el._t);
-  el._t = setTimeout(() => el.style.display = 'none', dur);
+  el._t = setTimeout(() => el.classList.remove('show'), dur);
 }
 
 // ════════════════════════════════
@@ -1058,8 +1061,8 @@ function bnSummary(text) {
   return sentences.slice(0, 2).join('। ') + (sentences.length > 0 ? '।' : '');
 }
 async function translateViaBackendAdmin(text) {
-  const url = API_URL + '?action=translate&sl=bn&tl=en&text=' + encodeURIComponent(text);
-  const res = await fetch(url);
+  // POST (not GET) — long Bangla text blows past the ~2000-char GET URL limit once percent-encoded.
+  const res = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'translate', sl: 'bn', tl: 'en', text }) });
   const json = await res.json();
   if (json.success) return json.translation;
   throw new Error(json.error || 'Translation failed');
@@ -1072,9 +1075,11 @@ async function autoFillEdit() {
 
   const btn = document.getElementById('edit-ai-btn');
   btn.disabled = true; btn.textContent = '⏳ অনুবাদ হচ্ছে…';
+  toast('info', '🔄 অনুবাদ শুরু হচ্ছে…', 8000);
 
   try {
     // Bengali summary — regenerated from content, same as submit.html
+    toast('info', '📝 সারাংশ তৈরি হচ্ছে…', 8000);
     const summaryBn = bnSummary(contentBn);
     document.getElementById('edit-summary-bn').value = summaryBn;
 
@@ -1084,7 +1089,6 @@ async function autoFillEdit() {
     toast('info', '🔄 সারাংশ অনুবাদ হচ্ছে…', 8000);
     document.getElementById('edit-summary-en').value = await translateViaBackendAdmin(summaryBn);
 
-    toast('info', '🔄 পুরো সংবাদ অনুবাদ হচ্ছে…', 8000);
     const paras = contentBn.split(/\n+/).filter(p => p.trim());
     const chunks = []; let cur = '';
     for (const p of paras) {
@@ -1094,7 +1098,10 @@ async function autoFillEdit() {
     if (cur) chunks.push(cur.trim());
 
     const translated = [];
-    for (const chunk of chunks) translated.push(await translateViaBackendAdmin(chunk));
+    for (let i = 0; i < chunks.length; i++) {
+      toast('info', `🔄 পুরো সংবাদ অনুবাদ হচ্ছে… (${i + 1}/${chunks.length})`, 8000);
+      translated.push(await translateViaBackendAdmin(chunks[i]));
+    }
     document.getElementById('edit-content-en').value = translated.join('\n\n');
 
     switchEditTab('en');
