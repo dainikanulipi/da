@@ -69,6 +69,17 @@ a{text-decoration:none;color:inherit;}
 [data-theme=dark] .status.err{background:#2a0d0d;}
 [data-theme=dark] .status.loading{background:#2a2000;}
 
+/* SIDE TOAST (translate/summarize progress) */
+#side-toast{position:fixed;top:90px;right:18px;z-index:9999;background:var(--sur);color:var(--txt);border-left:4px solid #e0a000;box-shadow:0 6px 22px rgba(0,0,0,.18);padding:12px 16px;font-size:13.5px;font-weight:600;display:none;align-items:center;gap:10px;max-width:280px;transition:background .3s;}
+#side-toast.show{display:flex;animation:sideToastIn .25s ease;}
+#side-toast.ok{border-color:var(--green);}
+#side-toast.err{border-color:var(--red);}
+#side-toast .st-spin{width:15px;height:15px;border:2.5px solid #e0a00040;border-top-color:#e0a000;border-radius:50%;animation:sideSpin .7s linear infinite;flex-shrink:0;}
+#side-toast.ok .st-spin,#side-toast.err .st-spin{display:none;}
+@keyframes sideSpin{to{transform:rotate(360deg);}}
+@keyframes sideToastIn{from{opacity:0;transform:translateX(16px);}to{opacity:1;transform:translateX(0);}}
+@media(max-width:640px){#side-toast{top:auto;bottom:18px;right:14px;left:14px;max-width:none;}}
+
 /* FORM CARD */
 .form-card{background:var(--sur);padding:24px;margin-bottom:16px;transition:background .3s;}
 .form-card h3{font-family:'Noto Serif Bengali',serif;font-size:19px;font-weight:700;margin-bottom:18px;padding-bottom:11px;border-bottom:2px solid var(--red);}
@@ -330,6 +341,7 @@ a{text-decoration:none;color:inherit;}
     </div>
 
     <div class="status" id="status"></div>
+    <div id="side-toast"><span class="st-spin"></span><span id="side-toast-msg"></span></div>
 
     <!-- FORM -->
     <div class="form-card">
@@ -497,7 +509,7 @@ a{text-decoration:none;color:inherit;}
 <script>
 // ══════════════════════════════
 const CFG = {
-  SUBMIT_URL: 'https://script.google.com/macros/s/AKfycbzm-bOtRWcL1rK3Ie1svpB75ShIpOrIjc07FCns1XZjfSbXJzffeQRpnuT55gq8m1ol/exec',
+  SUBMIT_URL: 'https://script.google.com/macros/s/AKfycbxUgf_bMtaF8ABjZjEkr9evc5vOztRXfJ-EvecwxQwDONpRQshhwnSCMf8D7zJToHMh/exec',
   PASSWORD:   '@DA_Submit_26@',      // ← change this!
   IMGBB_KEY:  '1047ea7cf0739f560f24adc8b645cfe1', // ← free at imgbb.com/api
 };
@@ -712,6 +724,18 @@ function updatePrev(l){
 }
 
 // ── STATUS ──
+function showSideToast(msg,type){
+  const el=document.getElementById('side-toast');
+  document.getElementById('side-toast-msg').textContent=msg;
+  el.classList.remove('ok','err');
+  if(type) el.classList.add(type);
+  el.classList.add('show');
+}
+function hideSideToast(){
+  const el=document.getElementById('side-toast');
+  el.classList.remove('show','ok','err');
+}
+
 function showStatus(type,msg){
   const el=document.getElementById('status');
   el.className='status '+type;el.textContent=msg;el.style.display='block';
@@ -789,8 +813,8 @@ function bnSummary(text){
 }
 
 async function translateViaBackend(text){
-  const url=CFG.SUBMIT_URL+'?action=translate&sl=bn&tl=en&text='+encodeURIComponent(text);
-  const res=await fetch(url);
+  // POST (not GET) — long Bangla text blows past the ~2000-char GET URL limit once percent-encoded.
+  const res=await fetch(CFG.SUBMIT_URL,{method:'POST',body:JSON.stringify({action:'translate',sl:'bn',tl:'en',text})});
   const json=await res.json();
   if(json.success) return json.translation;
   throw new Error(json.error||'Translation failed');
@@ -806,20 +830,24 @@ async function autoFill(){
   btn.disabled=true;btn.textContent='⏳ অনুবাদ হচ্ছে…';
   document.getElementById('ai-done').style.display='none';
   showStatus('loading','🔄 অনুবাদ হচ্ছে, একটু অপেক্ষা করুন…');
+  showSideToast('🔄 অনুবাদ শুরু হচ্ছে…');
 
   try{
     // Bengali summary — first 2 sentences
+    showSideToast('📝 সারাংশ তৈরি হচ্ছে…');
     const summaryBn=bnSummary(contentBn);
     document.getElementById('f-summary-bn').value=summaryBn;
     cc('f-summary-bn','cc-sbn',300);
 
     // Translate title
     showStatus('loading','🔄 শিরোনাম অনুবাদ হচ্ছে…');
+    showSideToast('🔄 শিরোনাম অনুবাদ হচ্ছে…');
     const titleEn=await translateViaBackend(titleBn);
     document.getElementById('f-title-en').value=titleEn;
 
     // Translate summary
     showStatus('loading','🔄 সারাংশ অনুবাদ হচ্ছে…');
+    showSideToast('🔄 সারাংশ অনুবাদ হচ্ছে…');
     const summaryEn=await translateViaBackend(summaryBn);
     document.getElementById('f-summary-en').value=summaryEn;
     cc('f-summary-en','cc-sen',300);
@@ -835,8 +863,9 @@ async function autoFill(){
     if(cur)chunks.push(cur.trim());
 
     const translated=[];
-    for(const chunk of chunks){
-      const t=await translateViaBackend(chunk);
+    for(let i=0;i<chunks.length;i++){
+      showSideToast(`🔄 পুরো সংবাদ অনুবাদ হচ্ছে… (${i+1}/${chunks.length})`);
+      const t=await translateViaBackend(chunks[i]);
       translated.push(t);
     }
     const contentEn=translated.join('\n\n');
@@ -845,9 +874,13 @@ async function autoFill(){
 
     document.getElementById('ai-done').style.display='block';
     showStatus('ok','✅ অনুবাদ সম্পন্ন! পর্যালোচনা করুন।');
+    showSideToast('✅ অনুবাদ সম্পন্ন হয়েছে!','ok');
+    setTimeout(hideSideToast,2500);
 
   }catch(err){
     showStatus('err','❌ অনুবাদে সমস্যা: '+err.message);
+    showSideToast('❌ অনুবাদে সমস্যা হয়েছে','err');
+    setTimeout(hideSideToast,3000);
   }finally{
     btn.disabled=false;btn.textContent='✨ স্বয়ংক্রিয় পূরণ';
   }
