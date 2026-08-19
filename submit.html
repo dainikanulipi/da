@@ -351,7 +351,7 @@ a{text-decoration:none;color:inherit;}
       <div class="two-col">
         <div class="fr">
           <label>বিভাগ <span>*</span></label>
-          <select id="f-cat">
+          <select id="f-cat" onchange="saveDraft()">
             <option value="">— বিভাগ বেছে নিন —</option>
             <option>জাতীয়</option><option>সারাদেশ</option>
             <option>বিশেষ সংবাদ</option><option>বিশ্ব সংবাদ</option>
@@ -410,7 +410,7 @@ a{text-decoration:none;color:inherit;}
           <div class="img-size-note" id="img-size"></div>
         </div>
         <div class="or-divider">— অথবা —</div>
-        <input type="text" class="fi" id="f-img-url" placeholder="ছবির URL পেস্ট করুন (Google Drive / Imgur…)" oninput="onImgUrl(this.value)" style="margin-bottom:0">
+        <input type="text" class="fi" id="f-img-url" placeholder="ছবির URL পেস্ট করুন (Google Drive / Imgur…)" oninput="onImgUrl(this.value);saveDraft()" style="margin-bottom:0">
         <div class="hint">ছবি আপলোড অথবা URL — যেকোনো একটি দিন।</div>
       </div>
 
@@ -437,13 +437,13 @@ a{text-decoration:none;color:inherit;}
 
           <div class="fr">
             <label>শিরোনাম (বাংলা) <span>*</span></label>
-            <input type="text" id="f-title-bn" placeholder="বাংলায় শিরোনাম লিখুন…" maxlength="220" oninput="onTitle()">
+            <input type="text" id="f-title-bn" placeholder="বাংলায় শিরোনাম লিখুন…" maxlength="220" oninput="onTitle();saveDraft()">
             <div class="slug-disp" id="slug-disp">লিংক: শিরোনাম দিলে তৈরি হবে</div>
           </div>
 
           <div class="fr">
             <label>সংক্ষিপ্ত বিবরণ (বাংলা)</label>
-            <input type="text" id="f-summary-bn" placeholder="১-২ বাক্যে সারাংশ (বাংলা)…" maxlength="300" oninput="cc('f-summary-bn','cc-sbn',300)">
+            <input type="text" id="f-summary-bn" placeholder="১-২ বাক্যে সারাংশ (বাংলা)…" maxlength="300" oninput="cc('f-summary-bn','cc-sbn',300);saveDraft()">
             <div class="cc" id="cc-sbn">০/৩০০</div>
           </div>
 
@@ -454,7 +454,7 @@ a{text-decoration:none;color:inherit;}
               <h4 id="pv-t-bn" style="margin-bottom:5px;font-size:18px">(শিরোনাম)</h4>
               <div id="pv-b-bn" style="font-size:14px;line-height:1.9;white-space:pre-line">(বিস্তারিত)</div>
             </div>
-            <textarea id="f-content-bn" placeholder="বাংলায় সংবাদের পুরো বিবরণ লিখুন…&#10;&#10;পরিচ্ছেদ আলাদা করতে এন্টার চাপুন।" oninput="cc('f-content-bn','cc-cbn',0);updatePrev('bn')"></textarea>
+            <textarea id="f-content-bn" placeholder="বাংলায় সংবাদের পুরো বিবরণ লিখুন…&#10;&#10;পরিচ্ছেদ আলাদা করতে এন্টার চাপুন।" oninput="cc('f-content-bn','cc-cbn',0);updatePrev('bn');saveDraft()"></textarea>
             <div class="cc" id="cc-cbn">০ অক্ষর</div>
           </div>
         </div>
@@ -465,12 +465,12 @@ a{text-decoration:none;color:inherit;}
 
           <div class="fr">
             <label>Headline (English)</label>
-            <input type="text" id="f-title-en" placeholder="Write headline in English…" maxlength="220" style="font-family:sans-serif">
+            <input type="text" id="f-title-en" placeholder="Write headline in English…" maxlength="220" style="font-family:sans-serif" oninput="saveDraft()">
           </div>
 
           <div class="fr">
             <label>Summary (English)</label>
-            <input type="text" id="f-summary-en" placeholder="1-2 sentence summary in English…" maxlength="300" oninput="cc('f-summary-en','cc-sen',300)" style="font-family:sans-serif">
+            <input type="text" id="f-summary-en" placeholder="1-2 sentence summary in English…" maxlength="300" oninput="cc('f-summary-en','cc-sen',300);saveDraft()" style="font-family:sans-serif">
             <div class="cc" id="cc-sen">0/300</div>
           </div>
 
@@ -481,7 +481,7 @@ a{text-decoration:none;color:inherit;}
               <h4 id="pv-t-en" style="margin-bottom:5px;font-size:18px">(Headline)</h4>
               <div id="pv-b-en" style="font-size:14px;line-height:1.9;white-space:pre-line">(Article body)</div>
             </div>
-            <textarea id="f-content-en" placeholder="Write the full article in English…&#10;&#10;Press Enter to separate paragraphs." style="font-family:sans-serif" oninput="cc('f-content-en','cc-cen',0);updatePrev('en')"></textarea>
+            <textarea id="f-content-en" placeholder="Write the full article in English…&#10;&#10;Press Enter to separate paragraphs." style="font-family:sans-serif" oninput="cc('f-content-en','cc-cen',0);updatePrev('en');saveDraft()"></textarea>
             <div class="cc" id="cc-cen">0 characters</div>
             <div class="hint">Arabic will be auto-translated from Bengali by the website — you don't need to write it.</div>
           </div>
@@ -509,7 +509,7 @@ a{text-decoration:none;color:inherit;}
 <script>
 // ══════════════════════════════
 const CFG = {
-  SUBMIT_URL: 'https://script.google.com/macros/s/AKfycbxUgf_bMtaF8ABjZjEkr9evc5vOztRXfJ-EvecwxQwDONpRQshhwnSCMf8D7zJToHMh/exec',
+  SUBMIT_URL: 'https://script.google.com/macros/s/AKfycbxLf6G6G05FFVoSws_B2ZKooOmSpJ2olds49eY5NQnGimcWoXTfAYkLrz47xGz3l8gY/exec',
   PASSWORD:   '@DA_Submit_26@',      // ← change this!
   IMGBB_KEY:  '1047ea7cf0739f560f24adc8b645cfe1', // ← free at imgbb.com/api
 };
@@ -538,6 +538,7 @@ function showPortal(name){
   document.getElementById('f-author').value=name;
   calInit(); loadRecent();
   if(CFG.SUBMIT_URL==='YOUR_APPS_SCRIPT_WEB_APP_URL_HERE') showStatus('loading','⚠️ Apps Script URL কনফিগার করা হয়নি। ডেমো মোডে চলছে।');
+  tryRestoreDraft();
 }
 
 // BOOT
@@ -565,6 +566,12 @@ function calInit(){
   for(let y=yr-3;y<=yr+1;y++){ const o=document.createElement('option'); o.value=y; o.textContent=y; ySel.appendChild(o); }
   mSel.value=calDate.getMonth();
   ySel.value=calDate.getFullYear();
+  // Default to today's date so the field isn't left blank
+  const today=new Date();
+  selDate=today;
+  const formatted=`${today.getDate()} ${BN_MONTHS[today.getMonth()]} ${today.getFullYear()}`;
+  document.getElementById('f-date').value=formatted;
+  document.getElementById('date-text').textContent=formatted;
   calRender();
   document.addEventListener('click', function(e){
     if(!document.querySelector('.date-wrap').contains(e.target) && !document.getElementById('cal-backdrop').contains(e.target)) closeCal();
@@ -755,6 +762,52 @@ function saveRecent(art){
   data.unshift(art);localStorage.setItem('anulipi_submitted',JSON.stringify(data.slice(0,20)));loadRecent();
 }
 
+// ── DRAFT AUTOSAVE (protects against accidental tab close / crash) ──
+const DRAFT_KEY='anulipi_draft_v1';
+const DRAFT_FIELDS=['f-title-bn','f-title-en','f-summary-bn','f-summary-en','f-content-bn','f-content-en','f-cat','f-img-url'];
+let draftSaveTimer=null;
+function draftHasContent(){
+  return DRAFT_FIELDS.some(id=>{
+    const el=document.getElementById(id);
+    return el && el.value.trim();
+  });
+}
+function saveDraft(){
+  clearTimeout(draftSaveTimer);
+  draftSaveTimer=setTimeout(()=>{
+    if(!draftHasContent()){ localStorage.removeItem(DRAFT_KEY); return; }
+    const d={};
+    DRAFT_FIELDS.forEach(id=>{ const el=document.getElementById(id); if(el) d[id]=el.value; });
+    d._savedAt=Date.now();
+    localStorage.setItem(DRAFT_KEY, JSON.stringify(d));
+  },400);
+}
+function clearDraft(){ localStorage.removeItem(DRAFT_KEY); }
+function tryRestoreDraft(){
+  const raw=localStorage.getItem(DRAFT_KEY);
+  if(!raw) return;
+  let d; try{ d=JSON.parse(raw); }catch(e){ localStorage.removeItem(DRAFT_KEY); return; }
+  const hasAny=DRAFT_FIELDS.some(id=>d[id]&&String(d[id]).trim());
+  if(!hasAny) return;
+  const mins=d._savedAt?Math.max(1,Math.round((Date.now()-d._savedAt)/60000)):null;
+  const label=mins?(mins<60?`~${mins} মিনিট আগের`:`~${Math.round(mins/60)} ঘণ্টা আগের`):'';
+  if(confirm(`একটি অসংরক্ষিত খসড়া (${label}) পাওয়া গেছে। এটি ফিরিয়ে আনবেন?`)){
+    DRAFT_FIELDS.forEach(id=>{ if(d[id]!==undefined){ const el=document.getElementById(id); if(el) el.value=d[id]; } });
+    cc('f-summary-bn','cc-sbn',300); cc('f-summary-en','cc-sen',300);
+    cc('f-content-bn','cc-cbn',0);   cc('f-content-en','cc-cen',0);
+    onTitle(); updatePrev('bn'); updatePrev('en');
+    if(d['f-img-url']) onImgUrl(d['f-img-url']);
+  } else {
+    localStorage.removeItem(DRAFT_KEY);
+  }
+}
+window.addEventListener('beforeunload', function(e){
+  if(draftHasContent()){
+    e.preventDefault();
+    e.returnValue='';
+  }
+});
+
 // ── SUBMIT ──
 async function submitArt(){
   const titleBn  =document.getElementById('f-title-bn').value.trim();
@@ -887,12 +940,12 @@ async function autoFill(){
 }
 
 function resetForm(){
+  clearDraft();
   curSlug='';imgBase64='';imgMode='';
   ['f-title-bn','f-title-en','f-summary-bn','f-summary-en','f-content-bn','f-content-en','f-img-url']
     .forEach(id=>document.getElementById(id).value='');
   document.getElementById('f-cat').value='';
-  document.getElementById('f-date').value='';
-  document.getElementById('date-text').textContent='তারিখ বেছে নিন';
+  { const today=new Date(); selDate=today; const formatted=`${today.getDate()} ${BN_MONTHS[today.getMonth()]} ${today.getFullYear()}`; document.getElementById('f-date').value=formatted; document.getElementById('date-text').textContent=formatted; calRender(); }
   document.getElementById('f-author').value=reporterName;
   document.getElementById('img-preview').style.display='none';
   document.getElementById('f-img-file').value='';
