@@ -300,6 +300,7 @@ tr:last-child td{border-bottom:none;}
 }
 .fr input:focus,.fr select:focus,.fr textarea:focus{border-color:var(--red);}
 .fr textarea{resize:vertical;min-height:110px;line-height:1.9;}
+.wc-info{font-size:11px;color:var(--txt3);margin-top:4px;text-align:right;}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
 .lang-tabs{display:flex;border-bottom:2px solid var(--bdr);margin-bottom:13px;}
 .ltab{
@@ -369,6 +370,14 @@ tr:last-child td{border-bottom:none;}
 .loading-row td{text-align:center;padding:36px;color:var(--txt3);}
 .spin{width:26px;height:26px;border:3px solid var(--bdr);border-top-color:var(--red);border-radius:50%;animation:sp .7s linear infinite;display:inline-block;}
 @keyframes sp{to{transform:rotate(360deg)}}
+
+/* ── REFRESH ANIMATIONS ── */
+.refresh-ic{display:inline-block;}
+.refresh-ic.spinning{animation:refreshSpin .6s linear infinite;}
+@keyframes refreshSpin{to{transform:rotate(360deg);}}
+.content-fade-in{animation:contentFadeIn .35s ease;}
+@keyframes contentFadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.stat-card .sv{transition:color .3s;}
 
 /* ════════════════════════════════
    RESPONSIVE
@@ -594,15 +603,24 @@ tr:last-child td{border-bottom:none;}
       <div class="lang-panel on" id="epanel-bn">
         <div class="fr"><label>শিরোনাম (বাংলা)</label><input type="text" id="edit-title-bn"></div>
         <div class="fr"><label>সারাংশ (বাংলা)</label><input type="text" id="edit-summary-bn"></div>
-        <div class="fr"><label>বিস্তারিত (বাংলা)</label><textarea id="edit-content-bn" style="min-height:150px"></textarea></div>
+        <div class="fr">
+          <label>বিস্তারিত (বাংলা)</label>
+          <textarea id="edit-content-bn" style="min-height:150px" oninput="updateWordCount('bn')"></textarea>
+          <div class="wc-info" id="wc-bn">0 শব্দ · 0 অক্ষর</div>
+        </div>
       </div>
       <div class="lang-panel" id="epanel-en">
         <div class="fr"><label>Headline (English)</label><input type="text" id="edit-title-en" style="font-family:sans-serif"></div>
         <div class="fr"><label>Summary (English)</label><input type="text" id="edit-summary-en" style="font-family:sans-serif"></div>
-        <div class="fr"><label>Content (English)</label><textarea id="edit-content-en" style="min-height:150px;font-family:sans-serif"></textarea></div>
+        <div class="fr">
+          <label>Content (English)</label>
+          <textarea id="edit-content-en" style="min-height:150px;font-family:sans-serif" oninput="updateWordCount('en')"></textarea>
+          <div class="wc-info" id="wc-en">0 words · 0 chars</div>
+        </div>
       </div>
     </div>
     <div class="modal-foot">
+      <button class="mbtn cancel" onclick="copyArticleLink(document.getElementById('edit-slug').value)">🔗 লিংক কপি</button>
       <button class="mbtn cancel" onclick="closeModal()">বাতিল</button>
       <button class="mbtn save" id="save-btn" onclick="saveEdit()">💾 সংরক্ষণ</button>
     </div>
@@ -636,6 +654,21 @@ let curSearch = '';
 let curPageId = 'dashboard';
 let curStatusFilter = '';
 let theme = localStorage.getItem('anulipi_admin_theme') || 'dark';
+
+// ── SECURITY: escape untrusted article data before it goes into innerHTML ──
+// (Article fields come from a public, unauthenticated submit form, so they
+// must never be trusted as HTML.)
+function esc(str) {
+  return String(str==null?'':str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function escJs(str) {
+  return String(str==null?'':str)
+    .replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'&quot;')
+    .replace(/</g,'\\x3C').replace(/>/g,'\\x3E')
+    .replace(/\n/g,'\\n').replace(/\r/g,'');
+}
 
 const CAT_COLORS = {
   'জাতীয়':'#d32f2f','সারাদেশ':'#f57c00','বিশেষ সংবাদ':'#7b1fa2',
@@ -738,17 +771,32 @@ function showPage(id) {
 }
 
 // ── DATA ──
-async function loadArticles() {
+async function loadArticles(btn) {
+  const icon = btn ? btn.querySelector('.refresh-ic') : null;
+  if (icon) icon.classList.add('spinning');
+  if (btn) btn.disabled = true;
   try {
     const res = await fetch(`${API_URL}?action=getAll&key=${encodeURIComponent(ADMIN_KEY)}`);
     const d   = await res.json();
     if (d.success) { allArticles = d.articles; refreshCurrentPage(); }
     else toast('err', '❌ ডেটা লোড ব্যর্থ: ' + (d.error || ''));
   } catch(e) { toast('err', '❌ সংযোগ ব্যর্থ: ' + e.message); }
+  finally {
+    if (icon) setTimeout(() => icon.classList.remove('spinning'), 400);
+    if (btn)  btn.disabled = false;
+  }
 }
 function refreshCurrentPage() {
   if (curPageId === 'dashboard') renderDashboard();
   else renderArticlesPage(curStatusFilter);
+}
+function playContentFadeIn() {
+  const el = document.getElementById('main-content');
+  el.classList.remove('content-fade-in');
+  // Force reflow so the class can be re-added and re-trigger the animation
+  // even when it's already present from the previous render.
+  void el.offsetWidth;
+  el.classList.add('content-fade-in');
 }
 
 // ── API ──
@@ -766,7 +814,13 @@ function toast(type, msg, dur = 3500) {
   el.className = 'toast show ' + type;
   document.getElementById('toast-msg').textContent = msg;
   clearTimeout(el._t);
-  el._t = setTimeout(() => el.classList.remove('show'), dur);
+  // dur === null means "leave visible until the next toast() call replaces
+  // it" — used for multi-step progress messages, where a fixed timeout can
+  // race against (and lose to) a slow network call and hide the message
+  // while that step is still actually running.
+  if (dur !== null) {
+    el._t = setTimeout(() => el.classList.remove('show'), dur);
+  }
 }
 
 // ════════════════════════════════
@@ -825,7 +879,7 @@ function renderDashboard() {
         <div class="bar-chart">
           ${Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([cat,cnt]) => `
             <div class="bc-row">
-              <span class="bc-label" title="${cat}">${cat}</span>
+              <span class="bc-label" title="${esc(cat)}">${esc(cat)}</span>
               <div class="bc-track">
                 <div class="bc-fill" style="width:${(cnt/maxCat*100).toFixed(0)}%;background:${CAT_COLORS[cat]||'var(--red)'}">
                   <span>${cnt}</span>
@@ -845,7 +899,7 @@ function renderDashboard() {
           <h4 style="font-size:12.5px;margin-bottom:9px;padding-bottom:6px;border-bottom:1px solid var(--bdr)">🏆 শীর্ষ রিপোর্টার</h4>
           ${topAuthors.map(([name,cnt],i) => `
             <div class="top-auth-row">
-              <span style="font-size:12.5px">${['🥇','🥈','🥉','4.','5.'][i]} ${name}</span>
+              <span style="font-size:12.5px">${['🥇','🥈','🥉','4.','5.'][i]} ${esc(name)}</span>
               <span style="font-weight:700;color:var(--red);font-size:12.5px">${cnt}টি</span>
             </div>`).join('') || '<p style="color:var(--txt3);font-size:13px;padding:8px 0">কোনো ডেটা নেই</p>'}
         </div>
@@ -857,6 +911,7 @@ function renderDashboard() {
       ${renderDesktopTable(allArticles.slice(0,10), false)}
       ${renderMobileCards(allArticles.slice(0,10), false)}
     </div>`;
+  playContentFadeIn();
 }
 
 // ════════════════════════════════
@@ -872,6 +927,15 @@ function renderArticlesPage(statusFilter) {
     (a.author||'').includes(curSearch)  ||
     (a.category||'').includes(curSearch));
   if (curFilter)    filtered = filtered.filter(a => a.category === curFilter);
+
+  // Latest first. Prefer the submission timestamp (always set by the backend);
+  // fall back to the manually-entered date field for older/edited rows where
+  // timestamp might be missing.
+  filtered = [...filtered].sort((a, b) => {
+    const ta = a.timestamp ? new Date(a.timestamp).getTime() : (a.date ? new Date(a.date).getTime() : 0);
+    const tb = b.timestamp ? new Date(b.timestamp).getTime() : (b.date ? new Date(b.date).getTime() : 0);
+    return tb - ta;
+  });
 
   const total  = filtered.length;
   const pages  = Math.ceil(total / PER_PAGE) || 1;
@@ -903,13 +967,13 @@ function renderArticlesPage(statusFilter) {
     <div class="table-card">
       <div class="table-toolbar">
         <h4>${label}</h4>
-        <input class="srch" type="search" placeholder="🔍 খুঁজুন…" value="${curSearch}"
+        <input class="srch" type="search" placeholder="🔍 খুঁজুন…" value="${esc(curSearch)}"
           oninput="curSearch=this.value;curPage=1;renderArticlesPage('${statusFilter}')">
         <select class="filter-sel" onchange="curFilter=this.value;curPage=1;renderArticlesPage('${statusFilter}')">
           <option value="">সব বিভাগ</option>
-          ${cats.map(c => `<option value="${c}" ${curFilter===c?'selected':''}>${c}</option>`).join('')}
+          ${cats.map(c => `<option value="${esc(c)}" ${curFilter===c?'selected':''}>${esc(c)}</option>`).join('')}
         </select>
-        <button class="ab edit" style="white-space:nowrap" onclick="loadArticles()">🔄 রিফ্রেশ</button>
+        <button class="ab edit" style="white-space:nowrap" onclick="loadArticles(this)"><span class="refresh-ic">🔄</span> রিফ্রেশ</button>
       </div>
       ${renderDesktopTable(paged, true)}
       ${renderMobileCards(paged, true)}
@@ -920,6 +984,7 @@ function renderArticlesPage(statusFilter) {
         <span class="pg-info">${(curPage-1)*PER_PAGE+1}–${Math.min(curPage*PER_PAGE,total)} / ${total}</span>
       </div>
     </div>`;
+  playContentFadeIn();
 }
 
 // ════════════════════════════════
@@ -938,20 +1003,21 @@ function renderDesktopTable(arts, showActions) {
           ? `<img class="art-thumb" src="${a.imageUrl}" onerror="this.outerHTML='<div class=art-nothumb>📰</div>'" alt="" loading="lazy">`
           : `<div class="art-nothumb">📰</div>`}</td>
         <td class="title-cell">
-          <div class="tc-title">${a.titleBn||'(শিরোনাম নেই)'}</div>
-          <div class="tc-en">${a.titleEn||''}</div>
+          <div class="tc-title">${esc(a.titleBn)||'(শিরোনাম নেই)'}</div>
+          <div class="tc-en">${esc(a.titleEn)}</div>
         </td>
-        <td><span class="cat-badge" style="background:${CAT_COLORS[a.category]||'var(--red)'};color:#fff">${a.category||'—'}</span></td>
-        <td style="font-size:12px;white-space:nowrap">${a.author||'—'}</td>
-        <td style="font-size:11.5px;white-space:nowrap">${a.date||'—'}</td>
+        <td><span class="cat-badge" style="background:${CAT_COLORS[a.category]||'var(--red)'};color:#fff">${esc(a.category)||'—'}</span></td>
+        <td style="font-size:12px;white-space:nowrap">${esc(a.author)||'—'}</td>
+        <td style="font-size:11.5px;white-space:nowrap">${esc(a.date)||'—'}</td>
         <td><span class="badge ${a.status==='published'?'pub':'draft'}">${a.status==='published'?'প্রকাশিত':'ড্রাফট'}</span></td>
         ${showActions?`<td><div class="action-btns">
-          <button class="ab edit" onclick='openEdit(${JSON.stringify(a).replace(/'/g,"&#39;")})'>✏️</button>
+          <button class="ab edit" onclick="openEditBySlug('${escJs(a.slug)}')">✏️</button>
           <button class="ab ${a.status==='published'?'tog-draft':'tog-pub'}"
-            onclick="toggleStatus('${a.slug}','${a.status==='published'?'draft':'published'}',this)">
+            onclick="toggleStatus('${escJs(a.slug)}','${a.status==='published'?'draft':'published'}',this)">
             ${a.status==='published'?'📝 ড্রাফট':'✅ প্রকাশ'}
           </button>
-          <button class="ab del" onclick="confirmDelete('${a.slug}','${(a.titleBn||'').replace(/'/g,"&#39;")}')">🗑️</button>
+          <button class="ab" onclick="copyArticleLink('${escJs(a.slug)}')">🔗</button>
+          <button class="ab del" onclick="confirmDelete('${escJs(a.slug)}')">🗑️</button>
         </div></td>`:''}
       </tr>`).join('')}
     </tbody>
@@ -971,21 +1037,22 @@ function renderMobileCards(arts, showActions) {
           : `<div class="acm-nothumb">📰</div>`}
         <div class="acm-body">
           <div class="acm-top">
-            <span class="cat-badge" style="background:${CAT_COLORS[a.category]||'var(--red)'};color:#fff;font-size:10px">${a.category||'—'}</span>
+            <span class="cat-badge" style="background:${CAT_COLORS[a.category]||'var(--red)'};color:#fff;font-size:10px">${esc(a.category)||'—'}</span>
             <span class="badge ${a.status==='published'?'pub':'draft'}">${a.status==='published'?'প্রকাশিত':'ড্রাফট'}</span>
           </div>
-          <div class="acm-title">${a.titleBn||'(শিরোনাম নেই)'}</div>
+          <div class="acm-title">${esc(a.titleBn)||'(শিরোনাম নেই)'}</div>
           <div class="acm-meta">
-            <span>✍️ ${a.author||'—'}</span>
-            <span>🕐 ${a.date||'—'}</span>
+            <span>✍️ ${esc(a.author)||'—'}</span>
+            <span>🕐 ${esc(a.date)||'—'}</span>
           </div>
           ${showActions ? `<div class="acm-actions">
-            <button class="ab edit" onclick='openEdit(${JSON.stringify(a).replace(/'/g,"&#39;")})'>✏️ সম্পাদনা</button>
+            <button class="ab edit" onclick="openEditBySlug('${escJs(a.slug)}')">✏️ সম্পাদনা</button>
             <button class="ab ${a.status==='published'?'tog-draft':'tog-pub'}"
-              onclick="toggleStatus('${a.slug}','${a.status==='published'?'draft':'published'}',this)">
+              onclick="toggleStatus('${escJs(a.slug)}','${a.status==='published'?'draft':'published'}',this)">
               ${a.status==='published'?'📝 ড্রাফট':'✅ প্রকাশ'}
             </button>
-            <button class="ab del" onclick="confirmDelete('${a.slug}','${(a.titleBn||'').replace(/'/g,"&#39;")}')">🗑️</button>
+            <button class="ab" onclick="copyArticleLink('${escJs(a.slug)}')">🔗 লিংক</button>
+            <button class="ab del" onclick="confirmDelete('${escJs(a.slug)}')">🗑️</button>
           </div>` : ''}
         </div>
       </div>`).join('')}
@@ -1009,8 +1076,10 @@ async function toggleStatus(slug, newStatus, btn) {
 
 // ── DELETE ──
 let _deleteSlug = '';
-function confirmDelete(slug, title) {
+function confirmDelete(slug) {
   _deleteSlug = slug;
+  const art = allArticles.find(a => a.slug === slug);
+  const title = art ? (art.titleBn || art.titleEn || '') : '';
   document.getElementById('confirm-title').textContent = 'সংবাদ মুছুন';
   document.getElementById('confirm-msg').textContent   = `"${title}" মুছে ফেলবেন? এটি ফেরত আনা যাবে না।`;
   document.getElementById('confirm-yes').onclick = doDelete;
@@ -1036,6 +1105,10 @@ function switchEditTab(l) {
     document.getElementById('epanel-'+t).classList.toggle('on', t===l);
   });
 }
+function openEditBySlug(slug) {
+  const art = allArticles.find(a => a.slug === slug);
+  if (art) openEdit(art);
+}
 function openEdit(art) {
   document.getElementById('edit-slug').value       = art.slug;
   document.getElementById('edit-cat').value        = art.category;
@@ -1049,11 +1122,40 @@ function openEdit(art) {
   document.getElementById('edit-summary-en').value = art.summaryEn;
   document.getElementById('edit-content-en').value = art.contentEn;
   switchEditTab('bn');
+  updateWordCount('bn');
+  updateWordCount('en');
   document.getElementById('edit-modal').classList.add('open');
   // Scroll modal to top
   setTimeout(()=>{ const mb=document.querySelector('.modal-body'); if(mb) mb.scrollTop=0; }, 50);
 }
 function closeModal() { document.getElementById('edit-modal').classList.remove('open'); }
+
+// ── COPY ARTICLE LINK ──
+// Live article URLs are the site's base path + #article/<slug>.
+// Hardcoded rather than derived from location.href, so links are always
+// correct even when the admin panel is opened from a different host
+// (localhost, a staging copy, etc).
+const SITE_BASE = 'https://dainikanulipi.github.io/da/';
+function copyArticleLink(slug) {
+  if (!slug) { toast('err', '❌ স্লাগ পাওয়া যায়নি'); return; }
+  const url = SITE_BASE + '#article/' + slug;
+  navigator.clipboard.writeText(url).then(() => {
+    toast('ok', '🔗 লিংক কপি হয়েছে!');
+  }).catch(() => {
+    toast('err', '❌ কপি ব্যর্থ — ম্যানুয়ালি কপি করুন: ' + url);
+  });
+}
+
+// ── WORD / CHAR COUNT ──
+function updateWordCount(lang) {
+  const text = document.getElementById('edit-content-' + lang).value;
+  const chars = text.length;
+  // Bengali has no whitespace-only word boundaries that differ from English here —
+  // splitting on whitespace works for both scripts.
+  const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+  const label = lang === 'bn' ? `${words} শব্দ · ${chars} অক্ষর` : `${words} words · ${chars} chars`;
+  document.getElementById('wc-' + lang).textContent = label;
+}
 
 // ── AI AUTO-TRANSLATE (same backend action as submit.html's autoFill) ──
 function bnSummary(text) {
@@ -1075,18 +1177,18 @@ async function autoFillEdit() {
 
   const btn = document.getElementById('edit-ai-btn');
   btn.disabled = true; btn.textContent = '⏳ অনুবাদ হচ্ছে…';
-  toast('info', '🔄 অনুবাদ শুরু হচ্ছে…', 8000);
+  toast('info', '🔄 অনুবাদ শুরু হচ্ছে…', null);
 
   try {
     // Bengali summary — regenerated from content, same as submit.html
-    toast('info', '📝 সারাংশ তৈরি হচ্ছে…', 8000);
+    toast('info', '📝 সারাংশ তৈরি হচ্ছে…', null);
     const summaryBn = bnSummary(contentBn);
     document.getElementById('edit-summary-bn').value = summaryBn;
 
-    toast('info', '🔄 শিরোনাম অনুবাদ হচ্ছে…', 8000);
+    toast('info', '🔄 শিরোনাম অনুবাদ হচ্ছে…', null);
     document.getElementById('edit-title-en').value = await translateViaBackendAdmin(titleBn);
 
-    toast('info', '🔄 সারাংশ অনুবাদ হচ্ছে…', 8000);
+    toast('info', '🔄 সারাংশ অনুবাদ হচ্ছে…', null);
     document.getElementById('edit-summary-en').value = await translateViaBackendAdmin(summaryBn);
 
     const paras = contentBn.split(/\n+/).filter(p => p.trim());
@@ -1099,7 +1201,7 @@ async function autoFillEdit() {
 
     const translated = [];
     for (let i = 0; i < chunks.length; i++) {
-      toast('info', `🔄 পুরো সংবাদ অনুবাদ হচ্ছে… (${i + 1}/${chunks.length})`, 8000);
+      toast('info', `🔄 পুরো সংবাদ অনুবাদ হচ্ছে… (${i + 1}/${chunks.length})`, null);
       translated.push(await translateViaBackendAdmin(chunks[i]));
     }
     document.getElementById('edit-content-en').value = translated.join('\n\n');
