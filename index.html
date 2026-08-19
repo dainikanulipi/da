@@ -128,7 +128,7 @@ button{font-family:inherit;cursor:pointer;}
 .live-dot{width:8px;height:8px;border-radius:50%;background:#999;display:inline-block;transition:background .3s;}
 .live-dot.is-live{background:#ff1f1f;animation:liveDotPulse 1.4s ease-in-out infinite;}
 @keyframes liveDotPulse{0%,100%{opacity:1;}50%{opacity:.3;}}
-.tl-live{color:#ff1f1f;}
+.tl-live.is-live{color:#ff1f1f;}
 
 /* ── NAV ── */
 .nav{background:var(--nav-bg);border-bottom:1px solid var(--bdr);position:sticky;top:44px;z-index:300;box-shadow:0 2px 10px var(--shd);transition:background .3s,border-color .3s;}
@@ -794,7 +794,7 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
 // ══════════════════════════════════════════════
 const CFG = {
   // ← আপনার Apps Script Web App URL এখানে বসান
-  SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxUgf_bMtaF8ABjZjEkr9evc5vOztRXfJ-EvecwxQwDONpRQshhwnSCMf8D7zJToHMh/exec',
+  SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxLf6G6G05FFVoSws_B2ZKooOmSpJ2olds49eY5NQnGimcWoXTfAYkLrz47xGz3l8gY/exec',
 
   // ── LIVE STREAM ──
   // YouTube: paste your permanent Channel ID (starts with "UC…", found in
@@ -828,6 +828,7 @@ function loadYouTubeIframeAPI(cb){
 }
 function setLiveDotState(isLive){
   document.querySelectorAll('.live-dot').forEach(d=>d.classList.toggle('is-live', !!isLive));
+  document.querySelectorAll('.tl-live').forEach(t=>t.classList.toggle('is-live', !!isLive));
 }
 function onLiveDetectStateChange(e){
   const YTS = window.YT.PlayerState;
@@ -1079,7 +1080,7 @@ function buildTicker() {
     el.innerHTML = `<span class="ti">${welcome}</span><span class="ti">${welcome}</span>`;
     return;
   }
-  const items = articles.slice(0,8).map(a=>`<span class="ti" onclick="navSlug('${a.slug}')">${artTitle(a)}</span>`).join('');
+  const items = articles.slice(0,8).map(a=>`<span class="ti" onclick="navSlug('${escJs(a.slug)}')">${esc(artTitle(a))}</span>`).join('');
   el.innerHTML = items+items;
 }
 
@@ -1099,35 +1100,51 @@ function closeMobNav(e) {
   if(!e || e.target===document.getElementById('mob-nav')) document.getElementById('mob-nav').classList.remove('open');
 }
 
+// ── SECURITY: escape untrusted data before it goes into innerHTML ──
+function esc(str) {
+  return String(str==null?'':str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+// Safe for embedding inside a single-quoted JS string literal within an
+// inline event handler attribute, e.g. onclick="navSlug('${escJs(a.slug)}')"
+function escJs(str) {
+  return String(str==null?'':str)
+    .replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'&quot;')
+    .replace(/</g,'\\x3C').replace(/>/g,'\\x3E')
+    .replace(/\n/g,'\\n').replace(/\r/g,'');
+}
+
 // ── CARD HELPERS ──
 function catColor(c) { return CAT_COLORS[c]||'#C8102E'; }
 function catEmoji(c) { return CAT_EMOJI[c]||'📰'; }
-function pillHtml(c) { return `<div class="pill" style="background:${catColor(c)}">${catName(c)}</div>`; }
-function metaHtml(a) { return `<div class="meta">🕐 ${a.date}&nbsp;|&nbsp;✍️ ${a.author}</div>`; }
+function pillHtml(c) { return `<div class="pill" style="background:${catColor(c)}">${esc(catName(c))}</div>`; }
+function metaHtml(a) { return `<div class="meta">🕐 ${esc(a.date)}&nbsp;|&nbsp;✍️ ${esc(a.author)}</div>`; }
 function imgOrBlank(url,cssClass,cat) {
   const emoji = catEmoji(cat);
-  if(url) return `<img src="${url}" class="${cssClass}" loading="lazy" onerror="this.outerHTML='<div class=\\'${cssClass} img-fallback\\'>${emoji}</div>'" alt="">`;
+  if(url) return `<img src="${esc(url)}" class="${cssClass}" loading="lazy" onerror="this.outerHTML='<div class=\\'${cssClass} img-fallback\\'>${emoji}</div>'" alt="">`;
   return `<div class="${cssClass} img-fallback">${emoji}</div>`;
 }
 
 // ── FIELD HELPERS (BN / EN / AR auto-translate) ──
+// Raw (unescaped) values — callers must esc() before inserting into HTML.
 function artTitle(a)   { if(lang==='en') return a.titleEn||a.titleBn; return a.titleBn; }
 function artSummary(a) { if(lang==='en') return a.summaryEn||a.summaryBn; return a.summaryBn; }
 function artContent(a) { if(lang==='en') return a.contentEn||a.contentBn; return a.contentBn; }
 
 function makeCard(a) {
-  return `<div class="nc" onclick="navSlug('${a.slug}')">
+  return `<div class="nc" onclick="navSlug('${escJs(a.slug)}')">
     <div class="nc-img">${imgOrBlank(a.imageUrl,'nc-img-inner',a.category)}</div>
-    <div class="nc-body">${pillHtml(a.category)}<h4>${artTitle(a)}</h4>
-    <div class="ex">${artSummary(a)||(artContent(a)||'').substring(0,120)}</div>${metaHtml(a)}</div>
+    <div class="nc-body">${pillHtml(a.category)}<h4>${esc(artTitle(a))}</h4>
+    <div class="ex">${esc(artSummary(a)||(artContent(a)||'').substring(0,120))}</div>${metaHtml(a)}</div>
   </div>`;
 }
 
 function makeSideCard(a) {
   const th = a.imageUrl
-    ? `<div class="sc-thumb"><img src="${a.imageUrl}" loading="lazy" onerror="this.parentElement.outerHTML='<div class=sc-nothumb>${catEmoji(a.category)}</div>'" alt=""></div>`
+    ? `<div class="sc-thumb"><img src="${esc(a.imageUrl)}" loading="lazy" onerror="this.parentElement.outerHTML='<div class=sc-nothumb>${catEmoji(a.category)}</div>'" alt=""></div>`
     : `<div class="sc-nothumb">${catEmoji(a.category)}</div>`;
-  return `<div class="sc" onclick="navSlug('${a.slug}')">${th}<div class="sc-body">${pillHtml(a.category)}<h4>${artTitle(a)}</h4>${metaHtml(a)}</div></div>`;
+  return `<div class="sc" onclick="navSlug('${escJs(a.slug)}')">${th}<div class="sc-body">${pillHtml(a.category)}<h4>${esc(artTitle(a))}</h4>${metaHtml(a)}</div></div>`;
 }
 
 function secHead(label, catKey='') {
@@ -1247,12 +1264,12 @@ function renderHome() {
   let h = '';
   // HERO
   h += `<div class="hero-grid">
-    <div class="hm" onclick="navSlug('${hero.slug}')">
+    <div class="hm" onclick="navSlug('${escJs(hero.slug)}')">
       <div class="hm-img">${imgOrBlank(hero.imageUrl,'hm-img-inner',hero.category)}</div>
-      <div class="hm-body">${pillHtml(hero.category)}<h2>${artTitle(hero)}</h2>
-      <div class="ex">${artSummary(hero)||(artContent(hero)||'').substring(0,200)}</div>${metaHtml(hero)}</div>
+      <div class="hm-body">${pillHtml(hero.category)}<h2>${esc(artTitle(hero))}</h2>
+      <div class="ex">${esc(artSummary(hero)||(artContent(hero)||'').substring(0,200))}</div>${metaHtml(hero)}</div>
     </div>
-    <div class="hs">${sides.map(makeSideCard).join('')}</div>
+    <div class="hs">${sides.map(makeSideCard).join('')}${adSidebar('home-hero')}</div>
   </div>`;
 
   // AD after hero — removed (hero-ad-container already shows above)
@@ -1319,7 +1336,7 @@ function renderSearch(query) {
 
   let h = `<button class="back" onclick="nav('')">${s.back}</button>`;
   h += `<div class="sh"><h3>${s.searchResults}</h3><div class="sh-line"></div></div>`;
-  h += `<div class="search-results-info">"${query}" ${s.searchFor} — ${results.length} ${s.resultsFound}</div>`;
+  h += `<div class="search-results-info">"${esc(query)}" ${s.searchFor} — ${results.length} ${s.resultsFound}</div>`;
 
   if(results.length) {
     const visible = results.slice(0, _searchVisible);
@@ -1420,11 +1437,12 @@ async function renderArticle(slug) {
   );
   const parasArr = content.split('\n').filter(p=>p.trim());
   const midPoint = Math.floor(parasArr.length / 2);
-  const firstHalf = parasArr.slice(0, midPoint).map(p=>`<p>${p}</p>`).join('');
-  const secondHalf = parasArr.slice(midPoint).map(p=>`<p>${p}</p>`).join('');
+  const firstHalf = parasArr.slice(0, midPoint).map(p=>`<p>${esc(p)}</p>`).join('');
+  const secondHalf = parasArr.slice(midPoint).map(p=>`<p>${esc(p)}</p>`).join('');
   const paras = firstHalf + adBanner('art-mid') + secondHalf;
   const artUrl = encodeURIComponent(location.href);
   const related = articles.filter(x=>x.slug!==slug&&x.category===a.category).slice(0,3);
+  const safeTitle = esc(title||a.titleBn);
 
   let h = `<button class="back" onclick="history.back()">${s.back}</button>
   <div class="art-layout">
@@ -1432,15 +1450,15 @@ async function renderArticle(slug) {
       <div class="art-card">
         <div class="art-hd">
           ${pillHtml(a.category)}
-          <h1>${title||a.titleBn}</h1>
+          <h1>${safeTitle}</h1>
           <div class="art-meta-row">
-            <span>${s.by?s.by+' ':''} ${a.author}</span>
-            <span>🕐 ${a.date}</span>
+            <span>${s.by?s.by+' ':''} ${esc(a.author)}</span>
+            <span>🕐 ${esc(a.date)}</span>
           </div>
-          ${summary?`<div class="art-lead">${summary}</div>`:''}
+          ${summary?`<div class="art-lead">${esc(summary)}</div>`:''}
         </div>
       </div>
-      ${a.imageUrl?`<div class="art-card art-img-card"><div class="art-hero-wrap"><img class="art-hero" src="${a.imageUrl}" alt="${title||a.titleBn}" onerror="this.closest('.art-img-card').remove()"></div><div class="art-caption">ছবি: দৈনিক অনুলিপি</div></div>`:''}
+      ${a.imageUrl?`<div class="art-card art-img-card"><div class="art-hero-wrap"><img class="art-hero" src="${esc(a.imageUrl)}" alt="${safeTitle}" onerror="this.closest('.art-img-card').remove()"></div><div class="art-caption">ছবি: দৈনিক অনুলিপি</div></div>`:''}
       <div class="art-body">
         ${tlNote}
         ${paras}
@@ -1458,9 +1476,9 @@ async function renderArticle(slug) {
       <div class="sidebar-w">
         <div class="sw-head">${s.recent}</div>
         ${articles.filter(x=>x.slug!==slug).slice(0,6).map(x=>`
-          <div class="sw-item" onclick="navSlug('${x.slug}')">
-            ${x.imageUrl?`<img class="sw-thumb" src="${x.imageUrl}" loading="lazy" onerror="this.outerHTML='<div class=sw-nothumb>${catEmoji(x.category)}</div>'" alt="">`:`<div class="sw-nothumb">${catEmoji(x.category)}</div>`}
-            <div><h6>${artTitle(x)}</h6><div class="meta">🕐 ${x.date}</div></div>
+          <div class="sw-item" onclick="navSlug('${escJs(x.slug)}')">
+            ${x.imageUrl?`<img class="sw-thumb" src="${esc(x.imageUrl)}" loading="lazy" onerror="this.outerHTML='<div class=sw-nothumb>${catEmoji(x.category)}</div>'" alt="">`:`<div class="sw-nothumb">${catEmoji(x.category)}</div>`}
+            <div><h6>${esc(artTitle(x))}</h6><div class="meta">🕐 ${esc(x.date)}</div></div>
           </div>`).join('')}
       </div>
     </aside>
@@ -1512,7 +1530,7 @@ function route() {
 
 // ── SITE-WIDE SPLASH LOADER ── (hides as soon as the first batch of news is ready, but never stays up longer than 1.5s regardless — so a slow/broken fetch can't strand the reader behind it)
 const SITE_LOADER_MAX_MS = 4000; // covers a couple of fetchData retries on a slow connection
-const SITE_LOADER_MIN_MS = 1400; // ensure at least one animation cycle is visible even if boot() finishes instantly
+const SITE_LOADER_MIN_MS = 2000; // ensure at least one animation cycle is visible even if boot() finishes instantly
 const siteLoaderStart = Date.now();
 let siteLoaderHidden = false;
 function hideSiteLoader(){
@@ -1938,7 +1956,7 @@ document.addEventListener('keydown', e => {
 <!-- LIVE STATUS DETECTOR: invisible, off-screen iframe used only to check whether
      the channel is actually streaming right now (drives the লাইভ tab's dot) -->
 <div style="position:absolute;width:2px;height:2px;overflow:hidden;opacity:0;pointer-events:none;left:-9999px;top:-9999px;" aria-hidden="true">
-  <iframe id="live-detect-frame" src="" title="live status detector" allow="autoplay"></iframe>
+  <iframe id="live-detect-frame" src="about:blank" title="live status detector" allow="autoplay"></iframe>
 </div>
 </body>
 </html>
