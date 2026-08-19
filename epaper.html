@@ -82,6 +82,7 @@ button{font-family:inherit;cursor:pointer;}
 .nav .wrap::-webkit-scrollbar{display:none;}
 .nl{padding:11px 14px;font-size:13px;font-weight:700;white-space:nowrap;border-bottom:3px solid transparent;color:var(--txt2);transition:all .2s;cursor:pointer;font-family:'Noto Sans Bengali',sans-serif;border:none;background:none;display:flex;align-items:center;gap:5px;}
 .nl:hover,.nl.on{color:var(--red);border-bottom:3px solid var(--red);}
+.nl-live.is-live{color:#ff1f1f;}
 .live-dot-ep{width:8px;height:8px;border-radius:50%;background:#999;display:inline-block;transition:background .3s;}
 .live-dot-ep.is-live{background:#ff1f1f;animation:liveDotPulseEp 1.4s ease-in-out infinite;}
 @keyframes liveDotPulseEp{0%,100%{opacity:1;}50%{opacity:.3;}}
@@ -435,7 +436,7 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
   <div class="wrap">
     <button class="nl" id="nav-home" onclick="location.href='https://dainikanulipi.github.io/da/'">🌐 অনলাইন সংস্করণ</button>
     <button class="nl on" id="nav-epaper">📰 ই-পেপার</button>
-    <button class="nl" id="nav-live" onclick="location.href='https://dainikanulipi.github.io/da/live.html'"><span class="live-dot-ep"></span> <span id="nav-live-label">লাইভ</span></button>
+    <button class="nl nl-live" id="nav-live" onclick="location.href='https://dainikanulipi.github.io/da/live.html'"><span class="live-dot-ep"></span> <span id="nav-live-label">লাইভ</span></button>
   </div>
 </nav>
 
@@ -699,6 +700,7 @@ function loadYouTubeIframeAPI(cb){
 }
 function setLiveDotState(isLive){
   document.querySelectorAll('.live-dot-ep').forEach(d=>d.classList.toggle('is-live', !!isLive));
+  document.querySelectorAll('.nl-live').forEach(t=>t.classList.toggle('is-live', !!isLive));
 }
 function onLiveDetectStateChange(e){
   const YTS = window.YT.PlayerState;
