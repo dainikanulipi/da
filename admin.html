@@ -826,6 +826,17 @@ function toast(type, msg, dur = 3500) {
 // ════════════════════════════════
 //  DASHBOARD
 // ════════════════════════════════
+// Latest first. Prefer the submission timestamp (always set by the backend);
+// fall back to the manually-entered date field for older/edited rows where
+// timestamp might be missing.
+function sortByLatest(list) {
+  return [...list].sort((a, b) => {
+    const ta = a.timestamp ? new Date(a.timestamp).getTime() : (a.date ? new Date(a.date).getTime() : 0);
+    const tb = b.timestamp ? new Date(b.timestamp).getTime() : (b.date ? new Date(b.date).getTime() : 0);
+    return tb - ta;
+  });
+}
+
 function renderDashboard() {
   const pub    = allArticles.filter(a => a.status === 'published').length;
   const draft  = allArticles.filter(a => a.status !== 'published').length;
@@ -908,8 +919,8 @@ function renderDashboard() {
 
     <div class="table-card">
       <div class="table-toolbar"><h4>🕐 সর্বশেষ ১০টি সংবাদ</h4></div>
-      ${renderDesktopTable(allArticles.slice(0,10), false)}
-      ${renderMobileCards(allArticles.slice(0,10), false)}
+      ${renderDesktopTable(sortByLatest(allArticles).slice(0,10), false)}
+      ${renderMobileCards(sortByLatest(allArticles).slice(0,10), false)}
     </div>`;
   playContentFadeIn();
 }
@@ -928,14 +939,8 @@ function renderArticlesPage(statusFilter) {
     (a.category||'').includes(curSearch));
   if (curFilter)    filtered = filtered.filter(a => a.category === curFilter);
 
-  // Latest first. Prefer the submission timestamp (always set by the backend);
-  // fall back to the manually-entered date field for older/edited rows where
-  // timestamp might be missing.
-  filtered = [...filtered].sort((a, b) => {
-    const ta = a.timestamp ? new Date(a.timestamp).getTime() : (a.date ? new Date(a.date).getTime() : 0);
-    const tb = b.timestamp ? new Date(b.timestamp).getTime() : (b.date ? new Date(b.date).getTime() : 0);
-    return tb - ta;
-  });
+  // Latest first — see sortByLatest() for the ordering rule.
+  filtered = sortByLatest(filtered);
 
   const total  = filtered.length;
   const pages  = Math.ceil(total / PER_PAGE) || 1;
