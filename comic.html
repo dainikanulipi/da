@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="দৈনিক অনুলিপি — কমিকস: সাপ্তাহিক কমিক স্ট্রিপ ও কার্টুন কর্নার" id="meta-desc">
+<meta name="description" content="দৈনিক অনুলিপি — কমিকস: প্রতিদিনের কমিক স্ট্রিপ ও কার্টুন কর্নার" id="meta-desc">
 <title>দৈনিক অনুলিপি | কমিকস</title>
 <link rel="icon" type="image/png" href="assets/favicon.png" id="fav-icon">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="দৈনিক অনুলিপি | Dainik Anulipi">
 <meta property="og:title" content="দৈনিক অনুলিপি | কমিকস" id="meta-og-title">
-<meta property="og:description" content="সাপ্তাহিক কমিক স্ট্রিপ ও কার্টুন কর্নার — দৈনিক অনুলিপি" id="meta-og-desc">
+<meta property="og:description" content="প্রতিদিনের কমিক স্ট্রিপ ও কার্টুন কর্নার — দৈনিক অনুলিপি" id="meta-og-desc">
 <meta property="og:image" content="https://dainikanulipi.github.io/da/assets/preview.jpg">
 <meta property="og:url" content="https://dainikanulipi.github.io/da/comic.html">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="দৈনিক অনুলিপি | কমিকস" id="meta-tw-title">
-<meta name="twitter:description" content="সাপ্তাহিক কমিক স্ট্রিপ ও কার্টুন কর্নার" id="meta-tw-desc">
+<meta name="twitter:description" content="প্রতিদিনের কমিক স্ট্রিপ ও কার্টুন কর্নার" id="meta-tw-desc">
 <meta name="theme-color" content="#C8102E">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -87,7 +87,10 @@ button{font-family:inherit;cursor:pointer;}
 .nav .wrap::-webkit-scrollbar{display:none;}
 .nl{padding:11px 14px;font-size:13px;font-weight:700;white-space:nowrap;border-bottom:3px solid transparent;color:var(--txt2);transition:all .2s;cursor:pointer;font-family:'Noto Sans Bengali',sans-serif;border:none;background:none;display:flex;align-items:center;gap:5px;}
 .nl:hover,.nl.on{color:var(--red);border-bottom:3px solid var(--red);}
-.live-dot{width:8px;height:8px;border-radius:50%;background:#999;display:inline-block;}
+.live-dot{width:8px;height:8px;border-radius:50%;background:#999;display:inline-block;transition:background .3s;}
+.live-dot.is-live{background:#ff1f1f;animation:liveDotPulse 1.4s ease-in-out infinite;}
+@keyframes liveDotPulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+#nav-live.is-live{color:var(--red);}
 
 /* ══════════════════════════════════════════════
    COMIC-SPECIFIC DESIGN LANGUAGE
@@ -383,8 +386,8 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
   <div class="wrap">
     <button class="nl" id="nav-home" onclick="location.href='https://dainikanulipi.github.io/da/'">🌐 অনলাইন সংস্করণ</button>
     <button class="nl" id="nav-epaper" onclick="location.href='https://dainikanulipi.github.io/da/epaper.html'">📰 ই-পেপার</button>
-    <button class="nl" id="nav-live" onclick="location.href='https://dainikanulipi.github.io/da/live.html'"><span class="live-dot"></span> <span id="nav-live-txt">লাইভ</span></button>
     <button class="nl on" id="nav-comic" onclick="goHome()">🎨 কমিকস</button>
+    <button class="nl" id="nav-live" onclick="location.href='https://dainikanulipi.github.io/da/live.html'"><span class="live-dot"></span> <span id="nav-live-txt">লাইভ</span></button>
   </div>
 </nav>
 
@@ -396,9 +399,9 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
       <div class="cx-head-in">
         <div>
           <div class="cx-title">🎨 <span id="cx-title-txt">কমিকস</span></div>
-          <p class="cx-note" id="cx-note">প্রতি সপ্তাহে নতুন কমিক স্ট্রিপ আর ছোট্ট এক-প্যানেল কার্টুন — হাসি, পর্যবেক্ষণ আর একটু আড্ডার স্বাদে। রাজনীতি নয়, শুধুই জীবনের গল্প।</p>
+          <p class="cx-note" id="cx-note">প্রতিদিন নতুন কমিক স্ট্রিপ আর ছোট্ট এক-প্যানেল কার্টুন — হাসি, পর্যবেক্ষণ আর একটু আড্ডার স্বাদে। রাজনীতি নয়, শুধুই জীবনের গল্প।</p>
         </div>
-        <div class="cx-head-badge" id="cx-badge">প্রতি বৃহস্পতিবার নতুন পর্ব</div>
+        <div class="cx-head-badge" id="cx-badge">প্রতিদিন নতুন পর্ব</div>
       </div>
     </div>
 
@@ -602,6 +605,46 @@ const IMG_BASE = 'https://dainikanulipi.github.io/da/assets/comics/'; // e.g. 'h
 const DRIVE_FOLDER_ID = '12Vse8Pd9Co2ppIKQcl-1MolUEA9C7xAZ'; // your Drive folder's ID (the part after /folders/ in its URL)
 const DRIVE_API_KEY = ''; // REQUIRED for the folder option above — leave blank to disable it (single-file Drive links and IMG_BASE still work either way)
 
+// ── LIVE STATUS DETECTION ──
+// Silently checks whether the YouTube channel is actually streaming right
+// now, using the YouTube IFrame Player API (no API key needed) — the
+// red dot on the লাইভ tab only blinks when a stream is really live.
+// Same channel ID as index.html/live.html.
+const YT_CHANNEL_ID = 'UCV4MqKW7pl0wb58CuddGiEQ';
+function loadYouTubeIframeAPI(cb){
+  if(window.YT && window.YT.Player){ cb(); return; }
+  const prev = window.onYouTubeIframeAPIReady;
+  window.onYouTubeIframeAPIReady = function(){ if(prev) prev(); cb(); };
+  if(!document.getElementById('yt-iframe-api')){
+    const tag = document.createElement('script');
+    tag.id = 'yt-iframe-api';
+    tag.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(tag);
+  }
+}
+function setLiveDotState(isLive){
+  document.querySelectorAll('.live-dot').forEach(d=>d.classList.toggle('is-live', !!isLive));
+  const navLiveBtn = document.getElementById('nav-live');
+  if(navLiveBtn) navLiveBtn.classList.toggle('is-live', !!isLive);
+}
+function onLiveDetectStateChange(e){
+  const YTS = window.YT.PlayerState;
+  if(e.data===YTS.PLAYING || e.data===YTS.BUFFERING) setLiveDotState(true);
+  else if(e.data===YTS.ENDED || e.data===YTS.CUED || e.data===YTS.UNSTARTED) setLiveDotState(false);
+}
+function onLiveDetectError(){ setLiveDotState(false); }
+function initLiveDetection(){
+  if(!YT_CHANNEL_ID) return;
+  const frame = document.getElementById('live-detect-frame');
+  if(!frame) return;
+  frame.src = `https://www.youtube.com/embed/live_stream?channel=${YT_CHANNEL_ID}&mute=1&autoplay=1&enablejsapi=1&origin=${encodeURIComponent(location.origin)}`;
+  loadYouTubeIframeAPI(()=>{
+    new YT.Player('live-detect-frame', {
+      events: { onStateChange: onLiveDetectStateChange, onError: onLiveDetectError }
+    });
+  });
+}
+
 // One-time fetch of everything in DRIVE_FOLDER_ID, mapping filename → a
 // directly-viewable image URL, so resolveImg() can stay synchronous.
 // Silently does nothing if DRIVE_FOLDER_ID/DRIVE_API_KEY aren't set, or if
@@ -787,47 +830,12 @@ async function fetchLegacySheetRows(url){
 }
 
 // ══════════════════════════════════════════════
-// COMICS DATA — one card format for everything. fallback/default data;
-// overwritten by loadComicsData() if a sheet is configured. Comics marked
-// featured:true cycle through the big "Today's Comic" spotlight; every
-// comic (featured or not) also appears in the "More Comics" grid below.
+// COMICS DATA — one card format for everything. Starts empty; populated
+// only by loadComicsData() from the Apps Script / Sheet. If the fetch
+// fails, COMICS stays empty and renderHome() shows the empty state —
+// no placeholder/dummy cards are ever shown.
 // ══════════════════════════════════════════════
-let COMICS = [
-  { slug:'tuntunir-tong-47', popularSeries:false, featured:false, emoji:'☕', title_bn:'টুনটুনির টঙ — পর্ব ৪৭', title_en:'Tuntuni\u2019s Tong — Episode 47',
-    cap_bn:'টঙের নতুন কাপ কেনা নিয়ে ছোট্ট এক দ্বন্দ্ব — দোকানের পুরনো নিয়ম বনাম নতুন আইডিয়া।',
-    cap_en:'A small dispute over buying new cups for the tong — old shop rules versus a new idea.',
-    badge_bn:'সিরিজ', badge_en:'Series',
-    series:'tuntunir-tong', series_title_bn:'টুনটুনির টঙ', series_title_en:'Tuntuni\u2019s Tong', episode:47 },
-  { slug:'tuntunir-tong-48', popularSeries:true, featured:false, emoji:'☕', title_bn:'টুনটুনির টঙ — পর্ব ৪৮', title_en:'Tuntuni\u2019s Tong — Episode 48',
-    cap_bn:'টুনটুনি সকাল সকাল রান্নাঘরে ব্যস্ত — আজকের বিশৃঙ্খলার শুরু এক কাপ চা দিয়েই। আজকের পর্বে দেখা যাবে কীভাবে একটা সাধারণ সকাল ধীরে ধীরে গোটা পরিবারের জন্য এক মজার বিশৃঙ্খলায় বদলে যায়।',
-    cap_en:'Tuntuni\u2019s morning kitchen chaos starts with one cup of tea, as usual. This episode follows how one ordinary morning slowly turns into a small family-wide comedy of errors.',
-    badge_bn:'সিরিজ', badge_en:'Series',
-    series:'tuntunir-tong', series_title_bn:'টুনটুনির টঙ', series_title_en:'Tuntuni\u2019s Tong', episode:48 },
-  { slug:'robot-raju-27', popularSeries:true, featured:false, emoji:'🤖', title_bn:'রোবট রাজু — পর্ব ২৭', title_en:'Robot Raju — Episode 27',
-    cap_bn:'রাজুর রোবট বন্ধু হোমওয়ার্ক করে দিতে চেয়েছিল, ফলাফলটা প্রত্যাশামতো হয়নি। স্কুলে যাওয়ার আগ মুহূর্তে আসল সত্যিটা সামনে আসে, আর রাজুকে নিজের বুদ্ধিতেই পরিস্থিতি সামলাতে হয়।',
-    cap_en:'Raju\u2019s robot friend tried doing homework — the results weren\u2019t quite as planned. The truth comes out right before school, leaving Raju to think fast on his own.',
-    badge_bn:'সিরিজ', badge_en:'Series' },
-  { slug:'addaghor', featured:false, emoji:'🍵', title_bn:'আড্ডাঘর', title_en:'Addaghor',
-    cap_bn:'চায়ের দোকানে বন্ধুদের আড্ডা, তর্ক আর হাসিঠাট্টা — প্রতি বুধবার। পাড়ার সবচেয়ে ছোট্ট দোকানটাই যেন সবচেয়ে বড় খবরের উৎস।',
-    cap_en:'Tea-stall banter, debate, and daily nonsense — every Wednesday. The smallest shop in the neighborhood somehow always has the biggest news.',
-    badge_bn:'সিরিজ', badge_en:'Series' },
-  { slug:'meow-mohol', featured:false, emoji:'🐈', title_bn:'মিয়াও মহল', title_en:'Meow Mohol',
-    cap_bn:'বাড়ির বিড়াল মিনুর চোখে সংসারের গল্প — প্রতি শুক্রবার। প্রতিটি পর্বে মিনু নিজের মতো করে বাড়ির সবার কাণ্ডকারখানা বিচার করে।',
-    cap_en:'Household stories, narrated by the family cat — every Friday. Each episode has Minu judging everyone\u2019s behavior in her own inimitable way.',
-    badge_bn:'সিরিজ', badge_en:'Series' },
-  { slug:'jam', featured:false, emoji:'🚌', title_bn:'জ্যাম', title_en:'Jam',
-    cap_bn:'সকাল ৮টার বাস, পৌঁছাল দুপুর ১২টায় — গন্তব্য একই শহরে। শহরের যানজট নিয়ে ছোট্ট একটা পর্যবেক্ষণ।',
-    cap_en:'The 8 AM bus arrived at noon — same city, somehow. A small observation on city traffic.',
-    badge_bn:'কার্টুন', badge_en:'Gag' },
-  { slug:'wifi', featured:false, emoji:'📶', title_bn:'ওয়াইফাই', title_en:'WiFi',
-    cap_bn:'পাসওয়ার্ড ঠিক আছে, শুধু ইন্টারনেটটাই নেই। ঘরে ঘরে চেনা এক দৃশ্য।',
-    cap_en:'Password\u2019s correct. The internet just isn\u2019t. A scene familiar in every household.',
-    badge_bn:'কার্টুন', badge_en:'Gag' },
-  { slug:'world-cup', featured:false, emoji:'🏆', title_bn:'বিশ্বকাপ', title_en:'World Cup',
-    cap_bn:'খেলা দেখতে বসলেই চা ফুরিয়ে যায়, উঠলেই গোল হয়ে যায়। বিশ্বকাপ মৌসুমের এক চিরন্তন সত্যি।',
-    cap_en:'The tea always runs out mid-match. The goal always happens the moment you get up. An eternal World Cup season truth.',
-    badge_bn:'কার্টুন', badge_en:'Gag' }
-];
+let COMICS = [];
 let featIdx = 0;
 
 // ── SLUGS ── every comic needs a stable, unique slug for #comic/<slug> routing.
@@ -868,6 +876,19 @@ function getTodayComic(){
 // the new #series/<key> episode-list page.
 // ══════════════════════════════════════════════
 function getSeriesKey(c){ return (c && c.series) ? String(c.series).trim() : ''; }
+// If a series has no explicit series_title_bn/en set in the sheet, the
+// display name falls back to an episode's own title — which usually ends
+// in "- Part 3" / "- পর্ব ৩" etc. Strip that trailing part/episode suffix
+// so the series name shown (in the series-name tag, Popular Series, and
+// More Comics cards) is just the clean series name, not "...Part 3".
+function stripPartSuffix(title){
+  return String(title||'')
+    // word-first: "- Part 3", "- Episode 3", "- পর্ব ৩"
+    .replace(/[\s]*[-–—][\s]*(part|episode|পর্ব)[\s]*[0-9০-৯]+\s*$/i, '')
+    // number-first Bangla ordinal: "- ৩য় পর্ব" (digits + ordinal marker like য়/ষ্ঠ, then পর্ব)
+    .replace(/[\s]*[-–—][\s]*[0-9০-৯]+[^\s০-৯0-9\-–—]*\s*পর্ব\s*$/i, '')
+    .trim();
+}
 // All episodes of a series, oldest → newest (by episode number; ties keep
 // their original sheet order).
 function seriesEpisodes(key){
@@ -884,8 +905,8 @@ function seriesDisplayInfo(key){
   return {
     key, episodes:eps,
     cover: eps[0], // episode 1's art as the series cover
-    title_bn: named.series_title_bn || named.title_bn,
-    title_en: named.series_title_en || named.title_en,
+    title_bn: named.series_title_bn || stripPartSuffix(named.title_bn),
+    title_en: named.series_title_en || stripPartSuffix(named.title_en),
     isPopular: eps.some(e=>e.popularSeries)
   };
 }
@@ -992,7 +1013,7 @@ function seriesCardHtml(pick, i){
     const s = pick.data, cover = s.cover;
     const title = lang==='en' ? s.title_en : s.title_bn;
     const badge = lang==='en' ? (cover.badge_en||'Series') : (cover.badge_bn||'সিরিজ');
-    const epLabel = (lang==='en' ? `${s.episodes.length} episode` : `${s.episodes.length} পর্ব`) + (lang==='en' && s.episodes.length!==1 ? 's' : '');
+    const epLabel = (lang==='en' ? `${s.episodes.length} episode` : `${toBnDigits(s.episodes.length)} পর্ব`) + (lang==='en' && s.episodes.length!==1 ? 's' : '');
     const newBadge = isNewSlug(cover.slug) ? `<div class="cx-new-badge">${esc(lang==='en'?'NEW':'নতুন')}</div>` : '';
     return `<div class="cx-series-card" style="--card-accent:${accent};cursor:pointer;" onclick="navSeries('${esc(s.key)}')">
       ${newBadge}
@@ -1055,7 +1076,7 @@ function moreCardHtml(item){
     const s = item.data, cover = s.cover;
     const title = lang==='en' ? s.title_en : s.title_bn;
     const badge = lang==='en' ? (cover.badge_en||'Series') : (cover.badge_bn||'সিরিজ');
-    const sub = lang==='en' ? `${s.episodes.length} episodes` : `${s.episodes.length} পর্ব`;
+    const sub = lang==='en' ? `${s.episodes.length} episodes` : `${toBnDigits(s.episodes.length)} পর্ব`;
     const newBadge = isNewSlug(cover.slug) ? `<div class="cx-new-badge">${esc(lang==='en'?'NEW':'নতুন')}</div>` : '';
     return `<div class="cx-more-card" onclick="navSeries('${esc(s.key)}')">
       <div class="cx-more-badge">${esc(badge)}</div>
@@ -1200,14 +1221,24 @@ const COMIC_JOKES = {
     'কালির দোয়াতটা মনে হয় আজ শুকিয়ে গেছে 🖋️ — পরের পর্ব আসা মাত্রই এখানে দেখা যাবে।',
     'পাতাটা এখনো ফাঁকা প্যানেলেই আটকে আছে 🖼️ — শিল্পী কাজ শুরু করলেই সব বদলে যাবে।',
     'মনে হচ্ছে চরিত্ররাও আজ চা খেতে বেরিয়েছে ☕ — নতুন কমিক এলেই তারা ফিরে আসবে।',
-    'বেলুনের ভেতর কথাটাই এখনো লেখা হয়নি 💬 — একটু অপেক্ষা করুন, শিগগিরই নতুন গল্প আসছে।'
+    'বেলুনের ভেতর কথাটাই এখনো লেখা হয়নি 💬 — একটু অপেক্ষা করুন, শিগগিরই নতুন গল্প আসছে।',
+    'রাবারটা দিয়ে মনে হয় পুরো স্ক্রিপ্টটাই মুছে ফেলা হয়েছে 🧽 — নতুন গল্প লেখা শুরু হলেই পাতাটা জেগে উঠবে।',
+    'পাতার কোণায় শুধু একটা স্টিক-ফিগার বসে হাই তুলছে 🥱 — বাকি চরিত্ররা এলেই আসল কমিক শুরু হবে।',
+    'মনে হচ্ছে শিল্পী এখনো প্রথম প্যানেলের আইডিয়াই খুঁজছেন 💡 — আইডিয়া মিললেই এখানে দেখা যাবে।',
+    'কাগজটা মনে হয় বাতাসে উড়ে অন্য টেবিলে চলে গেছে 🌬️ — ফিরে এলেই নতুন পর্ব ছাপা হবে।',
+    'পাঞ্চলাইনটা মনে হয় এখনো লাইনেই দাঁড়িয়ে অপেক্ষা করছে 🚶 — পালা এলেই সবার সামনে আসবে।'
   ],
   en: [
     "The artist seems to have misplaced their pencil \u270f\ufe0f \u2014 this page fills itself in the moment a new comic gets drawn.",
     "The inkwell appears to have run dry today \ud83d\udd8b\ufe0f \u2014 the next episode will show up here as soon as it lands.",
     "This page is still stuck on a blank panel \ud83d\uddbc\ufe0f \u2014 it'll come alive the moment the artist gets started.",
     "Even the characters seem to be out for tea today \u2615 \u2014 they'll be back the moment a new comic arrives.",
-    "The speech bubble is still empty \ud83d\udcac \u2014 hang tight, a new story is on its way."
+    "The speech bubble is still empty \ud83d\udcac \u2014 hang tight, a new story is on its way.",
+    "It looks like the eraser wiped out the whole script \ud83e\uddfd \u2014 the page wakes up the moment a new one gets written.",
+    "Just one stick figure is sitting in the corner yawning \ud83e\udd71 \u2014 the rest of the cast shows up once the comic does.",
+    "The artist still seems to be hunting for the first panel's idea \ud83d\udca1 \u2014 it'll appear here the moment the idea lands.",
+    "The page seems to have blown off the desk in the breeze \ud83c\udf2c\ufe0f \u2014 the next episode prints once it's back.",
+    "The punchline is still standing in line, waiting its turn \ud83d\udeb6 \u2014 it'll step up the moment it's called."
   ]
 };
 let lastJoke = null;
@@ -1225,6 +1256,13 @@ function renderEmptyState(){
     <div class="cx-notfound">
       <div class="ei">✏️</div>
       <p>${pickComicJoke()}</p>
+    </div>
+    <div class="cx-cta">
+      <div class="cx-cta-txt">
+        <h3>${esc(t.ctaTitle)}</h3>
+        <p>${esc(t.ctaBody)}</p>
+      </div>
+      <button class="cx-cta-btn" onclick="openContactPopup('যোগাযোগ')">${esc(t.ctaBtn)}</button>
     </div>`;
 }
 
@@ -1325,7 +1363,7 @@ function renderComicDetail(slug){
 function episodeCardHtml(c, lastReadSlug){
   const title = lang==='en' ? c.title_en : c.title_bn;
   const epNum = c.episode!=null && c.episode!=='' ? c.episode : '';
-  const epLabel = epNum!=='' ? (lang==='en' ? `Part ${epNum}` : `পর্ব ${epNum}`) : (lang==='en' ? (c.badge_en||'Episode') : (c.badge_bn||'পর্ব'));
+  const epLabel = epNum!=='' ? (lang==='en' ? `Part ${epNum}` : `পর্ব ${toBnDigits(epNum)}`) : (lang==='en' ? (c.badge_en||'Episode') : (c.badge_bn||'পর্ব'));
   const isLastRead = lastReadSlug && c.slug===lastReadSlug;
   const lastReadTag = isLastRead ? `<div class="cx-new-badge" style="background:var(--red);color:#fff;">${esc(lang==='en'?'Last read':'সর্বশেষ পড়া')}</div>` : '';
   return `<div class="cx-more-card${isLastRead?' cx-lastread':''}" onclick="navSlug('${esc(c.slug)}')">
@@ -1352,7 +1390,7 @@ function renderSeriesDetail(key){
     return;
   }
   const title = lang==='en' ? s.title_en : s.title_bn;
-  const epCountTxt = (lang==='en' ? `${s.episodes.length} episode` : `${s.episodes.length} পর্ব`) + (lang==='en' && s.episodes.length!==1 ? 's' : '');
+  const epCountTxt = (lang==='en' ? `${s.episodes.length} episode` : `${toBnDigits(s.episodes.length)} পর্ব`) + (lang==='en' && s.episodes.length!==1 ? 's' : '');
   const epsNewestFirst = s.episodes.slice().reverse();
   const shareUrl = location.origin + location.pathname + '#series/' + encodeURIComponent(s.key);
 
@@ -1364,7 +1402,7 @@ function renderSeriesDetail(key){
   if(lastReadComic){
     const lrTitle = lang==='en' ? lastReadComic.title_en : lastReadComic.title_bn;
     const lrEpNum = lastReadComic.episode!=null && lastReadComic.episode!=='' ? lastReadComic.episode : '';
-    const lrLabel = lrEpNum!=='' ? (lang==='en' ? `Part ${lrEpNum}` : `পর্ব ${lrEpNum}`) : lrTitle;
+    const lrLabel = lrEpNum!=='' ? (lang==='en' ? `Part ${lrEpNum}` : `পর্ব ${toBnDigits(lrEpNum)}`) : lrTitle;
     continueBanner = `<div class="cx-continue-banner" onclick="navSlug('${esc(lastReadComic.slug)}')">
         <div class="cx-cb-txt">${esc(lang==='en'?'Continue reading:':'যেখানে ছিলেন:')} <b>${esc(lrLabel)}</b></div>
         <button class="cx-cb-go">${esc(lang==='en'?'Resume →':'পড়া চালিয়ে যান →')}</button>
@@ -1510,8 +1548,8 @@ const PAGE_T = {
   bn:{ home:'অনলাইন সংস্করণ', contact:'যোগাযোগ', ads:'বিজ্ঞাপন',
     navHome:'🌐 অনলাইন সংস্করণ', navEpaper:'📰 ই-পেপার', navLive:'লাইভ',
     tagline:'সত্যের সন্ধানে, নির্ভীক প্রকাশে!',
-    title:'কমিকস', note:'প্রতি সপ্তাহে নতুন কমিক স্ট্রিপ আর ছোট্ট এক-প্যানেল কার্টুন — হাসি, পর্যবেক্ষণ আর একটু আড্ডার স্বাদে। রাজনীতি নয়, শুধুই জীবনের গল্প।',
-    badge:'প্রতি বৃহস্পতিবার নতুন পর্ব',
+    title:'কমিকস', note:'প্রতিদিন নতুন কমিক স্ট্রিপ আর ছোট্ট এক-প্যানেল কার্টুন — হাসি, পর্যবেক্ষণ আর একটু আড্ডার স্বাদে। রাজনীতি নয়, শুধুই জীবনের গল্প।',
+    badge:'প্রতিদিন নতুন পর্ব',
     stFeatured:'আজকের কমিক', stFeaturedSub:'টাটকা আঁকা',
     stSeries:'জনপ্রিয় সিরিজ', stSeriesSub:'সম্পাদকের পছন্দ',
     stMore:'আরও কমিকস', stMoreSub:'সব পর্ব',
@@ -1527,8 +1565,8 @@ const PAGE_T = {
   en:{ home:'Online Version', contact:'Contact', ads:'Advertise',
     navHome:'🌐 Online Version', navEpaper:'📰 E-Paper', navLive:'Live',
     tagline:'In pursuit of truth, In fearless expression!',
-    title:'Comics', note:'A new comic strip and a handful of one-panel gag cartoons every week — humor, observation, and a bit of adda. No politics, just everyday stories.',
-    badge:'New episodes every Thursday',
+    title:'Comics', note:'A new comic strip and one-panel gag cartoons every day — humor, observation, and a bit of adda. No politics, just everyday stories.',
+    badge:'New episodes every day',
     stFeatured:'Today\u2019s Comic', stFeaturedSub:'Fresh off the drawing board',
     stSeries:'Popular Series', stSeriesSub:'Editor\u2019s pick',
     stMore:'More Comics', stMoreSub:'All episodes',
@@ -1731,9 +1769,16 @@ async function init(){
   persistSeenSlugs();             // remember today's full slug list for their *next* visit
   setLang(lang);            // sets fixed UI text, then calls route() to render the current hash
   window.addEventListener('hashchange', route);
+  initLiveDetection();
   hideSiteLoader();
 }
 document.addEventListener('DOMContentLoaded', init);
 </script>
+
+<!-- LIVE STATUS DETECTOR: invisible, off-screen iframe used only to check whether
+     the YouTube channel is currently streaming — same pattern as index.html/live.html. -->
+<div style="position:absolute;width:1px;height:1px;overflow:hidden;left:-9999px;top:-9999px;">
+  <iframe id="live-detect-frame" src="about:blank" title="live status detector" allow="autoplay"></iframe>
+</div>
 </body>
 </html>
