@@ -209,6 +209,8 @@ button{font-family:inherit;cursor:pointer;}
 .cx-more-body{padding:7px 8px 9px;border-top:2px solid var(--ink);}
 .cx-more-title{font-weight:700;font-size:12px;margin-bottom:2px;line-height:1.3;}
 .cx-more-sub{font-size:10.5px;color:var(--txt2);font-family:'Noto Sans Bengali',sans-serif;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.cx-artist{font-size:9.5px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-top:2px;font-style:italic;}
+.cx-artist-feat{font-size:13px;color:var(--txt2);font-family:'Noto Sans Bengali',sans-serif;margin-top:6px;font-style:italic;}
 .cx-arc-date{font-size:10.5px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;}
 
 /* — DETAIL VIEW (routed via #comic/slug) — */
@@ -543,7 +545,7 @@ if(lang==='ar') lang='bn';
 // ══════════════════════════════════════════════
 // HOW TO SET THIS UP:
 // 1. Make ONE tab in your Google Sheet with these columns:
-//      img | title_bn | title_en | caption_bn | caption_en | badge_bn | badge_en | popular_series | slug | series | series_title_bn | series_title_en | episode
+//      img | title_bn | title_en | caption_bn | caption_en | badge_bn | badge_en | popular_series | slug | series | series_title_bn | series_title_en | episode | artist_bn | artist_en
 //    - slug        : optional. Used in the card's URL (#comic/<slug>) when a
 //                    reader clicks in for the detail view. Leave blank and
 //                    one is generated automatically from the title.
@@ -574,6 +576,9 @@ if(lang==='ar') lang='bn';
 //    - episode     : OPTIONAL, only used when "series" is set. A number
 //                    (1, 2, 3…) giving that row's order within the series —
 //                    this decides prev/next order and the episode-list order.
+//    - artist_bn / artist_en : OPTIONAL. The artist's name, shown as a
+//                    byline on the reading page and on the cards/grid.
+//                    Leave both blank to hide it for that comic.
 // 2. File → Share → Publish to web → this sheet/tab → format CSV → Publish.
 //    Copy the URL it gives you into SHEET_CSV_URL below.
 // 3. Images: four ways to point the "img" column at your artwork —
@@ -599,7 +604,7 @@ if(lang==='ar') lang='bn';
 //    d) GitHub repo + IMG_BASE: upload files to your repo (e.g.
 //       assets/comics/...), set IMG_BASE below, and just put filenames in
 //       the sheet.
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzoxrpau_3aL-0EKvwyOvPem9MoyL4LIbkzNP1eOt0c8r2izTrL0cfT1MnhvU_zqelB/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyKYXIBDFQWWGBN6Q-b3HBi9xm7aS_RnxDCdkscZCiPH7YpKzpaWnmU5K6nl5UJA-_8/exec';
 const SHEET_CSV_URL = ''; // legacy CSV fallback; leave blank when using Apps Script
 const IMG_BASE = 'https://dainikanulipi.github.io/da/assets/comics/'; // e.g. 'https://dainikanulipi.github.io/da/assets/comics/'
 const DRIVE_FOLDER_ID = '12Vse8Pd9Co2ppIKQcl-1MolUEA9C7xAZ'; // your Drive folder's ID (the part after /folders/ in its URL)
@@ -696,6 +701,20 @@ function extractDriveFileId(url){
   if(m) return m[1];
   return null;
 }
+// Artist byline — falls back to the other language if only one of
+// artist_bn/artist_en is filled in, so a single-language entry still shows.
+// Returns '' when neither is set, so callers can skip rendering entirely.
+function artistName(c){
+  if(!c) return '';
+  return lang==='en' ? (c.artist_en || c.artist_bn || '') : (c.artist_bn || c.artist_en || '');
+}
+function artistLineHtml(c, cls){
+  const name = artistName(c);
+  if(!name) return '';
+  const label = lang==='en' ? 'Artist' : 'শিল্পী';
+  return `<div class="${cls||'cx-artist'}">${esc(label)}: ${esc(name)}</div>`;
+}
+
 // Escapes text before it's inserted into innerHTML — every title/caption/
 // badge/img-url in this file comes from the Sheet, which is trusted today
 // but shouldn't be able to break markup or inject script if that changes.
@@ -796,6 +815,7 @@ async function loadComicsData(){
     badge_bn:r.badge_bn||'',badge_en:r.badge_en||'',
     series:(r.series||'').trim(),
     series_title_bn:r.series_title_bn||'',series_title_en:r.series_title_en||'',
+    artist_bn:r.artist_bn||'',artist_en:r.artist_en||'',
     episode:r.episode!=null && r.episode!=='' ? parseFloat(r.episode) : null
   }));
   assignSlugs(COMICS);
@@ -964,6 +984,14 @@ function renderFeatured(){
   document.getElementById('feat-title').textContent = lang==='en' ? f.title_en : f.title_bn;
   document.getElementById('feat-title').onclick = ()=>navSlug(f.slug);
   document.getElementById('feat-sub').textContent = lang==='en' ? f.cap_en : f.cap_bn;
+  const featArtistEl = document.getElementById('feat-artist');
+  const featArtistName = artistName(f);
+  if(featArtistName){
+    featArtistEl.textContent = `${lang==='en'?'Artist':'শিল্পী'}: ${featArtistName}`;
+    featArtistEl.style.display = '';
+  } else {
+    featArtistEl.style.display = 'none';
+  }
   document.getElementById('feat-thumb').innerHTML = f.img
     ? `<img src="${esc(f.img)}" alt="${esc(lang==='en'?f.title_en:f.title_bn)}" loading="lazy" onerror="this.remove()">`
     : `<span>${esc(f.emoji||'🖼️')}</span>`;
@@ -996,6 +1024,7 @@ function cardHtml(c){
       <div class="cx-more-body">
         <div class="cx-more-title">${esc(title)}</div>
         <div class="cx-more-sub">${esc(sub)}</div>
+        ${artistLineHtml(c)}
       </div>
     </div>`;
 }
@@ -1024,6 +1053,7 @@ function seriesCardHtml(pick, i){
           <span class="cx-ep-badge">${esc(badge)}</span>
           <span>${esc(epLabel)}</span>
         </div>
+        ${artistLineHtml(cover)}
       </div>
     </div>`;
   }
@@ -1041,6 +1071,7 @@ function seriesCardHtml(pick, i){
         <div class="cx-series-meta">
           <span class="cx-ep-badge">${esc(badge)}</span>
         </div>
+        ${artistLineHtml(c)}
       </div>
     </div>`;
 }
@@ -1085,6 +1116,7 @@ function moreCardHtml(item){
       <div class="cx-more-body">
         <div class="cx-more-title">${esc(title)}</div>
         <div class="cx-more-sub">${esc(sub)}</div>
+        ${artistLineHtml(cover)}
       </div>
     </div>`;
   }
@@ -1179,6 +1211,7 @@ const HOME_HTML = `
         <div class="cx-series-name-tag" id="feat-series-tag" style="display:none;"></div>
         <div class="cx-feat-title" id="feat-title">—</div>
         <div class="cx-feat-sub" id="feat-sub">—</div>
+        <div class="cx-artist-feat" id="feat-artist" style="display:none;"></div>
       </div>
       <div class="cx-feat-nav">
         <button class="cx-feat-btn" id="feat-prev">← <span id="feat-prev-txt">আগের</span></button>
@@ -1344,6 +1377,7 @@ function renderComicDetail(slug){
         ${seriesNameTag}
         <div class="cx-feat-title" style="cursor:default;">${esc(title)}</div>
         <div class="cx-feat-sub">${esc(cap)}</div>
+        ${artistLineHtml(c, 'cx-artist-feat')}
       </div>
       ${shareRow}
       ${epNavHtml}
@@ -1372,6 +1406,7 @@ function episodeCardHtml(c, lastReadSlug){
       <div class="cx-more-thumb">${c.img ? `<img src="${esc(c.img)}" alt="${esc(title)}" loading="lazy" onerror="this.remove()">` : `<span>${esc(c.emoji)}</span>`}</div>
       <div class="cx-more-body">
         <div class="cx-more-title">${esc(title)}</div>
+        ${artistLineHtml(c)}
       </div>
     </div>`;
 }
