@@ -279,6 +279,7 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
   <div class="wrap">
     <button class="nl" id="nav-home" onclick="location.href='https://dainikanulipi.github.io/da/'">🌐 অনলাইন সংস্করণ</button>
     <button class="nl" id="nav-epaper" onclick="location.href='https://dainikanulipi.github.io/da/epaper.html'">📰 ই-পেপার</button>
+    <button class="nl" id="nav-comic" onclick="location.href='https://dainikanulipi.github.io/da/comic.html'">🎨 কমিকস</button>
     <button class="nl on" id="nav-live"><span class="live-dot"></span> লাইভ</button>
   </div>
 </nav>
@@ -464,7 +465,7 @@ var CAT_EN = {'জাতীয়':'National','সারাদেশ':'Across th
 var T = {
   bn:{
     home:'অনলাইন সংস্করণ', contact:'যোগাযোগ', ads:'বিজ্ঞাপন',
-    navHome:'🌐 অনলাইন সংস্করণ', navEpaper:'📰 ই-পেপার', navLive:'লাইভ',
+    navHome:'🌐 অনলাইন সংস্করণ', navEpaper:'📰 ই-পেপার', navComic:'🎨 কমিকস', navLive:'লাইভ',
     liveTitle:'🔴 সরাসরি সম্প্রচার',
     liveNote:'YouTube বর্তমানে যা সম্প্রচার করছে তা এখানে স্বয়ংক্রিয়ভাবে দেখানো হয় — কিছু সম্প্রচার না চললে একটি খালি স্ক্রিন দেখাতে পারে।',
     liveWatchYt:'YouTube-এ খুলুন', liveWatchFb:'Facebook-এ দেখুন', liveAltPrompt:'অন্য জায়গায় দেখতে চান?',
@@ -482,7 +483,7 @@ var T = {
   },
   en:{
     home:'Online Version', contact:'Contact', ads:'Advertise',
-    navHome:'🌐 Online Version', navEpaper:'📰 E-Paper', navLive:'Live',
+    navHome:'🌐 Online Version', navEpaper:'📰 E-Paper', navComic:'🎨 Comics', navLive:'Live',
     liveTitle:'🔴 Live Broadcast',
     liveNote:'This automatically shows whatever is currently live on our YouTube channel — it may look blank if nothing is streaming right now.',
     liveWatchYt:'Open in YouTube', liveWatchFb:'Watch on Facebook', liveAltPrompt:'Prefer to watch elsewhere?',
@@ -839,6 +840,7 @@ function applyLangUI(){
   document.getElementById('tb-ads').textContent      = t.ads;
   document.getElementById('nav-home').textContent    = t.navHome;
   document.getElementById('nav-epaper').textContent  = t.navEpaper;
+  document.getElementById('nav-comic').textContent   = t.navComic;
   document.getElementById('nav-live').innerHTML       = `<span class="live-dot"></span> ${t.navLive}`;
 
   document.getElementById('lv-title').textContent    = t.liveTitle;
