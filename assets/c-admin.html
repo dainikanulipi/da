@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="bn" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>কমিকস অ্যাডমিন | দৈনিক অনুলিপি</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700;800&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#C8102E;--dkred:#9e0b22;
+  --bg:#e2e2e2;--sur:#fff;--sur2:#f5f5f5;--sur3:#eaeaea;
+  --txt:#111;--txt2:#555;--txt3:#999;
+  --bdr:#e0e0e0;--ink:#161616;--dot:rgba(17,17,17,.10);--paper:#fbf8f0;
+  --sun:#ffcf3f;--teal:#1c8c7c;--violet:#6a4ca0;--ok:#1c8c56;
+  --tog-bg:#eee;--tog-c:#444;
+}
+[data-theme=dark]{
+  --bg:#0d0d0d;--sur:#1b1b1b;--sur2:#212121;--sur3:#2b2b2b;
+  --txt:#efefef;--txt2:#aaa;--txt3:#666;
+  --bdr:#2d2d2d;--ink:#f2f2f2;--dot:rgba(255,255,255,.09);--paper:#1e1c17;
+  --tog-bg:#2e2e2e;--tog-c:#ddd;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans Bengali',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;transition:background .3s,color .3s;}
+.wrap{max-width:1180px;margin:0 auto;padding:26px 16px 60px;}
+.halftone{position:relative;overflow:hidden;}
+.halftone::before{content:'';position:absolute;inset:0;background-image:radial-gradient(var(--dot) 1.4px,transparent 1.4px);background-size:9px 9px;opacity:.6;pointer-events:none;}
+
+/* ── LOGIN GATE ── */
+#login-gate{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999;padding:20px;}
+#login-gate.hide{display:none;}
+.login-box{background:var(--sur);padding:30px;width:100%;max-width:340px;border:2px solid var(--ink);position:relative;}
+.login-box h1{font-family:'Patrick Hand',cursive;font-size:28px;margin-bottom:6px;color:var(--txt);}
+.login-box p{font-size:12.5px;color:var(--txt2);margin-bottom:18px;line-height:1.6;}
+.login-box input{width:100%;padding:11px 12px;border:2px solid var(--ink);background:var(--sur);color:var(--txt);font-size:14px;margin-bottom:10px;font-family:inherit;}
+.login-box button{width:100%;padding:11px;background:var(--red);color:#fff;border:none;font-weight:800;font-size:13.5px;letter-spacing:.3px;position:relative;}
+.login-box button:hover{background:var(--dkred);}
+.login-box button.is-loading{color:transparent !important;pointer-events:none;cursor:default;}
+.login-box button.is-loading::after{
+  content:'';position:absolute;top:50%;left:50%;width:15px;height:15px;margin:-7.5px 0 0 -7.5px;
+  border:2px solid #fff;border-top-color:transparent;border-radius:50%;
+  animation:btn-spin .6s linear infinite;opacity:.9;
+}
+.login-err{color:var(--red);font-size:12.5px;margin-top:6px;display:none;}
+
+/* ── HEADER (matches .cx-head) ── */
+.head{background:var(--sur);border:2px solid var(--ink);box-shadow:5px 5px 0 var(--red);padding:18px 22px;margin-bottom:24px;}
+.head-in{position:relative;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;}
+.head h1{font-family:'Patrick Hand',cursive;font-size:32px;color:var(--txt);display:flex;align-items:center;gap:10px;line-height:1;}
+.head .sub{font-size:12.5px;color:var(--txt2);margin-top:7px;}
+.head-badge{font-family:'Noto Sans Bengali',sans-serif;font-weight:800;font-size:11.5px;background:var(--sun);color:#1a1200;padding:6px 13px;transform:rotate(-4deg);box-shadow:2px 2px 0 var(--ink);flex-shrink:0;}
+.head-actions{display:flex;gap:8px;flex-wrap:wrap;}
+
+.btn{padding:9px 16px;border:2px solid var(--ink);font-weight:700;font-size:12.5px;cursor:pointer;font-family:'Noto Sans Bengali',sans-serif;background:var(--sur);color:var(--txt);transition:transform .15s;position:relative;}
+.btn:hover{transform:translate(-1px,-1px);}
+.btn-primary{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+.btn-primary:hover{background:var(--red);border-color:var(--red);}
+.theme-btn{background:var(--tog-bg);border:none;width:32px;height:32px;border-radius:50%;font-size:14px;display:flex;align-items:center;justify-content:center;color:var(--tog-c);transition:all .3s;cursor:pointer;}
+.theme-btn:hover{transform:rotate(20deg);}
+
+/* ── BUTTON LOADING STATE ── */
+/* Any button gets .is-loading while its request is in flight: the label
+   fades out and a spinner fades in on top, and the button becomes inert —
+   so it's always visually obvious whether a click registered and is still
+   working, vs. did nothing. */
+@keyframes btn-spin{to{transform:rotate(360deg);}}
+.btn.is-loading,.card-actions button.is-loading,.popular-inline.is-loading{
+  color:transparent !important;pointer-events:none;cursor:default;transform:none !important;
+}
+.btn.is-loading::after,.card-actions button.is-loading::after,.popular-inline.is-loading::after{
+  content:'';position:absolute;top:50%;left:50%;width:14px;height:14px;margin:-7px 0 0 -7px;
+  border:2px solid var(--txt);border-top-color:transparent;border-radius:50%;
+  animation:btn-spin .6s linear infinite;opacity:.85;
+}
+.btn-primary.is-loading::after{border-color:var(--paper);border-top-color:transparent;}
+/* Refresh icon itself spins while a refresh is in progress (manual or auto) */
+.refresh-ic{display:inline-block;}
+.btn.is-refreshing .refresh-ic{animation:btn-spin .7s linear infinite;}
+
+/* ── STATUS ── */
+#status{font-size:12.5px;padding:9px 14px;margin-bottom:16px;display:none;border:2px solid;font-weight:700;}
+#status.show{display:block;}
+#status.ok{background:#e6f6ee;color:var(--ok);border-color:var(--ok);}
+#status.err{background:#fdeaea;color:var(--red);border-color:var(--red);}
+
+/* ── SECTION LABEL ── */
+.sect-label{display:flex;align-items:baseline;gap:10px;margin-bottom:14px;}
+.sect-label h2{font-family:'Patrick Hand',cursive;font-size:22px;color:var(--txt);}
+.sect-label span{font-size:12px;color:var(--txt3);}
+.sect-sub{font-size:12.5px;color:var(--txt2);margin:-8px 0 16px;font-family:'Noto Sans Bengali',sans-serif;}
+
+/* ── CONTROLS: search + sort ── */
+.controls-row{display:flex;gap:10px;flex-wrap:wrap;margin:-4px 0 16px;}
+.controls-row input[type=search]{flex:1;min-width:180px;padding:9px 12px;border:2px solid var(--ink);background:var(--sur);color:var(--txt);font-family:inherit;font-size:13px;}
+.controls-row input[type=search]:focus{outline:none;border-color:var(--red);}
+.controls-row select{padding:9px 10px;border:2px solid var(--ink);background:var(--sur);color:var(--txt);font-family:inherit;font-size:13px;cursor:pointer;}
+
+/* ── SERIES EPISODE REORDER LIST ── */
+.ep-order-list{display:flex;flex-direction:column;gap:6px;margin-top:9px;}
+.ep-order-row{display:flex;align-items:center;gap:8px;background:var(--sur2);border:1px solid var(--ink);padding:6px 8px 6px 12px;font-size:12.5px;font-weight:700;color:var(--txt);font-family:'Noto Sans Bengali',sans-serif;}
+.ep-order-row .ep-title{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ep-order-row .ep-move{display:flex;gap:3px;}
+.ep-order-row .ep-move button{width:24px;height:24px;padding:0;font-size:11px;border:1px solid var(--ink);background:var(--sur);color:var(--txt);cursor:pointer;line-height:1;}
+.ep-order-row .ep-move button:hover:not(:disabled){background:var(--ink);color:var(--paper);}
+.ep-order-row .ep-move button:disabled{opacity:.3;cursor:default;}
+
+/* ── COMIC-STYLE CARD GRID (matches .cx-more-card) ── */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px;}
+.card{background:var(--sur);border:2px solid var(--ink);position:relative;transition:transform .18s;}
+.card:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--red);}
+.card.featured:hover{box-shadow:4px 4px 0 var(--sun);}
+.thumb{aspect-ratio:3/4;width:100%;position:relative;display:flex;align-items:center;justify-content:center;background:var(--sur3);overflow:hidden;}
+.thumb::before{content:'';position:absolute;inset:0;background-image:radial-gradient(var(--dot) 1.3px,transparent 1.3px);background-size:8px 8px;}
+.thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.thumb .ph{font-size:40px;position:relative;opacity:.5;}
+.pin{position:absolute;top:8px;left:-2px;font-family:'Noto Sans Bengali',sans-serif;font-weight:800;font-size:10px;background:var(--red);color:#fff;padding:4px 10px;z-index:2;letter-spacing:.3px;}
+.sticker{position:absolute;top:8px;right:-2px;font-family:'Noto Sans Bengali',sans-serif;font-weight:800;font-size:10px;background:var(--ink);color:var(--paper);padding:4px 9px;transform:rotate(4deg);z-index:2;}
+.card-body{padding:11px 13px 12px;border-top:2px solid var(--ink);}
+.card-body .title{font-family:'Patrick Hand',cursive;font-size:18px;color:var(--txt);line-height:1.15;margin-bottom:3px;}
+.series-tag{font-size:10.5px;font-weight:700;color:var(--teal,#1c8c7c);margin-bottom:6px;font-family:'Noto Sans Bengali',sans-serif;}
+.card-body .meta{font-size:11px;color:var(--txt3);margin-bottom:10px;font-family:'Noto Sans Bengali',sans-serif;}
+.card-actions{display:flex;gap:6px;}
+.card-actions button{flex:1;padding:7px;font-size:11.5px;font-weight:700;border:2px solid var(--ink);background:var(--sur);color:var(--txt);cursor:pointer;font-family:'Noto Sans Bengali',sans-serif;transition:background .15s;}
+.card-actions button:hover{background:var(--sur3);}
+.card-actions .del:hover{background:var(--red);color:#fff;border-color:var(--red);}
+.popular-inline{display:flex;align-items:center;justify-content:center;gap:4px;min-width:74px;padding:7px 6px;border:2px solid var(--ink);background:var(--sur);color:var(--txt);font-size:10.5px;font-weight:700;cursor:pointer;font-family:'Noto Sans Bengali',sans-serif;line-height:1;user-select:none;}
+.popular-inline:hover{background:var(--sur3);}
+.popular-inline:has(input:checked){background:var(--sun);color:#1a1200;}
+.popular-inline input{width:14px;height:14px;margin:0;cursor:pointer;accent-color:var(--red);}
+
+#empty-msg{text-align:center;color:var(--txt3);padding:70px 20px;font-family:'Patrick Hand',cursive;font-size:20px;}
+
+/* ── SERIES MANAGEMENT ── */
+.series-mgmt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;}
+.series-card{background:var(--sur);border:2px solid var(--ink);padding:14px 15px;position:relative;transition:transform .18s;}
+.series-card:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--teal);}
+.series-card-title{font-family:'Patrick Hand',cursive;font-size:19px;color:var(--txt);margin-bottom:4px;display:flex;align-items:center;gap:6px;padding-right:26px;}
+.series-card-desc{font-size:11px;color:var(--txt2);margin:-2px 0 8px;font-family:'Noto Sans Bengali',sans-serif;line-height:1.5;}
+.series-card-count{font-size:11.5px;color:var(--txt3);margin-bottom:10px;font-family:'Noto Sans Bengali',sans-serif;}
+.series-card-eps{font-size:11.5px;color:var(--txt2);line-height:1.7;margin-bottom:12px;font-family:'Noto Sans Bengali',sans-serif;max-height:80px;overflow-y:auto;}
+.series-card-actions{display:flex;gap:6px;}
+.series-card button{padding:7px;font-size:11.5px;font-weight:700;border:2px solid var(--ink);background:var(--sur);color:var(--txt);cursor:pointer;font-family:'Noto Sans Bengali',sans-serif;}
+.series-card-actions button{flex:1;}
+.series-card button:hover{background:var(--sur3);}
+.series-card .series-del:hover{background:var(--red);color:#fff;border-color:var(--red);}
+.series-move{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:2px;}
+.series-move button{width:20px;height:16px;padding:0;font-size:9px;line-height:1;border:1px solid var(--ink);background:var(--sur2);}
+.series-move button:disabled{opacity:.25;cursor:default;}
+#series-empty-msg{text-align:center;color:var(--txt3);padding:30px 20px;font-family:'Patrick Hand',cursive;font-size:17px;}
+
+/* ── SERIES MODAL ── */
+#series-modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:flex-start;justify-content:center;z-index:600;overflow-y:auto;padding:30px 16px;}
+#series-modal-bg.show{display:flex;}
+
+/* ── MODAL ── */
+#modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:flex-start;justify-content:center;z-index:500;overflow-y:auto;padding:30px 16px;}
+#modal-bg.show{display:flex;}
+.modal{background:var(--sur);width:100%;max-width:540px;border:2px solid var(--ink);box-shadow:6px 6px 0 var(--red);}
+.modal-head{padding:18px 22px;border-bottom:2px solid var(--ink);display:flex;align-items:center;justify-content:space-between;}
+.modal-head h2{font-family:'Patrick Hand',cursive;font-size:24px;color:var(--txt);}
+.modal-body{padding:20px 22px;}
+.field{margin-bottom:13px;}
+.field label{display:block;font-size:11.5px;font-weight:700;color:var(--txt2);margin-bottom:4px;font-family:'Noto Sans Bengali',sans-serif;}
+.field input,.field textarea,.field select{width:100%;padding:9px 10px;border:1px solid var(--bdr);background:var(--sur2);color:var(--txt);font-family:inherit;font-size:13.5px;}
+.field select{cursor:pointer;}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--ink);}
+.field textarea{resize:vertical;min-height:52px;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.chk-row{display:flex;align-items:center;gap:9px;margin-bottom:16px;padding:10px 12px;background:var(--sur2);border:1px dashed var(--bdr);}
+.chk-row label{margin:0;font-size:13px;font-weight:700;color:var(--txt);}
+.badge-add-row{display:grid;grid-template-columns:1fr 1fr auto;gap:6px;}
+.badge-add-row button{padding:0 14px;font-size:12px;white-space:nowrap;}
+.badge-group{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px;min-height:0;}
+.badge-chip{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:var(--txt);background:var(--sur2);border:1px solid var(--ink);padding:5px 6px 5px 8px;font-family:'Noto Sans Bengali',sans-serif;}
+.badge-chip.is-primary{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+.badge-chip .x{cursor:pointer;font-weight:800;opacity:.6;padding:0 3px;}
+.badge-chip .x:hover{opacity:1;}
+.badge-tick{display:flex;align-items:center;cursor:pointer;}
+.badge-tick input{width:14px;height:14px;cursor:pointer;accent-color:var(--red);margin:0;}
+@media(max-width:600px){.badge-add-row{grid-template-columns:1fr;}}
+.modal-actions{display:flex;gap:10px;margin-top:6px;}
+.modal-actions button{flex:1;}
+.hint{font-size:10.5px;color:var(--txt3);margin-top:3px;line-height:1.5;}
+@media(max-width:600px){.row2{grid-template-columns:1fr;}.grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));}}
+</style>
+</head>
+<body>
+
+<div id="login-gate">
+  <button class="theme-btn" id="theme-btn-login" onclick="toggleTheme()" title="থিম বদলাও" style="position:absolute;top:18px;right:18px;">🌙</button>
+  <div class="login-box">
+    <h1>🔒 কমিকস অ্যাডমিন</h1>
+    <input type="password" id="token-input" placeholder="Admin token" onkeydown="if(event.key==='Enter')tryLogin()">
+    <button id="login-btn" onclick="tryLogin()">লগইন</button>
+    <div class="login-err" id="login-err">ভুল token, আবার চেষ্টা করো।</div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="head halftone">
+    <div class="head-in">
+      <div>
+        <h1>🎨 কমিকস অ্যাডমিন</h1>
+        <div class="sub">দৈনিক অনুলিপি — কমিকস শিট সরাসরি ম্যানেজ করো</div>
+      </div>
+      <div class="head-actions">
+        <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="থিম বদলাও">🌙</button>
+        <button class="btn" id="refresh-btn" onclick="loadComics()"><span class="refresh-ic">🔄</span> রিফ্রেশ</button>
+        <button class="btn btn-primary" onclick="openModal()">+ নতুন কমিক</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="status"></div>
+
+  <div class="sect-label">
+    <h2>🎞️ সিরিজ / প্লেলিস্ট</h2>
+    <span id="series-count-label"></span>
+  </div>
+  <div class="sect-sub">প্রতিটা সিরিজে কোন কোন কমিক আছে দেখো, নাম বদলাও, বা সিরিজ থেকে আলাদা করো</div>
+  <div class="series-mgmt-grid" id="series-mgmt-grid"></div>
+  <div id="series-empty-msg" style="display:none;">এখনো কোনো সিরিজ নেই। কমিক এডিট করে "সিরিজ / প্লেলিস্ট" ফিল্ড থেকে একটা বানাও।</div>
+
+  <div class="sect-label" style="margin-top:34px;">
+    <h2>📌 কোনো সিরিজ না (স্ট্যান্ডঅ্যালোন)</h2>
+    <span id="standalone-count-label"></span>
+  </div>
+  <div class="sect-sub">যেসব কমিক কোনো সিরিজে যুক্ত নেই — একক কার্টুন / গ্যাগ</div>
+  <div class="grid" id="standalone-grid"></div>
+  <div id="standalone-empty-msg" style="display:none;">সব কমিকই কোনো না কোনো সিরিজে আছে — স্ট্যান্ডঅ্যালোন কিছু নেই।</div>
+
+  <div class="sect-label" style="margin-top:34px;">
+    <h2>⭐ জনপ্রিয় সিরিজ</h2>
+    <span id="popular-series-count-label"></span>
+  </div>
+  <div class="sect-sub">যে কমিকগুলোতে “জনপ্রিয় সিরিজে দেখাও” টিক থাকবে, সেগুলোই হোমপেজে এখানে দেখাবে। যতগুলো টিক, ততগুলো কার্ড।</div>
+  <div class="grid" id="popular-series-grid"></div>
+  <div id="popular-series-empty-msg" style="display:none;">এখনো কোনো কমিকে “জনপ্রিয় সিরিজে দেখাও” টিক দেওয়া নেই।</div>
+
+  <div class="sect-label" style="margin-top:34px;">
+    <h2>সব কমিক</h2>
+    <span id="count-label"></span>
+  </div>
+  <div class="sect-sub">এখান থেকে কমিক এডিট, যোগ বা ডিলিট করো</div>
+  <div class="controls-row">
+    <input type="search" id="search-input" placeholder="🔍 টাইটেল, সিরিজ, ব্যাজ, স্লাগ দিয়ে খোঁজো..." oninput="renderGrid()">
+    <select id="sort-select" onchange="renderGrid()">
+      <option value="newest">↕️ নতুন আগে</option>
+      <option value="az">A–Z (টাইটেল)</option>
+      <option value="featured">⭐ জনপ্রিয় সিরিজ আগে</option>
+    </select>
+  </div>
+  <div class="grid" id="grid"></div>
+  <div id="empty-msg" style="display:none;">এখনো কোনো কমিক নেই। "+ নতুন কমিক" চেপে শুরু করো।</div>
+
+</div>
+
+<div id="series-modal-bg">
+  <div class="modal" style="max-width:460px;">
+    <div class="modal-head">
+      <h2 id="series-modal-title">সিরিজ এডিট করো</h2>
+      <button class="btn" style="padding:6px 10px;" onclick="closeSeriesModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label>সিরিজের নাম (বাংলা)</label>
+        <input type="text" id="sm-name">
+      </div>
+      <div class="field">
+        <label>বর্ণনা / কভার নোট (ঐচ্ছিক)</label>
+        <textarea id="sm-desc" placeholder="এই সিরিজ সম্পর্কে ছোট্ট একটা লাইন — কার্ডে দেখাবে"></textarea>
+      </div>
+      <div class="field">
+        <label>এই সিরিজের কমিক (<span id="sm-ep-count">0</span>টা) — ↑↓ দিয়ে ক্রম বদলাও</label>
+        <div class="ep-order-list" id="sm-ep-list"></div>
+      </div>
+      <div class="hint">রিনেম করলে এই সব কমিকের সিরিজ ফিল্ড নতুন নামে আপডেট হবে। "সিরিজ থেকে আলাদা করো" করলে কমিকগুলো ডিলিট হবে না, শুধু আর কোনো সিরিজে থাকবে না।</div>
+      <div class="modal-actions" style="margin-top:16px;">
+        <button type="button" class="btn" onclick="ungroupSeries()" style="border-color:var(--red);color:var(--red);">সিরিজ থেকে আলাদা করো</button>
+        <button type="button" class="btn btn-primary" onclick="renameSeries()">সেভ করো</button>
+      </div>
+
+      <div class="field" style="margin-top:20px;padding-top:16px;border-top:1px dashed var(--bdr);">
+        <label>🔀 অন্য সিরিজের সাথে মার্জ করো</label>
+        <div class="badge-add-row" style="grid-template-columns:1fr auto;">
+          <select id="sm-merge-target"></select>
+          <button type="button" class="btn" onclick="mergeSeries()">মার্জ করো</button>
+        </div>
+        <div class="hint">এই সিরিজের সব কমিক বাছাই করা সিরিজে চলে যাবে, আর এই সিরিজটা মুছে যাবে।</div>
+      </div>
+
+      <div class="field" style="margin-top:16px;padding-top:16px;border-top:1px dashed var(--bdr);">
+        <button type="button" class="btn" onclick="deleteEntireSeries()" style="width:100%;border-color:var(--red);color:var(--red);">🗑️ সম্পূর্ণ সিরিজ ডিলিট করো (সব কমিক-সহ)</button>
+        <div class="hint">সতর্ক থাকো — এতে এই সিরিজের সব কমিক স্থায়ীভাবে ডিলিট হয়ে যাবে।</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="modal-bg">
+  <div class="modal">
+    <div class="modal-head">
+      <h2 id="modal-title">নতুন কমিক</h2>
+      <button class="btn" style="padding:6px 10px;" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <form id="comic-form" onsubmit="return saveComic(event)">
+        <input type="hidden" id="f-id">
+        <input type="hidden" id="f-slug">
+        <div id="popular-chk-wrap">
+          <div class="chk-row">
+            <input type="checkbox" id="f-popular-series">
+            <label for="f-popular-series">⭐ জনপ্রিয় সিরিজে দেখাও</label>
+          </div>
+          <div class="hint" style="margin:-8px 0 14px;">আজকের কমিক আলাদা করে টিক দিতে হবে না — সর্বশেষ যোগ করা কমিকটি অটো দেখাবে।</div>
+        </div>
+        <div id="popular-chk-series-note" class="hint" style="display:none;margin:-8px 0 14px;">⭐ সিরিজের কমিকের জন্য এটা এখান থেকে সেট করা যাবে না — পুরো সিরিজটাকে জনপ্রিয় করতে উপরের "🎞️ সিরিজ / প্লেলিস্ট" সেকশনে গিয়ে সেই সিরিজ কার্ডের ⭐ টিক দাও।</div>
+        <div class="field">
+          <label>ছবির URL / ফাইলনেম <span style="color:var(--red);">*</span></label>
+          <input type="text" id="f-img" required placeholder="https://... বা assets/comics/xyz.jpg">
+          <div class="hint">পুরো URL দিলে সরাসরি চলবে; শুধু ফাইলনেম দিলে comic.html-এর IMG_BASE জুড়বে।</div>
+        </div>
+        <div class="row2">
+          <div class="field"><label>টাইটেল (বাংলা) <span style="color:var(--red);">*</span></label><input type="text" id="f-title-bn" required oninput="updateSlugPreview()"></div>
+          <div class="field"><label>Title (English) <span style="color:var(--red);">*</span></label><input type="text" id="f-title-en" required oninput="updateSlugPreview()"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label>ক্যাপশন (বাংলা)</label><textarea id="f-cap-bn"></textarea></div>
+          <div class="field"><label>Caption (English)</label><textarea id="f-cap-en"></textarea></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label>শিল্পীর নাম (বাংলা)</label><input type="text" id="f-artist-bn" placeholder="ঐচ্ছিক"></div>
+          <div class="field"><label>Artist Name (English)</label><input type="text" id="f-artist-en" placeholder="Optional"></div>
+        </div>
+        <div class="hint" style="margin:-8px 0 14px;">শিল্পীর নাম দিলে সেটা কমিক পড়ার পাতায় ও কার্ডে দেখা যাবে। খালি রাখলে কোনো বাইলাইন দেখাবে না।</div>
+        <div class="field">
+          <label>সিরিজ / প্লেলিস্ট</label>
+          <select id="f-series" onchange="onSeriesSelectChange()">
+            <option value="">— কোনো সিরিজ না (স্ট্যান্ডঅ্যালোন) —</option>
+            <option value="__new__">+ নতুন সিরিজ বানাও</option>
+          </select>
+          <input type="text" id="f-series-new" placeholder="নতুন সিরিজের নাম, যেমন টুনটুনির টঙ" style="display:none;margin-top:6px;">
+          <div class="hint">YouTube প্লেলিস্টের মতো — একই সিরিজ বেছে নিলে কমিকগুলো একসাথে গ্রুপ হয়ে যাবে (যেমন টুনটুনির টঙ, রোবট রাজু)।</div>
+        </div>
+        <div class="field">
+          <label>ব্যাজ <span style="color:var(--red);">*</span></label>
+          <select id="f-badge-select" onchange="onBadgeSelectChange()">
+            <option value="">— বিদ্যমান ব্যাজ বাছাই করো —</option>
+            <option value="__new__">+ নতুন ব্যাজ বানাও</option>
+          </select>
+          <div class="badge-add-row" id="badge-new-row" style="display:none;margin-top:6px;">
+            <input type="text" id="f-badge-bn" placeholder="বাংলা, যেমন সিরিজ" onkeydown="if(event.key==='Enter'){event.preventDefault();addBadge();}">
+            <input type="text" id="f-badge-en" placeholder="English, e.g. Series" onkeydown="if(event.key==='Enter'){event.preventDefault();addBadge();}">
+            <button type="button" class="btn" onclick="addBadge()">+ যোগ করো</button>
+          </div>
+          <div class="badge-group" id="badge-group"></div>
+          <div class="hint">ড্রপডাউন থেকে বিদ্যমান ব্যাজ বাছাই করো, বা নতুন বানাও — কমপক্ষে একটা লাগবে পাবলিশ করতে। টিক ✓ দিয়ে বাছাই করো কোনটা কার্ডে প্রধান স্টিকার হিসেবে দেখাবে।</div>
+        </div>
+        <div class="hint" id="slug-line" style="margin:-4px 0 14px;">Slug: <b id="slug-preview" style="color:var(--txt);">—</b></div>
+        <div class="modal-actions">
+          <button type="button" class="btn" onclick="closeModal()">বাতিল</button>
+          <button type="submit" class="btn btn-primary" id="save-btn">সেভ করো</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+// GOOGLE APPS SCRIPT CONNECTION
+// ══════════════════════════════════════════════
+// Paste your deployed Apps Script Web App URL here.
+const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwPvrG3ShDzGbwwkJXPjyhdLs0g5fE3E_BDoKFGsgjH1L8TVVp-TqLwuWG-i7suHHX8/exec';
+// Must match comic.html's IMG_BASE — the sheet's "img" column can hold a
+// bare filename (resolved against this), a Drive share link, or a full URL.
+// Without this, thumbnails saved as filenames only (the normal case) 404
+// in the admin page and the broken <img> removes itself, so nothing shows.
+const IMG_BASE = 'https://dainikanulipi.github.io/da/assets/comics/';
+function extractDriveFileId(url){
+  if(!/drive\.google\.com/i.test(url)) return null;
+  let m = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if(m) return m[1];
+  m = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  if(m) return m[1];
+  return null;
+}
+function resolveImg(path){
+  if(!path) return '';
+  path = String(path).trim();
+  if(!path) return '';
+  const driveId = extractDriveFileId(path);
+  if(driveId) return `https://lh3.googleusercontent.com/d/${driveId}=s0`;
+  if(/^https?:\/\//i.test(path)) return path;
+  return IMG_BASE + path;
+}
+let TOKEN = '';
+let COMICS = [
+  { id:'a1b2c3d4', slug:'tuntunir-tong-48', popularSeries:true, featured:false, img:'', title_bn:'টুনটুনির টঙ — পর্ব ৪৮', title_en:'Tuntuni\u2019s Tong — Episode 48',
+    caption_bn:'টুনটুনি সকাল সকাল রান্নাঘরে ব্যস্ত।', caption_en:'Tuntuni\u2019s morning kitchen chaos.', badge_bn:'সিরিজ', badge_en:'Series', series:'টুনটুনির টঙ' },
+  { id:'e5f6g7h8', slug:'robot-raju-27', popularSeries:true, featured:false, img:'', title_bn:'রোবট রাজু — পর্ব ২৭', title_en:'Robot Raju — Episode 27',
+    caption_bn:'রাজুর রোবট বন্ধু হোমওয়ার্ক করে দিতে চেয়েছিল।', caption_en:'Raju\u2019s robot friend tried doing homework.', badge_bn:'সিরিজ', badge_en:'Series', series:'রোবট রাজু' },
+  { id:'q1w2e3r4', slug:'addaghor', popularSeries:false, featured:false, img:'', title_bn:'আড্ডাঘর', title_en:'Addaghor',
+    caption_bn:'চায়ের দোকানে বন্ধুদের আড্ডা।', caption_en:'Tea-stall banter.', badge_bn:'সিরিজ', badge_en:'Series', series:'আড্ডাঘর' },
+  { id:'i9j0k1l2', slug:'jam', popularSeries:false, featured:false, img:'', title_bn:'জ্যাম', title_en:'Jam',
+    caption_bn:'সকাল ৮টার বাস, পৌঁছাল দুপুর ১২টায়।', caption_en:'The 8 AM bus arrived at noon.', badge_bn:'কার্টুন', badge_en:'Gag' },
+  { id:'m3n4o5p6', slug:'wifi', popularSeries:false, featured:false, img:'', title_bn:'ওয়াইফাই', title_en:'WiFi',
+    caption_bn:'পাসওয়ার্ড ঠিক আছে, শুধু ইন্টারনেটটাই নেই।', caption_en:'Password\u2019s correct. The internet just isn\u2019t.', badge_bn:'কার্টুন', badge_en:'Gag' },
+  { id:'z9x8c7v6', slug:'world-cup', popularSeries:false, featured:false, img:'', title_bn:'বিশ্বকাপ', title_en:'World Cup',
+    caption_bn:'খেলা দেখতে বসলেই চা ফুরিয়ে যায়।', caption_en:'The tea always runs out mid-match.', badge_bn:'কার্টুন', badge_en:'Gag' }
+];
+
+function gasRequest(action, params = {}, useToken = true){
+  return new Promise((resolve, reject)=>{
+    if(!APP_SCRIPT_URL || APP_SCRIPT_URL.includes('PASTE_YOUR_')){
+      reject(new Error('Apps Script Web App URL বসানো হয়নি।'));
+      return;
+    }
+    const callback = 'gas_cb_' + Date.now() + '_' + Math.floor(Math.random()*100000);
+    const script = document.createElement('script');
+    const q = new URLSearchParams({action, callback});
+    if(useToken && TOKEN) q.set('token', TOKEN);
+    Object.entries(params).forEach(([k,v])=>q.set(k, String(v)));
+    window[callback] = payload=>{
+      delete window[callback]; script.remove();
+      if(payload && payload.ok) resolve(payload.data);
+      else reject(new Error(payload?.error || 'Apps Script error'));
+    };
+    script.onerror = ()=>{
+      delete window[callback]; script.remove();
+      reject(new Error('Apps Script request failed'));
+    };
+    script.src = APP_SCRIPT_URL + '?' + q.toString();
+    document.head.appendChild(script);
+    setTimeout(()=>{
+      if(window[callback]){
+        delete window[callback]; script.remove();
+        reject(new Error('Request timed out'));
+      }
+    }, 15000);
+  });
+}
+
+function normalizeComic(c){
+  return {...c,
+    popularSeries: !!c.popularSeries,
+    featured: false,
+    badges: Array.isArray(c.badges) ? c.badges : (c.badge_bn ? [{bn:c.badge_bn,en:c.badge_en||''}] : [])
+  };
+}
+
+async function tryLogin(){
+  const t = document.getElementById('token-input').value.trim();
+  if(!t) return;
+  TOKEN = t;
+  const btn = document.getElementById('login-btn');
+  setBtnLoading(btn, true);
+  try{
+    const data = await gasRequest('list', {}, true);
+    COMICS = (data.comics || []).map(normalizeComic);
+    document.getElementById('login-gate').classList.add('hide');
+    document.getElementById('login-err').style.display='none';
+    refreshAll();
+    showStatus('Apps Script + Google Sheet connected ✓', true);
+    startAutoRefresh();
+  }catch(err){
+    TOKEN = '';
+    document.getElementById('login-err').textContent = err.message || 'ভুল token, আবার চেষ্টা করো।';
+    document.getElementById('login-err').style.display='block';
+  }finally{
+    setBtnLoading(btn, false);
+  }
+}
+
+// Auto-refresh: re-pulls the sheet every 10s so the admin stays in sync
+// with edits made elsewhere (another tab, a teammate, direct sheet edits).
+// Paused while a modal is open or a request is already in flight, so it
+// never yanks the grid out from under someone mid-edit.
+const AUTO_REFRESH_MS = 10000;
+let autoRefreshTimer = null;
+let autoRefreshBusy = false;
+function isAnyModalOpen(){
+  const m1 = document.getElementById('modal-bg');
+  const m2 = document.getElementById('series-modal-bg');
+  return (m1 && m1.classList.contains('show')) || (m2 && m2.classList.contains('show'));
+}
+function startAutoRefresh(){
+  if(autoRefreshTimer) return;
+  autoRefreshTimer = setInterval(async ()=>{
+    if(!TOKEN || autoRefreshBusy || isAnyModalOpen()) return;
+    autoRefreshBusy = true;
+    try{ await loadComics(); }
+    finally{ autoRefreshBusy = false; }
+  }, AUTO_REFRESH_MS);
+}
+function stopAutoRefresh(){
+  if(autoRefreshTimer){ clearInterval(autoRefreshTimer); autoRefreshTimer = null; }
+}
+
+document.getElementById('login-gate').classList.remove('hide');
+
+// Toggles the spinner/disabled state on any button so it's always clear
+// whether a click registered and the request is still running.
+function setBtnLoading(btn, loading){
+  if(!btn) return;
+  if(loading) btn.classList.add('is-loading');
+  else btn.classList.remove('is-loading');
+}
+
+// Toggles between light/dark theme and remembers the choice for next visit.
+function applyTheme(theme){
+  document.documentElement.setAttribute('data-theme', theme);
+  const icon = theme === 'dark' ? '☀️' : '🌙';
+  const btn = document.getElementById('theme-btn');
+  if(btn) btn.textContent = icon;
+  const btnLogin = document.getElementById('theme-btn-login');
+  if(btnLogin) btnLogin.textContent = icon;
+  try{ localStorage.setItem('ca-theme', theme); }catch(e){}
+}
+function toggleTheme(){
+  const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  applyTheme(current === 'dark' ? 'light' : 'dark');
+}
+(function(){
+  let saved = null;
+  try{ saved = localStorage.getItem('ca-theme'); }catch(e){}
+  if(saved === 'dark' || saved === 'light') applyTheme(saved);
+  else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) applyTheme('dark');
+})();
+
+function showStatus(msg, ok){
+  const el = document.getElementById('status');
+  el.textContent = msg;
+  el.className = 'show ' + (ok ? 'ok' : 'err');
+  setTimeout(()=>{ el.classList.remove('show'); }, 3500);
+}
+
+async function loadComics(){
+  const btn = document.getElementById('refresh-btn');
+  if(btn) btn.classList.add('is-refreshing');
+  try{
+    const data = await gasRequest('list', {}, true);
+    COMICS = (data.comics || []).map(normalizeComic);
+    refreshAll();
+  }catch(err){
+    showStatus('লোড করা যায়নি: ' + err.message, false);
+  }finally{
+    if(btn) btn.classList.remove('is-refreshing');
+  }
+}
+
+async function togglePopularSeries(id, checked){
+  const c = COMICS.find(x=>x.id===id);
+  if(!c) return;
+  const old = !!c.popularSeries;
+  c.popularSeries = !!checked;
+  refreshAll();
+  try{
+    await gasRequest('togglePopular', {id, value: checked ? 'yes' : ''}, true);
+    showStatus(checked ? '⭐ জনপ্রিয় সিরিজে যোগ হয়েছে ও Sheet-এ সেভ হয়েছে ✓' : '⭐ জনপ্রিয় সিরিজ থেকে বাদ হয়েছে ও Sheet-এ সেভ হয়েছে ✓', true);
+    await loadComics();
+  }catch(err){
+    c.popularSeries = old;
+    refreshAll();
+    showStatus('সেভ করা যায়নি: ' + err.message, false);
+  }
+}
+
+// Series-level popular toggle: applies the flag to every episode in the
+// series at once, since individual episode cards can no longer set it
+// themselves. Saves each episode's row to the sheet in turn.
+async function toggleSeriesPopular(name, checked){
+  const affected = COMICS.filter(c=>c.series===name);
+  if(!affected.length) return;
+  const olds = affected.map(c=>!!c.popularSeries);
+  affected.forEach(c=>{ c.popularSeries = !!checked; });
+  refreshAll();
+  try{
+    for(const c of affected){
+      await gasRequest('togglePopular', {id:c.id, value: checked ? 'yes' : ''}, true);
+    }
+    showStatus(checked ? `⭐ "${name}" সিরিজ জনপ্রিয় সিরিজে যোগ হয়েছে ও Sheet-এ সেভ হয়েছে ✓` : `⭐ "${name}" সিরিজ জনপ্রিয় সিরিজ থেকে বাদ হয়েছে ও Sheet-এ সেভ হয়েছে ✓`, true);
+    await loadComics();
+  }catch(err){
+    affected.forEach((c,i)=>{ c.popularSeries = olds[i]; });
+    refreshAll();
+    showStatus('সেভ করা যায়নি: ' + err.message, false);
+  }
+}
+
+const emoji = ['🖼️','☕','🤖','🐈','🚌','📶','🏆','✏️','🎨'];
+function pickEmoji(seed){ let h=0; for(const c of (seed||'')) h=(h*31+c.charCodeAt(0))>>>0; return emoji[h%emoji.length]; }
+
+function cardHTML(c){
+  return `
+    <div class="card ${c.featured ? 'featured':''}">
+      ${c.popularSeries ? '<div class="pin">⭐ জনপ্রিয় সিরিজ</div>' : ''}
+      ${c.badge_bn ? `<div class="sticker">${esc(c.badge_bn)}</div>` : ''}
+      <div class="thumb">
+        ${c.img ? `<img src="${escAttr(resolveImg(c.img))}" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'ph',textContent:'${pickEmoji(c.slug)}'}))">` : `<span class="ph">${pickEmoji(c.slug)}</span>`}
+      </div>
+      <div class="card-body">
+        <div class="title">${esc(c.title_bn||c.title_en||'(শিরোনাম নেই)')}</div>
+        ${c.series ? `<div class="series-tag">🎞️ ${esc(c.series)}</div>` : ''}
+        ${(c.artist_bn||c.artist_en) ? `<div class="meta">✏️ ${esc(c.artist_bn||c.artist_en)}</div>` : ''}
+        <div class="meta">/${esc(c.slug||'')}</div>
+        ${c.badges && c.badges.length > 1 ? `<div class="badge-group" style="margin:-4px 0 10px;">${c.badges.slice(1).map(b=>`<span class="badge-chip" style="font-size:10px;padding:3px 8px;">${esc(b.bn)}</span>`).join('')}</div>` : ''}
+        <div class="card-actions">
+          <button onclick='openModal(${jsAttr(JSON.stringify(c))})'>✏️ এডিট</button>
+          ${c.series ? '' : `
+          <label class="popular-inline" title="জনপ্রিয় সিরিজে দেখাও">
+            <input type="checkbox" ${c.popularSeries ? 'checked' : ''} onchange="togglePopularSeries('${c.id}', this.checked)" aria-label="জনপ্রিয় সিরিজে দেখাও">
+            <span>⭐ জনপ্রিয়</span>
+          </label>`}
+          <button class="del" onclick="deleteComic('${c.id}', this)">🗑️</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+
+function fillGrid(gridId, emptyId, list, emptyText){
+  const grid = document.getElementById(gridId);
+  const empty = document.getElementById(emptyId);
+  if(!list.length){ grid.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  grid.innerHTML = list.map(cardHTML).join('');
+}
+
+function matchesSearch(c, q){
+  if(!q) return true;
+  const hay = [
+    c.title_bn, c.title_en, c.slug, c.series, c.caption_bn, c.caption_en,
+    c.badge_bn, c.badge_en,
+    ...((c.badges||[]).flatMap(b=>[b.bn, b.en]))
+  ].filter(Boolean).join(' ').toLowerCase();
+  return hay.includes(q);
+}
+
+function sortComics(list, mode){
+  const out = list.slice();
+  if(mode==='az'){
+    out.sort((a,b)=>(a.title_bn||a.title_en||'').localeCompare(b.title_bn||b.title_en||'', 'bn'));
+  } else if(mode==='featured'){
+    out.sort((a,b)=>(b.popularSeries?1:0)-(a.popularSeries?1:0));
+  } else { // newest — last added shown first
+    out.reverse();
+  }
+  return out;
+}
+
+function renderGrid(){
+  const qEl = document.getElementById('search-input');
+  const sortEl = document.getElementById('sort-select');
+  const q = qEl ? qEl.value.trim().toLowerCase() : '';
+  const mode = sortEl ? sortEl.value : 'newest';
+  const filtered = sortComics(COMICS.filter(c=>matchesSearch(c,q)), mode);
+  document.getElementById('count-label').textContent = COMICS.length
+    ? (q ? `${filtered.length} / ${COMICS.length}টি কমিক` : `${COMICS.length}টি কমিক`)
+    : '';
+  fillGrid('grid', 'empty-msg', filtered);
+}
+
+function renderStandalone(){
+  const list = COMICS.filter(c=>!c.series);
+  document.getElementById('standalone-count-label').textContent = list.length ? `${list.length}টি কমিক` : '';
+  fillGrid('standalone-grid', 'standalone-empty-msg', list);
+}
+
+function renderPopularSeries(){
+  const list = COMICS.filter(c=>c.popularSeries);
+  document.getElementById('popular-series-count-label').textContent = list.length ? `${list.length}টি কমিক` : '';
+  fillGrid('popular-series-grid', 'popular-series-empty-msg', list);
+}
+
+// Re-renders every section of the page from the current COMICS array.
+// Called after login, after load/save/delete, and after any series edit
+// (rename/merge/ungroup/reorder) so the whole UI stays in sync.
+function refreshAll(){
+  renderGrid();
+  renderStandalone();
+  renderPopularSeries();
+  renderSeriesMgmt();
+}
+
+
+function esc(s){ return (s||'').toString().replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+function escAttr(s){ return esc(s); }
+// Safely embed a JS value as an argument literal inside a single-quoted
+// onclick="..." attribute: JSON.stringify() gives a valid JS literal but
+// doesn't escape raw apostrophes, which would otherwise terminate the
+// attribute early (or, for HTML entities, get misread). esc() neutralizes
+// both < > & " ' so the value always round-trips safely regardless of
+// what characters (apostrophes, quotes, etc.) it contains.
+function jsAttr(v){ return esc(JSON.stringify(v)); }
+
+// ── SERIES / PLAYLIST MANAGEMENT ──
+let SERIES_ORDER = [];      // display order of series names
+let SERIES_META = {};       // { name: { desc: '' } }
+
+function syncSeriesOrder(){
+  const names = [...new Set(COMICS.map(c=>c.series).filter(Boolean))];
+  names.forEach(n=>{ if(!SERIES_ORDER.includes(n)) SERIES_ORDER.push(n); });
+  SERIES_ORDER = SERIES_ORDER.filter(n=>names.includes(n));
+  Object.keys(SERIES_META).forEach(n=>{ if(!names.includes(n)) delete SERIES_META[n]; });
+}
+
+function getSeriesGroups(){
+  syncSeriesOrder();
+  const map = {};
+  COMICS.forEach(c=>{
+    if(!c.series) return;
+    (map[c.series] = map[c.series] || []).push(c);
+  });
+  return SERIES_ORDER.map(name=>({name, comics:map[name]||[]})).filter(g=>g.comics.length);
+}
+
+function renderSeriesMgmt(){
+  const groups = getSeriesGroups();
+  const grid = document.getElementById('series-mgmt-grid');
+  const empty = document.getElementById('series-empty-msg');
+  document.getElementById('series-count-label').textContent = groups.length ? `${groups.length}টা সিরিজ` : '';
+  if(!groups.length){ grid.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  grid.innerHTML = groups.map((g,i)=>`
+    <div class="series-card">
+      <div class="series-move">
+        <button ${i===0?'disabled':''} onclick='moveSeriesCard(${jsAttr(g.name)}, -1)' title="উপরে সরাও">▲</button>
+        <button ${i===groups.length-1?'disabled':''} onclick='moveSeriesCard(${jsAttr(g.name)}, 1)' title="নিচে সরাও">▼</button>
+      </div>
+      <div class="series-card-title">🎞️ ${esc(g.name)}</div>
+      ${SERIES_META[g.name] && SERIES_META[g.name].desc ? `<div class="series-card-desc">${esc(SERIES_META[g.name].desc)}</div>` : ''}
+      <div class="series-card-count">${g.comics.length}টা কমিক</div>
+      <div class="series-card-eps">${g.comics.map(c=>esc(c.title_bn||c.title_en||'—')).join('<br>')}</div>
+      <label class="popular-inline" style="margin-bottom:10px;" title="পুরো সিরিজটাকে জনপ্রিয় সিরিজে দেখাও">
+        <input type="checkbox" ${g.comics.every(c=>c.popularSeries) ? 'checked' : ''} onchange="toggleSeriesPopular(${jsAttr(g.name)}, this.checked)" aria-label="পুরো সিরিজ জনপ্রিয় সিরিজে দেখাও">
+        <span>⭐ জনপ্রিয় সিরিজ</span>
+      </label>
+      <div class="series-card-actions">
+        <button onclick='openModal(null, ${jsAttr(g.name)})' title="এই সিরিজে নতুন কমিক">➕ কমিক</button>
+        <button onclick='openSeriesModal(${jsAttr(g.name)})'>✏️ ম্যানেজ</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function moveSeriesCard(name, dir){
+  const i = SERIES_ORDER.indexOf(name);
+  const j = i + dir;
+  if(i<0 || j<0 || j>=SERIES_ORDER.length) return;
+  [SERIES_ORDER[i], SERIES_ORDER[j]] = [SERIES_ORDER[j], SERIES_ORDER[i]];
+  renderSeriesMgmt();
+}
+
+let seriesModalOriginalName = '';
+function openSeriesModal(name){
+  seriesModalOriginalName = name;
+  document.getElementById('series-modal-title').textContent = 'সিরিজ এডিট করো';
+  document.getElementById('sm-name').value = name;
+  document.getElementById('sm-desc').value = (SERIES_META[name] && SERIES_META[name].desc) || '';
+  renderSeriesEpisodeList(name);
+  populateMergeTargetSelect(name);
+  document.getElementById('series-modal-bg').classList.add('show');
+}
+function renderSeriesEpisodeList(name){
+  const comics = COMICS.filter(c=>c.series===name);
+  document.getElementById('sm-ep-count').textContent = comics.length;
+  document.getElementById('sm-ep-list').innerHTML = comics.map((c,i)=>`
+    <div class="ep-order-row">
+      <span class="ep-title">${i+1}. ${esc(c.title_bn||c.title_en||'—')}</span>
+      <span class="ep-move">
+        <button ${i===0?'disabled':''} onclick='moveSeriesItem(${jsAttr(name)}, ${jsAttr(c.id)}, -1)' title="উপরে সরাও">▲</button>
+        <button ${i===comics.length-1?'disabled':''} onclick='moveSeriesItem(${jsAttr(name)}, ${jsAttr(c.id)}, 1)' title="নিচে সরাও">▼</button>
+      </span>
+    </div>
+  `).join('');
+}
+function moveSeriesItem(name, id, dir){
+  // indices (within COMICS array) of comics belonging to this series, in current order
+  const idxs = COMICS.reduce((arr,c,i)=>{ if(c.series===name) arr.push(i); return arr; }, []);
+  const pos = idxs.findIndex(i=>COMICS[i].id===id);
+  const swapPos = pos + dir;
+  if(pos<0 || swapPos<0 || swapPos>=idxs.length) return;
+  const a = idxs[pos], b = idxs[swapPos];
+  [COMICS[a], COMICS[b]] = [COMICS[b], COMICS[a]];
+  renderSeriesEpisodeList(name);
+  renderGrid(); renderStandalone(); renderSeriesMgmt();
+}
+function closeSeriesModal(){ document.getElementById('series-modal-bg').classList.remove('show'); }
+
+function renameSeries(){
+  const newName = document.getElementById('sm-name').value.trim();
+  if(!newName){ showStatus('সিরিজের নাম খালি রাখা যাবে না।', false); return; }
+  const desc = document.getElementById('sm-desc').value.trim();
+  if(newName !== seriesModalOriginalName){
+    COMICS.forEach(c=>{ if(c.series===seriesModalOriginalName) c.series = newName; });
+    const oi = SERIES_ORDER.indexOf(seriesModalOriginalName);
+    if(oi>-1) SERIES_ORDER[oi] = newName; else SERIES_ORDER.push(newName);
+    delete SERIES_META[seriesModalOriginalName];
+  }
+  SERIES_META[newName] = { desc };
+  closeSeriesModal();
+  showStatus('সিরিজ আপডেট হয়েছে ✓ (প্রিভিউ)', true);
+  refreshAll();
+}
+function ungroupSeries(){
+  if(!confirm(`"${seriesModalOriginalName}" সিরিজ থেকে সব কমিক আলাদা করতে চাও? কমিকগুলো ডিলিট হবে না, শুধু সিরিজ থেকে বেরিয়ে যাবে।`)) return;
+  COMICS.forEach(c=>{ if(c.series===seriesModalOriginalName) c.series = ''; });
+  closeSeriesModal();
+  showStatus('সিরিজ থেকে আলাদা করা হয়েছে ✓ (প্রিভিউ)', true);
+  refreshAll();
+}
+function deleteEntireSeries(){
+  const count = COMICS.filter(c=>c.series===seriesModalOriginalName).length;
+  if(!confirm(`"${seriesModalOriginalName}" সিরিজের ${count}টা কমিকই স্থায়ীভাবে ডিলিট করতে চাও? এটা ফিরিয়ে আনা যাবে না।`)) return;
+  COMICS = COMICS.filter(c=>c.series!==seriesModalOriginalName);
+  closeSeriesModal();
+  showStatus('সিরিজ ও সব কমিক ডিলিট হয়ে গেছে ✓ (প্রিভিউ)', true);
+  refreshAll();
+}
+function populateMergeTargetSelect(name){
+  const sel = document.getElementById('sm-merge-target');
+  syncSeriesOrder();
+  const others = SERIES_ORDER.filter(n=>n!==name);
+  sel.innerHTML = others.length
+    ? others.map(n=>`<option value="${escAttr(n)}">${esc(n)}</option>`).join('')
+    : `<option value="">— অন্য কোনো সিরিজ নেই —</option>`;
+}
+function mergeSeries(){
+  const target = document.getElementById('sm-merge-target').value;
+  if(!target){ showStatus('মার্জ করার জন্য একটা সিরিজ বাছাই করো।', false); return; }
+  if(!confirm(`"${seriesModalOriginalName}"-এর সব কমিক "${target}"-এ যোগ হবে। আগাবে?`)) return;
+  COMICS.forEach(c=>{ if(c.series===seriesModalOriginalName) c.series = target; });
+  const oi = SERIES_ORDER.indexOf(seriesModalOriginalName);
+  if(oi>-1) SERIES_ORDER.splice(oi,1);
+  delete SERIES_META[seriesModalOriginalName];
+  closeSeriesModal();
+  showStatus(`"${target}"-এর সাথে মার্জ হয়ে গেছে ✓ (প্রিভিউ)`, true);
+  refreshAll();
+}
+
+
+function slugify(s){
+  return (s||'').toString().trim().toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu,'-')
+    .replace(/^-+|-+$/g,'') || '';
+}
+function uniqueSlug(base, excludeId){
+  let s = base, n = 2;
+  while(COMICS.some(c => c.id !== excludeId && c.slug === s)){ s = base + '-' + n; n++; }
+  return s;
+}
+function updateSlugPreview(){
+  const editing = !!document.getElementById('f-id').value;
+  if(editing) return;
+  const en = document.getElementById('f-title-en').value;
+  const bn = document.getElementById('f-title-bn').value;
+  document.getElementById('slug-preview').textContent = slugify(en||bn) || '—';
+}
+
+function populateSeriesSelect(selected){
+  const sel = document.getElementById('f-series');
+  const names = [...new Set(COMICS.map(c=>c.series).filter(Boolean))].sort();
+  sel.innerHTML = `<option value="">— কোনো সিরিজ না (স্ট্যান্ডঅ্যালোন) —</option>`
+    + names.map(n=>`<option value="${escAttr(n)}">${esc(n)}</option>`).join('')
+    + `<option value="__new__">+ নতুন সিরিজ বানাও</option>`;
+  sel.value = selected && names.includes(selected) ? selected : '';
+  document.getElementById('f-series-new').style.display = 'none';
+  document.getElementById('f-series-new').value = '';
+}
+function onSeriesSelectChange(){
+  const val = document.getElementById('f-series').value;
+  const isNew = val === '__new__';
+  document.getElementById('f-series-new').style.display = isNew ? '' : 'none';
+  if(isNew) document.getElementById('f-series-new').focus();
+  // Popular star is series-level or standalone-level only — hide the
+  // per-comic checkbox whenever this comic belongs to (or is being put
+  // into) a series, whether existing or newly typed.
+  const inSeries = !!val && val !== '';
+  document.getElementById('popular-chk-wrap').style.display = inSeries ? 'none' : '';
+  document.getElementById('popular-chk-series-note').style.display = inSeries ? '' : 'none';
+  if(inSeries) document.getElementById('f-popular-series').checked = false;
+}
+
+let currentBadges = [];
+
+function renderBadgeGroup(){
+  const el = document.getElementById('badge-group');
+  el.innerHTML = currentBadges.map((b,i)=>`
+    <span class="badge-chip ${b.primary ? 'is-primary':''}">
+      <label class="badge-tick" title="প্রধান স্টিকার হিসেবে দেখাও">
+        <input type="checkbox" ${b.primary?'checked':''} onclick="setPrimaryBadge(${i})">
+      </label>
+      ${esc(b.en ? `${b.bn} / ${b.en}` : b.bn)}
+      <span class="x" onclick="removeBadge(${i})">✕</span>
+    </span>
+  `).join('');
+}
+function setPrimaryBadge(i){
+  currentBadges.forEach((b,j)=>{ b.primary = (j===i); });
+  renderBadgeGroup();
+}
+function addBadge(){
+  const bnEl = document.getElementById('f-badge-bn');
+  const enEl = document.getElementById('f-badge-en');
+  const bn = bnEl.value.trim();
+  const en = enEl.value.trim();
+  if(!bn) { bnEl.focus(); return; }
+  currentBadges.push({bn, en, primary: currentBadges.length===0});
+  bnEl.value=''; enEl.value=''; bnEl.focus();
+  renderBadgeGroup();
+}
+function removeBadge(i){
+  const wasPrimary = currentBadges[i].primary;
+  currentBadges.splice(i,1);
+  if(wasPrimary && currentBadges.length) currentBadges[0].primary = true;
+  renderBadgeGroup();
+}
+
+function getAllBadgeOptions(){
+  const map = new Map();
+  COMICS.forEach(c=>{
+    const list = (c.badges && c.badges.length) ? c.badges : (c.badge_bn ? [{bn:c.badge_bn, en:c.badge_en||''}] : []);
+    list.forEach(b=>{ if(b.bn) map.set(b.bn+'||'+(b.en||''), b); });
+  });
+  return [...map.values()].sort((a,b)=>a.bn.localeCompare(b.bn,'bn'));
+}
+function populateBadgeSelect(){
+  const sel = document.getElementById('f-badge-select');
+  const opts = getAllBadgeOptions();
+  sel.innerHTML = `<option value="">— বিদ্যমান ব্যাজ বাছাই করো —</option>`
+    + opts.map(b=>`<option value='${escAttr(JSON.stringify(b))}'>${esc(b.en ? `${b.bn} / ${b.en}` : b.bn)}</option>`).join('')
+    + `<option value="__new__">+ নতুন ব্যাজ বানাও</option>`;
+  sel.value = '';
+  document.getElementById('badge-new-row').style.display = 'none';
+}
+function onBadgeSelectChange(){
+  const sel = document.getElementById('f-badge-select');
+  const val = sel.value;
+  const newRow = document.getElementById('badge-new-row');
+  if(val === '__new__'){
+    newRow.style.display = '';
+    document.getElementById('f-badge-bn').focus();
+    return;
+  }
+  newRow.style.display = 'none';
+  if(!val) return;
+  try{
+    const b = JSON.parse(val);
+    if(b.bn){ currentBadges.push({bn:b.bn, en:b.en||'', primary: currentBadges.length===0}); renderBadgeGroup(); }
+  }catch(e){}
+  sel.value = '';
+}
+
+function openModal(comicJsonStr, presetSeries){
+  const c = comicJsonStr ? JSON.parse(comicJsonStr) : null;
+  document.getElementById('modal-title').textContent = c ? 'কমিক এডিট করো' : 'নতুন কমিক';
+  document.getElementById('f-id').value = c ? c.id : '';
+  document.getElementById('f-slug').value = c ? (c.slug || '') : '';
+  document.getElementById('f-popular-series').checked = c ? !!c.popularSeries : false;
+  document.getElementById('f-img').value = c ? c.img||'' : '';
+  document.getElementById('f-title-bn').value = c ? c.title_bn||'' : '';
+  document.getElementById('f-title-en').value = c ? c.title_en||'' : '';
+  document.getElementById('f-cap-bn').value = c ? c.caption_bn||'' : '';
+  document.getElementById('f-cap-en').value = c ? c.caption_en||'' : '';
+  document.getElementById('f-artist-bn').value = c ? c.artist_bn||'' : '';
+  document.getElementById('f-artist-en').value = c ? c.artist_en||'' : '';
+  populateSeriesSelect(c ? c.series||'' : (presetSeries||''));
+  if(c && c.series) document.getElementById('f-series').value = c.series;
+  else if(!c && presetSeries) document.getElementById('f-series').value = presetSeries;
+  onSeriesSelectChange();
+  if(c && c.badges && c.badges.length) currentBadges = c.badges.map((b,i)=>({bn:b.bn,en:b.en||'',primary:b.primary!==undefined?!!b.primary:i===0}));
+  else if(c && c.badge_bn) currentBadges = [{bn:c.badge_bn, en:c.badge_en||'', primary:true}]; // legacy single-badge records
+  else currentBadges = [];
+  document.getElementById('f-badge-bn').value=''; document.getElementById('f-badge-en').value='';
+  populateBadgeSelect();
+  renderBadgeGroup();
+  document.getElementById('slug-line').innerHTML = c
+    ? `বর্তমান slug: <b style="color:var(--txt);">${esc(c.slug||'')}</b> (টাইটেল বদলালেও এটা বদলাবে না)`
+    : `Slug: <b id="slug-preview" style="color:var(--txt);">—</b> (টাইটেল থেকে অটো হবে)`;
+  document.getElementById('modal-bg').classList.add('show');
+}
+function closeModal(){ document.getElementById('modal-bg').classList.remove('show'); }
+
+async function saveComic(e){
+  e.preventDefault();
+  if(!currentBadges.length){
+    showStatus('অন্তত একটা ব্যাজ যোগ করো — পাবলিশ করতে লাগবে।', false);
+    return false;
+  }
+  const id = document.getElementById('f-id').value;
+  let slug = document.getElementById('f-slug').value.trim();
+  if(!slug){
+    const titleForSlug = document.getElementById('f-title-en').value.trim() || document.getElementById('f-title-bn').value.trim();
+    slug = uniqueSlug(slugify(titleForSlug) || 'comic', id);
+  }
+  let orderedBadges = currentBadges.slice();
+  let primaryIdx = orderedBadges.findIndex(b=>b.primary);
+  if(primaryIdx < 0) primaryIdx = 0;
+  if(primaryIdx > 0){ const [p] = orderedBadges.splice(primaryIdx,1); orderedBadges.unshift(p); }
+
+  const seriesValRaw = document.getElementById('f-series').value;
+  const willHaveSeries = seriesValRaw === '__new__'
+    ? !!document.getElementById('f-series-new').value.trim()
+    : !!seriesValRaw;
+  const data = {
+    id: id || '',
+    slug: slug,
+    // Series-bound comics can't carry their own popular flag — that's set
+    // per-series from the series management card instead.
+    popularSeries: willHaveSeries ? false : document.getElementById('f-popular-series').checked,
+    img: document.getElementById('f-img').value.trim(),
+    title_bn: document.getElementById('f-title-bn').value.trim(),
+    title_en: document.getElementById('f-title-en').value.trim(),
+    caption_bn: document.getElementById('f-cap-bn').value.trim(),
+    caption_en: document.getElementById('f-cap-en').value.trim(),
+    artist_bn: document.getElementById('f-artist-bn').value.trim(),
+    artist_en: document.getElementById('f-artist-en').value.trim(),
+    series: (document.getElementById('f-series').value === '__new__'
+      ? document.getElementById('f-series-new').value.trim()
+      : document.getElementById('f-series').value),
+    badges: orderedBadges.map(b=>({bn:b.bn,en:b.en})),
+    badge_bn: orderedBadges[0].bn,
+    badge_en: orderedBadges[0].en
+  };
+
+  const btn = document.getElementById('save-btn');
+  btn.disabled = true; setBtnLoading(btn, true);
+  try{
+    const result = await gasRequest('save', {data: JSON.stringify(data)}, true);
+    closeModal();
+    showStatus('Google Sheet-এ সেভ হয়েছে ✓', true);
+    await loadComics();
+  }catch(err){
+    showStatus('সেভ করা যায়নি: ' + err.message, false);
+  }finally{
+    btn.disabled = false; setBtnLoading(btn, false);
+  }
+  return false;
+}
+
+async function deleteComic(id, btn){
+  if(!confirm('এই কমিকটা ডিলিট করতে চাও? এটা ফিরিয়ে আনা যাবে না।')) return;
+  setBtnLoading(btn, true);
+  try{
+    await gasRequest('delete', {id}, true);
+    showStatus('Google Sheet থেকে ডিলিট হয়েছে ✓', true);
+    await loadComics();
+  }catch(err){
+    showStatus('ডিলিট করা যায়নি: ' + err.message, false);
+    setBtnLoading(btn, false);
+  }
+}
+</script>
+</body>
+</html>
