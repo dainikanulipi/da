@@ -1,0 +1,1972 @@
+<!DOCTYPE html>
+<html lang="bn" data-theme="light" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index, follow">
+<meta name="description" content="দৈনিক অনুলিপি — কমিকস: প্রতিদিনের কমিক স্ট্রিপ, কার্টুন, কবিতা ও আঁকাআঁকির কর্নার" id="meta-desc">
+<title>দৈনিক অনুলিপি | কমিকস</title>
+<link rel="icon" type="image/png" href="assets/favicon.png" id="fav-icon">
+<link rel="canonical" href="https://dainikanulipi.github.io/da/comic.html" id="meta-canonical">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="দৈনিক অনুলিপি | Dainik Anulipi">
+<meta property="og:locale" content="bn_BD" id="meta-og-locale">
+<meta property="og:title" content="দৈনিক অনুলিপি | কমিকস" id="meta-og-title">
+<meta property="og:description" content="প্রতিদিনের কমিক স্ট্রিপ, কার্টুন, কবিতা ও আঁকাআঁকির কর্নার — দৈনিক অনুলিপি" id="meta-og-desc">
+<meta property="og:image" content="https://dainikanulipi.github.io/da/assets/preview.jpg" id="meta-og-image">
+<meta property="og:image:secure_url" content="https://dainikanulipi.github.io/da/assets/preview.jpg" id="meta-og-image-secure">
+<meta property="og:image:type" content="image/jpeg" id="meta-og-image-type">
+<meta property="og:image:width" content="1200" id="meta-og-image-width">
+<meta property="og:image:height" content="630" id="meta-og-image-height">
+<meta property="og:image:alt" content="দৈনিক অনুলিপি | কমিকস" id="meta-og-image-alt">
+<meta property="og:url" content="https://dainikanulipi.github.io/da/comic.html" id="meta-og-url">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="দৈনিক অনুলিপি | কমিকস" id="meta-tw-title">
+<meta name="twitter:description" content="প্রতিদিনের কমিক স্ট্রিপ, কার্টুন, কবিতা ও আঁকাআঁকির কর্নার" id="meta-tw-desc">
+<meta name="twitter:image" content="https://dainikanulipi.github.io/da/assets/preview.jpg" id="meta-tw-image">
+<meta name="twitter:image:alt" content="দৈনিক অনুলিপি | কমিকস" id="meta-tw-image-alt">
+<meta name="theme-color" content="#C8102E">
+
+<script type="application/ld+json" id="ld-json">{}</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700;800&family=Permanent+Marker&family=Patrick+Hand&display=swap" rel="stylesheet">
+
+<style>
+/* ── THEME VARIABLES (matches site) ── */
+:root{
+  --red:#C8102E;--dkred:#9e0b22;
+  --bg:#e2e2e2;--sur:#fff;--sur2:#f5f5f5;--sur3:#eaeaea;
+  --txt:#111;--txt2:#555;--txt3:#999;
+  --bdr:#e0e0e0;--shd:rgba(0,0,0,.08);
+  --nav-bg:#fff;--topbar:#1a1a1a;--foot:#0f0f0f;
+  --tog-bg:#eee;--tog-c:#444;
+  --ink:#161616;
+  --dot:rgba(17,17,17,.10);
+  --paper:#fbf8f0;
+  --sun:#ffcf3f;--teal:#1c8c7c;--violet:#6a4ca0;--sky:#2f7fd1;--pink:#d1568f;
+}
+[data-theme=dark]{
+  --bg:#0d0d0d;--sur:#1b1b1b;--sur2:#212121;--sur3:#2b2b2b;
+  --txt:#efefef;--txt2:#aaa;--txt3:#565656;
+  --bdr:#2d2d2d;--shd:rgba(0,0,0,.6);
+  --nav-bg:#161616;--topbar:#080808;--foot:#080808;
+  --tog-bg:#2e2e2e;--tog-c:#ddd;
+  --ink:#f2f2f2;
+  --dot:rgba(255,255,255,.09);
+  --paper:#1e1c17;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Serif Bengali',serif;background:var(--bg);color:var(--txt);transition:background .3s,color .3s;min-height:100vh;overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+img{display:block;max-width:100%;}
+button{font-family:inherit;cursor:pointer;}
+.wrap{max-width:1240px;margin:0 auto;padding:0 16px;}
+
+/* ── TOPBAR ── */
+.topbar{background:var(--topbar);color:#555;font-family:'Noto Sans Bengali',sans-serif;font-size:11.5px;padding:5px 0;}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;}
+.topbar-r{display:flex;gap:14px;}
+.topbar-r a{color:#555;transition:color .2s;cursor:pointer;}
+.topbar-r a:hover{color:#ddd;}
+
+/* ── MASTHEAD ── */
+.mast{background:var(--sur);border-bottom:3px solid var(--red);padding:12px 0;transition:background .3s;}
+.mast .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.logo{cursor:pointer;flex-shrink:0;}
+.logo-tag{font-size:12.5px;color:var(--txt2);font-style:italic;margin-top:3px;}
+.logo-img{height:62px;width:auto;max-width:177px;object-fit:contain;display:block;}
+.logo-img-light{display:block;}
+.logo-img-dark{display:none;}
+[data-theme=dark] .logo-img-light{display:none;}
+[data-theme=dark] .logo-img-dark{display:block;}
+.footer-logo-img{height:72px;width:auto;max-width:205px;object-fit:contain;display:block;margin-bottom:6px;}
+@media(max-width:600px){.footer-logo-img{height:56px;max-width:160px;}}
+.mast-r{display:flex;align-items:center;gap:10px;}
+.theme-btn{background:var(--tog-bg);border:none;width:32px;height:32px;border-radius:50%;font-size:14px;display:flex;align-items:center;justify-content:center;color:var(--tog-c);transition:all .3s;}
+.theme-btn:hover{transform:rotate(20deg);}
+.lang-grp{display:flex;gap:3px;}
+.lb{background:var(--tog-bg);border:none;color:var(--tog-c);font-size:11.5px;font-weight:700;padding:4px 9px;font-family:'Noto Sans Bengali',sans-serif;transition:all .2s;}
+.lb.on{background:var(--red);color:#fff;}
+.lb:hover:not(.on){background:var(--sur3);}
+
+/* ── NAV ── */
+.nav{background:var(--nav-bg);border-bottom:1px solid var(--bdr);position:sticky;top:0;z-index:300;box-shadow:0 2px 12px var(--shd);transition:background .3s,border-color .3s;}
+.nav .wrap{display:flex;align-items:stretch;overflow-x:auto;scrollbar-width:none;}
+.nav .wrap::-webkit-scrollbar{display:none;}
+.nl{padding:11px 14px;font-size:13px;font-weight:700;white-space:nowrap;border-bottom:3px solid transparent;color:var(--txt2);transition:all .2s;cursor:pointer;font-family:'Noto Sans Bengali',sans-serif;border:none;background:none;display:flex;align-items:center;gap:5px;}
+.nl:hover,.nl.on{color:var(--red);border-bottom:3px solid var(--red);}
+.live-dot{width:8px;height:8px;border-radius:50%;background:#999;display:inline-block;transition:background .3s;}
+.live-dot.is-live{background:#ff1f1f;animation:liveDotPulse 1.4s ease-in-out infinite;}
+@keyframes liveDotPulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+#nav-live.is-live{color:var(--red);}
+
+/* ══════════════════════════════════════════════
+   COMIC-SPECIFIC DESIGN LANGUAGE
+   Thick ink borders + halftone dot fills + rotated
+   hand-lettered stickers — distinct from the site's
+   flat editorial cards, used only inside .cx-page.
+   ══════════════════════════════════════════════ */
+.cx-page{padding:22px 0 48px;}
+
+.cx-head{background:var(--sur);border:2px solid var(--ink);box-shadow:5px 5px 0 var(--red);padding:18px 20px;margin-bottom:22px;position:relative;overflow:hidden;}
+.cx-head::before{content:'';position:absolute;inset:0;background-image:radial-gradient(var(--dot) 1.4px,transparent 1.4px);background-size:9px 9px;opacity:.55;pointer-events:none;}
+.cx-head-in{position:relative;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;}
+.cx-title{font-family:'Patrick Hand',cursive;font-size:34px;color:var(--txt);display:flex;align-items:center;gap:10px;line-height:1;}
+.cx-note{font-size:13px;color:var(--txt2);font-family:'Noto Sans Bengali',sans-serif;margin-top:8px;line-height:1.8;max-width:560px;}
+.cx-head-badge{font-family:'Noto Sans Bengali',sans-serif;font-weight:800;font-size:12px;background:var(--sun);color:#1a1200;padding:6px 14px;transform:rotate(-4deg);box-shadow:2px 2px 0 var(--ink);flex-shrink:0;}
+
+.cx-section-title{display:flex;align-items:baseline;gap:10px;margin:26px 0 12px;}
+.cx-section-title h2{font-family:'Patrick Hand',cursive;font-size:23px;color:var(--txt);}
+.cx-section-title span{font-size:12px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;}
+
+/* — FEATURED STRIP VIEWER — */
+/* ── TODAY'S COMIC: one big card, same style as .cx-more-card but larger.
+   Comic art is drawn at a 3:4 (portrait) ratio, so the card itself is
+   capped to a comfortable reading width and centered, and the image box
+   uses aspect-ratio:3/4 instead of a fixed height — that shows the full
+   page rather than cropping a wide slice out of a tall panel. ── */
+.cx-feat{background:var(--sur);border:2px solid var(--ink);box-shadow:6px 6px 0 var(--red);position:relative;transition:transform .18s;max-width:300px;margin:0 auto;}
+.cx-feat-thumb{aspect-ratio:3/4;width:100%;max-height:1448px;position:relative;display:flex;align-items:center;justify-content:center;background:var(--sur3);overflow:hidden;}
+.cx-feat-thumb::before{content:'';position:absolute;inset:0;background-image:radial-gradient(var(--dot) 1.3px,transparent 1.3px);background-size:8px 8px;}
+.cx-feat-thumb span{font-size:88px;position:relative;}
+.cx-feat-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.cx-feat-badge{position:absolute;top:8px;left:-2px;font-family:'Noto Sans Bengali',sans-serif;font-weight:800;font-size:10px;background:var(--red);color:#fff;padding:4px 11px;z-index:2;letter-spacing:.3px;}
+.cx-feat-body{padding:11px 13px 13px;border-top:2px solid var(--ink);}
+.cx-feat-title{font-weight:700;font-size:15px;margin-bottom:4px;}
+.cx-feat-sub{font-size:12.5px;color:var(--txt2);font-family:'Noto Serif Bengali',serif;line-height:1.7;}
+.cx-feat-nav{display:flex;align-items:center;justify-content:space-between;padding:0 13px 12px;gap:8px;}
+.cx-share-row{padding:0 13px 12px;}
+.cx-share-btn{width:100%;min-height:44px;box-sizing:border-box;background:var(--red);color:#fff;border:none;font-family:'Noto Sans Bengali',sans-serif;font-weight:700;font-size:13px;padding:10px 14px;display:flex;align-items:center;justify-content:center;gap:7px;transition:background .2s;}
+.cx-share-btn:hover{background:#e0284a;}
+.cx-share-opt{color:#fff;text-decoration:none;padding:12px 8px;min-height:44px;box-sizing:border-box;font-family:'Noto Sans Bengali',sans-serif;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;gap:6px;text-align:center;border-radius:3px;transition:opacity .15s;}
+.cx-share-opt:hover{opacity:.85;}
+.cx-share-system-btn{width:100%;min-height:44px;box-sizing:border-box;background:var(--ink);color:var(--paper);border:none;padding:12px;font-family:'Noto Sans Bengali',sans-serif;font-weight:700;font-size:13.5px;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;border-radius:3px;transition:opacity .15s;}
+.cx-share-system-btn:hover{opacity:.85;}
+.cx-share-copyrow{margin-top:14px;display:flex;gap:8px;}
+.cx-share-link-input{flex:1;min-width:0;min-height:40px;box-sizing:border-box;background:var(--sur2);border:1px solid var(--bdr);padding:9px 10px;font-size:16px;color:var(--txt2);font-family:monospace;}
+.cx-share-copy-btn{background:var(--red);color:#fff;border:none;padding:9px 16px;min-height:40px;box-sizing:border-box;font-family:'Noto Sans Bengali',sans-serif;font-weight:700;font-size:12px;cursor:pointer;white-space:nowrap;border-radius:3px;transition:background .2s;}
+.cx-share-copy-btn:hover{background:#e0284a;}
+.cx-share-overlay{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);align-items:center;justify-content:center;padding:14px;box-sizing:border-box;}
+.cx-share-overlay.show{display:flex;}
+.cx-share-modal{background:var(--sur);width:100%;max-width:380px;border-top:4px solid var(--red);box-shadow:0 20px 60px rgba(0,0,0,.35);animation:popIn .22s ease;max-height:88vh;overflow-y:auto;}
+.cx-share-modal-head{padding:18px 20px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid var(--bdr);}
+.cx-share-close{background:var(--sur3);border:none;width:40px;height:40px;min-width:40px;border-radius:50%;font-size:16px;color:var(--txt2);cursor:pointer;flex-shrink:0;}
+.cx-share-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;}
+@media(max-width:360px){.cx-share-grid{grid-template-columns:1fr;}}
+.cx-feat-btn{background:var(--ink);color:var(--paper);border:none;font-family:'Noto Sans Bengali',sans-serif;font-weight:700;font-size:11.5px;padding:10px 14px;min-height:40px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:5px;transition:background .2s;}
+.cx-feat-btn:hover{background:var(--red);}
+.cx-feat-thumbs{display:flex;gap:5px;overflow-x:auto;padding:0 13px 13px;scrollbar-width:none;}
+.cx-feat-thumbs::-webkit-scrollbar{display:none;}
+.cx-thumb{flex-shrink:0;width:33px;height:44px;border:2px solid var(--bdr);background:var(--sur2);display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;transition:border-color .2s;overflow:hidden;}
+.cx-thumb.on{border-color:var(--red);}
+.cx-thumb img{width:100%;height:100%;object-fit:cover;}
+
+/* — SERIES GRID — */
+.cx-series-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.cx-series-card{background:var(--sur);border:2px solid var(--ink);position:relative;transition:transform .18s;}
+.cx-series-card:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--card-accent,var(--red));}
+.cx-series-hero{aspect-ratio:3/4;width:100%;height:auto;position:relative;display:flex;align-items:center;justify-content:center;background:var(--card-accent,var(--red));overflow:hidden;}
+.cx-series-hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.35) 1.3px,transparent 1.3px);background-size:9px 9px;}
+.cx-series-hero span{font-size:46px;position:relative;filter:drop-shadow(2px 2px 0 rgba(0,0,0,.2));}
+.cx-series-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.cx-series-body{padding:12px 14px 14px;border-top:2px solid var(--ink);}
+.cx-series-name{font-family:'Patrick Hand',cursive;font-size:19px;color:var(--txt);}
+.cx-series-tag{font-size:12.5px;color:var(--txt2);font-family:'Noto Sans Bengali',sans-serif;margin-top:3px;line-height:1.6;}
+.cx-series-meta{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-family:'Noto Sans Bengali',sans-serif;font-size:11px;color:var(--txt3);}
+.cx-ep-badge{background:var(--sur2);border:1px solid var(--bdr);padding:3px 8px;font-weight:700;color:var(--txt2);}
+
+/* ── MORE COMICS: single combined grid (series + gags + archive merged) ── */
+.cx-more-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;}
+.cx-more-card{background:var(--sur);border:2px solid var(--ink);position:relative;transition:transform .18s;overflow:hidden;}
+.cx-more-card:hover{transform:translate(-2px,-2px);box-shadow:3px 3px 0 var(--red);}
+.cx-more-thumb{aspect-ratio:3/4;width:100%;max-width:1086px;max-height:1448px;position:relative;display:flex;align-items:center;justify-content:center;background:var(--sur3);overflow:hidden;}
+.cx-more-thumb::before{content:'';position:absolute;inset:0;background-image:radial-gradient(var(--dot) 1.3px,transparent 1.3px);background-size:8px 8px;}
+.cx-more-thumb span{font-size:30px;position:relative;}
+.cx-more-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.cx-more-badge{position:absolute;top:6px;left:-2px;font-family:'Noto Sans Bengali',sans-serif;font-weight:800;font-size:9px;background:var(--red);color:#fff;padding:2px 7px;z-index:2;letter-spacing:.3px;}
+.cx-new-badge{position:absolute;top:6px;right:-2px;font-family:'Noto Sans Bengali',sans-serif;font-weight:800;font-size:9px;background:#2ecc71;color:#08331b;padding:2px 7px;z-index:3;letter-spacing:.3px;box-shadow:0 1px 4px rgba(0,0,0,.25);}
+.cx-search-wrap{margin:0 0 14px;}
+.cx-search-input{width:100%;box-sizing:border-box;background:var(--sur);border:2px solid var(--ink);padding:11px 14px;min-height:44px;font-family:'Noto Sans Bengali',sans-serif;font-size:16px;color:var(--txt);}
+.cx-search-input::placeholder{color:var(--txt3);}
+.cx-search-input:focus{outline:none;border-color:var(--red);}
+.cx-search-empty{grid-column:1/-1;text-align:center;padding:26px 10px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;font-size:13px;}
+.cx-continue-banner{background:var(--sur);border:2px solid var(--ink);border-left:5px solid var(--red);padding:12px 14px;margin:0 0 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;cursor:pointer;transition:transform .15s;}
+.cx-continue-banner:hover{transform:translateX(2px);}
+.cx-continue-banner .cx-cb-txt{font-family:'Noto Sans Bengali',sans-serif;font-size:13px;color:var(--txt2);}
+.cx-continue-banner .cx-cb-txt b{color:var(--txt);font-family:'Noto Serif Bengali',serif;}
+.cx-continue-banner .cx-cb-go{background:var(--red);color:#fff;border:none;padding:8px 14px;font-family:'Noto Sans Bengali',sans-serif;font-weight:700;font-size:12px;white-space:nowrap;}
+.cx-more-card.cx-lastread{border-color:var(--red);box-shadow:3px 3px 0 var(--red);}
+.cx-more-body{padding:7px 8px 9px;border-top:2px solid var(--ink);}
+.cx-more-title{font-weight:700;font-size:12px;margin-bottom:2px;line-height:1.3;}
+.cx-more-sub{font-size:10.5px;color:var(--txt2);font-family:'Noto Sans Bengali',sans-serif;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.cx-artist{font-size:9.5px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-top:2px;font-style:italic;}
+.cx-artist-feat{font-size:13px;color:var(--txt2);font-family:'Noto Sans Bengali',sans-serif;margin-top:6px;font-style:italic;}
+.cx-feat-date{font-size:12px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-top:4px;}
+
+/* — DETAIL VIEW (routed via #comic/slug) — */
+.cx-back{background:var(--ink);color:var(--paper);border:none;font-family:'Noto Sans Bengali',sans-serif;font-weight:700;font-size:13px;padding:9px 18px;display:inline-flex;align-items:center;gap:6px;margin-bottom:16px;transition:background .2s;}
+.cx-back:hover{background:var(--red);}
+.cx-feat-thumb{cursor:pointer;}
+.cx-feat-title{cursor:pointer;}
+.cx-feat.detail .cx-feat-sub{font-size:15px;line-height:1.9;}
+.cx-series-name-tag{font-family:'Noto Sans Bengali',sans-serif;font-weight:700;font-size:12.5px;color:var(--red);text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px;cursor:pointer;display:inline-block;}
+.cx-series-name-tag:hover{text-decoration:underline;}
+.cx-feat.detail{max-width:420px;}
+/* Reading page: show the WHOLE comic page (no 3:4 crop) so no panel or
+   speech bubble gets cut off — the card grows to fit the art's real shape. */
+.cx-feat.detail .cx-feat-thumb{aspect-ratio:auto;max-height:none;background:var(--paper);}
+.cx-feat.detail .cx-feat-thumb img{position:static;width:100%;height:auto;max-height:82vh;object-fit:contain;}
+.cx-feat-thumb span.cx-zoom-hint{position:absolute;bottom:9px;right:9px;background:rgba(0,0,0,.65);color:#fff;font-family:'Noto Sans Bengali',sans-serif;font-weight:700;font-size:11px;line-height:1.2;padding:5px 10px;border-radius:20px;display:flex;align-items:center;gap:4px;pointer-events:none;z-index:2;}
+.cx-notfound{background:var(--sur);border:2px solid var(--ink);box-shadow:5px 5px 0 var(--red);padding:40px 20px;text-align:center;}
+.cx-notfound .ei{font-size:44px;margin-bottom:10px;}
+.cx-notfound p{color:var(--txt2);font-family:'Noto Sans Bengali',sans-serif;font-size:14px;margin-bottom:16px;}
+
+/* — FULLSCREEN LIGHTBOX (tap the reading-page image to zoom in) — */
+.cx-lightbox-overlay{display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.94);flex-direction:column;align-items:center;justify-content:center;padding:12px;}
+.cx-lightbox-overlay.show{display:flex;}
+.cx-lightbox-imgwrap{flex:1;width:100%;max-width:900px;display:flex;align-items:center;justify-content:center;overflow:auto;min-height:0;}
+.cx-lightbox-imgwrap img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;touch-action:pinch-zoom;}
+.cx-lightbox-close{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.12);border:none;color:#fff;width:44px;height:44px;border-radius:50%;font-size:18px;display:flex;align-items:center;justify-content:center;z-index:2;transition:background .2s;}
+.cx-lightbox-close:hover{background:rgba(255,255,255,.24);}
+.cx-lightbox-title{color:#eee;font-family:'Noto Sans Bengali',sans-serif;font-size:12.5px;text-align:center;padding:10px 40px 2px;opacity:.85;}
+.cx-lightbox-nav{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:420px;gap:10px;padding:8px 4px 4px;}
+.cx-lightbox-btn{background:var(--red);color:#fff;border:none;font-family:'Noto Sans Bengali',sans-serif;font-weight:800;font-size:13.5px;padding:13px 16px;min-height:46px;border-radius:4px;display:flex;align-items:center;justify-content:center;gap:6px;transition:background .2s,transform .15s;flex:1;box-shadow:0 2px 8px rgba(0,0,0,.35);}
+.cx-lightbox-btn:hover:not(:disabled){background:#e0284a;transform:translateY(-1px);}
+.cx-lightbox-btn:disabled{background:rgba(255,255,255,.12);opacity:.35;cursor:default;box-shadow:none;}
+
+/* — SUBMIT CTA — */
+.cx-cta{background:var(--sur);color:var(--txt);border:2px solid var(--ink);box-shadow:5px 5px 0 var(--red);padding:20px;margin:24px 0 6px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;position:relative;overflow:hidden;}
+.cx-cta::before{content:'';position:absolute;inset:0;background-image:radial-gradient(var(--dot) 1.4px,transparent 1.4px);background-size:9px 9px;opacity:.55;pointer-events:none;}
+.cx-cta-txt{position:relative;}
+.cx-cta-txt h3{font-family:'Patrick Hand',cursive;font-size:21px;margin-bottom:4px;color:var(--txt);}
+.cx-cta-txt p{font-size:13px;font-family:'Noto Sans Bengali',sans-serif;color:var(--txt2);line-height:1.7;max-width:460px;}
+.cx-cta-btn{position:relative;background:var(--red);color:#fff;border:none;padding:11px 22px;font-family:'Noto Sans Bengali',sans-serif;font-weight:800;font-size:13.5px;flex-shrink:0;transition:background .2s;}
+.cx-cta-btn:hover{background:#e0284a;}
+
+/* ── FOOTER (site-wide) ── */
+footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background .3s;}
+.fg{display:grid;grid-template-columns:2fr 1fr 1fr;gap:28px;padding-bottom:24px;border-bottom:1px solid #1e1e1e;}
+.fl-tag{font-size:14px;color:#fff;font-style:italic;margin-top:4px;}
+.fl-info{font-size:14px;color:#fff;line-height:2;margin-top:12px;}
+.fl-social{display:flex;gap:10px;margin-top:16px;}
+.fl-social a{width:36px;height:36px;border-radius:50%;background:#1e1e1e;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s;flex-shrink:0;}
+.fl-social a:hover{transform:translateY(-2px);}
+.fl-social a.soc-fb:hover{background:#1877f2;}
+.fl-social a.soc-yt:hover{background:#ff0000;}
+.fl-social a:hover svg path{fill:#fff;}
+.fc h5{color:#fff;font-size:15px;font-weight:700;margin-bottom:11px;padding-bottom:6px;border-bottom:1px solid #1e1e1e;font-family:'Noto Sans Bengali',sans-serif;}
+.fc a{display:block;color:#fff;font-size:15px;margin-bottom:6px;font-family:'Noto Sans Bengali',sans-serif;transition:color .2s;cursor:pointer;}
+.fc a:hover{color:var(--red);}
+.fb-bot{text-align:center;padding:12px;font-size:13.5px;color:#fff;font-family:'Noto Sans Bengali',sans-serif;}
+.footer-notice{max-width:760px;margin:0 auto 22px;padding:16px 20px;text-align:center;background:#161616;border:1px solid #262626;border-top:3px solid var(--red);}
+.footer-notice-title{font-size:15px;font-weight:700;color:var(--red);margin-bottom:6px;font-family:'Noto Sans Bengali',sans-serif;}
+.footer-notice p{font-size:14px;line-height:1.85;color:#bbb;font-family:'Noto Sans Bengali',sans-serif;margin:0;}
+@media(max-width:600px){.footer-notice{padding:14px 16px;margin-bottom:16px;}.footer-notice p{font-size:13.5px;}}
+
+@keyframes popIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+.about-logo{height:64px;width:auto;max-width:220px;object-fit:contain;margin:0 auto;}
+.about-logo-light{display:block;}
+.about-logo-dark{display:none;}
+[data-theme=dark] .about-logo-light{display:none;}
+[data-theme=dark] .about-logo-dark{display:block;}
+
+/* ── SITE LOADER (comic-themed: a pencil sketching a speech bubble) ── */
+.site-loader{position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;background:var(--bg);transition:opacity .5s ease,visibility .5s ease;}
+.site-loader.hide{opacity:0;visibility:hidden;pointer-events:none;}
+.site-loader-logo{height:60px;width:auto;max-width:220px;object-fit:contain;animation:siteLoaderFadeIn .8s ease both;}
+.site-loader-logo.logo-img-light{display:block;}
+.site-loader-logo.logo-img-dark{display:none;}
+[data-theme=dark] .site-loader-logo.logo-img-light{display:none;}
+[data-theme=dark] .site-loader-logo.logo-img-dark{display:block;}
+@keyframes siteLoaderFadeIn{0%{opacity:0;transform:translateY(-6px);}100%{opacity:1;transform:translateY(0);}}
+.site-loader-logo-fallback{display:none;font-size:30px;font-weight:700;font-family:'Noto Serif Bengali',serif;color:var(--txt);animation:siteLoaderFadeIn .8s ease both;}
+.site-loader-logo-fallback em{color:var(--red);font-style:normal;}
+.cx-load-bubble{font-family:'Patrick Hand',cursive;font-size:26px;color:var(--txt);border:2px solid var(--ink);background:var(--sur);border-radius:16px;padding:10px 20px;position:relative;box-shadow:3px 3px 0 var(--red);}
+.cx-load-bubble::after{content:'';position:absolute;width:12px;height:12px;background:var(--sur);border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);bottom:-7px;left:26px;transform:rotate(45deg);}
+.cx-load-dots span{animation:cxDotBlink 1.2s infinite;opacity:.2;}
+.cx-load-dots span:nth-child(2){animation-delay:.2s;}
+.cx-load-dots span:nth-child(3){animation-delay:.4s;}
+@keyframes cxDotBlink{0%,100%{opacity:.2;}50%{opacity:1;}}
+.site-loader-text{font-size:13.5px;font-family:'Noto Sans Bengali',sans-serif;color:var(--txt2);}
+
+.totop-btn{position:fixed;bottom:24px;right:24px;width:48px;height:48px;border-radius:50%;background:var(--red);color:#fff;border:none;font-size:20px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px var(--shd);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s;z-index:9000;}
+.totop-btn.show{opacity:1;visibility:visible;transform:translateY(0);}
+.totop-btn:hover{background:var(--dkred);}
+
+/* ══ RESPONSIVE ══ */
+@media(max-width:1239px){.wrap{padding:0 14px;}}
+@media(max-width:960px){
+  .fg{grid-template-columns:1fr 1fr;}
+  .cx-series-grid{grid-template-columns:repeat(2,1fr);}
+  .cx-more-grid{grid-template-columns:repeat(4,1fr);}
+}
+@media(max-width:700px){.topbar{font-size:11px;}.cx-title{font-size:27px;}}
+@media(max-width:599px){
+  .fg{grid-template-columns:1fr;}
+  footer{padding:24px 0 0;}
+  .topbar .wrap{flex-direction:column;gap:4px;text-align:center;}
+  .topbar-r{justify-content:center;}
+  .mast .wrap{flex-direction:column;align-items:flex-start;gap:8px;}
+  .mast-r{align-self:flex-end;}
+  .logo-img{height:50px;}
+  .nav .wrap{gap:0;}
+  .nl{font-size:12px;padding:9px 10px;}
+  .cx-series-grid{grid-template-columns:1fr;}
+  .cx-more-grid{grid-template-columns:repeat(3,1fr);}
+  .cx-head{padding:16px 14px;box-shadow:4px 4px 0 var(--red);}
+  .cx-head-in{flex-direction:column;align-items:flex-start;}
+  .cx-feat-nav{flex-wrap:wrap;}
+  .cx-cta{flex-direction:column;align-items:flex-start;}
+}
+/* Smallest phones (e.g. 320–380px) — 3-up card grids get too cramped, and
+   the reading-page controls/badges need a bit more breathing room. */
+@media(max-width:380px){
+  .cx-more-grid{grid-template-columns:repeat(2,1fr);}
+  .cx-feat.detail{max-width:100%;}
+  .cx-feat-nav .cx-feat-btn{font-size:11.5px;padding:9px 8px;}
+  .cx-continue-banner{padding:11px 12px;}
+  .cx-continue-banner .cx-cb-go{width:100%;}
+  .cx-new-badge,.cx-more-badge{font-size:8.5px;padding:2px 6px;}
+}
+</style>
+</head>
+<body>
+
+<!-- SITE LOADER -->
+<div id="site-loader" class="site-loader">
+  <img src="assets/logo.png"      alt="দৈনিক অনুলিপি" class="site-loader-logo logo-img-light" onerror="this.style.display='none';document.getElementById('site-loader-logo-fallback').style.display='block';">
+  <img src="assets/logo-dark.png" alt="দৈনিক অনুলিপি" class="site-loader-logo logo-img-dark"  onerror="this.style.display='none';document.getElementById('site-loader-logo-fallback').style.display='block';">
+  <div id="site-loader-logo-fallback" class="site-loader-logo-fallback">দৈনিক <em>অনুলিপি</em></div>
+  <div class="cx-load-bubble">✏️ <span class="cx-load-dots"><span>.</span><span>.</span><span>.</span></span></div>
+  <p class="site-loader-text" id="loader-text">কমিক আঁকা হচ্ছে…</p>
+</div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="wrap">
+    <span id="tbar-date"></span>
+    <div class="topbar-r">
+      <a href="https://dainikanulipi.github.io/da/" id="tb-home">অনলাইন সংস্করণ</a>
+      <a onclick="openContactPopup('যোগাযোগ')" id="tb-contact">যোগাযোগ</a>
+      <a onclick="openContactPopup('বিজ্ঞাপন')" id="tb-ads">বিজ্ঞাপন</a>
+    </div>
+  </div>
+</div>
+
+<!-- MASTHEAD -->
+<div class="mast">
+  <div class="wrap">
+    <div class="logo" onclick="location.href='https://dainikanulipi.github.io/da/'">
+      <img src="assets/logo.png"      alt="দৈনিক অনুলিপি" class="logo-img logo-img-light">
+      <img src="assets/logo-dark.png" alt="দৈনিক অনুলিপি" class="logo-img logo-img-dark">
+      <div class="logo-tag" id="mast-tagline">সত্যের সন্ধানে, নির্ভীক প্রকাশে!</div>
+    </div>
+    <div class="mast-r">
+      <button class="theme-btn" onclick="toggleTheme()" id="theme-btn" title="থিম পরিবর্তন" aria-label="থিম পরিবর্তন করো">🌙</button>
+      <div class="lang-grp">
+        <button class="lb on" id="lb-bn" onclick="setLang('bn')">বাং</button>
+        <button class="lb"    id="lb-en" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="wrap">
+    <button class="nl" id="nav-home" onclick="location.href='https://dainikanulipi.github.io/da/'">🌐 অনলাইন সংস্করণ</button>
+    <button class="nl" id="nav-epaper" onclick="location.href='https://dainikanulipi.github.io/da/epaper.html'">📰 ই-পেপার</button>
+    <button class="nl on" id="nav-comic" onclick="goHome()">🎨 কমিকস</button>
+    <button class="nl" id="nav-live" onclick="location.href='https://dainikanulipi.github.io/da/live.html'"><span class="live-dot"></span> <span id="nav-live-txt">লাইভ</span></button>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div class="cx-page">
+  <div class="wrap">
+
+    <div class="cx-head">
+      <div class="cx-head-in">
+        <div>
+          <div class="cx-title">🎨 <span id="cx-title-txt">কমিকস</span></div>
+          <p class="cx-note" id="cx-note">প্রতিদিন নতুন কমিক স্ট্রিপ আর ছোট্ট এক-প্যানেল কার্টুন — হাসি, পর্যবেক্ষণ আর একটু আড্ডার স্বাদে। শুধু কমিক না, কবিতা, আঁকাআঁকি আর আরও অনেক কিছুই থাকবে এখানে। রাজনীতি নয়, শুধুই জীবনের গল্প।</p>
+        </div>
+        <div class="cx-head-badge" id="cx-badge">প্রতিদিন নতুন পর্ব</div>
+      </div>
+    </div>
+
+    <!-- ROUTED CONTENT: list view (home) or detail view (#comic/slug) -->
+    <div id="content"><!-- filled by JS router --></div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="fg">
+      <div>
+        <img src="assets/logo-dark.png" alt="দৈনিক অনুলিপি" class="footer-logo-img">
+        <div class="fl-tag" id="footer-tagline">সত্যের সন্ধানে, নির্ভীক প্রকাশে!</div>
+        <div class="fl-info" id="footer-info">প্রতিষ্ঠাতা ও প্রকাশক: অনিক অধিকারী<br>প্রতিষ্ঠাতা ও প্রধান সম্পাদক: মো: ফারহান শাহরিয়ার</div>
+        <div class="fl-social">
+          <a href="https://facebook.com/dainikanulipi" target="_blank" rel="noopener" class="soc-fb" aria-label="Facebook"><svg viewBox="0 0 320 512" width="15" height="15"><path fill="#1877f2" d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"/></svg></a>
+          <a href="https://youtube.com/@dainikanulipi" target="_blank" rel="noopener" class="soc-yt" aria-label="YouTube"><svg viewBox="0 0 576 512" width="19" height="19"><path fill="#ff0000" d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232 337.6V174.4L361 256l-129 81.6z"/></svg></a>
+        </div>
+      </div>
+      <div class="fc">
+        <h5 id="footer-cat-heading">বিভাগ</h5>
+        <a onclick="footerNavSection('top')" id="ft-cat-today">আজকের কমিক</a>
+        <a onclick="footerNavSection('series-grid')" id="ft-cat-series">জনপ্রিয় সিরিজ</a>
+        <a onclick="footerNavSection('more-grid')" id="ft-cat-more">আরও কমিকস</a>
+      </div>
+      <div class="fc">
+        <h5 id="footer-info-heading">তথ্য</h5>
+        <a onclick="openInfoPopup('about')" id="ft-about">আমাদের সম্পর্কে</a>
+        <a onclick="openContactPopup('যোগাযোগ')" id="ft-contact">যোগাযোগ করুন</a>
+        <a onclick="openContactPopup('বিজ্ঞাপন')" id="ft-advertise">বিজ্ঞাপন দিন</a>
+        <a href="submit.html" target="_blank" id="ft-reporter">রিপোর্টার পোর্টাল</a>
+        <a onclick="openInfoPopup('privacy')" id="ft-privacy">গোপনীয়তা নীতি</a>
+      </div>
+    </div>
+    <div class="footer-notice" id="footer-notice">
+      <div class="footer-notice-title" id="footer-notice-title">⚠️ জরুরি ঘোষণা</div>
+      <p id="footer-notice-text">এই নিউজ পোর্টালটি বর্তমানে "পরীক্ষামূলক সম্প্রচার" কার্যক্রম পরিচালনা করছে। আমরা সচেতনভাবে রাজনৈতিক সংবাদ এড়িয়ে চলি এবং শুধুমাত্র বিনোদন, তথ্য ও জনস্বার্থমূলক সংবাদ প্রকাশ করি। এখানে প্রকাশিত সংবাদের দায়ভার সংশ্লিষ্ট লেখকদের, পোর্টাল কর্তৃপক্ষের নয়। রেজিস্ট্রেশন প্রক্রিয়া এবং পূর্ণাঙ্গ সম্প্রচারের কাজ চলমান।</p>
+    </div>
+    <div class="fb-bot" id="footer-bottom">দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — সর্বস্বত্ব সংরক্ষিত ২০২৬</div>
+  </div>
+</footer>
+
+<!-- CONTACT/ADVERTISE POPUP -->
+<div id="contact-popup-overlay" onclick="closeContactPopup(event)" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);align-items:center;justify-content:center;">
+  <div style="background:var(--sur);width:100%;max-width:420px;margin:16px;border-top:4px solid var(--red);box-shadow:0 20px 60px rgba(0,0,0,.35);animation:popIn .22s ease;max-height:90vh;overflow-y:auto;">
+    <div style="padding:18px 20px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bdr);position:sticky;top:0;background:var(--sur);z-index:1;">
+      <div>
+        <div id="popup-title" style="font-size:17px;font-weight:700;color:var(--txt);font-family:'Noto Serif Bengali',serif;"></div>
+        <div style="font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-top:2px;">দৈনিক অনুলিপি</div>
+      </div>
+      <button onclick="closeContactPopup()" aria-label="বন্ধ করো" style="background:var(--sur3);border:none;width:32px;height:32px;border-radius:50%;font-size:16px;color:var(--txt2);cursor:pointer;flex-shrink:0;">✕</button>
+    </div>
+    <div style="padding:20px;">
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px;">
+        <a href="tel:+8801935128454" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--sur2);border:1px solid var(--bdr);text-decoration:none;color:var(--txt);transition:border-color .2s;" onmouseover="this.style.borderColor='var(--red)'" onmouseout="this.style.borderColor='var(--bdr)'">
+          <span style="font-size:20px;">📞</span>
+          <div><div style="font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;">ফোন / Phone</div><div style="font-size:14px;font-weight:700;">+880 19-3512-8454</div></div>
+        </a>
+        <a href="mailto:dainikanulipi@gmail.com" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--sur2);border:1px solid var(--bdr);text-decoration:none;color:var(--txt);transition:border-color .2s;" onmouseover="this.style.borderColor='var(--red)'" onmouseout="this.style.borderColor='var(--bdr)'">
+          <span style="font-size:20px;">✉️</span>
+          <div><div style="font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;">ইমেইল / Email</div><div style="font-size:14px;font-weight:700;">dainikanulipi@gmail.com</div></div>
+        </a>
+        <a href="https://wa.me/8801935128454" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--sur2);border:1px solid var(--bdr);text-decoration:none;color:var(--txt);transition:border-color .2s;" onmouseover="this.style.borderColor='#25d366'" onmouseout="this.style.borderColor='var(--bdr)'">
+          <span style="font-size:20px;">💬</span>
+          <div><div style="font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;">WhatsApp</div><div style="font-size:14px;font-weight:700;">+880 19-3512-8454</div></div>
+        </a>
+        <a href="https://facebook.com/dainikanulipi" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--sur2);border:1px solid var(--bdr);text-decoration:none;color:var(--txt);transition:border-color .2s;" onmouseover="this.style.borderColor='#1877f2'" onmouseout="this.style.borderColor='var(--bdr)'">
+          <span style="font-size:20px;">📘</span>
+          <div><div style="font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;">Facebook</div><div style="font-size:14px;font-weight:700;">facebook.com/dainikanulipi</div></div>
+        </a>
+      </div>
+      <a href="https://dainikanulipi.github.io/da/" target="_blank" rel="noopener" style="display:block;background:var(--red);color:#fff;text-align:center;padding:11px;font-size:14px;font-weight:700;font-family:'Noto Sans Bengali',sans-serif;text-decoration:none;" onmouseover="this.style.background='var(--dkred)'" onmouseout="this.style.background='var(--red)'">
+        🌐 ওয়েবসাইট ভিজিট করুন
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT/PRIVACY POPUP -->
+<div id="info-popup-overlay" onclick="closeInfoPopup(event)" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);align-items:center;justify-content:center;">
+  <div style="background:var(--sur);width:100%;max-width:520px;margin:16px;border-top:4px solid var(--red);box-shadow:0 20px 60px rgba(0,0,0,.35);animation:popIn .22s ease;max-height:88vh;overflow-y:auto;">
+    <div style="padding:18px 20px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bdr);position:sticky;top:0;background:var(--sur);z-index:1;">
+      <div>
+        <div id="info-popup-title" style="font-size:17px;font-weight:700;color:var(--txt);font-family:'Noto Serif Bengali',serif;"></div>
+        <div style="font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-top:2px;">দৈনিক অনুলিপি</div>
+      </div>
+      <button onclick="closeInfoPopup()" aria-label="বন্ধ করো" style="background:var(--sur3);border:none;width:32px;height:32px;border-radius:50%;font-size:16px;color:var(--txt2);cursor:pointer;flex-shrink:0;">✕</button>
+    </div>
+    <div id="info-popup-body" style="padding:22px;font-family:'Noto Serif Bengali',serif;font-size:15px;line-height:1.9;color:var(--txt);"></div>
+  </div>
+</div>
+
+<!-- COMIC READING LIGHTBOX — tap the comic image on a reading page to zoom in fullscreen -->
+<div id="lightbox-overlay" class="cx-lightbox-overlay" onclick="closeLightboxBackdrop(event)">
+  <button class="cx-lightbox-close" onclick="closeLightbox()" aria-label="বন্ধ করো">✕</button>
+  <div class="cx-lightbox-imgwrap" id="lightbox-imgwrap"><!-- filled by JS --></div>
+  <div class="cx-lightbox-title" id="lightbox-title"></div>
+  <div class="cx-lightbox-nav" id="lightbox-nav"><!-- filled by JS, only shown for series episodes --></div>
+</div>
+
+<!-- SHARE POPUP — "in-depth" sharing: native share sheet where available,
+     plus direct WhatsApp/Facebook/X/Telegram/Email links and a copy-link
+     field, for the comic or series page currently open. -->
+<div id="share-popup-overlay" onclick="closeSharePopup(event)" class="cx-share-overlay">
+  <div class="cx-share-modal">
+    <div class="cx-share-modal-head">
+      <div style="min-width:0;">
+        <div id="share-popup-title" style="font-size:17px;font-weight:700;color:var(--txt);font-family:'Noto Serif Bengali',serif;">শেয়ার করুন</div>
+        <div id="share-popup-sub" style="font-size:11.5px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-top:2px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></div>
+      </div>
+      <button onclick="closeSharePopup()" class="cx-share-close" aria-label="বন্ধ করো">✕</button>
+    </div>
+    <div style="padding:18px 20px;">
+      <div id="share-native-row" style="display:none;margin-bottom:14px;">
+        <button class="cx-share-system-btn" onclick="shareViaSystem()">📤 <span id="share-system-txt">সিস্টেম শেয়ার মেনু</span></button>
+      </div>
+      <div class="cx-share-grid" id="share-grid"><!-- filled by JS --></div>
+      <div class="cx-share-copyrow">
+        <input id="share-link-input" class="cx-share-link-input" readonly onclick="this.select()" />
+        <button class="cx-share-copy-btn" id="share-copy-btn" onclick="copyShareLink()">কপি</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="totop-btn" id="toTopBtn" onclick="window.scrollTo({top:0,left:0,behavior:'smooth'})" aria-label="Scroll to top">↑</button>
+
+<script>
+// ── LANG ──
+var lang = localStorage.getItem('anulipi_lang') || 'bn';
+if(lang==='ar') lang='bn';
+
+// ══════════════════════════════════════════════
+// DATA SOURCE — Apps Script backend (Comic-Backend.js) reading from two
+// sheet tabs: "Comics" and "Series". See that file's header comment for
+// the full column reference; the short version:
+// ══════════════════════════════════════════════
+//   "Comics" tab — one row per comic/episode:
+//     id | slug | series_slug | episode | img | title_bn | title_en |
+//     caption_bn | caption_en | badge_bn | badge_en | author_bn | author_en |
+//     popular | status | published_at | deleted
+//   - slug        : optional. Used in the card's URL (#comic/<slug>).
+//                   Leave blank and one is generated from the title.
+//   - series_slug : OPTIONAL. Links this comic to a row in the "Series"
+//                   tab with the same series_slug — every comic sharing
+//                   one is grouped into that series: one card in "More
+//                   Comics"/"Popular Series" that opens an episode-list
+//                   page, plus ← আগের/পরের → buttons that jump between
+//                   episodes. Leave blank for standalone comics.
+//   - episode     : this comic's number within its series (decides
+//                   prev/next order and episode-list order). Leave blank
+//                   on the backend and it auto-numbers itself.
+//   - badge_bn / badge_en : small label on the card, e.g. সিরিজ/Series,
+//                   কার্টুন/Gag, আর্কাইভ/Archive.
+//   - author_bn / author_en : OPTIONAL byline shown on the reading page
+//                   and on cards. Leave both blank to hide it.
+//   - popular     : this single comic appears in the homepage's "Popular"
+//                   picks, independent of any series it belongs to.
+//   - status      : published (default, visible now) / scheduled (hidden
+//                   until published_at's date/time arrives) / private
+//                   (never shown here). Enforced server-side — this page
+//                   only ever receives comics it's allowed to show.
+//   - published_at: yyyy-MM-dd, shown as the "📅" date on a comic's page.
+//
+//   "Series" tab — one row per series:
+//     series_slug | title_bn | title_en | cover_img | popular | deleted
+//   - series_slug : the same ASCII key comics reference above; also the
+//                   URL slug for that series' page (#series/<series_slug>).
+//   - cover_img   : optional dedicated cover art for the series card.
+//                   Leave blank and its first episode's own art is used.
+//   - popular     : the whole series appears in "Popular Series",
+//                   independent of any individual episode's own flag.
+//
+// Images: four ways to point the "img"/"cover_img" columns at your artwork —
+//    a) Google Drive FOLDER (best for bulk uploads): drop all your comic
+//       images into ONE Drive folder, share that folder as "Anyone with
+//       the link" → Viewer, set DRIVE_FOLDER_ID and DRIVE_API_KEY below,
+//       then just put each image's FILENAME (e.g. "invisible-letter-6.jpg",
+//       extension optional) in the "img" column — no per-image link
+//       copying needed. Requires a one-time Google Cloud setup:
+//         1. console.cloud.google.com → create/select a project
+//         2. APIs & Services → Library → enable "Google Drive API"
+//         3. APIs & Services → Credentials → Create Credentials → API key
+//         4. Restrict that key (Application restrictions → Websites) to
+//            your site's domain, so it can't be abused if someone copies it
+//            out of your page source — it's visible to anyone, like any
+//            client-side key
+//    b) Google Drive single file: upload one image, right-click it →
+//       Share → "Anyone with the link" → Viewer → Copy link, paste that
+//       link as-is into the "img" column. Auto-converted, no DRIVE_API_KEY
+//       needed. Good for a one-off image; (a) is easier for many at once.
+//    c) Full URL: paste any other direct image URL (GitHub, Imgur, etc.)
+//       straight into the "img" column.
+//    d) GitHub repo + IMG_BASE: upload files to your repo (e.g.
+//       assets/comics/...), set IMG_BASE below, and just put filenames in
+//       the sheet.
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyyVdAl7CaUHmMV8SFxkV6g8vlDalw0vABpT26noOKa57-GtPfTvWPGsQYpw36agGfz/exec';
+const IMG_BASE = 'https://dainikanulipi.github.io/da/assets/comics/'; // e.g. 'https://dainikanulipi.github.io/da/assets/comics/'
+const DRIVE_FOLDER_ID = '12Vse8Pd9Co2ppIKQcl-1MolUEA9C7xAZ'; // your Drive folder's ID (the part after /folders/ in its URL)
+const DRIVE_API_KEY = ''; // REQUIRED for the folder option above — leave blank to disable it (single-file Drive links and IMG_BASE still work either way)
+
+// ── LIVE STATUS DETECTION ──
+// Silently checks whether the YouTube channel is actually streaming right
+// now, using the YouTube IFrame Player API (no API key needed) — the
+// red dot on the লাইভ tab only blinks when a stream is really live.
+// Same channel ID as index.html/live.html.
+const YT_CHANNEL_ID = 'UCV4MqKW7pl0wb58CuddGiEQ';
+function loadYouTubeIframeAPI(cb){
+  if(window.YT && window.YT.Player){ cb(); return; }
+  const prev = window.onYouTubeIframeAPIReady;
+  window.onYouTubeIframeAPIReady = function(){ if(prev) prev(); cb(); };
+  if(!document.getElementById('yt-iframe-api')){
+    const tag = document.createElement('script');
+    tag.id = 'yt-iframe-api';
+    tag.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(tag);
+  }
+}
+function setLiveDotState(isLive){
+  document.querySelectorAll('.live-dot').forEach(d=>d.classList.toggle('is-live', !!isLive));
+  const navLiveBtn = document.getElementById('nav-live');
+  if(navLiveBtn) navLiveBtn.classList.toggle('is-live', !!isLive);
+}
+function onLiveDetectStateChange(e){
+  const YTS = window.YT.PlayerState;
+  if(e.data===YTS.PLAYING || e.data===YTS.BUFFERING) setLiveDotState(true);
+  else if(e.data===YTS.ENDED || e.data===YTS.CUED || e.data===YTS.UNSTARTED) setLiveDotState(false);
+}
+function onLiveDetectError(){ setLiveDotState(false); }
+function initLiveDetection(){
+  if(!YT_CHANNEL_ID) return;
+  const frame = document.getElementById('live-detect-frame');
+  if(!frame) return;
+  frame.src = `https://www.youtube.com/embed/live_stream?channel=${YT_CHANNEL_ID}&mute=1&autoplay=1&enablejsapi=1&origin=${encodeURIComponent(location.origin)}`;
+  loadYouTubeIframeAPI(()=>{
+    new YT.Player('live-detect-frame', {
+      events: { onStateChange: onLiveDetectStateChange, onError: onLiveDetectError }
+    });
+  });
+}
+
+// One-time fetch of everything in DRIVE_FOLDER_ID, mapping filename → a
+// directly-viewable image URL, so resolveImg() can stay synchronous.
+// Silently does nothing if DRIVE_FOLDER_ID/DRIVE_API_KEY aren't set, or if
+// the request fails — comics just fall back to IMG_BASE/full URLs as before.
+let driveFileMap = {};
+async function loadDriveFolderMap(){
+  if(!DRIVE_FOLDER_ID || !DRIVE_API_KEY) return;
+  try{
+    let pageToken = '';
+    do {
+      const q = encodeURIComponent(`'${DRIVE_FOLDER_ID}' in parents and trashed = false`);
+      const url = `https://www.googleapis.com/drive/v3/files?q=${q}&fields=${encodeURIComponent('nextPageToken,files(id,name)')}&pageSize=1000&key=${DRIVE_API_KEY}${pageToken?'&pageToken='+encodeURIComponent(pageToken):''}`;
+      const res = await fetch(url);
+      const data = await res.json();
+      (data.files||[]).forEach(f=>{
+        const direct = `https://lh3.googleusercontent.com/d/${f.id}=s0`;
+        driveFileMap[f.name.toLowerCase()] = direct;
+        const noExt = f.name.replace(/\.[^./]+$/, '').toLowerCase();
+        if(!(noExt in driveFileMap)) driveFileMap[noExt] = direct;
+      });
+      pageToken = data.nextPageToken || '';
+    } while(pageToken);
+  }catch(_e){ /* network/API error — comics fall back to IMG_BASE below */ }
+}
+
+function resolveImg(path){
+  if(!path) return '';
+  path = path.trim();
+  if(!path) return '';
+  const driveId = extractDriveFileId(path);
+  if(driveId) return `https://lh3.googleusercontent.com/d/${driveId}=s0`;
+  if(/^https?:\/\//i.test(path)) return path;
+  const fromFolder = driveFileMap[path.toLowerCase()];
+  if(fromFolder) return fromFolder;
+  return IMG_BASE + path;
+}
+// Grid/hero thumbnails don't need the full-resolution original that
+// resolveImg() returns (=s0) — that's meant for the full-page reading view
+// and lightbox zoom. For Drive-hosted images (the =s0 URL shape), swap in a
+// width-capped variant and build a matching srcset so small cards download a
+// small file. Non-Drive images (IMG_BASE files, arbitrary URLs) can't be
+// resized on the fly, so they're returned untouched — no regression there.
+function driveThumbUrl(url, width){
+  if(!url) return url;
+  const m = /^(https:\/\/lh3\.googleusercontent\.com\/d\/[^=]+)=/.exec(url);
+  if(!m) return url;
+  return `${m[1]}=w${width}`;
+}
+function driveSrcset(url, widths){
+  if(!url || !/^https:\/\/lh3\.googleusercontent\.com\/d\/[^=]+=/.test(url)) return '';
+  return widths.map(w => `${driveThumbUrl(url,w)} ${w}w`).join(', ');
+}
+// Builds a complete <img> tag for thumbnail contexts: a right-sized src plus
+// srcset/sizes for Drive images, and a plain src (as before) for anything
+// else. `widths` should be sorted ascending; the middle one is used as src.
+function thumbImgTag(url, alt, widths, sizes){
+  const src = driveThumbUrl(url, widths[Math.floor(widths.length/2)]);
+  const srcset = driveSrcset(url, widths);
+  return `<img src="${esc(src)}"${srcset?` srcset="${esc(srcset)}" sizes="${esc(sizes)}"`:''} alt="${esc(alt)}" loading="lazy" onerror="this.remove()">`;
+}
+// Recognizes the normal Google Drive "share" link (the one the Drive UI's
+// Share button gives you) and pulls out the file ID, so pasting that link
+// straight into the sheet's "img" column just works — no manual URL
+// rewriting needed. Handles the common share-link shapes:
+//   https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+//   https://drive.google.com/open?id=FILE_ID
+//   https://drive.google.com/uc?id=FILE_ID&export=download
+function extractDriveFileId(url){
+  if(!/drive\.google\.com/i.test(url)) return null;
+  let m = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if(m) return m[1];
+  m = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  if(m) return m[1];
+  return null;
+}
+// Author/artist byline — falls back to the other language if only one of
+// author_bn/author_en is filled in, so a single-language entry still shows.
+// Returns '' when neither is set, so callers can skip rendering entirely.
+function artistName(c){
+  if(!c) return '';
+  return lang==='en' ? (c.author_en || c.author_bn || '') : (c.author_bn || c.author_en || '');
+}
+function artistLineHtml(c, cls){
+  const name = artistName(c);
+  if(!name) return '';
+  const label = lang==='en' ? 'Author' : 'লেখক';
+  return `<div class="${cls||'cx-artist'}">${esc(label)}: ${esc(name)}</div>`;
+}
+
+// Escapes text before it's inserted into innerHTML — every title/caption/
+// badge/img-url in this file comes from the Sheet, which is trusted today
+// but shouldn't be able to break markup or inject script if that changes.
+function esc(s){
+  return String(s==null?'':s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+// ══════════════════════════════════════════════
+// META TAGS — kept in sync with whatever's actually on screen (the
+// homepage's general blurb, or a specific comic/series' own title,
+// caption, and artwork) instead of always showing the generic site
+// preview. Google's crawler executes this JS when indexing, and most
+// link-preview tools that render JS (not all do) pick these up too when
+// the address-bar URL is copied elsewhere.
+// ══════════════════════════════════════════════
+const DEFAULT_META = {
+  title: 'দৈনিক অনুলিপি | কমিকস',
+  desc: 'দৈনিক অনুলিপি — কমিকস: প্রতিদিনের কমিক স্ট্রিপ, কার্টুন, কবিতা ও আঁকাআঁকির কর্নার',
+  image: 'https://dainikanulipi.github.io/da/assets/preview.jpg',
+  url: 'https://dainikanulipi.github.io/da/comic.html'
+};
+function setMetaAttr(id, attr, value){
+  const el = document.getElementById(id);
+  if(!el) return;
+  if(value===null || value===undefined || value===''){ el.removeAttribute(attr); }
+  else { el.setAttribute(attr, value); }
+}
+function updateMetaTags({title, description, image, url}){
+  document.title = title;
+  setMetaAttr('meta-og-locale','content', lang==='en' ? 'en_US' : 'bn_BD');
+  setMetaAttr('meta-desc','content', description);
+  setMetaAttr('meta-og-title','content', title);
+  setMetaAttr('meta-og-desc','content', description);
+  setMetaAttr('meta-tw-title','content', title);
+  setMetaAttr('meta-tw-desc','content', description);
+  const img = image || DEFAULT_META.image;
+  setMetaAttr('meta-og-image','content', img);
+  setMetaAttr('meta-og-image-secure','content', img);
+  setMetaAttr('meta-og-image-alt','content', title);
+  setMetaAttr('meta-tw-image','content', img);
+  setMetaAttr('meta-tw-image-alt','content', title);
+  // Only the site's own preview.jpg is a known 1200×630 jpeg — a per-
+  // comic/series image is whatever the sheet has on file, so drop the
+  // fixed dimension/type hints rather than mislabel it; crawlers fall
+  // back to probing the file themselves when these are absent.
+  if(img === DEFAULT_META.image){
+    setMetaAttr('meta-og-image-type','content', 'image/jpeg');
+    setMetaAttr('meta-og-image-width','content', '1200');
+    setMetaAttr('meta-og-image-height','content', '630');
+  } else {
+    setMetaAttr('meta-og-image-type','content', null);
+    setMetaAttr('meta-og-image-width','content', null);
+    setMetaAttr('meta-og-image-height','content', null);
+  }
+  const u = url || DEFAULT_META.url;
+  setMetaAttr('meta-og-url','content', u);
+  setMetaAttr('meta-canonical','href', u);
+}
+function resetMetaTags(){
+  updateMetaTags({title:DEFAULT_META.title, description:DEFAULT_META.desc, image:DEFAULT_META.image, url:DEFAULT_META.url});
+}
+// JSON-LD structured data — helps Google understand each page as an
+// actual piece of creative work (with its own title/image/artist) rather
+// than just another URL on the site, which can surface richer search
+// results than a plain blue link.
+function updateStructuredData(data){
+  const el = document.getElementById('ld-json');
+  if(el) el.textContent = JSON.stringify(data);
+}
+function resetStructuredData(){
+  updateStructuredData({
+    '@context':'https://schema.org',
+    '@type':'CollectionPage',
+    name: DEFAULT_META.title,
+    description: DEFAULT_META.desc,
+    url: DEFAULT_META.url,
+    isPartOf: {'@type':'WebSite', name:'দৈনিক অনুলিপি | Dainik Anulipi', url:'https://dainikanulipi.github.io/da/'}
+  });
+}
+
+// Fetch with a timeout — a single flaky network blip shouldn't permanently
+// leave the page on placeholder/empty data.
+function appsScriptPublicRequest(){
+  return new Promise((resolve,reject)=>{
+    if(!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes('PASTE_YOUR_')){
+      reject(new Error('Apps Script URL not configured'));
+      return;
+    }
+    const cb='comic_public_cb_'+Date.now()+'_'+Math.floor(Math.random()*100000);
+    const script=document.createElement('script');
+    window[cb]=payload=>{
+      delete window[cb]; script.remove();
+      if(payload?.ok) resolve(payload.data || {comics:[], series:[]});
+      else reject(new Error(payload?.error||'Apps Script error'));
+    };
+    script.onerror=()=>{ delete window[cb]; script.remove(); reject(new Error('Apps Script request failed')); };
+    script.src=APPS_SCRIPT_URL+'?action=public&callback='+encodeURIComponent(cb);
+    document.head.appendChild(script);
+    setTimeout(()=>{
+      if(window[cb]){ delete window[cb]; script.remove(); reject(new Error('Request timed out')); }
+    },15000);
+  });
+}
+
+async function loadComicsData(){
+  try{
+    const data = await appsScriptPublicRequest();
+    const comics = data.comics || [];
+    const series = data.series || [];
+
+    COMICS.length = 0;
+    comics.forEach(c=>COMICS.push({
+      ...c,
+      img: resolveImg(c.img),
+      emoji: '🖼️',
+      popular: !!c.popular,
+      cap_bn: c.caption_bn || '',
+      cap_en: c.caption_en || '',
+      series_slug: (c.series_slug||'').trim(),
+      episode: c.episode!=null && c.episode!=='' ? parseFloat(c.episode) : null
+    }));
+
+    SERIES.length = 0;
+    series.forEach(s=>SERIES.push({
+      ...s,
+      series_slug: (s.series_slug||'').trim(),
+      cover_img: resolveImg(s.cover_img),
+      popular: !!s.popular
+    }));
+
+    // getPublicComics_ on the backend already returns newest-published
+    // first — the server, not this page, is the source of truth for
+    // status/visibility (published/scheduled/private) and ordering.
+    assignSlugs(COMICS);
+  }catch(err){
+    console.warn('Apps Script fetch failed.', err);
+  }
+}
+
+// ══════════════════════════════════════════════
+// COMICS / SERIES DATA — populated only by loadComicsData() from the Apps
+// Script backend's two tabs. If the fetch fails, both stay empty and
+// renderHome() shows the empty state — no placeholder/dummy cards ever.
+// ══════════════════════════════════════════════
+let COMICS = [];
+let SERIES = [];
+
+// ── SLUGS ── every comic needs a stable, unique slug for #comic/<slug> routing.
+// Sheet rows may supply their own "slug" column; anything else gets one
+// generated from its title, with a numeric suffix if that slug collides.
+function slugify(s){
+  return (s||'').toString().trim().toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu,'-')
+    .replace(/^-+|-+$/g,'') || 'comic';
+}
+function assignSlugs(list){
+  const seen = {};
+  list.forEach(c=>{
+    let base = c.slug ? slugify(c.slug) : slugify(c.title_en || c.title_bn);
+    let s = base, n = 2;
+    while(seen[s]){ s = base+'-'+n; n++; }
+    seen[s] = true;
+    c.slug = s;
+  });
+}
+assignSlugs(COMICS);
+
+// The backend returns comics newest-published first, so "today's comic"
+// is simply the first valid entry — no more relying on sheet row order.
+function getTodayComic(){
+  const valid = COMICS.filter(c=>c && (c.slug || c.title_bn || c.title_en));
+  return valid.length ? valid[0] : null;
+}
+
+// ══════════════════════════════════════════════
+// SERIES GROUPING — a comic's series_slug points at a row in the separate
+// SERIES list (its own tab on the backend), so series identity, title, and
+// cover art all come from one place instead of being reconstructed by
+// scanning episode rows. series_slug IS the URL slug (#series/<slug>)
+// directly — the backend enforces it's ASCII, so no separate "raw key vs
+// URL slug" translation is needed here.
+// ══════════════════════════════════════════════
+function getSeriesKey(c){ return (c && c.series_slug) ? String(c.series_slug).trim() : ''; }
+// A URL param is a valid series key if some row in SERIES actually has it.
+function findSeriesKeyBySlug(slug){
+  return SERIES.some(s=>s.series_slug===slug) ? slug : null;
+}
+// All episodes of a series, oldest → newest (by episode number; ties keep
+// their original list order).
+function seriesEpisodes(key){
+  return COMICS
+    .map((c,i)=>({c,i}))
+    .filter(x=>getSeriesKey(x.c)===key)
+    .sort((a,b)=>((parseFloat(a.c.episode)||0)-(parseFloat(b.c.episode)||0)) || (a.i-b.i))
+    .map(x=>x.c);
+}
+function seriesDisplayInfo(key){
+  const s = SERIES.find(x=>x.series_slug===key);
+  if(!s) return null;
+  const eps = seriesEpisodes(key);
+  if(!eps.length) return null;
+  // A dedicated cover_img on the Series row overrides the default
+  // "episode 1's own art" cover.
+  const cover = s.cover_img ? {...eps[0], img:s.cover_img} : eps[0];
+  return {
+    key, episodes:eps,
+    cover,
+    slug: s.series_slug,
+    title_bn: s.title_bn || eps[0].title_bn,
+    title_en: s.title_en || eps[0].title_en,
+    isPopular: !!s.popular
+  };
+}
+
+// ══════════════════════════════════════════════
+// "NEW" BADGE — a comic (or a series, via its latest episode) is marked
+// NEW if its slug wasn't in the visitor's stored slug list from their
+// last visit. seenSlugsSet is computed once per page load (session), so
+// the badge stays visible for the whole visit and clears on the next one.
+// ══════════════════════════════════════════════
+const SEEN_KEY = 'anulipi_seen_slugs';
+let seenSlugsSet = new Set();
+function loadSeenSlugs(){
+  try{ return new Set(JSON.parse(localStorage.getItem(SEEN_KEY)||'[]')); }catch(_e){ return new Set(); }
+}
+function persistSeenSlugs(){
+  try{ localStorage.setItem(SEEN_KEY, JSON.stringify(COMICS.map(c=>c.slug).filter(Boolean))); }catch(_e){}
+}
+function isNewSlug(slug){ return !!slug && seenSlugsSet.size>0 && !seenSlugsSet.has(slug); }
+
+// ══════════════════════════════════════════════
+// "CONTINUE READING" — remembers the last episode a reader opened in each
+// series (per browser), so the series page can offer to pick up there.
+// ══════════════════════════════════════════════
+const LASTREAD_PREFIX = 'anulipi_lastread_';
+function saveLastRead(seriesKey, slug){
+  if(!seriesKey) return;
+  try{ localStorage.setItem(LASTREAD_PREFIX+seriesKey, slug); }catch(_e){}
+}
+function getLastRead(seriesKey){
+  try{ return localStorage.getItem(LASTREAD_PREFIX+seriesKey) || null; }catch(_e){ return null; }
+}
+
+function renderFeatured(){
+  const f = getTodayComic();
+  if(!f) return;
+  document.getElementById('feat-badge').textContent = lang==='en' ? (f.badge_en||'Today') : (f.badge_bn||'আজকের কমিক');
+  const fSeriesKey = getSeriesKey(f);
+  const fSeriesInfo = fSeriesKey ? seriesDisplayInfo(fSeriesKey) : null;
+  const fSeriesTag = document.getElementById('feat-series-tag');
+  if(fSeriesInfo){
+    fSeriesTag.textContent = lang==='en' ? fSeriesInfo.title_en : fSeriesInfo.title_bn;
+    fSeriesTag.style.display = 'inline-block';
+    fSeriesTag.onclick = ()=>navSeries(fSeriesInfo.slug);
+  } else {
+    fSeriesTag.style.display = 'none';
+    fSeriesTag.onclick = null;
+  }
+  document.getElementById('feat-title').textContent = lang==='en' ? f.title_en : f.title_bn;
+  document.getElementById('feat-title').onclick = ()=>navSlug(f.slug);
+  document.getElementById('feat-sub').textContent = lang==='en' ? f.cap_en : f.cap_bn;
+  const featArtistEl = document.getElementById('feat-artist');
+  const featArtistName = artistName(f);
+  if(featArtistName){
+    featArtistEl.textContent = `${lang==='en'?'Author':'লেখক'}: ${featArtistName}`;
+    featArtistEl.style.display = '';
+  } else {
+    featArtistEl.style.display = 'none';
+  }
+  const featDateEl = document.getElementById('feat-date');
+  const featDateText = formatPublishedDate(f.published_at);
+  if(featDateText){
+    featDateEl.textContent = `📅 ${featDateText}`;
+    featDateEl.style.display = '';
+  } else {
+    featDateEl.style.display = 'none';
+  }
+  document.getElementById('feat-thumb').innerHTML = f.img
+    ? thumbImgTag(f.img, lang==='en'?f.title_en:f.title_bn, [480,800,1200], '(max-width:700px) 100vw, 640px')
+    : `<span>${esc(f.emoji||'🖼️')}</span>`;
+  document.getElementById('feat-thumb').onclick = ()=>navSlug(f.slug);
+  document.getElementById('feat-prev').style.display='none';
+  document.getElementById('feat-next').style.display='none';
+  document.getElementById('feat-thumbs').style.display='none';
+  document.getElementById('st-featured-sub').textContent = PAGE_T[lang].stFeaturedSub;
+}
+function nextFeatured(){ renderFeatured(); }
+function prevFeatured(){ renderFeatured(); }
+
+
+// Single card markup shared by the "More Comics" grid and the related-comics
+// grid on a detail page — clicking any card routes to #comic/<slug>.
+function cardHtml(c){
+  const badge = lang==='en' ? (c.badge_en||'') : (c.badge_bn||'');
+  const title = lang==='en' ? c.title_en : c.title_bn;
+  const sub   = lang==='en' ? c.cap_en : c.cap_bn;
+  const newBadge = isNewSlug(c.slug) ? `<div class="cx-new-badge">${esc(lang==='en'?'NEW':'নতুন')}</div>` : '';
+  return `<div class="cx-more-card" onclick="navSlug('${esc(c.slug)}')">
+      <div class="cx-more-badge">${esc(badge)}</div>
+      ${newBadge}
+      <div class="cx-more-thumb">${c.img ? thumbImgTag(c.img, title, [240,480,720], '(max-width:380px) 45vw, (max-width:599px) 30vw, (max-width:960px) 22vw, 18vw') : `<span>${esc(c.emoji)}</span>`}</div>
+      <div class="cx-more-body">
+        <div class="cx-more-title">${esc(title)}</div>
+        <div class="cx-more-sub">${esc(sub)}</div>
+        ${artistLineHtml(c)}
+        ${formatPublishedDate(c.published_at) ? `<div class="cx-feat-date">📅 ${esc(formatPublishedDate(c.published_at))}</div>` : ''}
+      </div>
+    </div>`;
+}
+
+// ── HERO / SERIES CARDS ──
+// Uses the .cx-series-* styling already defined in CSS (a bigger "hero"
+// card with a colored halftone header) but previously unused in markup.
+// Each pick is either {type:'series', data:seriesDisplayInfo(...)} — click
+// opens the episode-list page — or {type:'comic', data:comic} for a
+// standalone (non-series) pick, which links straight to that comic as before.
+const SERIES_ACCENTS = ['var(--teal)','var(--violet)','var(--sky)'];
+function seriesCardHtml(pick, i){
+  const accent = SERIES_ACCENTS[i % SERIES_ACCENTS.length];
+  if(pick.type==='series'){
+    const s = pick.data, cover = s.cover;
+    const title = lang==='en' ? s.title_en : s.title_bn;
+    const badge = lang==='en' ? (cover.badge_en||'Series') : (cover.badge_bn||'সিরিজ');
+    const epLabel = (lang==='en' ? `${s.episodes.length} episode` : `${toBnDigits(s.episodes.length)} পর্ব`) + (lang==='en' && s.episodes.length!==1 ? 's' : '');
+    const newBadge = isNewSlug(cover.slug) ? `<div class="cx-new-badge">${esc(lang==='en'?'NEW':'নতুন')}</div>` : '';
+    return `<div class="cx-series-card" style="--card-accent:${accent};cursor:pointer;" onclick="navSeries('${esc(s.slug)}')">
+      ${newBadge}
+      <div class="cx-series-hero">${cover.img ? thumbImgTag(cover.img, title, [320,640,960], '(max-width:599px) 90vw, (max-width:960px) 45vw, 30vw') : `<span>${esc(cover.emoji||'📚')}</span>`}</div>
+      <div class="cx-series-body">
+        <div class="cx-series-name">${esc(title)}</div>
+        <div class="cx-series-meta">
+          <span class="cx-ep-badge">${esc(badge)}</span>
+          <span>${esc(epLabel)}</span>
+        </div>
+        ${artistLineHtml(cover)}
+      </div>
+    </div>`;
+  }
+  const c = pick.data;
+  const title = lang==='en' ? c.title_en : c.title_bn;
+  const tag   = lang==='en' ? c.cap_en : c.cap_bn;
+  const badge = lang==='en' ? (c.badge_en||'') : (c.badge_bn||'');
+  const newBadge2 = isNewSlug(c.slug) ? `<div class="cx-new-badge">${esc(lang==='en'?'NEW':'নতুন')}</div>` : '';
+  return `<div class="cx-series-card" style="--card-accent:${accent};cursor:pointer;" onclick="navSlug('${esc(c.slug)}')">
+      ${newBadge2}
+      <div class="cx-series-hero">${c.img ? thumbImgTag(c.img, title, [320,640,960], '(max-width:599px) 90vw, (max-width:960px) 45vw, 30vw') : `<span>${esc(c.emoji)}</span>`}</div>
+      <div class="cx-series-body">
+        <div class="cx-series-name">${esc(title)}</div>
+        <div class="cx-series-tag">${esc(tag)}</div>
+        <div class="cx-series-meta">
+          <span class="cx-ep-badge">${esc(badge)}</span>
+        </div>
+        ${artistLineHtml(c)}
+      </div>
+    </div>`;
+}
+// A series' own popular flag (Series tab) drives its "Popular Series"
+// card, independent of any individual episode's popular flag. A
+// standalone comic (no series_slug) uses its own popular flag directly.
+function popularPicks(){
+  const picks = [];
+  SERIES.filter(s=>s.popular).forEach(s=>{
+    const info = seriesDisplayInfo(s.series_slug);
+    if(info) picks.push({type:'series', data:info});
+  });
+  COMICS.filter(c=>c.popular && !getSeriesKey(c)).forEach(c=>{
+    picks.push({type:'comic', data:c});
+  });
+  return picks;
+}
+function renderSeries(){
+  const grid = document.getElementById('series-grid');
+  if(!grid) return;
+  grid.innerHTML = popularPicks().map(seriesCardHtml).join('');
+}
+
+// "More Comics" grid — one card per standalone comic, one card per series
+// (using its first episode's art as the cover) so multi-part series don't
+// flood the grid with a card per episode. Clicking a series card opens the
+// episode-list page; clicking a standalone card opens that comic directly.
+function moreCardHtml(item){
+  if(item.type==='series'){
+    const s = item.data, cover = s.cover;
+    const title = lang==='en' ? s.title_en : s.title_bn;
+    const badge = lang==='en' ? (cover.badge_en||'Series') : (cover.badge_bn||'সিরিজ');
+    const sub = lang==='en' ? `${s.episodes.length} episodes` : `${toBnDigits(s.episodes.length)} পর্ব`;
+    const newBadge = isNewSlug(cover.slug) ? `<div class="cx-new-badge">${esc(lang==='en'?'NEW':'নতুন')}</div>` : '';
+    return `<div class="cx-more-card" onclick="navSeries('${esc(s.slug)}')">
+      <div class="cx-more-badge">${esc(badge)}</div>
+      ${newBadge}
+      <div class="cx-more-thumb">${cover.img ? thumbImgTag(cover.img, title, [240,480,720], '(max-width:380px) 45vw, (max-width:599px) 30vw, (max-width:960px) 22vw, 18vw') : `<span>${esc(cover.emoji||'📚')}</span>`}</div>
+      <div class="cx-more-body">
+        <div class="cx-more-title">${esc(title)}</div>
+        <div class="cx-more-sub">${esc(sub)}</div>
+        ${artistLineHtml(cover)}
+      </div>
+    </div>`;
+  }
+  return cardHtml(item.data);
+}
+function moreGridItems(){
+  const items = [], seenSeries = {};
+  COMICS.forEach(c=>{
+    const key = getSeriesKey(c);
+    if(key){
+      if(seenSeries[key]) return;
+      seenSeries[key] = true;
+      const s = seriesDisplayInfo(key);
+      if(s) items.push({type:'series', data:s});
+    } else {
+      items.push({type:'comic', data:c});
+    }
+  });
+  return items;
+}
+let currentMoreItems = [];
+function renderMore(){
+  document.getElementById('st-more-sub').textContent = PAGE_T[lang].stMoreSub;
+  currentMoreItems = moreGridItems();
+  const input = document.getElementById('more-search');
+  if(input){ input.value = ''; input.placeholder = lang==='en' ? 'Search comics…' : 'কমিক খুঁজুন…'; }
+  document.getElementById('more-grid').innerHTML = currentMoreItems.map(moreCardHtml).join('');
+}
+// Client-side filter over whatever's currently cached in currentMoreItems —
+// matches either language's title against the query.
+function filterMoreGrid(){
+  const q = (document.getElementById('more-search').value||'').trim().toLowerCase();
+  const grid = document.getElementById('more-grid');
+  if(!q){ grid.innerHTML = currentMoreItems.map(moreCardHtml).join(''); return; }
+  const matches = currentMoreItems.filter(item=>{
+    const d = item.type==='series' ? item.data : item.data;
+    const tBn = (d.title_bn||'').toLowerCase();
+    const tEn = (d.title_en||'').toLowerCase();
+    return tBn.includes(q) || tEn.includes(q);
+  });
+  grid.innerHTML = matches.length
+    ? matches.map(moreCardHtml).join('')
+    : `<div class="cx-search-empty">${esc(lang==='en' ? 'No comics match your search.' : 'এই নামে কোনো কমিক পাওয়া যায়নি।')}</div>`;
+}
+
+// ══════════════════════════════════════════════
+// ROUTER — hash-based, same pattern as index.html's #article/slug:
+// #comic/<slug> swaps a full detail view into #content; anything else
+// (including no hash) shows the list view (spotlight + more-comics grid).
+// ══════════════════════════════════════════════
+function navSlug(slug){ location.hash = 'comic/'+slug; }
+// Used by the ← আগের/পরের → episode buttons: keeps the reader's current
+// scroll position instead of jumping back to the top of the page.
+let preserveScrollOnRender = false;
+// Shared by renderHome/renderComicDetail/renderSeriesDetail: normally each
+// render scrolls to the top (a fresh navigation), but a background data
+// refresh (see silentRefresh() below) or the ← আগের/পরের → episode buttons
+// set preserveScrollOnRender first so the reader isn't yanked around.
+function maybeScrollTop(){
+  if(preserveScrollOnRender){ preserveScrollOnRender = false; }
+  else { window.scrollTo({top:0,left:0,behavior:'auto'}); }
+}
+function navSlugKeepScroll(slug){ preserveScrollOnRender = true; location.hash = 'comic/'+slug; }
+function navSeries(key){ location.hash = 'series/'+encodeURIComponent(key); }
+function goHome(){ location.hash = ''; }
+// Used by the footer's বিভাগ (categories) links — these point at this page's
+// own sections (today's comic / series / more comics) rather than the news
+// site's article categories. If a detail view is open, go home first, then
+// scroll to the requested section once it's back in the DOM.
+function footerNavSection(id){
+  const jump = ()=>{
+    if(id==='top'){ window.scrollTo({top:0,left:0,behavior:'smooth'}); return; }
+    const el = document.getElementById(id);
+    if(el){ el.scrollIntoView({behavior:'smooth',block:'start'}); return; }
+    // Target section doesn't exist — e.g. COMICS is empty and the "no
+    // comics" card is showing instead of the normal home layout. Scroll to
+    // that card rather than doing nothing.
+    const empty = document.querySelector('.cx-notfound');
+    if(empty) empty.scrollIntoView({behavior:'smooth',block:'start'});
+    else window.scrollTo({top:0,left:0,behavior:'smooth'});
+  };
+  const h = location.hash.replace('#','');
+  if(h.startsWith('comic/') || h.startsWith('series/')){
+    location.hash = '';
+    setTimeout(jump, 60);
+  } else {
+    jump();
+  }
+}
+
+const HOME_HTML = `
+    <div class="cx-section-title">
+      <h2 id="st-featured">আজকের কমিক</h2>
+      <span id="st-featured-sub">টাটকা আঁকা</span>
+    </div>
+    <div class="cx-feat">
+      <div class="cx-feat-badge" id="feat-badge">—</div>
+      <div class="cx-feat-thumb" id="feat-thumb"><!-- filled by JS --></div>
+      <div class="cx-feat-body">
+        <div class="cx-series-name-tag" id="feat-series-tag" style="display:none;"></div>
+        <div class="cx-feat-title" id="feat-title">—</div>
+        <div class="cx-feat-sub" id="feat-sub">—</div>
+        <div class="cx-artist-feat" id="feat-artist" style="display:none;"></div>
+        <div class="cx-feat-date" id="feat-date" style="display:none;"></div>
+      </div>
+      <div class="cx-feat-nav">
+        <button class="cx-feat-btn" id="feat-prev">← <span id="feat-prev-txt">আগের</span></button>
+        <button class="cx-feat-btn" id="feat-next"><span id="feat-next-txt">পরের</span> →</button>
+      </div>
+      <div class="cx-feat-thumbs" id="feat-thumbs"><!-- filled by JS --></div>
+    </div>
+
+    <div class="cx-section-title">
+      <h2 id="st-series">জনপ্রিয় সিরিজ</h2>
+      <span id="st-series-sub">সম্পাদকের পছন্দ</span>
+    </div>
+    <div class="cx-series-grid" id="series-grid"><!-- filled by JS --></div>
+
+    <div class="cx-section-title">
+      <h2 id="st-more">আরও কমিকস</h2>
+      <span id="st-more-sub">সব পর্ব</span>
+    </div>
+    <div class="cx-search-wrap">
+      <input type="search" id="more-search" class="cx-search-input" oninput="filterMoreGrid()">
+    </div>
+    <div class="cx-more-grid" id="more-grid"><!-- filled by JS --></div>
+
+    <div class="cx-cta">
+      <div class="cx-cta-txt">
+        <h3 id="cta-title">আপনিও আঁকতে পারেন?</h3>
+        <p id="cta-body">নিজের হাতে আঁকা কমিক স্ট্রিপ, কার্টুন, কবিতা বা যেকোনো শিল্পকর্ম পাঠান — নির্বাচিত কাজ প্রকাশিত হবে দৈনিক অনুলিপির কমিকস পাতায়, লেখকের নাম-সহ।</p>
+      </div>
+      <button class="cx-cta-btn" onclick="openContactPopup('যোগাযোগ')" id="cta-btn">✉️ জমা দিন</button>
+    </div>`;
+
+// ── "NO COMIC TODAY" JOKES ──
+// Same self-deprecating, Dhaka-flavored humor as index.html's empty-news
+// state ("সংবাদ ফাইবার কেবলে চড়ে আসছে") and live.html's offline jokes —
+// shown instead of a blank page whenever COMICS ends up empty (e.g. the
+// sheet is configured but has no rows yet). One is picked at random.
+const COMIC_JOKES = {
+  bn: [
+    'শিল্পী মনে হয় পেনসিলটা খুঁজে পাচ্ছেন না ✏️ — নতুন কমিক আঁকা শুরু হলেই এই পাতা নিজে থেকেই ভরে উঠবে।',
+    'কালির দোয়াতটা মনে হয় আজ শুকিয়ে গেছে 🖋️ — পরের পর্ব আসা মাত্রই এখানে দেখা যাবে।',
+    'পাতাটা এখনো ফাঁকা প্যানেলেই আটকে আছে 🖼️ — শিল্পী কাজ শুরু করলেই সব বদলে যাবে।',
+    'মনে হচ্ছে চরিত্ররাও আজ চা খেতে বেরিয়েছে ☕ — নতুন কমিক এলেই তারা ফিরে আসবে।',
+    'বেলুনের ভেতর কথাটাই এখনো লেখা হয়নি 💬 — একটু অপেক্ষা করুন, শিগগিরই নতুন গল্প আসছে।',
+    'রাবারটা দিয়ে মনে হয় পুরো স্ক্রিপ্টটাই মুছে ফেলা হয়েছে 🧽 — নতুন গল্প লেখা শুরু হলেই পাতাটা জেগে উঠবে।',
+    'পাতার কোণায় শুধু একটা স্টিক-ফিগার বসে হাই তুলছে 🥱 — বাকি চরিত্ররা এলেই আসল কমিক শুরু হবে।',
+    'মনে হচ্ছে শিল্পী এখনো প্রথম প্যানেলের আইডিয়াই খুঁজছেন 💡 — আইডিয়া মিললেই এখানে দেখা যাবে।',
+    'কাগজটা মনে হয় বাতাসে উড়ে অন্য টেবিলে চলে গেছে 🌬️ — ফিরে এলেই নতুন পর্ব ছাপা হবে।',
+    'পাঞ্চলাইনটা মনে হয় এখনো লাইনেই দাঁড়িয়ে অপেক্ষা করছে 🚶 — পালা এলেই সবার সামনে আসবে।'
+  ],
+  en: [
+    "The artist seems to have misplaced their pencil \u270f\ufe0f \u2014 this page fills itself in the moment a new comic gets drawn.",
+    "The inkwell appears to have run dry today \ud83d\udd8b\ufe0f \u2014 the next episode will show up here as soon as it lands.",
+    "This page is still stuck on a blank panel \ud83d\uddbc\ufe0f \u2014 it'll come alive the moment the artist gets started.",
+    "Even the characters seem to be out for tea today \u2615 \u2014 they'll be back the moment a new comic arrives.",
+    "The speech bubble is still empty \ud83d\udcac \u2014 hang tight, a new story is on its way.",
+    "It looks like the eraser wiped out the whole script \ud83e\uddfd \u2014 the page wakes up the moment a new one gets written.",
+    "Just one stick figure is sitting in the corner yawning \ud83e\udd71 \u2014 the rest of the cast shows up once the comic does.",
+    "The artist still seems to be hunting for the first panel's idea \ud83d\udca1 \u2014 it'll appear here the moment the idea lands.",
+    "The page seems to have blown off the desk in the breeze \ud83c\udf2c\ufe0f \u2014 the next episode prints once it's back.",
+    "The punchline is still standing in line, waiting its turn \ud83d\udeb6 \u2014 it'll step up the moment it's called."
+  ]
+};
+let lastJoke = null;
+function pickComicJoke(){
+  const arr = COMIC_JOKES[lang] || COMIC_JOKES.bn;
+  if(arr.length <= 1) return arr[0];
+  let pick;
+  do { pick = arr[Math.floor(Math.random()*arr.length)]; } while(pick === lastJoke);
+  lastJoke = pick;
+  return pick;
+}
+function renderEmptyState(){
+  const t = PAGE_T[lang];
+  document.getElementById('content').innerHTML = `
+    <div class="cx-notfound">
+      <div class="ei">✏️</div>
+      <p>${pickComicJoke()}</p>
+    </div>
+    <div class="cx-cta">
+      <div class="cx-cta-txt">
+        <h3>${esc(t.ctaTitle)}</h3>
+        <p>${esc(t.ctaBody)}</p>
+      </div>
+      <button class="cx-cta-btn" onclick="openContactPopup('যোগাযোগ')">${esc(t.ctaBtn)}</button>
+    </div>`;
+}
+
+function renderHome(){
+  if(!COMICS.length){
+    renderEmptyState();
+    resetMetaTags();
+    resetStructuredData();
+    maybeScrollTop();
+    return;
+  }
+  document.getElementById('content').innerHTML = HOME_HTML;
+  document.getElementById('feat-prev').addEventListener('click', prevFeatured);
+  document.getElementById('feat-next').addEventListener('click', nextFeatured);
+  applyLangUIFixed(); // section-title labels etc. that live inside #content
+  renderFeatured();
+  renderSeries();
+  renderMore();
+  resetMetaTags();
+  resetStructuredData();
+  maybeScrollTop();
+}
+
+function renderComicDetail(slug){
+  const c = COMICS.find(x=>x.slug===slug);
+  const t = PAGE_T[lang];
+  if(!c){
+    document.getElementById('content').innerHTML = `
+      <button class="cx-back" onclick="goHome()">← ${t.back}</button>
+      <div class="cx-notfound">
+        <div class="ei">😔</div>
+        <p>${t.notFound}</p>
+        <button class="cx-cta-btn" onclick="goHome()">${t.back}</button>
+      </div>`;
+    maybeScrollTop();
+    return;
+  }
+  const badge = lang==='en' ? (c.badge_en||'') : (c.badge_bn||'');
+  const title = lang==='en' ? c.title_en : c.title_bn;
+  const cap   = lang==='en' ? c.cap_en : c.cap_bn;
+  const seriesKey = getSeriesKey(c);
+  const currentSeriesKey = seriesKey; // used below to dedupe "More Comics"
+  const seriesInfo = seriesKey ? seriesDisplayInfo(seriesKey) : null;
+  const seriesNameTag = seriesInfo
+    ? `<div class="cx-series-name-tag" onclick="navSeries('${esc(seriesInfo.slug)}')">${esc(lang==='en' ? seriesInfo.title_en : seriesInfo.title_bn)}</div>`
+    : '';
+  if(seriesKey) saveLastRead(seriesKey, c.slug); // remember where the reader left off in this series
+  const shareUrl = location.origin + location.pathname + '#comic/' + encodeURIComponent(c.slug);
+  const shareRow = `<div class="cx-share-row">
+      <button class="cx-share-btn" onclick="openSharePopup('${esc(shareUrl)}','${esc(title)}')">📤 ${esc(lang==='en'?'Share':'শেয়ার করুন')}</button>
+    </div>`;
+
+  // Series episode nav — ← আগের পর্ব / সব পর্ব / পরের পর্ব → — only shown
+  // when this comic belongs to a series (option 2: prev/next episode nav).
+  let epNavHtml = '';
+  if(seriesKey){
+    const eps = seriesEpisodes(seriesKey);
+    const idx = eps.findIndex(e=>e.slug===c.slug);
+    const prevEp = idx>0 ? eps[idx-1] : null;
+    const nextEp = idx>=0 && idx<eps.length-1 ? eps[idx+1] : null;
+    const allTxt = lang==='en' ? 'All Episodes' : 'সব পর্ব';
+    epNavHtml = `<div class="cx-feat-nav">
+        <button class="cx-feat-btn" ${prevEp?`onclick="navSlugKeepScroll('${esc(prevEp.slug)}')"`:'disabled style="opacity:.35;cursor:default;"'}>← ${esc(t.prev)}</button>
+        <button class="cx-feat-btn" onclick="navSeries('${esc(seriesInfo.slug)}')">${esc(allTxt)}</button>
+        <button class="cx-feat-btn" ${nextEp?`onclick="navSlugKeepScroll('${esc(nextEp.slug)}')"`:'disabled style="opacity:.35;cursor:default;"'}>${esc(t.next)} →</button>
+      </div>`;
+  }
+
+  // "More Comics" below a detail page — same series-deduped items as the
+  // homepage grid, just excluding whatever series/comic is currently open.
+  const related = moreGridItems()
+    .filter(item => item.type==='series' ? item.data.key!==currentSeriesKey : item.data.slug!==slug)
+    .slice(0,3);
+
+  document.getElementById('content').innerHTML = `
+    <button class="cx-back" onclick="goHome()">← ${t.back}</button>
+    <div class="cx-feat detail">
+      <div class="cx-feat-badge">${esc(badge)}</div>
+      <div class="cx-feat-thumb" ${c.img?`onclick="openLightbox('${esc(c.slug)}')"`:''}>${c.img ? `<img src="${esc(c.img)}" alt="${esc(title)}" onerror="this.remove()">${`<span class="cx-zoom-hint">🔍 ${esc(lang==='en'?'Tap to zoom':'বড় করে দেখুন')}</span>`}` : `<span>${esc(c.emoji)}</span>`}</div>
+      <div class="cx-feat-body">
+        ${seriesNameTag}
+        <div class="cx-feat-title" style="cursor:default;">${esc(title)}</div>
+        <div class="cx-feat-sub">${esc(cap)}</div>
+        ${artistLineHtml(c, 'cx-artist-feat')}
+        ${formatPublishedDate(c.published_at) ? `<div class="cx-feat-date">📅 ${esc(formatPublishedDate(c.published_at))}</div>` : ''}
+      </div>
+      ${shareRow}
+      ${epNavHtml}
+    </div>
+    ${related.length ? `
+    <div class="cx-section-title"><h2>${t.stMore}</h2></div>
+    <div class="cx-more-grid">${related.map(moreCardHtml).join('')}</div>` : ''}`;
+
+  updateMetaTags({
+    title: `${title} | দৈনিক অনুলিপি`,
+    description: cap || DEFAULT_META.desc,
+    image: c.img,
+    url: shareUrl
+  });
+  const artistNm = artistName(c);
+  updateStructuredData({
+    '@context':'https://schema.org',
+    '@type':'CreativeWork',
+    name: title,
+    description: cap || DEFAULT_META.desc,
+    image: c.img || DEFAULT_META.image,
+    url: shareUrl,
+    genre: 'Comic',
+    inLanguage: lang==='en' ? 'en' : 'bn',
+    ...(artistNm ? {author:{'@type':'Person', name:artistNm}} : {}),
+    ...(seriesInfo ? {isPartOf:{'@type':'CreativeWorkSeries', name:(lang==='en'?seriesInfo.title_en:seriesInfo.title_bn)}} : {}),
+    ...(c.published_at ? {datePublished: c.published_at} : {}),
+    publisher: {'@type':'Organization', name:'দৈনিক অনুলিপি | Dainik Anulipi', url:'https://dainikanulipi.github.io/da/'}
+  });
+  maybeScrollTop();
+}
+
+// Episode-list page for one series (option 1: click a series card → see
+// every episode with a thumbnail, playlist-style, then pick one to read).
+// Newest episode listed first.
+function episodeCardHtml(c, lastReadSlug){
+  const title = lang==='en' ? c.title_en : c.title_bn;
+  const epNum = c.episode!=null && c.episode!=='' ? c.episode : '';
+  const epLabel = epNum!=='' ? (lang==='en' ? `Part ${epNum}` : `পর্ব ${toBnDigits(epNum)}`) : (lang==='en' ? (c.badge_en||'Episode') : (c.badge_bn||'পর্ব'));
+  const isLastRead = lastReadSlug && c.slug===lastReadSlug;
+  const lastReadTag = isLastRead ? `<div class="cx-new-badge" style="background:var(--red);color:#fff;">${esc(lang==='en'?'Last read':'সর্বশেষ পড়া')}</div>` : '';
+  return `<div class="cx-more-card${isLastRead?' cx-lastread':''}" onclick="navSlug('${esc(c.slug)}')">
+      <div class="cx-more-badge">${esc(epLabel)}</div>
+      ${lastReadTag}
+      <div class="cx-more-thumb">${c.img ? thumbImgTag(c.img, title, [240,480,720], '(max-width:380px) 45vw, (max-width:599px) 30vw, (max-width:960px) 22vw, 18vw') : `<span>${esc(c.emoji)}</span>`}</div>
+      <div class="cx-more-body">
+        <div class="cx-more-title">${esc(title)}</div>
+        ${artistLineHtml(c)}
+      </div>
+    </div>`;
+}
+function renderSeriesDetail(slugOrKey){
+  const t = PAGE_T[lang];
+  // Resolve the URL slug back to the internal series key. Falls back to
+  // treating the param as a raw key so any already-shared old-style link
+  // (from before series had a dedicated slug) still opens correctly.
+  const key = findSeriesKeyBySlug(slugOrKey) || slugOrKey;
+  const s = seriesDisplayInfo(key);
+  if(!s){
+    document.getElementById('content').innerHTML = `
+      <button class="cx-back" onclick="goHome()">← ${t.back}</button>
+      <div class="cx-notfound">
+        <div class="ei">😔</div>
+        <p>${t.notFound}</p>
+        <button class="cx-cta-btn" onclick="goHome()">${t.back}</button>
+      </div>`;
+    maybeScrollTop();
+    return;
+  }
+  const title = lang==='en' ? s.title_en : s.title_bn;
+  const epCountTxt = (lang==='en' ? `${s.episodes.length} episode` : `${toBnDigits(s.episodes.length)} পর্ব`) + (lang==='en' && s.episodes.length!==1 ? 's' : '');
+  const epsNewestFirst = s.episodes.slice().reverse();
+  const shareUrl = location.origin + location.pathname + '#series/' + encodeURIComponent(s.slug);
+
+  // "Continue Reading" — only shown if this browser has a remembered
+  // last-read episode for this series, and it isn't the newest one already.
+  const lastReadSlug = getLastRead(s.key);
+  const lastReadComic = lastReadSlug ? s.episodes.find(e=>e.slug===lastReadSlug) : null;
+  let continueBanner = '';
+  if(lastReadComic){
+    const lrTitle = lang==='en' ? lastReadComic.title_en : lastReadComic.title_bn;
+    const lrEpNum = lastReadComic.episode!=null && lastReadComic.episode!=='' ? lastReadComic.episode : '';
+    const lrLabel = lrEpNum!=='' ? (lang==='en' ? `Part ${lrEpNum}` : `পর্ব ${toBnDigits(lrEpNum)}`) : lrTitle;
+    continueBanner = `<div class="cx-continue-banner" onclick="navSlug('${esc(lastReadComic.slug)}')">
+        <div class="cx-cb-txt">${esc(lang==='en'?'Continue reading:':'যেখানে ছিলেন:')} <b>${esc(lrLabel)}</b></div>
+        <button class="cx-cb-go">${esc(lang==='en'?'Resume →':'পড়া চালিয়ে যান →')}</button>
+      </div>`;
+  }
+
+  document.getElementById('content').innerHTML = `
+    <button class="cx-back" onclick="goHome()">← ${t.back}</button>
+    <div class="cx-section-title" style="justify-content:space-between;">
+      <div style="display:flex;align-items:baseline;gap:10px;">
+        <h2>${esc(title)}</h2>
+        <span>${esc(epCountTxt)}</span>
+      </div>
+      <button class="cx-feat-btn" onclick="openSharePopup('${esc(shareUrl)}','${esc(title)}')">📤 ${esc(lang==='en'?'Share':'শেয়ার')}</button>
+    </div>
+    ${continueBanner}
+    <div class="cx-more-grid">${epsNewestFirst.map(c=>episodeCardHtml(c, lastReadSlug)).join('')}</div>`;
+  updateMetaTags({
+    title: `${title} | দৈনিক অনুলিপি`,
+    description: (lang==='en' ? `${title} — ${epCountTxt} on Dainik Anulipi comics.` : `${title} — ${epCountTxt}, দৈনিক অনুলিপি কমিকস।`),
+    image: s.cover && s.cover.img,
+    url: shareUrl
+  });
+  updateStructuredData({
+    '@context':'https://schema.org',
+    '@type':'CreativeWorkSeries',
+    name: title,
+    description: (lang==='en' ? `${title} — ${epCountTxt} on Dainik Anulipi comics.` : `${title} — ${epCountTxt}, দৈনিক অনুলিপি কমিকস।`),
+    image: (s.cover && s.cover.img) || DEFAULT_META.image,
+    url: shareUrl,
+    numberOfEpisodes: s.episodes.length,
+    inLanguage: lang==='en' ? 'en' : 'bn',
+    publisher: {'@type':'Organization', name:'দৈনিক অনুলিপি | Dainik Anulipi', url:'https://dainikanulipi.github.io/da/'}
+  });
+  maybeScrollTop();
+}
+
+function route(){
+  const hash = location.hash.replace('#','') || '';
+  const parts = hash.split('/');
+  if(parts[0]==='comic' && parts[1]){
+    renderComicDetail(decodeURIComponent(parts.slice(1).join('/')));
+  } else if(parts[0]==='series' && parts[1]){
+    renderSeriesDetail(decodeURIComponent(parts.slice(1).join('/')));
+  } else {
+    renderHome();
+  }
+}
+
+// ── THEME ──
+function toggleTheme(){
+  const html=document.documentElement,isDark=html.getAttribute('data-theme')==='dark';
+  html.setAttribute('data-theme',isDark?'light':'dark');
+  document.getElementById('theme-btn').textContent=isDark?'🌙':'☀️';
+  localStorage.setItem('theme',isDark?'light':'dark');
+}
+function applyTheme(){
+  const saved=localStorage.getItem('theme')||'light';
+  document.documentElement.setAttribute('data-theme',saved);
+  document.getElementById('theme-btn').textContent=saved==='dark'?'☀️':'🌙';
+}
+
+// ── TOPBAR DATE ──
+function toBnDigits(str){const d=['০','১','২','৩','৪','৫','৬','৭','৮','৯'];return String(str).replace(/\d/g,n=>d[n]);}
+// Formats a backend published_at ('yyyy-MM-dd') into a localized display
+// date. Parsed manually (not via `new Date(str)`) to avoid any UTC-parsing
+// day-shift surprises across timezones. Returns '' for missing/malformed input.
+function formatPublishedDate(dateStr){
+  if(!dateStr) return '';
+  const raw = String(dateStr).trim();
+  if(!raw) return '';
+
+  let y, mo, d; // mo is 1-indexed
+
+  // Path 1: plain "yyyy-MM-dd" (optionally followed by more text, e.g.
+  // "yyyy-MM-dd HH:mm"). Parsed manually so it's never shifted by UTC
+  // parsing.
+  let m = /^(\d{4})-(\d{2})-(\d{2})/.exec(raw);
+  if(m){
+    y=+m[1]; mo=+m[2]; d=+m[3];
+  } else {
+    // Path 2: anything else the backend might hand us — an ISO timestamp,
+    // a "Sat Aug 22 2026 00:00:00 GMT+0600 (...)" Date-object string,
+    // "MM/dd/yyyy", etc. Let the browser's own date parser take a shot
+    // instead of giving up, so a date still shows even if the backend's
+    // format changes or a raw Date object slips through unconverted.
+    const parsed = new Date(raw);
+    if(isNaN(parsed.getTime())) return '';
+    y = parsed.getFullYear(); mo = parsed.getMonth()+1; d = parsed.getDate();
+  }
+
+  if(!y || !mo || !d) return '';
+
+  if(lang==='en'){
+    const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+    return `${d} ${months[mo-1]}, ${y}`;
+  }
+  const months=['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+  return `${toBnDigits(String(d))} ${months[mo-1]}, ${toBnDigits(String(y))}`;
+}
+function setTopbarDate(){
+  const d=new Date();
+  if(lang==='en'){
+    const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+    document.getElementById('tbar-date').textContent=`${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+  } else {
+    const months=['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+    const days=['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'];
+    document.getElementById('tbar-date').textContent=`${days[d.getDay()]}, ${toBnDigits(String(d.getDate()))} ${months[d.getMonth()]} ${toBnDigits(String(d.getFullYear()))}`;
+  }
+}
+
+// ── CONTACT POPUP ──
+function openContactPopup(type){
+  const isAd = type==='বিজ্ঞাপন';
+  document.getElementById('popup-title').textContent = lang==='en'
+    ? (isAd ? '📢 Advertise With Us' : '📬 Contact Us')
+    : (isAd ? '📢 বিজ্ঞাপন দিন' : '📬 যোগাযোগ করুন');
+  document.getElementById('contact-popup-overlay').style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function closeContactPopup(e){
+  if(e&&e.target!==document.getElementById('contact-popup-overlay'))return;
+  document.getElementById('contact-popup-overlay').style.display='none';
+  document.body.style.overflow='';
+}
+
+// ── INFO POPUP ──
+const INFO_CONTENT_BN={
+  about:{ title:'🗞️ আমাদের সম্পর্কে', body:`
+    <div style="margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid var(--bdr);text-align:center;">
+      <img src="assets/logo.png" alt="দৈনিক অনুলিপি" class="about-logo about-logo-light">
+      <img src="assets/logo-dark.png" alt="দৈনিক অনুলিপি" class="about-logo about-logo-dark">
+      <div style="font-size:12px;color:var(--txt2);font-style:italic;margin-top:8px;">সত্যের সন্ধানে, নির্ভীক প্রকাশে!</div>
+    </div>
+    <div style="background:var(--sur2);border-left:4px solid var(--red);padding:14px 16px;margin-bottom:18px;">
+      <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:6px;">⚠️ জরুরি ঘোষণা</div>
+      <p style="font-size:13.5px;line-height:1.85;color:var(--txt2);margin:0;">এই নিউজ পোর্টালটি বর্তমানে "পরীক্ষামূলক সম্প্রচার" কার্যক্রম পরিচালনা করছে। আমরা সচেতনভাবে রাজনৈতিক সংবাদ এড়িয়ে চলি এবং শুধুমাত্র বিনোদন, তথ্য ও জনস্বার্থমূলক সংবাদ প্রকাশ করি।</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;">
+      <div style="background:var(--sur2);padding:12px 14px;border:1px solid var(--bdr);"><div style="font-size:10px;color:var(--txt3);margin-bottom:4px;">প্রতিষ্ঠাতা ও প্রকাশক</div><div style="font-size:13.5px;font-weight:700;">অনিক অধিকারী</div></div>
+      <div style="background:var(--sur2);padding:12px 14px;border:1px solid var(--bdr);"><div style="font-size:10px;color:var(--txt3);margin-bottom:4px;">প্রতিষ্ঠাতা ও প্রধান সম্পাদক</div><div style="font-size:13.5px;font-weight:700;">মো: ফারহান শাহরিয়ার</div></div>
+    </div>
+    <div style="text-align:center;padding-top:4px;"><div style="font-size:11px;color:var(--txt3);">© ২০২৬ দৈনিক অনুলিপি। সর্বস্বত্ব সংরক্ষিত।</div></div>` },
+  privacy:{ title:'🔒 গোপনীয়তা নীতি', body:`
+    <p style="font-size:12px;color:var(--txt3);margin-bottom:16px;">সর্বশেষ হালনাগাদ: জানুয়ারি ২০২৬</p>
+    <div style="padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--bdr);">
+      <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;">📋 তথ্য সংগ্রহ</div>
+      <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">পোর্টালের সেবা উন্নত করতে প্রয়োজনীয় তথ্যই শুধু সংগ্রহ করা হয়। পাঠকের ব্যক্তিগত তথ্য কখনো তৃতীয় পক্ষের কাছে বিক্রি বা হস্তান্তর করা হয় না।</p>
+    </div>
+    <div><div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;">✉️ যোগাযোগ</div><p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">গোপনীয়তা সংক্রান্ত যেকোনো প্রশ্নের জন্য: <a href="mailto:dainikanulipi@gmail.com" style="color:var(--red);font-weight:700;">dainikanulipi@gmail.com</a></p></div>
+    <div style="text-align:center;padding-top:16px;margin-top:16px;border-top:1px solid var(--bdr);"><div style="font-size:11px;color:var(--txt3);">© ২০২৬ দৈনিক অনুলিপি — সর্বস্বত্ব সংরক্ষিত</div></div>` }
+};
+const INFO_CONTENT_EN={
+  about:{ title:'🗞️ About Us', body:`
+    <div style="margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid var(--bdr);text-align:center;">
+      <img src="assets/logo.png" alt="Dainik Anulipi" class="about-logo about-logo-light">
+      <img src="assets/logo-dark.png" alt="Dainik Anulipi" class="about-logo about-logo-dark">
+      <div style="font-size:12px;color:var(--txt2);font-style:italic;margin-top:8px;">In pursuit of truth, In fearless expression!</div>
+    </div>
+    <div style="background:var(--sur2);border-left:4px solid var(--red);padding:14px 16px;margin-bottom:18px;">
+      <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:6px;">⚠️ Important Notice</div>
+      <p style="font-size:13.5px;line-height:1.85;color:var(--txt2);margin:0;">This news portal is currently running a "trial broadcast". We consciously avoid political news and publish only entertainment, informational, and public-interest news.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;">
+      <div style="background:var(--sur2);padding:12px 14px;border:1px solid var(--bdr);"><div style="font-size:10px;color:var(--txt3);margin-bottom:4px;">Founder & Chief Publisher</div><div style="font-size:13.5px;font-weight:700;">Anik Adhikari</div></div>
+      <div style="background:var(--sur2);padding:12px 14px;border:1px solid var(--bdr);"><div style="font-size:10px;color:var(--txt3);margin-bottom:4px;">Founder & Editor-in-Chief</div><div style="font-size:13.5px;font-weight:700;">Md. Farhan Shahriar</div></div>
+    </div>
+    <div style="text-align:center;padding-top:4px;"><div style="font-size:11px;color:var(--txt3);">© 2026 Dainik Anulipi. All rights reserved.</div></div>` },
+  privacy:{ title:'🔒 Privacy Policy', body:`
+    <p style="font-size:12px;color:var(--txt3);margin-bottom:16px;">Last updated: January 2026</p>
+    <div style="padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--bdr);">
+      <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;">📋 Information Collection</div>
+      <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">We only collect information necessary to improve the portal's services. Readers' personal information is never sold or transferred to any third party.</p>
+    </div>
+    <div><div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;">✉️ Contact</div><p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">For any privacy-related questions: <a href="mailto:dainikanulipi@gmail.com" style="color:var(--red);font-weight:700;">dainikanulipi@gmail.com</a></p></div>
+    <div style="text-align:center;padding-top:16px;margin-top:16px;border-top:1px solid var(--bdr);"><div style="font-size:11px;color:var(--txt3);">© 2026 Dainik Anulipi — All Rights Reserved</div></div>` }
+};
+function openInfoPopup(type){
+  const c=(lang==='en' ? INFO_CONTENT_EN : INFO_CONTENT_BN)[type]; if(!c)return;
+  document.getElementById('info-popup-title').textContent = c.title;
+  document.getElementById('info-popup-body').innerHTML = c.body;
+  document.getElementById('info-popup-overlay').style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function closeInfoPopup(e){
+  if(e&&e.target!==document.getElementById('info-popup-overlay'))return;
+  document.getElementById('info-popup-overlay').style.display='none';
+  document.body.style.overflow='';
+}
+
+// ── LANGUAGE ──
+const PAGE_T = {
+  bn:{ home:'অনলাইন সংস্করণ', contact:'যোগাযোগ', ads:'বিজ্ঞাপন',
+    navHome:'🌐 অনলাইন সংস্করণ', navEpaper:'📰 ই-পেপার', navLive:'লাইভ',
+    tagline:'সত্যের সন্ধানে, নির্ভীক প্রকাশে!',
+    title:'কমিকস', note:'প্রতিদিন নতুন কমিক স্ট্রিপ আর ছোট্ট এক-প্যানেল কার্টুন — হাসি, পর্যবেক্ষণ আর একটু আড্ডার স্বাদে। শুধু কমিক না, কবিতা, আঁকাআঁকি আর আরও অনেক কিছুই থাকবে এখানে। রাজনীতি নয়, শুধুই জীবনের গল্প।',
+    badge:'প্রতিদিন নতুন পর্ব',
+    stFeatured:'আজকের কমিক', stFeaturedSub:'টাটকা আঁকা',
+    stSeries:'জনপ্রিয় সিরিজ', stSeriesSub:'সম্পাদকের পছন্দ',
+    stMore:'আরও কমিকস', stMoreSub:'সব পর্ব',
+    prev:'আগের পর্ব', next:'পরের পর্ব',
+    ctaTitle:'আপনিও আঁকতে পারেন?', ctaBody:'নিজের হাতে আঁকা কমিক স্ট্রিপ, কার্টুন, কবিতা বা যেকোনো শিল্পকর্ম পাঠান — নির্বাচিত কাজ প্রকাশিত হবে দৈনিক অনুলিপির কমিকস পাতায়, লেখকের নাম-সহ।', ctaBtn:'✉️ জমা দিন',
+    back:'ফিরে যান', notFound:'কমিকটি খুঁজে পাওয়া যায়নি।',
+    footerInfo:'প্রতিষ্ঠাতা ও প্রকাশক: অনিক অধিকারী<br>প্রতিষ্ঠাতা ও প্রধান সম্পাদক: মো: ফারহান শাহরিয়ার',
+    footerNoticeTitle:'⚠️ জরুরি ঘোষণা',
+    footerNoticeText:'এই নিউজ পোর্টালটি বর্তমানে "পরীক্ষামূলক সম্প্রচার" কার্যক্রম পরিচালনা করছে। আমরা সচেতনভাবে রাজনৈতিক সংবাদ এড়িয়ে চলি এবং শুধুমাত্র বিনোদন, তথ্য ও জনস্বার্থমূলক সংবাদ প্রকাশ করি। এখানে প্রকাশিত সংবাদের দায়ভার সংশ্লিষ্ট লেখকদের, পোর্টাল কর্তৃপক্ষের নয়। রেজিস্ট্রেশন প্রক্রিয়া এবং পূর্ণাঙ্গ সম্প্রচারের কাজ চলমান।',
+    fCat:'বিভাগ', fInfo:'তথ্য', ftAbout:'আমাদের সম্পর্কে', ftContact:'যোগাযোগ করুন', ftAds:'বিজ্ঞাপন দিন', ftReporter:'রিপোর্টার পোর্টাল', ftPrivacy:'গোপনীয়তা নীতি',
+    footerBottom:'দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — সর্বস্বত্ব সংরক্ষিত ২০২৬',
+    loaderText:'কমিক আঁকা হচ্ছে…' },
+  en:{ home:'Online Version', contact:'Contact', ads:'Advertise',
+    navHome:'🌐 Online Version', navEpaper:'📰 E-Paper', navLive:'Live',
+    tagline:'In pursuit of truth, In fearless expression!',
+    title:'Comics', note:'A new comic strip and one-panel gag cartoons every day — humor, observation, and a bit of adda. Not just comics — poetry, art, and more too, coming soon. No politics, just everyday stories.',
+    badge:'New episodes every day',
+    stFeatured:'Today\u2019s Comic', stFeaturedSub:'Fresh off the drawing board',
+    stSeries:'Popular Series', stSeriesSub:'Editor\u2019s pick',
+    stMore:'More Comics', stMoreSub:'All episodes',
+    prev:'Previous', next:'Next',
+    ctaTitle:'Want to draw for us?', ctaBody:'Send in your own hand-drawn comic strip, cartoon, poem, or any artwork — selected work gets published on the Dainik Anulipi comics page, with full author credit.', ctaBtn:'✉️ Submit',
+    back:'Back', notFound:'This comic couldn\u2019t be found.',
+    footerInfo:'Founder & Publisher: Anik Adhikari<br>Founder & Editor-in-Chief: Md. Farhan Shahriar',
+    footerNoticeTitle:'⚠️ Important Notice',
+    footerNoticeText:'This news portal is currently running on a "trial broadcast" basis. We consciously avoid political news and publish only entertainment, informational, and public-interest content. Responsibility for news published here lies with the respective authors, not the portal authority. The registration process and full broadcast are underway.',
+    fCat:'Categories', fInfo:'Information', ftAbout:'About Us', ftContact:'Contact Us', ftAds:'Advertise With Us', ftReporter:'Reporter Portal', ftPrivacy:'Privacy Policy',
+    footerBottom:'দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — All rights reserved 2026',
+    loaderText:'Drawing today\u2019s comic…' }
+};
+function setLang(l){
+  lang = l;
+  document.documentElement.setAttribute('lang', l);
+  document.querySelectorAll('.lb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('lb-'+l).classList.add('on');
+  localStorage.setItem('anulipi_lang', l);
+  applyLangUI();
+}
+function applyLangUI(){
+  const t = PAGE_T[lang];
+
+  document.getElementById('tb-home').textContent = t.home;
+  document.getElementById('tb-contact').textContent = t.contact;
+  document.getElementById('tb-ads').textContent = t.ads;
+  document.getElementById('nav-home').textContent = t.navHome;
+  document.getElementById('nav-epaper').textContent = t.navEpaper;
+  document.getElementById('nav-live-txt').textContent = t.navLive;
+  document.getElementById('nav-comic').innerHTML = `🎨 ${t.title}`;
+
+  document.getElementById('cx-title-txt').textContent = t.title;
+  document.getElementById('cx-note').textContent = t.note;
+  document.getElementById('cx-badge').textContent = t.badge;
+  document.getElementById('loader-text').textContent = t.loaderText;
+
+  document.getElementById('mast-tagline').textContent = t.tagline;
+  document.getElementById('footer-tagline').textContent = t.tagline;
+  document.getElementById('footer-info').innerHTML = t.footerInfo;
+  document.getElementById('footer-notice-title').textContent = t.footerNoticeTitle;
+  document.getElementById('footer-notice-text').textContent = t.footerNoticeText;
+  document.getElementById('footer-cat-heading').textContent = t.fCat;
+  document.getElementById('footer-info-heading').textContent = t.fInfo;
+  document.getElementById('ft-about').textContent = t.ftAbout;
+  document.getElementById('ft-contact').textContent = t.ftContact;
+  document.getElementById('ft-advertise').textContent = t.ftAds;
+  document.getElementById('ft-reporter').textContent = t.ftReporter;
+  document.getElementById('ft-privacy').textContent = t.ftPrivacy;
+  document.getElementById('footer-bottom').textContent = t.footerBottom;
+
+  document.getElementById('ft-cat-today').textContent = t.stFeatured;
+  document.getElementById('ft-cat-series').textContent = t.stSeries;
+  document.getElementById('ft-cat-more').textContent = t.stMore;
+
+  route(); // re-render whichever view (list or detail) is currently active, in the new language
+  setTopbarDate();
+}
+
+// Labels that live *inside* #content — only present once renderHome() has
+// injected HOME_HTML, so these are set from renderHome() itself rather
+// than from applyLangUI() (which runs before #content necessarily has them).
+function applyLangUIFixed(){
+  const t = PAGE_T[lang];
+  document.getElementById('st-featured').textContent = t.stFeatured;
+  document.getElementById('st-series').textContent = t.stSeries;
+  document.getElementById('st-series-sub').textContent = t.stSeriesSub;
+  document.getElementById('st-more').textContent = t.stMore;
+  document.getElementById('feat-prev-txt').textContent = t.prev;
+  document.getElementById('feat-next-txt').textContent = t.next;
+  document.getElementById('cta-title').textContent = t.ctaTitle;
+  document.getElementById('cta-body').textContent = t.ctaBody;
+  document.getElementById('cta-btn').textContent = t.ctaBtn;
+}
+
+// ── READING LIGHTBOX ──
+// Tapping the comic image on a reading page opens it fullscreen for a
+// closer, uncropped look. If the comic belongs to a series, prev/next
+// buttons let a reader keep going without leaving fullscreen.
+function openLightbox(slug){
+  const c = COMICS.find(x=>x.slug===slug);
+  if(!c || !c.img) return;
+  const title = lang==='en' ? c.title_en : c.title_bn;
+  document.getElementById('lightbox-imgwrap').innerHTML = `<img src="${esc(c.img)}" alt="${esc(title)}">`;
+  document.getElementById('lightbox-title').textContent = title;
+  renderLightboxNav(c);
+  document.getElementById('lightbox-overlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function renderLightboxNav(c){
+  const nav = document.getElementById('lightbox-nav');
+  const key = getSeriesKey(c);
+  if(!key){ nav.innerHTML=''; return; }
+  const eps = seriesEpisodes(key);
+  const idx = eps.findIndex(e=>e.slug===c.slug);
+  const prevEp = idx>0 ? eps[idx-1] : null;
+  const nextEp = idx>=0 && idx<eps.length-1 ? eps[idx+1] : null;
+  const t = PAGE_T[lang];
+  nav.innerHTML = `
+    <button class="cx-lightbox-btn" ${prevEp?`onclick="openLightbox('${esc(prevEp.slug)}')"`:'disabled'}>← ${esc(t.prev)}</button>
+    <button class="cx-lightbox-btn" ${nextEp?`onclick="openLightbox('${esc(nextEp.slug)}')"`:'disabled'}>${esc(t.next)} →</button>`;
+}
+function closeLightbox(){
+  const ov = document.getElementById('lightbox-overlay');
+  if(!ov.classList.contains('show')) return;
+  ov.classList.remove('show');
+  document.getElementById('lightbox-imgwrap').innerHTML = '';
+  document.body.style.overflow = '';
+}
+function closeLightboxBackdrop(e){
+  if(e.target===document.getElementById('lightbox-overlay')) closeLightbox();
+}
+
+// ── SHARE POPUP ──
+// openSharePopup(url, title) — used for both a single comic episode
+// (#comic/<slug>) and a whole series' episode-list page (#series/<key>).
+let shareCtx = { url:'', title:'' };
+function openSharePopup(url, title){
+  shareCtx = { url, title };
+  document.getElementById('share-popup-title').textContent = lang==='en' ? 'Share' : 'শেয়ার করুন';
+  document.getElementById('share-popup-sub').textContent = title;
+  document.getElementById('share-link-input').value = url;
+  document.getElementById('share-copy-btn').textContent = lang==='en' ? 'Copy' : 'কপি';
+  document.getElementById('share-system-txt').textContent = lang==='en' ? 'More sharing options' : 'সিস্টেম শেয়ার মেনু';
+  document.getElementById('share-native-row').style.display = navigator.share ? 'block' : 'none';
+  renderShareGrid();
+  document.getElementById('share-popup-overlay').classList.add('show');
+}
+function closeSharePopup(e){
+  if(e && e.target!==document.getElementById('share-popup-overlay')) return;
+  document.getElementById('share-popup-overlay').classList.remove('show');
+}
+function shareViaSystem(){
+  if(!navigator.share) return;
+  navigator.share({ title: shareCtx.title, url: shareCtx.url }).catch(()=>{});
+}
+function renderShareGrid(){
+  const { url, title } = shareCtx;
+  const enc = encodeURIComponent;
+  const opts = [
+    { label:'WhatsApp', emoji:'💬', bg:'#25D366', href:`https://wa.me/?text=${enc(title+' — '+url)}` },
+    { label:'Facebook', emoji:'📘', bg:'#1877F2', href:`https://www.facebook.com/sharer/sharer.php?u=${enc(url)}` },
+    { label: lang==='en' ? 'X (Twitter)' : 'এক্স (টুইটার)', emoji:'✖️', bg:'#000', href:`https://twitter.com/intent/tweet?url=${enc(url)}&text=${enc(title)}` },
+    { label:'Telegram', emoji:'✈️', bg:'#26A5E4', href:`https://t.me/share/url?url=${enc(url)}&text=${enc(title)}` },
+    { label: lang==='en' ? 'Email' : 'ইমেইল', emoji:'✉️', bg:'#555', href:`mailto:?subject=${enc(title)}&body=${enc(url)}` }
+  ];
+  document.getElementById('share-grid').innerHTML = opts.map(o=>
+    `<a class="cx-share-opt" style="background:${o.bg};" href="${esc(o.href)}" target="_blank" rel="noopener noreferrer">${o.emoji} ${esc(o.label)}</a>`
+  ).join('');
+}
+function copyShareLink(){
+  const input = document.getElementById('share-link-input');
+  const btn = document.getElementById('share-copy-btn');
+  const done = ()=>{ btn.textContent = lang==='en' ? 'Copied!' : 'কপি হয়েছে!'; setTimeout(()=>{ btn.textContent = lang==='en' ? 'Copy' : 'কপি'; }, 1600); };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(input.value).then(done).catch(()=>{ input.select(); try{document.execCommand('copy');}catch(_e){} done(); });
+  } else {
+    input.select();
+    try{ document.execCommand('copy'); }catch(_e){}
+    done();
+  }
+}
+
+// ── KEYBOARD ──
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape'){ closeContactPopup(); closeInfoPopup(); closeLightbox(); closeSharePopup(); return; }
+  if(!document.getElementById('lightbox-overlay').classList.contains('show')) return;
+  if(e.key==='ArrowLeft'){ const b=document.querySelector('#lightbox-nav .cx-lightbox-btn:first-child'); if(b && !b.disabled) b.click(); }
+  if(e.key==='ArrowRight'){ const b=document.querySelector('#lightbox-nav .cx-lightbox-btn:last-child'); if(b && !b.disabled) b.click(); }
+});
+
+// ── TO-TOP BUTTON ──
+const toTopBtn = document.getElementById('toTopBtn');
+window.addEventListener('scroll', () => { toTopBtn.classList.toggle('show', window.scrollY > 200); });
+
+// ── INIT ──
+// Loader stays up at least SITE_LOADER_MIN_MS so the animation always gets
+// a full cycle, but never longer than SITE_LOADER_MAX_MS even on a slow
+///failed sheet fetch — same pattern as index.html/live.html.
+const SITE_LOADER_MIN_MS = 2000;
+const SITE_LOADER_MAX_MS = 4000;
+const siteLoaderStart = Date.now();
+let siteLoaderHidden = false;
+function hideSiteLoader(){
+  if(siteLoaderHidden) return;
+  siteLoaderHidden = true;
+  const wait = Math.max(0, SITE_LOADER_MIN_MS - (Date.now() - siteLoaderStart));
+  setTimeout(()=>{
+    const loader = document.getElementById('site-loader');
+    if(loader) loader.classList.add('hide');
+  }, wait);
+}
+setTimeout(hideSiteLoader, SITE_LOADER_MAX_MS); // hard cap regardless of load state
+
+// ── AUTO-REFRESH ──
+// Re-pulls the sheet every 10 minutes so a comic (or a scheduled comic
+// going live, or a status/edit made from the admin) shows up on an
+// already-open tab without the reader having to manually reload.
+// Paused while any popup/lightbox is open, and never yanks scroll
+// position or resets an in-progress search — see maybeScrollTop() and
+// the search-box save/restore below.
+const AUTO_REFRESH_MS = 10 * 60 * 1000; // 10 minutes
+let autoRefreshBusy = false;
+function isAnyOverlayOpen(){
+  const lb = document.getElementById('lightbox-overlay');
+  const sp = document.getElementById('share-popup-overlay');
+  const cp = document.getElementById('contact-popup-overlay');
+  const ip = document.getElementById('info-popup-overlay');
+  if(lb && lb.classList.contains('show')) return true;
+  if(sp && sp.classList.contains('show')) return true;
+  if(cp && cp.style.display === 'flex') return true;
+  if(ip && ip.style.display === 'flex') return true;
+  return false;
+}
+async function silentRefresh(){
+  if(document.hidden) return;       // tab backgrounded — skip, next tick (or the visibilitychange handler below) will catch it
+  if(isAnyOverlayOpen()) return;    // reader's mid-interaction — don't rip the page out from under them
+  const searchInput = document.getElementById('more-search');
+  const savedSearch = searchInput ? searchInput.value : '';
+  try{
+    await loadComicsData();
+  }catch(_e){ return; } // network blip — just try again next tick
+  preserveScrollOnRender = true;
+  route();
+  if(savedSearch){
+    const newSearchInput = document.getElementById('more-search');
+    if(newSearchInput){ newSearchInput.value = savedSearch; filterMoreGrid(); }
+  }
+}
+let lastAutoRefresh = 0;
+function startAutoRefresh(){
+  lastAutoRefresh = Date.now();
+  setInterval(async ()=>{
+    if(autoRefreshBusy) return;
+    autoRefreshBusy = true;
+    try{ await silentRefresh(); lastAutoRefresh = Date.now(); }
+    finally{ autoRefreshBusy = false; }
+  }, AUTO_REFRESH_MS);
+  // Coming back to an already-open tab after being away a while (e.g. it
+  // was backgrounded through several missed intervals) refreshes right
+  // away instead of waiting out the rest of a 10-minute window.
+  document.addEventListener('visibilitychange', ()=>{
+    if(document.hidden || autoRefreshBusy) return;
+    if(Date.now() - lastAutoRefresh >= AUTO_REFRESH_MS){
+      autoRefreshBusy = true;
+      silentRefresh().finally(()=>{ lastAutoRefresh = Date.now(); autoRefreshBusy = false; });
+    }
+  });
+}
+
+async function init(){
+  applyTheme();
+  await loadDriveFolderMap();  // build filename→URL map for the Drive-folder image option, if configured
+  await loadComicsData();   // fetch Google Sheet CSVs (if SHEET_CSV URLs are set); falls back silently otherwise
+  seenSlugsSet = loadSeenSlugs(); // for the "NEW" badge — snapshot of what this visitor had already seen
+  persistSeenSlugs();             // remember today's full slug list for their *next* visit
+  setLang(lang);            // sets fixed UI text, then calls route() to render the current hash
+  window.addEventListener('hashchange', route);
+  initLiveDetection();
+  startAutoRefresh();
+  hideSiteLoader();
+}
+document.addEventListener('DOMContentLoaded', init);
+</script>
+
+<!-- LIVE STATUS DETECTOR: invisible, off-screen iframe used only to check whether
+     the YouTube channel is currently streaming — same pattern as index.html/live.html. -->
+<div style="position:absolute;width:1px;height:1px;overflow:hidden;left:-9999px;top:-9999px;">
+  <iframe id="live-detect-frame" src="about:blank" title="live status detector" allow="autoplay"></iframe>
+</div>
+</body>
+</html>
