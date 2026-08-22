@@ -522,48 +522,47 @@ var lang = localStorage.getItem('anulipi_lang') || 'bn';
 if(lang==='ar') lang='bn';
 
 // ══════════════════════════════════════════════
-// GOOGLE SHEET DATA SOURCE — single tab, one row = one finished comic image
-// (no Apps Script needed)
+// DATA SOURCE — Apps Script backend (Comic-Backend.js) reading from two
+// sheet tabs: "Comics" and "Series". See that file's header comment for
+// the full column reference; the short version:
 // ══════════════════════════════════════════════
-// HOW TO SET THIS UP:
-// 1. Make ONE tab in your Google Sheet with these columns:
-//      img | title_bn | title_en | caption_bn | caption_en | badge_bn | badge_en | popular_series | slug | series | series_title_bn | series_title_en | episode | artist_bn | artist_en
-//    - slug        : optional. Used in the card's URL (#comic/<slug>) when a
-//                    reader clicks in for the detail view. Leave blank and
-//                    one is generated automatically from the title.
-//    - popular_series : "yes"/"y"/"1" marks a comic (or, if it belongs to a
-//                    series, the whole series) to appear in the "Popular
-//                    Series" section. The number of distinct picks is the
-//                    number of cards shown.
-//    - Today's Comic is automatic: the last non-empty row is used as the
-//                    current/latest comic, so no featured checkbox is needed.
-//    - img         : filename (or full URL) of the finished comic image
-//    - title_bn / title_en   : the comic/series/episode title
-//    - caption_bn / caption_en : short caption or description shown under it
-//    - badge_bn / badge_en    : small label shown on the card, e.g. সিরিজ/Series,
-//                    কার্টুন/Gag, আর্কাইভ/Archive — or anything you want
-//    - series      : OPTIONAL. A short stable key shared by every episode of
-//                    the same series, e.g. "invisible-letter". Leave blank
-//                    for one-off/standalone comics and gag cartoons. Every
-//                    row sharing the same series key is grouped into one
-//                    series: one card in "More Comics" / "Popular Series"
-//                    that opens an episode-list page, plus ← আগের/পরের →
-//                    buttons on each episode that jump straight to the next
-//                    or previous part.
-//    - series_title_bn / series_title_en : the series' display name (e.g.
-//                    "Invisible Letter"). Only needs to be filled in on one
-//                    row of the series — the first non-empty value found is
-//                    used. If left blank everywhere, that row's own title is
-//                    used instead.
-//    - episode     : OPTIONAL, only used when "series" is set. A number
-//                    (1, 2, 3…) giving that row's order within the series —
-//                    this decides prev/next order and the episode-list order.
-//    - artist_bn / artist_en : OPTIONAL. The artist's name, shown as a
-//                    byline on the reading page and on the cards/grid.
-//                    Leave both blank to hide it for that comic.
-// 2. File → Share → Publish to web → this sheet/tab → format CSV → Publish.
-//    Copy the URL it gives you into SHEET_CSV_URL below.
-// 3. Images: four ways to point the "img" column at your artwork —
+//   "Comics" tab — one row per comic/episode:
+//     id | slug | series_slug | episode | img | title_bn | title_en |
+//     caption_bn | caption_en | badge_bn | badge_en | author_bn | author_en |
+//     popular | status | published_at | deleted
+//   - slug        : optional. Used in the card's URL (#comic/<slug>).
+//                   Leave blank and one is generated from the title.
+//   - series_slug : OPTIONAL. Links this comic to a row in the "Series"
+//                   tab with the same series_slug — every comic sharing
+//                   one is grouped into that series: one card in "More
+//                   Comics"/"Popular Series" that opens an episode-list
+//                   page, plus ← আগের/পরের → buttons that jump between
+//                   episodes. Leave blank for standalone comics.
+//   - episode     : this comic's number within its series (decides
+//                   prev/next order and episode-list order). Leave blank
+//                   on the backend and it auto-numbers itself.
+//   - badge_bn / badge_en : small label on the card, e.g. সিরিজ/Series,
+//                   কার্টুন/Gag, আর্কাইভ/Archive.
+//   - author_bn / author_en : OPTIONAL byline shown on the reading page
+//                   and on cards. Leave both blank to hide it.
+//   - popular     : this single comic appears in the homepage's "Popular"
+//                   picks, independent of any series it belongs to.
+//   - status      : published (default, visible now) / scheduled (hidden
+//                   until published_at's date/time arrives) / private
+//                   (never shown here). Enforced server-side — this page
+//                   only ever receives comics it's allowed to show.
+//   - published_at: yyyy-MM-dd, shown as the "📅" date on a comic's page.
+//
+//   "Series" tab — one row per series:
+//     series_slug | title_bn | title_en | cover_img | popular | deleted
+//   - series_slug : the same ASCII key comics reference above; also the
+//                   URL slug for that series' page (#series/<series_slug>).
+//   - cover_img   : optional dedicated cover art for the series card.
+//                   Leave blank and its first episode's own art is used.
+//   - popular     : the whole series appears in "Popular Series",
+//                   independent of any individual episode's own flag.
+//
+// Images: four ways to point the "img"/"cover_img" columns at your artwork —
 //    a) Google Drive FOLDER (best for bulk uploads): drop all your comic
 //       images into ONE Drive folder, share that folder as "Anyone with
 //       the link" → Viewer, set DRIVE_FOLDER_ID and DRIVE_API_KEY below,
@@ -586,8 +585,7 @@ if(lang==='ar') lang='bn';
 //    d) GitHub repo + IMG_BASE: upload files to your repo (e.g.
 //       assets/comics/...), set IMG_BASE below, and just put filenames in
 //       the sheet.
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzgEGCdl5YY3yCpM1ZKOQ02zDismvWLFMBaK5ETGbFUpDqs6ah1u4TVqsnMVudSxy7d/exec';
-const SHEET_CSV_URL = ''; // legacy CSV fallback; leave blank when using Apps Script
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyEN-0rII7uTyc-jA2BOyke1Y_uIvxwi8e3v3U-drshklLvbKWZ9rL3Hump8meh68oD/exec';
 const IMG_BASE = 'https://dainikanulipi.github.io/da/assets/comics/'; // e.g. 'https://dainikanulipi.github.io/da/assets/comics/'
 const DRIVE_FOLDER_ID = '12Vse8Pd9Co2ppIKQcl-1MolUEA9C7xAZ'; // your Drive folder's ID (the part after /folders/ in its URL)
 const DRIVE_API_KEY = ''; // REQUIRED for the folder option above — leave blank to disable it (single-file Drive links and IMG_BASE still work either way)
@@ -707,12 +705,12 @@ function extractDriveFileId(url){
   if(m) return m[1];
   return null;
 }
-// Artist byline — falls back to the other language if only one of
-// artist_bn/artist_en is filled in, so a single-language entry still shows.
+// Author/artist byline — falls back to the other language if only one of
+// author_bn/author_en is filled in, so a single-language entry still shows.
 // Returns '' when neither is set, so callers can skip rendering entirely.
 function artistName(c){
   if(!c) return '';
-  return lang==='en' ? (c.artist_en || c.artist_bn || '') : (c.artist_bn || c.artist_en || '');
+  return lang==='en' ? (c.author_en || c.author_bn || '') : (c.author_bn || c.author_en || '');
 }
 function artistLineHtml(c, cls){
   const name = artistName(c);
@@ -780,38 +778,8 @@ function resetStructuredData(){
   });
 }
 
-// Minimal CSV parser: handles quoted fields, commas/newlines inside quotes, "" escapes.
-function parseCSV(text){
-  const rows = [];
-  let row = [], field = '', inQuotes = false;
-  for(let i=0;i<text.length;i++){
-    const c = text[i], next = text[i+1];
-    if(inQuotes){
-      if(c === '"' && next === '"'){ field += '"'; i++; }
-      else if(c === '"'){ inQuotes = false; }
-      else { field += c; }
-    } else {
-      if(c === '"'){ inQuotes = true; }
-      else if(c === ','){ row.push(field); field=''; }
-      else if(c === '\n'){ row.push(field); rows.push(row); row=[]; field=''; }
-      else if(c === '\r'){ /* skip */ }
-      else { field += c; }
-    }
-  }
-  if(field.length || row.length){ row.push(field); rows.push(row); }
-  if(!rows.length) return [];
-  const headers = rows[0].map(h=>h.trim());
-  return rows.slice(1)
-    .filter(r=>r.some(v=>v && v.trim()!==''))
-    .map(r=>{
-      const obj = {};
-      headers.forEach((h,i)=>{ obj[h] = (r[i]||'').trim(); });
-      return obj;
-    });
-}
-
-// Fetch with a couple of retries — a single flaky network blip shouldn't
-// permanently fall back to placeholder data.
+// Fetch with a timeout — a single flaky network blip shouldn't permanently
+// leave the page on placeholder/empty data.
 function appsScriptPublicRequest(){
   return new Promise((resolve,reject)=>{
     if(!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes('PASTE_YOUR_')){
@@ -822,7 +790,7 @@ function appsScriptPublicRequest(){
     const script=document.createElement('script');
     window[cb]=payload=>{
       delete window[cb]; script.remove();
-      if(payload?.ok) resolve(payload.data?.comics||[]);
+      if(payload?.ok) resolve(payload.data || {comics:[], series:[]});
       else reject(new Error(payload?.error||'Apps Script error'));
     };
     script.onerror=()=>{ delete window[cb]; script.remove(); reject(new Error('Apps Script request failed')); };
@@ -836,63 +804,46 @@ function appsScriptPublicRequest(){
 
 async function loadComicsData(){
   try{
-    const list = await appsScriptPublicRequest();
-    if(list && list.length){
-      COMICS.length=0;
-      list.forEach(c=>COMICS.push({
-        ...c,
-        img: resolveImg(c.img),
-        series_cover_img: resolveImg(c.series_cover_img),
-        emoji:'🖼️',
-        popularSeries:!!c.popularSeries,
-        featured:false,
-        cap_bn:c.caption_bn||c.cap_bn||'',
-        cap_en:c.caption_en||c.cap_en||'',
-        series:(c.series||'').trim(),
-        episode:c.episode!=null && c.episode!=='' ? parseFloat(c.episode) : null
-      }));
-      assignSlugs(COMICS);
-      return;
-    }
+    const data = await appsScriptPublicRequest();
+    const comics = data.comics || [];
+    const series = data.series || [];
+
+    COMICS.length = 0;
+    comics.forEach(c=>COMICS.push({
+      ...c,
+      img: resolveImg(c.img),
+      emoji: '🖼️',
+      popular: !!c.popular,
+      cap_bn: c.caption_bn || '',
+      cap_en: c.caption_en || '',
+      series_slug: (c.series_slug||'').trim(),
+      episode: c.episode!=null && c.episode!=='' ? parseFloat(c.episode) : null
+    }));
+
+    SERIES.length = 0;
+    series.forEach(s=>SERIES.push({
+      ...s,
+      series_slug: (s.series_slug||'').trim(),
+      cover_img: resolveImg(s.cover_img),
+      popular: !!s.popular
+    }));
+
+    // getPublicComics_ on the backend already returns newest-published
+    // first — the server, not this page, is the source of truth for
+    // status/visibility (published/scheduled/private) and ordering.
+    assignSlugs(COMICS);
   }catch(err){
-    console.warn('Apps Script fetch failed; trying legacy CSV fallback.', err);
+    console.warn('Apps Script fetch failed.', err);
   }
-
-  // Optional legacy CSV fallback.
-  const rows = await fetchLegacySheetRows(SHEET_CSV_URL);
-  if(!rows || !rows.length) return;
-  COMICS.length=0;
-  rows.forEach(r=>COMICS.push({
-    slug:(r.slug||'').trim(),
-    popularSeries:/^(y|yes|1|true)$/i.test((r.popular_series||'').trim()),
-    featured:false,
-    img:resolveImg(r.img),emoji:'🖼️',
-    title_bn:r.title_bn||'',title_en:r.title_en||'',
-    cap_bn:r.caption_bn||'',cap_en:r.caption_en||'',
-    badge_bn:r.badge_bn||'',badge_en:r.badge_en||'',
-    series:(r.series||'').trim(),
-    series_title_bn:r.series_title_bn||'',series_title_en:r.series_title_en||'',
-    artist_bn:r.artist_bn||'',artist_en:r.artist_en||'',
-    series_cover_img:resolveImg(r.series_cover_img||''),
-    published_at:r.published_at||'',
-    episode:r.episode!=null && r.episode!=='' ? parseFloat(r.episode) : null
-  }));
-  assignSlugs(COMICS);
-}
-
-async function fetchLegacySheetRows(url){
-  if(!url)return null;
-  try{const res=await fetch(url,{cache:'no-store'}); if(!res.ok)throw new Error('HTTP '+res.status); return parseCSV(await res.text());}
-  catch(err){console.warn('Legacy Sheet CSV failed:',err);return null;}
 }
 
 // ══════════════════════════════════════════════
-// COMICS DATA — one card format for everything. Starts empty; populated
-// only by loadComicsData() from the Apps Script / Sheet. If the fetch
-// fails, COMICS stays empty and renderHome() shows the empty state —
-// no placeholder/dummy cards are ever shown.
+// COMICS / SERIES DATA — populated only by loadComicsData() from the Apps
+// Script backend's two tabs. If the fetch fails, both stay empty and
+// renderHome() shows the empty state — no placeholder/dummy cards ever.
 // ══════════════════════════════════════════════
 let COMICS = [];
+let SERIES = [];
 
 // ── SLUGS ── every comic needs a stable, unique slug for #comic/<slug> routing.
 // Sheet rows may supply their own "slug" column; anything else gets one
@@ -914,58 +865,28 @@ function assignSlugs(list){
 }
 assignSlugs(COMICS);
 
+// The backend returns comics newest-published first, so "today's comic"
+// is simply the first valid entry — no more relying on sheet row order.
 function getTodayComic(){
   const valid = COMICS.filter(c=>c && (c.slug || c.title_bn || c.title_en));
-  return valid.length ? valid[valid.length-1] : null;
+  return valid.length ? valid[0] : null;
 }
 
 // ══════════════════════════════════════════════
-// SERIES GROUPING — comics that share a "series" key are one series with
-// multiple episodes; comics with no series key are standalone (unchanged
-// behavior). Used by the Popular Series section, the More Comics grid, and
-// the new #series/<key> episode-list page.
+// SERIES GROUPING — a comic's series_slug points at a row in the separate
+// SERIES list (its own tab on the backend), so series identity, title, and
+// cover art all come from one place instead of being reconstructed by
+// scanning episode rows. series_slug IS the URL slug (#series/<slug>)
+// directly — the backend enforces it's ASCII, so no separate "raw key vs
+// URL slug" translation is needed here.
 // ══════════════════════════════════════════════
-function getSeriesKey(c){ return (c && c.series) ? String(c.series).trim() : ''; }
-// URL-safe series identifier for #series/<slug> links — never the raw
-// (Bengali) series key. Prefers the explicit series_slug column; if that's
-// blank, falls back to the first episode's own ascii slug (already used
-// for #comic/<slug>) with a trailing "-<number>" episode suffix stripped,
-// so old series that predate the series_slug field still get a clean,
-// non-Bengali URL instead of breaking or falling back to the raw name.
-function seriesSlugFor(eps){
-  const explicit = eps.find(e=>e.series_slug && e.series_slug.trim());
-  if(explicit) return explicit.series_slug.trim();
-  const base = (eps[0] && eps[0].slug) ? eps[0].slug.trim() : '';
-  return base.replace(/-\d+$/, '') || base;
-}
-// Distinct series keys, in first-seen order — used to resolve a URL slug
-// back to its series key.
-function allSeriesKeys(){
-  const keys=[];
-  COMICS.forEach(c=>{ const k=getSeriesKey(c); if(k && keys.indexOf(k)===-1) keys.push(k); });
-  return keys;
-}
+function getSeriesKey(c){ return (c && c.series_slug) ? String(c.series_slug).trim() : ''; }
+// A URL param is a valid series key if some row in SERIES actually has it.
 function findSeriesKeyBySlug(slug){
-  return allSeriesKeys().find(k=>{
-    const eps = seriesEpisodes(k);
-    return eps.length && seriesSlugFor(eps)===slug;
-  }) || null;
-}
-// If a series has no explicit series_title_bn/en set in the sheet, the
-// display name falls back to an episode's own title — which usually ends
-// in "- Part 3" / "- পর্ব ৩" etc. Strip that trailing part/episode suffix
-// so the series name shown (in the series-name tag, Popular Series, and
-// More Comics cards) is just the clean series name, not "...Part 3".
-function stripPartSuffix(title){
-  return String(title||'')
-    // word-first: "- Part 3", "- Episode 3", "- পর্ব ৩"
-    .replace(/[\s]*[-–—][\s]*(part|episode|পর্ব)[\s]*[0-9০-৯]+\s*$/i, '')
-    // number-first Bangla ordinal: "- ৩য় পর্ব" (digits + ordinal marker like য়/ষ্ঠ, then পর্ব)
-    .replace(/[\s]*[-–—][\s]*[0-9০-৯]+[^\s০-৯0-9\-–—]*\s*পর্ব\s*$/i, '')
-    .trim();
+  return SERIES.some(s=>s.series_slug===slug) ? slug : null;
 }
 // All episodes of a series, oldest → newest (by episode number; ties keep
-// their original sheet order).
+// their original list order).
 function seriesEpisodes(key){
   return COMICS
     .map((c,i)=>({c,i}))
@@ -974,22 +895,20 @@ function seriesEpisodes(key){
     .map(x=>x.c);
 }
 function seriesDisplayInfo(key){
+  const s = SERIES.find(x=>x.series_slug===key);
+  if(!s) return null;
   const eps = seriesEpisodes(key);
   if(!eps.length) return null;
-  const named = eps.find(e=>e.series_title_bn||e.series_title_en) || eps[eps.length-1];
-  // A dedicated series_cover_img (set on any one episode row, same
-  // one-row-anywhere rule as series_title_bn/en) overrides the default
-  // "episode 1's own art" cover — lets a series have distinct cover art
-  // instead of just reusing its first episode's panel.
-  const coverRow = eps.find(e=>e.series_cover_img);
-  const cover = coverRow ? {...eps[0], img: coverRow.series_cover_img} : eps[0];
+  // A dedicated cover_img on the Series row overrides the default
+  // "episode 1's own art" cover.
+  const cover = s.cover_img ? {...eps[0], img:s.cover_img} : eps[0];
   return {
     key, episodes:eps,
     cover,
-    slug: seriesSlugFor(eps),
-    title_bn: named.series_title_bn || stripPartSuffix(named.title_bn),
-    title_en: named.series_title_en || stripPartSuffix(named.title_en),
-    isPopular: eps.some(e=>e.popularSeries)
+    slug: s.series_slug,
+    title_bn: s.title_bn || eps[0].title_bn,
+    title_en: s.title_en || eps[0].title_en,
+    isPopular: !!s.popular
   };
 }
 
@@ -1048,6 +967,14 @@ function renderFeatured(){
   } else {
     featArtistEl.style.display = 'none';
   }
+  const featDateEl = document.getElementById('feat-date');
+  const featDateText = formatPublishedDate(f.published_at);
+  if(featDateText){
+    featDateEl.textContent = `📅 ${featDateText}`;
+    featDateEl.style.display = '';
+  } else {
+    featDateEl.style.display = 'none';
+  }
   document.getElementById('feat-thumb').innerHTML = f.img
     ? thumbImgTag(f.img, lang==='en'?f.title_en:f.title_bn, [480,800,1200], '(max-width:700px) 100vw, 640px')
     : `<span>${esc(f.emoji||'🖼️')}</span>`;
@@ -1076,6 +1003,7 @@ function cardHtml(c){
         <div class="cx-more-title">${esc(title)}</div>
         <div class="cx-more-sub">${esc(sub)}</div>
         ${artistLineHtml(c)}
+        ${formatPublishedDate(c.published_at) ? `<div class="cx-feat-date">📅 ${esc(formatPublishedDate(c.published_at))}</div>` : ''}
       </div>
     </div>`;
 }
@@ -1126,20 +1054,17 @@ function seriesCardHtml(pick, i){
       </div>
     </div>`;
 }
-// Rows flagged popular_series=yes — a series counts once (however many of
-// its episodes are flagged), a standalone comic counts on its own.
+// A series' own popular flag (Series tab) drives its "Popular Series"
+// card, independent of any individual episode's popular flag. A
+// standalone comic (no series_slug) uses its own popular flag directly.
 function popularPicks(){
-  const picks = [], seenSeries = {};
-  COMICS.filter(c=>c.popularSeries).forEach(c=>{
-    const key = getSeriesKey(c);
-    if(key){
-      if(seenSeries[key]) return;
-      seenSeries[key] = true;
-      const s = seriesDisplayInfo(key);
-      if(s) picks.push({type:'series', data:s});
-    } else {
-      picks.push({type:'comic', data:c});
-    }
+  const picks = [];
+  SERIES.filter(s=>s.popular).forEach(s=>{
+    const info = seriesDisplayInfo(s.series_slug);
+    if(info) picks.push({type:'series', data:info});
+  });
+  COMICS.filter(c=>c.popular && !getSeriesKey(c)).forEach(c=>{
+    picks.push({type:'comic', data:c});
   });
   return picks;
 }
@@ -1263,6 +1188,7 @@ const HOME_HTML = `
         <div class="cx-feat-title" id="feat-title">—</div>
         <div class="cx-feat-sub" id="feat-sub">—</div>
         <div class="cx-artist-feat" id="feat-artist" style="display:none;"></div>
+        <div class="cx-feat-date" id="feat-date" style="display:none;"></div>
       </div>
       <div class="cx-feat-nav">
         <button class="cx-feat-btn" id="feat-prev">← <span id="feat-prev-txt">আগের</span></button>
@@ -1585,9 +1511,30 @@ function toBnDigits(str){const d=['০','১','২','৩','৪','৫','৬','৭
 // day-shift surprises across timezones. Returns '' for missing/malformed input.
 function formatPublishedDate(dateStr){
   if(!dateStr) return '';
-  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(dateStr).trim());
-  if(!m) return '';
-  const y=+m[1], mo=+m[2], d=+m[3];
+  const raw = String(dateStr).trim();
+  if(!raw) return '';
+
+  let y, mo, d; // mo is 1-indexed
+
+  // Path 1: plain "yyyy-MM-dd" (optionally followed by more text, e.g.
+  // "yyyy-MM-dd HH:mm"). Parsed manually so it's never shifted by UTC
+  // parsing.
+  let m = /^(\d{4})-(\d{2})-(\d{2})/.exec(raw);
+  if(m){
+    y=+m[1]; mo=+m[2]; d=+m[3];
+  } else {
+    // Path 2: anything else the backend might hand us — an ISO timestamp,
+    // a "Sat Aug 22 2026 00:00:00 GMT+0600 (...)" Date-object string,
+    // "MM/dd/yyyy", etc. Let the browser's own date parser take a shot
+    // instead of giving up, so a date still shows even if the backend's
+    // format changes or a raw Date object slips through unconverted.
+    const parsed = new Date(raw);
+    if(isNaN(parsed.getTime())) return '';
+    y = parsed.getFullYear(); mo = parsed.getMonth()+1; d = parsed.getDate();
+  }
+
+  if(!y || !mo || !d) return '';
+
   if(lang==='en'){
     const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
     return `${d} ${months[mo-1]}, ${y}`;
