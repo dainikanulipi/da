@@ -49,7 +49,6 @@ body{font-family:'Noto Sans Bengali',sans-serif;background:var(--bg);color:var(-
 .head-in{position:relative;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;}
 .head h1{font-family:'Patrick Hand',cursive;font-size:32px;color:var(--txt);display:flex;align-items:center;gap:10px;line-height:1;}
 .head .sub{font-size:12.5px;color:var(--txt2);margin-top:7px;}
-.head-badge{font-family:'Noto Sans Bengali',sans-serif;font-weight:800;font-size:11.5px;background:var(--sun);color:#1a1200;padding:6px 13px;transform:rotate(-4deg);box-shadow:2px 2px 0 var(--ink);flex-shrink:0;}
 .head-actions{display:flex;gap:8px;flex-wrap:wrap;}
 
 .btn{padding:9px 16px;border:2px solid var(--ink);font-weight:700;font-size:12.5px;cursor:pointer;font-family:'Noto Sans Bengali',sans-serif;background:var(--sur);color:var(--txt);transition:transform .15s;position:relative;}
@@ -143,7 +142,6 @@ body{font-family:'Noto Sans Bengali',sans-serif;background:var(--bg);color:var(-
 .series-card button{padding:7px;font-size:11.5px;font-weight:700;border:2px solid var(--ink);background:var(--sur);color:var(--txt);cursor:pointer;font-family:'Noto Sans Bengali',sans-serif;}
 .series-card-actions button{flex:1;}
 .series-card button:hover{background:var(--sur3);}
-.series-card .series-del:hover{background:var(--red);color:#fff;border-color:var(--red);}
 .series-move{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:2px;}
 .series-move button{width:20px;height:16px;padding:0;font-size:9px;line-height:1;border:1px solid var(--ink);background:var(--sur2);}
 .series-move button:disabled{opacity:.25;cursor:default;}
@@ -268,6 +266,20 @@ body{font-family:'Noto Sans Bengali',sans-serif;background:var(--bg);color:var(-
         <input type="text" id="sm-name">
       </div>
       <div class="field">
+        <label>Series Name (English)</label>
+        <input type="text" id="sm-name-en" placeholder="e.g. Tuntuni's Tong" oninput="updateSeriesSlugPreview()">
+      </div>
+      <div class="field">
+        <label>সিরিজের URL স্লাগ (ইংরেজি, লিংকে দেখাবে)</label>
+        <input type="text" id="sm-slug" placeholder="e.g. tuntunis-tong">
+        <div class="hint">ফাঁকা রাখলে ইংরেজি নাম থেকে অটো বসবে: <span id="sm-slug-preview">—</span></div>
+      </div>
+      <div class="field">
+        <label>সিরিজ কভার ছবি (ঐচ্ছিক)</label>
+        <input type="text" id="sm-cover-img" placeholder="ছবির URL / ফাইলনেম">
+        <div class="hint">ফাঁকা রাখলে ১ম পর্বের ছবিই কভার হিসেবে দেখাবে।</div>
+      </div>
+      <div class="field">
         <label>বর্ণনা / কভার নোট (ঐচ্ছিক)</label>
         <textarea id="sm-desc" placeholder="এই সিরিজ সম্পর্কে ছোট্ট একটা লাইন — কার্ডে দেখাবে"></textarea>
       </div>
@@ -278,7 +290,7 @@ body{font-family:'Noto Sans Bengali',sans-serif;background:var(--bg);color:var(-
       <div class="hint">রিনেম করলে এই সব কমিকের সিরিজ ফিল্ড নতুন নামে আপডেট হবে। "সিরিজ থেকে আলাদা করো" করলে কমিকগুলো ডিলিট হবে না, শুধু আর কোনো সিরিজে থাকবে না।</div>
       <div class="modal-actions" style="margin-top:16px;">
         <button type="button" class="btn" onclick="ungroupSeries()" style="border-color:var(--red);color:var(--red);">সিরিজ থেকে আলাদা করো</button>
-        <button type="button" class="btn btn-primary" onclick="renameSeries()">সেভ করো</button>
+        <button type="button" class="btn btn-primary" id="series-save-btn" onclick="renameSeries()">সেভ করো</button>
       </div>
 
       <div class="field" style="margin-top:20px;padding-top:16px;border-top:1px dashed var(--bdr);">
@@ -372,7 +384,7 @@ body{font-family:'Noto Sans Bengali',sans-serif;background:var(--bg);color:var(-
 // GOOGLE APPS SCRIPT CONNECTION
 // ══════════════════════════════════════════════
 // Paste your deployed Apps Script Web App URL here.
-const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwPvrG3ShDzGbwwkJXPjyhdLs0g5fE3E_BDoKFGsgjH1L8TVVp-TqLwuWG-i7suHHX8/exec';
+const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzgEGCdl5YY3yCpM1ZKOQ02zDismvWLFMBaK5ETGbFUpDqs6ah1u4TVqsnMVudSxy7d/exec';
 // Must match comic.html's IMG_BASE — the sheet's "img" column can hold a
 // bare filename (resolved against this), a Drive share link, or a full URL.
 // Without this, thumbnails saved as filenames only (the normal case) 404
@@ -493,9 +505,6 @@ function startAutoRefresh(){
     try{ await loadComics(); }
     finally{ autoRefreshBusy = false; }
   }, AUTO_REFRESH_MS);
-}
-function stopAutoRefresh(){
-  if(autoRefreshTimer){ clearInterval(autoRefreshTimer); autoRefreshTimer = null; }
 }
 
 document.getElementById('login-gate').classList.remove('hide');
@@ -760,6 +769,19 @@ function openSeriesModal(name){
   document.getElementById('series-modal-title').textContent = 'সিরিজ এডিট করো';
   document.getElementById('sm-name').value = name;
   document.getElementById('sm-desc').value = (SERIES_META[name] && SERIES_META[name].desc) || '';
+  // English series name: prefer whatever's already saved on any episode's
+  // series_title_en (the source of truth in the Sheet), fall back to the
+  // in-memory SERIES_META value from an unsaved edit this session.
+  const epWithEn = COMICS.find(c=>c.series===name && c.series_title_en);
+  document.getElementById('sm-name-en').value = (epWithEn && epWithEn.series_title_en)
+    || (SERIES_META[name] && SERIES_META[name].nameEn) || '';
+  const epWithSlug = COMICS.find(c=>c.series===name && c.series_slug);
+  document.getElementById('sm-slug').value = (epWithSlug && epWithSlug.series_slug)
+    || (SERIES_META[name] && SERIES_META[name].slug) || '';
+  const epWithCover = COMICS.find(c=>c.series===name && c.series_cover_img);
+  document.getElementById('sm-cover-img').value = (epWithCover && epWithCover.series_cover_img)
+    || (SERIES_META[name] && SERIES_META[name].coverImg) || '';
+  updateSeriesSlugPreview();
   renderSeriesEpisodeList(name);
   populateMergeTargetSelect(name);
   document.getElementById('series-modal-bg').classList.add('show');
@@ -790,20 +812,97 @@ function moveSeriesItem(name, id, dir){
 }
 function closeSeriesModal(){ document.getElementById('series-modal-bg').classList.remove('show'); }
 
-function renameSeries(){
+// Builds the full row payload for one comic, the same shape saveComic()
+// sends — needed here because the 'save' action overwrites the whole row,
+// so every field (not just the series title) has to be re-sent or it gets
+// wiped blank in the Sheet.
+function comicSeriesSavePayload(c){
+  return {
+    id: c.id || '',
+    slug: c.slug || '',
+    popularSeries: !!c.popularSeries,
+    img: c.img || '',
+    title_bn: c.title_bn || '',
+    title_en: c.title_en || '',
+    caption_bn: c.caption_bn || '',
+    caption_en: c.caption_en || '',
+    artist_bn: c.artist_bn || '',
+    artist_en: c.artist_en || '',
+    series: c.series || '',
+    episode: c.episode || '',
+    series_title_bn: c.series_title_bn || '',
+    series_title_en: c.series_title_en || '',
+    series_slug: c.series_slug || '',
+    series_cover_img: c.series_cover_img || '',
+    badges: (c.badges && c.badges.length) ? c.badges.map(b=>({bn:b.bn, en:b.en||''}))
+      : (c.badge_bn ? [{bn:c.badge_bn, en:c.badge_en||''}] : []),
+    badge_bn: c.badge_bn || (c.badges && c.badges[0] && c.badges[0].bn) || '',
+    badge_en: c.badge_en || (c.badges && c.badges[0] && c.badges[0].en) || ''
+  };
+}
+
+// Ensures a series URL slug doesn't collide with another series' slug
+// (excluding the series currently being edited, so keeping your own slug
+// unchanged never falsely counts as a collision).
+function uniqueSeriesSlug(base, excludeSeriesName){
+  const taken = new Set(
+    COMICS.filter(c=>c.series && c.series!==excludeSeriesName && c.series_slug)
+      .map(c=>c.series_slug)
+  );
+  let s = base, n = 2;
+  while(taken.has(s)){ s = base + '-' + n; n++; }
+  return s;
+}
+
+async function renameSeries(){
   const newName = document.getElementById('sm-name').value.trim();
   if(!newName){ showStatus('সিরিজের নাম খালি রাখা যাবে না।', false); return; }
   const desc = document.getElementById('sm-desc').value.trim();
-  if(newName !== seriesModalOriginalName){
-    COMICS.forEach(c=>{ if(c.series===seriesModalOriginalName) c.series = newName; });
-    const oi = SERIES_ORDER.indexOf(seriesModalOriginalName);
+  const nameEn = document.getElementById('sm-name-en').value.trim();
+  const oldName = seriesModalOriginalName;
+  const affected = COMICS.filter(c=>c.series===oldName);
+
+  // URL slug: use whatever's typed, else auto-derive from the English name,
+  // else fall back to the Bengali name run through the ASCII slugifier
+  // (usually empty, since ASCII-only strips Bengali script) — and as a
+  // last resort keep whatever slug this series already had, so a slug
+  // already saved from the sheet never silently reverts to blank.
+  const slugInput = document.getElementById('sm-slug').value.trim();
+  const existingSlug = (affected.find(c=>c.series_slug) || {}).series_slug || '';
+  let slug = slugifyAscii(slugInput) || slugifyAscii(nameEn) || slugifyAscii(newName) || existingSlug;
+  if(!slug){ showStatus('সিরিজের URL স্লাগ বসাতে হবে (ইংরেজি নাম দিলে অটো হয়ে যায়)।', false); return; }
+  slug = uniqueSeriesSlug(slug, oldName);
+  const coverImg = document.getElementById('sm-cover-img').value.trim();
+
+  if(newName !== oldName){
+    affected.forEach(c=>{ c.series = newName; });
+    const oi = SERIES_ORDER.indexOf(oldName);
     if(oi>-1) SERIES_ORDER[oi] = newName; else SERIES_ORDER.push(newName);
-    delete SERIES_META[seriesModalOriginalName];
+    delete SERIES_META[oldName];
   }
-  SERIES_META[newName] = { desc };
-  closeSeriesModal();
-  showStatus('সিরিজ আপডেট হয়েছে ✓ (প্রিভিউ)', true);
-  refreshAll();
+  SERIES_META[newName] = { desc, nameEn, slug, coverImg };
+  // series_title_bn/en/series_slug are what comic.html actually displays
+  // and links to (with a fallback if left blank), so set them explicitly
+  // on every episode rather than leaving them to that fallback. Same for
+  // series_cover_img — only needs a value on one row, but writing it to
+  // all of them keeps every row self-consistent.
+  affected.forEach(c=>{ c.series_title_bn = newName; c.series_title_en = nameEn; c.series_slug = slug; c.series_cover_img = coverImg; });
+
+  const btn = document.getElementById('series-save-btn');
+  btn.disabled = true; setBtnLoading(btn, true);
+  try{
+    for(const c of affected){
+      await gasRequest('save', {data: JSON.stringify(comicSeriesSavePayload(c))}, true);
+    }
+    closeSeriesModal();
+    showStatus('সিরিজ আপডেট হয়েছে ও Google Sheet-এ সেভ হয়েছে ✓', true);
+    await loadComics();
+  }catch(err){
+    showStatus('সেভ করা যায়নি: ' + err.message, false);
+  }finally{
+    btn.disabled = false; setBtnLoading(btn, false);
+    refreshAll();
+  }
 }
 function ungroupSeries(){
   if(!confirm(`"${seriesModalOriginalName}" সিরিজ থেকে সব কমিক আলাদা করতে চাও? কমিকগুলো ডিলিট হবে না, শুধু সিরিজ থেকে বেরিয়ে যাবে।`)) return;
@@ -847,6 +946,18 @@ function slugify(s){
     .replace(/[^\p{L}\p{N}]+/gu,'-')
     .replace(/^-+|-+$/g,'') || '';
 }
+// ASCII-only version, used for the series URL slug — series_slug ends up
+// in the address bar, so unlike the per-comic slug() above (which happily
+// keeps Bengali letters) this strips anything that isn't a-z/0-9.
+function slugifyAscii(s){
+  return (s||'').toString().trim().toLowerCase()
+    .replace(/[^a-z0-9]+/g,'-')
+    .replace(/^-+|-+$/g,'') || '';
+}
+function updateSeriesSlugPreview(){
+  document.getElementById('sm-slug-preview').textContent =
+    slugifyAscii(document.getElementById('sm-name-en').value) || '—';
+}
 function uniqueSlug(base, excludeId){
   let s = base, n = 2;
   while(COMICS.some(c => c.id !== excludeId && c.slug === s)){ s = base + '-' + n; n++; }
@@ -885,6 +996,11 @@ function onSeriesSelectChange(){
 }
 
 let currentBadges = [];
+// The full comic object currently open in the edit modal (null when
+// creating a new comic). The form has no fields for series_title_bn/en or
+// episode number — those are series-level, managed from the series modal —
+// so saveComic() needs this to carry them through instead of blanking them.
+let editingComic = null;
 
 function renderBadgeGroup(){
   const el = document.getElementById('badge-group');
@@ -956,6 +1072,7 @@ function onBadgeSelectChange(){
 
 function openModal(comicJsonStr, presetSeries){
   const c = comicJsonStr ? JSON.parse(comicJsonStr) : null;
+  editingComic = c;
   document.getElementById('modal-title').textContent = c ? 'কমিক এডিট করো' : 'নতুন কমিক';
   document.getElementById('f-id').value = c ? c.id : '';
   document.getElementById('f-slug').value = c ? (c.slug || '') : '';
@@ -1005,6 +1122,15 @@ async function saveComic(e){
   const willHaveSeries = seriesValRaw === '__new__'
     ? !!document.getElementById('f-series-new').value.trim()
     : !!seriesValRaw;
+  const newSeries = (document.getElementById('f-series').value === '__new__'
+    ? document.getElementById('f-series-new').value.trim()
+    : document.getElementById('f-series').value);
+  // series_title_bn/en and episode aren't in this form — they're set from
+  // the series modal. Carry over the existing row's values so saving a
+  // comic here doesn't blank them out, but only if it's still in the same
+  // series (moving it to a different/new series should let that series'
+  // own title win instead of leaking the old one's).
+  const stayedInSameSeries = editingComic && editingComic.series === newSeries;
   const data = {
     id: id || '',
     slug: slug,
@@ -1018,9 +1144,12 @@ async function saveComic(e){
     caption_en: document.getElementById('f-cap-en').value.trim(),
     artist_bn: document.getElementById('f-artist-bn').value.trim(),
     artist_en: document.getElementById('f-artist-en').value.trim(),
-    series: (document.getElementById('f-series').value === '__new__'
-      ? document.getElementById('f-series-new').value.trim()
-      : document.getElementById('f-series').value),
+    series: newSeries,
+    episode: stayedInSameSeries ? (editingComic.episode || '') : '',
+    series_title_bn: stayedInSameSeries ? (editingComic.series_title_bn || '') : '',
+    series_title_en: stayedInSameSeries ? (editingComic.series_title_en || '') : '',
+    series_slug: stayedInSameSeries ? (editingComic.series_slug || '') : '',
+    series_cover_img: stayedInSameSeries ? (editingComic.series_cover_img || '') : '',
     badges: orderedBadges.map(b=>({bn:b.bn,en:b.en})),
     badge_bn: orderedBadges[0].bn,
     badge_en: orderedBadges[0].en
@@ -1029,7 +1158,7 @@ async function saveComic(e){
   const btn = document.getElementById('save-btn');
   btn.disabled = true; setBtnLoading(btn, true);
   try{
-    const result = await gasRequest('save', {data: JSON.stringify(data)}, true);
+    await gasRequest('save', {data: JSON.stringify(data)}, true);
     closeModal();
     showStatus('Google Sheet-এ সেভ হয়েছে ✓', true);
     await loadComics();
