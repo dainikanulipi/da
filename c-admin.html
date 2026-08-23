@@ -24,7 +24,8 @@
   --tog-bg:#2e2e2e;--tog-c:#ddd;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Noto Sans Bengali',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;transition:background .3s,color .3s;}
+html{overflow-x:hidden;}
+body{font-family:'Noto Sans Bengali',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;transition:background .3s,color .3s;overflow-x:hidden;}
 .wrap{max-width:1180px;margin:0 auto;padding:26px 16px 60px;}
 .halftone{position:relative;overflow:hidden;}
 .halftone::before{content:'';position:absolute;inset:0;background-image:radial-gradient(var(--dot) 1.4px,transparent 1.4px);background-size:9px 9px;opacity:.6;pointer-events:none;}
@@ -176,7 +177,61 @@ body{font-family:'Noto Sans Bengali',sans-serif;background:var(--bg);color:var(-
 .modal-actions button{flex:1;min-width:110px;}
 .hint{font-size:10.5px;color:var(--txt3);margin-top:3px;line-height:1.5;}
 .sub-hr{margin-top:16px;padding-top:16px;border-top:1px dashed var(--bdr);}
-@media(max-width:600px){.row2{grid-template-columns:1fr;}.grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));}}
+
+/* ══ RESPONSIVE ══ */
+
+/* Tablet: ≤960px */
+@media(max-width:960px){
+  .grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));}
+  .series-mgmt-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));}
+}
+
+/* Small tablet / large phone: ≤768px */
+@media(max-width:768px){
+  .wrap{padding:20px 14px 50px;}
+  .head{padding:16px 18px;}
+  .head h1{font-size:26px;}
+}
+
+/* Mobile: ≤600px */
+@media(max-width:600px){
+  .wrap{padding:16px 12px 40px;}
+  .head{padding:14px 16px;box-shadow:4px 4px 0 var(--red);}
+  .head h1{font-size:22px;gap:8px;}
+  .head .sub{font-size:11.5px;}
+  .btn{padding:8px 12px;font-size:11.5px;}
+  .sect-label h2{font-size:19px;}
+  .row2{grid-template-columns:1fr;}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));}
+  .series-mgmt-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));}
+  .card-actions button{min-width:0;font-size:11px;padding:7px 4px;}
+  .card-body{padding:9px 11px 10px;}
+  .series-card{padding:12px 12px;}
+  .series-card-cover{width:38px;height:50px;}
+  .modal{max-width:100% !important;}
+  .modal-head{padding:14px 16px;}
+  .modal-head h2{font-size:20px;}
+  .modal-body{padding:16px;}
+  .modal-actions button{min-width:0;}
+  /* Prevent iOS Safari auto-zoom on focus (needs ≥16px font on inputs) */
+  .field input,.field textarea,.field select,
+  .controls-row input[type=search],.controls-row select,
+  .login-box input{font-size:16px;}
+}
+
+/* Extra small phones: ≤380px */
+@media(max-width:380px){
+  .head h1{font-size:19px;}
+  .head-actions .btn span{display:none;}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(128px,1fr));}
+}
+
+/* Touch-friendly tap targets */
+@media(hover:none){
+  .theme-btn{width:38px;height:38px;}
+  .ep-order-row .ep-move button{width:30px;height:30px;}
+  .btn,.card-actions button,.series-card button{padding-top:10px;padding-bottom:10px;}
+}
 </style>
 </head>
 <body>
