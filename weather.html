@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="bn" data-theme="light" dir="ltr">
+<head>
+<!-- BASIC SEO + ICON -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="দৈনিক অনুলিপি — বাংলাদেশের আবহাওয়ার সবশেষ পূর্বাভাস, ৬৪ জেলার তাপমাত্রা ও ৭ দিনের পূর্বাভাস">
+<title>দৈনিক অনুলিপি | আবহাওয়া</title>
+<link rel="icon" type="image/png" href="assets/favicon.png" id="fav-icon">
+
+<!-- OPEN GRAPH / TWITTER CARD -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="দৈনিক অনুলিপি | Dainik Anulipi">
+<meta property="og:title" content="দৈনিক অনুলিপি | আবহাওয়া">
+<meta property="og:description" content="বাংলাদেশের আবহাওয়ার সবশেষ পূর্বাভাস — ৬৪ জেলা, ৭ দিনের পূর্বাভাস">
+<meta property="og:image" content="https://dainikanulipi.github.io/da/assets/logo.png">
+<meta property="og:url" content="https://dainikanulipi.github.io/da/weather.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="দৈনিক অনুলিপি | আবহাওয়া">
+<meta name="twitter:description" content="বাংলাদেশের আবহাওয়ার সবশেষ পূর্বাভাস">
+<meta name="twitter:image" content="https://dainikanulipi.github.io/da/assets/logo.png">
+
+<!-- GOOGLE FONTS -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+
+<!-- ══════════════════════════════════════════════
+     PAGE CSS — mirrors live.html/epaper.html theme system,
+     plus weather-specific components (city chips, hero,
+     forecast rail, hourly strip)
+     ══════════════════════════════════════════════ -->
+<style>
+:root{
+  --red:#C8102E;--dkred:#9e0b22;
+  --bg:#dcdcdc;--sur:#fff;--sur2:#f5f5f5;--sur3:#eaeaea;
+  --txt:#111;--txt2:#555;--txt3:#999;
+  --bdr:#e0e0e0;--shd:rgba(0,0,0,.08);
+  --nav-bg:#fff;--topbar:#1a1a1a;--foot:#0f0f0f;
+  --tog-bg:#eee;--tog-c:#444;
+  --sky1:#5b9bd5;--sky2:#bcdcf2;
+}
+[data-theme=dark]{
+  --bg:#0d0d0d;--sur:#1b1b1b;--sur2:#212121;--sur3:#2b2b2b;
+  --txt:#efefef;--txt2:#aaa;--txt3:#565656;
+  --bdr:#2d2d2d;--shd:rgba(0,0,0,.55);
+  --nav-bg:#161616;--topbar:#080808;--foot:#080808;
+  --tog-bg:#2e2e2e;--tog-c:#ddd;
+  --sky1:#152238;--sky2:#0a1220;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Serif Bengali',serif;background:var(--bg);color:var(--txt);transition:background .3s,color .3s;min-height:100vh;}
+a{text-decoration:none;color:inherit;}
+img{display:block;max-width:100%;}
+button{font-family:inherit;cursor:pointer;}
+.wrap{max-width:1240px;margin:0 auto;padding:0 16px;}
+
+/* TOPBAR */
+.topbar{background:var(--topbar);color:#555;font-family:'Noto Sans Bengali',sans-serif;font-size:11.5px;padding:5px 0;}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;}
+.topbar-r{display:flex;gap:14px;}
+.topbar-r a{color:#555;transition:color .2s;cursor:pointer;}
+.topbar-r a:hover{color:#ddd;}
+
+/* MASTHEAD */
+.mast{background:var(--sur);border-bottom:3px solid var(--red);padding:12px 0;transition:background .3s;}
+.mast .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.logo{cursor:pointer;flex-shrink:0;}
+.logo-tag{font-size:12.5px;color:var(--txt2);font-style:italic;margin-top:3px;}
+.logo-img{height:62px;width:auto;max-width:177px;object-fit:contain;display:block;}
+.logo-img-light{display:block;}
+.logo-img-dark{display:none;}
+[data-theme=dark] .logo-img-light{display:none;}
+[data-theme=dark] .logo-img-dark{display:block;}
+.footer-logo-img{height:72px;width:auto;max-width:205px;object-fit:contain;display:block;margin-bottom:6px;}
+@media(max-width:600px){.footer-logo-img{height:56px;max-width:160px;}}
+.mast-r{display:flex;align-items:center;gap:10px;}
+.theme-btn{background:var(--tog-bg);border:none;width:32px;height:32px;border-radius:50%;font-size:14px;display:flex;align-items:center;justify-content:center;color:var(--tog-c);transition:all .3s;}
+.theme-btn:hover{transform:rotate(20deg);}
+.lang-grp{display:flex;gap:3px;}
+.lb{background:var(--tog-bg);border:none;color:var(--tog-c);font-size:11.5px;font-weight:700;padding:4px 9px;font-family:'Noto Sans Bengali',sans-serif;transition:all .2s;}
+.lb.on{background:var(--red);color:#fff;}
+.lb:hover:not(.on){background:var(--sur3);}
+
+/* NAV */
+.nav{background:var(--nav-bg);border-bottom:1px solid var(--bdr);position:sticky;top:0;z-index:300;box-shadow:0 2px 12px var(--shd);transition:background .3s,border-color .3s;}
+.nav .wrap{display:flex;align-items:stretch;overflow-x:auto;scrollbar-width:none;}
+.nav .wrap::-webkit-scrollbar{display:none;}
+.nl{padding:11px 14px;font-size:13px;font-weight:700;white-space:nowrap;border-bottom:3px solid transparent;color:var(--txt2);transition:all .2s;cursor:pointer;font-family:'Noto Sans Bengali',sans-serif;border:none;background:none;display:flex;align-items:center;gap:5px;}
+.nl:hover,.nl.on{color:var(--red);border-bottom:3px solid var(--red);}
+.live-dot{width:8px;height:8px;border-radius:50%;background:#999;display:inline-block;transition:background .3s;}
+.live-dot.is-live{background:#ff1f1f;animation:liveDotPulse 1.4s ease-in-out infinite;}
+@keyframes liveDotPulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+/* PAGE LAYOUT */
+.wt-page{padding:20px 0 0;}
+.wt-head{background:var(--sur);border:1px solid var(--bdr);border-top:3px solid var(--red);padding:14px 16px;margin-bottom:14px;box-shadow:0 1px 6px var(--shd);}
+.wt-head h1{font-size:19px;font-weight:700;color:var(--txt);display:flex;align-items:center;gap:9px;}
+.wt-note{font-size:12.5px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-top:6px;line-height:1.7;}
+
+/* DISTRICT TREE PICKER */
+.wt-picker{position:relative;margin:14px 0 2px;}
+.wt-picker-btn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--sur);border:1px solid var(--bdr);border-radius:10px;padding:12px 16px;font-family:'Noto Sans Bengali',sans-serif;font-size:14.5px;font-weight:700;color:var(--txt);box-shadow:0 1px 6px var(--shd);transition:border-color .2s;}
+.wt-picker-btn:hover{border-color:var(--red);}
+.wt-picker-btn-l{display:flex;align-items:center;gap:8px;}
+.wt-picker-chev{font-size:11px;color:var(--txt3);transition:transform .2s;}
+.wt-picker.open .wt-picker-chev{transform:rotate(180deg);}
+.wt-tree-panel{display:none;background:var(--sur);border:1px solid var(--bdr);border-top:none;border-radius:0 0 10px 10px;box-shadow:0 6px 18px var(--shd);max-height:420px;overflow-y:auto;}
+.wt-picker.open .wt-tree-panel{display:block;}
+.wt-tree-geo{display:flex;align-items:center;gap:8px;width:100%;text-align:left;padding:12px 16px;font-family:'Noto Sans Bengali',sans-serif;font-size:13.5px;font-weight:700;color:var(--red);border-bottom:1px solid var(--bdr);background:none;border-left:none;border-right:none;border-top:none;}
+.wt-tree-geo:hover{background:var(--sur2);}
+.wt-tree-group{border-bottom:1px solid var(--bdr);}
+.wt-tree-group:last-child{border-bottom:none;}
+.wt-tree-group-h{width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:11px 16px;background:none;border:none;font-family:'Noto Sans Bengali',sans-serif;font-size:13.5px;font-weight:700;color:var(--txt2);transition:background .15s;}
+.wt-tree-group-h:hover{background:var(--sur2);}
+.wt-tree-group-h.active{color:var(--red);}
+.wt-tree-group-chev{font-size:10px;color:var(--txt3);transition:transform .2s;flex-shrink:0;}
+.wt-tree-group.open .wt-tree-group-chev{transform:rotate(90deg);}
+.wt-tree-districts{display:none;padding:2px 0 6px;}
+.wt-tree-group.open .wt-tree-districts{display:block;}
+.wt-tree-item{width:100%;text-align:left;display:block;padding:9px 16px 9px 32px;background:none;border:none;font-family:'Noto Sans Bengali',sans-serif;font-size:13.5px;color:var(--txt2);transition:background .15s,color .15s;}
+.wt-tree-item:hover{background:var(--sur2);color:var(--red);}
+.wt-tree-item.on{color:var(--red);font-weight:700;background:var(--sur2);}
+
+/* HERO CARD */
+.wt-hero{position:relative;overflow:hidden;background:linear-gradient(160deg,var(--sky1),var(--sky2));border:1px solid var(--bdr);box-shadow:0 4px 22px var(--shd);padding:26px 24px;margin:14px 0;color:#fff;}
+.wt-hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;}
+.wt-hero-city{font-size:18px;font-weight:700;}
+.wt-hero-date{font-size:12.5px;opacity:.85;font-family:'Noto Sans Bengali',sans-serif;margin-top:3px;}
+.wt-hero-main{display:flex;align-items:center;gap:18px;margin-top:18px;flex-wrap:wrap;}
+.wt-hero-icon{font-size:64px;line-height:1;filter:drop-shadow(0 3px 8px rgba(0,0,0,.25));}
+.wt-hero-temp{font-size:56px;font-weight:700;line-height:1;}
+.wt-hero-desc{font-size:15px;font-family:'Noto Sans Bengali',sans-serif;opacity:.95;margin-top:4px;}
+.wt-hero-feels{font-size:12.5px;font-family:'Noto Sans Bengali',sans-serif;opacity:.85;margin-top:2px;}
+.wt-hero-stats{display:flex;gap:20px;margin-top:20px;flex-wrap:wrap;}
+.wt-hero-stat{font-family:'Noto Sans Bengali',sans-serif;}
+.wt-hero-stat-lbl{font-size:11px;opacity:.8;}
+.wt-hero-stat-val{font-size:15px;font-weight:700;margin-top:2px;}
+.wt-hero-skel{opacity:.6;}
+
+/* FORECAST RAIL */
+.wt-sec{background:var(--sur);border:1px solid var(--bdr);box-shadow:0 1px 8px var(--shd);margin-bottom:14px;}
+.wt-sec-h{padding:12px 16px;border-bottom:1px solid var(--bdr);font-size:14.5px;font-weight:700;color:var(--txt);font-family:'Noto Sans Bengali',sans-serif;}
+.wt-days{display:flex;overflow-x:auto;scrollbar-width:none;}
+.wt-days::-webkit-scrollbar{display:none;}
+.wt-day{flex:1 0 92px;text-align:center;padding:16px 8px;border-right:1px solid var(--bdr);font-family:'Noto Sans Bengali',sans-serif;}
+.wt-day:last-child{border-right:none;}
+.wt-day-lbl{font-size:12.5px;color:var(--txt2);font-weight:700;}
+.wt-day-icon{font-size:28px;margin:8px 0;}
+.wt-day-hi{font-size:14.5px;font-weight:700;color:var(--txt);}
+.wt-day-lo{font-size:12.5px;color:var(--txt3);margin-left:4px;}
+.wt-day-rain{font-size:11px;color:#1565c0;margin-top:4px;}
+
+.wt-hours{display:flex;overflow-x:auto;scrollbar-width:none;padding:14px 8px;}
+.wt-hours::-webkit-scrollbar{display:none;}
+.wt-hour{flex:0 0 64px;text-align:center;padding:0 6px;font-family:'Noto Sans Bengali',sans-serif;}
+.wt-hour-lbl{font-size:11.5px;color:var(--txt3);}
+.wt-hour-icon{font-size:20px;margin:8px 0;}
+.wt-hour-t{font-size:13px;font-weight:700;color:var(--txt);}
+
+.wt-err{padding:24px;text-align:center;font-family:'Noto Sans Bengali',sans-serif;color:var(--txt2);font-size:13.5px;line-height:1.9;}
+
+/* FOOTER */
+footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background .3s;}
+.fg{display:grid;grid-template-columns:2fr 1fr 1fr;gap:28px;padding-bottom:24px;border-bottom:1px solid #1e1e1e;}
+.fl-tag{font-size:14px;color:#fff;font-style:italic;margin-top:4px;}
+.fl-info{font-size:14px;color:#fff;line-height:2;margin-top:12px;}
+.fl-social{display:flex;gap:10px;margin-top:16px;}
+.fl-social a{width:36px;height:36px;border-radius:50%;background:#1e1e1e;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s;flex-shrink:0;}
+.fl-social a:hover{transform:translateY(-2px);}
+.fl-social a.soc-fb:hover{background:#1877f2;}
+.fl-social a.soc-yt:hover{background:#ff0000;}
+.fl-social a:hover svg path{fill:#fff;}
+.fc h5{color:#fff;font-size:15px;font-weight:700;margin-bottom:11px;padding-bottom:6px;border-bottom:1px solid #1e1e1e;font-family:'Noto Sans Bengali',sans-serif;}
+.fc a{display:block;color:#fff;font-size:15px;margin-bottom:6px;font-family:'Noto Sans Bengali',sans-serif;transition:color .2s;cursor:pointer;}
+.fc a:hover{color:var(--red);}
+.fb-bot{text-align:center;padding:12px;font-size:13.5px;color:#fff;font-family:'Noto Sans Bengali',sans-serif;}
+
+.footer-notice{max-width:760px;margin:0 auto 22px;padding:16px 20px;text-align:center;background:#161616;border:1px solid #262626;border-top:3px solid var(--red);}
+.footer-notice-title{font-size:15px;font-weight:700;color:var(--red);margin-bottom:6px;font-family:'Noto Sans Bengali',sans-serif;}
+.footer-notice p{font-size:14px;line-height:1.85;color:#bbb;font-family:'Noto Sans Bengali',sans-serif;margin:0;}
+@media(max-width:600px){
+  .footer-notice{padding:14px 16px;margin-bottom:16px;}
+  .footer-notice p{font-size:13.5px;}
+}
+
+@keyframes popIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+.about-logo{height:64px;width:auto;max-width:220px;object-fit:contain;margin:0 auto;}
+.about-logo-light{display:block;}
+.about-logo-dark{display:none;}
+[data-theme=dark] .about-logo-light{display:none;}
+[data-theme=dark] .about-logo-dark{display:block;}
+
+/* SITE-WIDE SPLASH LOADER */
+.site-loader{position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;background:var(--bg);transition:opacity .5s ease,visibility .5s ease;}
+.site-loader.hide{opacity:0;visibility:hidden;pointer-events:none;}
+.site-loader-logo{height:64px;width:auto;max-width:220px;object-fit:contain;animation:siteLoaderFadeIn .8s ease both;}
+.site-loader-logo.logo-img-light{display:block;}
+.site-loader-logo.logo-img-dark{display:none;}
+[data-theme=dark] .site-loader-logo.logo-img-light{display:none;}
+[data-theme=dark] .site-loader-logo.logo-img-dark{display:block;}
+@keyframes siteLoaderFadeIn{0%{opacity:0;transform:translateY(-6px);}100%{opacity:1;transform:translateY(0);}}
+.site-loader-logo-fallback{display:none;font-size:30px;font-weight:700;font-family:'Noto Serif Bengali',serif;color:var(--txt);animation:siteLoaderFadeIn .8s ease both;}
+.site-loader-logo-fallback em{color:var(--red);font-style:normal;}
+.site-loader-text{font-size:13.5px;font-family:'Noto Sans Bengali',sans-serif;color:var(--txt2);animation:wtTextPulse 1.6s ease-in-out infinite;letter-spacing:.3px;}
+@keyframes wtTextPulse{0%,100%{opacity:1;}50%{opacity:.55;}}
+
+/* WEATHER-THEMED LOADER: a sun peeking behind a drifting cloud */
+.wt-load{position:relative;width:78px;height:56px;display:flex;align-items:center;justify-content:center;margin-bottom:-2px;}
+.wt-load-sun{position:absolute;left:14px;top:6px;width:30px;height:30px;border-radius:50%;background:#f5b942;box-shadow:0 0 18px rgba(245,185,66,.7);animation:wtSunPulse 2.4s ease-in-out infinite;}
+@keyframes wtSunPulse{0%,100%{opacity:.75;transform:scale(1);}50%{opacity:1;transform:scale(1.08);}}
+.wt-load-cloud{position:absolute;bottom:6px;left:6px;width:60px;height:26px;background:var(--sur2);border:2px solid var(--txt3);border-radius:16px;animation:wtCloudDrift 3.6s ease-in-out infinite;}
+.wt-load-cloud::before{content:'';position:absolute;top:-14px;left:10px;width:26px;height:26px;background:var(--sur2);border:2px solid var(--txt3);border-radius:50%;}
+@keyframes wtCloudDrift{0%,100%{transform:translateX(0);}50%{transform:translateX(6px);}}
+
+.totop-btn{position:fixed;bottom:24px;right:24px;width:48px;height:48px;border-radius:50%;background:var(--red);color:#fff;border:none;font-size:20px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px var(--shd);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s;z-index:9000;}
+.totop-btn.show{opacity:1;visibility:visible;transform:translateY(0);}
+.totop-btn:hover{background:var(--dkred);}
+
+/* ══ RESPONSIVE ══ */
+@media(max-width:1239px){.wrap{padding:0 14px;}}
+@media(max-width:960px){.fg{grid-template-columns:1fr 1fr;}}
+@media(max-width:700px){.topbar{font-size:11px;}.wt-head h1{font-size:17px;}}
+@media(max-width:599px){
+  .fg{grid-template-columns:1fr;}
+  footer{padding:24px 0 0;}
+  .topbar .wrap{flex-direction:column;gap:4px;text-align:center;}
+  .topbar-r{justify-content:center;}
+  .mast .wrap{flex-direction:column;align-items:flex-start;gap:8px;}
+  .mast-r{align-self:flex-end;}
+  .logo-img{height:50px;}
+  .nav .wrap{gap:0;}
+  .nl{font-size:12px;padding:9px 10px;}
+  .wt-hero-temp{font-size:44px;}
+  .wt-hero-icon{font-size:50px;}
+}
+</style>
+</head>
+<body>
+
+<!-- SITE LOADER -->
+<div id="site-loader" class="site-loader">
+  <img src="assets/logo.png"      alt="দৈনিক অনুলিপি" class="site-loader-logo logo-img-light" onerror="this.style.display='none';document.getElementById('site-loader-logo-fallback').style.display='block';">
+  <img src="assets/logo-dark.png" alt="দৈনিক অনুলিপি" class="site-loader-logo logo-img-dark"  onerror="this.style.display='none';document.getElementById('site-loader-logo-fallback').style.display='block';">
+  <div id="site-loader-logo-fallback" class="site-loader-logo-fallback">দৈনিক <em>অনুলিপি</em></div>
+  <div class="wt-load" aria-hidden="true">
+    <div class="wt-load-sun"></div>
+    <div class="wt-load-cloud"></div>
+  </div>
+  <p class="site-loader-text" id="loader-text">আবহাওয়ার তথ্য আনা হচ্ছে…</p>
+</div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="wrap">
+    <span id="tbar-date"></span>
+    <div class="topbar-r">
+      <a href="https://dainikanulipi.github.io/da/" id="tb-home">অনলাইন সংস্করণ</a>
+      <a onclick="openContactPopup('যোগাযোগ')" id="tb-contact">যোগাযোগ</a>
+      <a onclick="openContactPopup('বিজ্ঞাপন')" id="tb-ads">বিজ্ঞাপন</a>
+    </div>
+  </div>
+</div>
+
+<!-- MASTHEAD -->
+<div class="mast">
+  <div class="wrap">
+    <div class="logo" onclick="location.href='https://dainikanulipi.github.io/da/'">
+      <img src="assets/logo.png"      alt="দৈনিক অনুলিপি" class="logo-img logo-img-light">
+      <img src="assets/logo-dark.png" alt="দৈনিক অনুলিপি" class="logo-img logo-img-dark">
+      <div class="logo-tag" id="mast-tagline">সত্যের সন্ধানে, নির্ভীক প্রকাশে!</div>
+    </div>
+    <div class="mast-r">
+      <button class="theme-btn" onclick="toggleTheme()" id="theme-btn" title="থিম পরিবর্তন">🌙</button>
+      <div class="lang-grp">
+        <button class="lb on" id="lb-bn" onclick="setLang('bn')">বাং</button>
+        <button class="lb"    id="lb-en" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="wrap">
+    <button class="nl" id="nav-home" onclick="location.href='https://dainikanulipi.github.io/da/'">🌐 <span id="nav-home-label">অনলাইন সংস্করণ</span></button>
+    <button class="nl" id="nav-epaper" onclick="location.href='https://dainikanulipi.github.io/da/epaper.html'">📰 <span id="nav-epaper-label">ই-পেপার</span></button>
+    <button class="nl" id="nav-comic" onclick="location.href='https://dainikanulipi.github.io/da/comic.html'">🎨 <span id="nav-comic-label">কমিকস</span></button>
+    <button class="nl on" id="nav-weather">🌤️ <span id="nav-weather-label">আবহাওয়া</span></button>
+    <button class="nl" id="nav-live" onclick="location.href='https://dainikanulipi.github.io/da/live.html'"><span class="live-dot"></span> <span id="nav-live-label">লাইভ</span></button>
+  </div>
+</nav>
+
+<!-- MAIN: weather page -->
+<div class="wt-page">
+  <div class="wrap">
+
+    <div class="wt-head">
+      <h1 id="wt-title">🌤️ আবহাওয়া</h1>
+      <p class="wt-note" id="wt-note">বাংলাদেশের ৬৪ জেলার বর্তমান তাপমাত্রা ও ৭ দিনের পূর্বাভাস — Open-Meteo থেকে সরাসরি।</p>
+    </div>
+
+    <!-- DISTRICT TREE PICKER -->
+    <div class="wt-picker" id="wt-picker">
+      <button class="wt-picker-btn" id="wt-picker-btn" onclick="togglePicker()">
+        <span class="wt-picker-btn-l"><span>📍</span><span id="wt-picker-label">ঢাকা</span></span>
+        <span class="wt-picker-chev">▾</span>
+      </button>
+      <div class="wt-tree-panel" id="wt-tree-panel"></div>
+    </div>
+    <div id="wt-geo-status" style="display:none;font-size:11.5px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin:6px 0 10px;"></div>
+
+    <!-- HERO -->
+    <div class="wt-hero" id="wt-hero">
+      <div class="wt-hero-top">
+        <div>
+          <div class="wt-hero-city" id="wt-hero-city">ঢাকা</div>
+          <div class="wt-hero-date" id="wt-hero-date"></div>
+        </div>
+      </div>
+      <div class="wt-hero-main">
+        <div class="wt-hero-icon" id="wt-hero-icon">⏳</div>
+        <div>
+          <div class="wt-hero-temp" id="wt-hero-temp">--°</div>
+          <div class="wt-hero-desc" id="wt-hero-desc">লোড হচ্ছে…</div>
+          <div class="wt-hero-feels" id="wt-hero-feels"></div>
+        </div>
+      </div>
+      <div class="wt-hero-stats">
+        <div class="wt-hero-stat"><div class="wt-hero-stat-lbl" id="lbl-humidity">আর্দ্রতা</div><div class="wt-hero-stat-val" id="wt-humidity">--%</div></div>
+        <div class="wt-hero-stat"><div class="wt-hero-stat-lbl" id="lbl-wind">বাতাসের গতি</div><div class="wt-hero-stat-val" id="wt-wind">-- কিমি/ঘ</div></div>
+        <div class="wt-hero-stat"><div class="wt-hero-stat-lbl" id="lbl-rain">বৃষ্টির সম্ভাবনা</div><div class="wt-hero-stat-val" id="wt-rain">--%</div></div>
+        <div class="wt-hero-stat"><div class="wt-hero-stat-lbl" id="lbl-sun">সূর্যাস্ত</div><div class="wt-hero-stat-val" id="wt-sunset">--:--</div></div>
+      </div>
+    </div>
+
+    <!-- 7-DAY FORECAST -->
+    <div class="wt-sec">
+      <div class="wt-sec-h" id="wt-days-h">৭ দিনের পূর্বাভাস</div>
+      <div class="wt-days" id="wt-days"></div>
+    </div>
+
+    <!-- HOURLY -->
+    <div class="wt-sec">
+      <div class="wt-sec-h" id="wt-hours-h">আজকের ঘণ্টাভিত্তিক পূর্বাভাস</div>
+      <div class="wt-hours" id="wt-hours"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="fg">
+      <div>
+        <img src="assets/logo-dark.png" alt="দৈনিক অনুলিপি" class="footer-logo-img">
+        <div class="fl-tag" id="footer-tagline">সত্যের সন্ধানে, নির্ভীক প্রকাশে!</div>
+        <div class="fl-info" id="footer-info">প্রতিষ্ঠাতা ও প্রকাশক: অনিক অধিকারী<br>প্রতিষ্ঠাতা ও প্রধান সম্পাদক: মো: ফারহান শাহরিয়ার</div>
+        <div class="fl-social">
+          <a href="https://facebook.com/dainikanulipi" target="_blank" rel="noopener" class="soc-fb" aria-label="Facebook"><svg viewBox="0 0 320 512" width="15" height="15"><path fill="#1877f2" d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"/></svg></a>
+          <a href="https://youtube.com/@dainikanulipi" target="_blank" rel="noopener" class="soc-yt" aria-label="YouTube"><svg viewBox="0 0 576 512" width="19" height="19"><path fill="#ff0000" d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232 337.6V174.4L361 256l-129 81.6z"/></svg></a>
+        </div>
+      </div>
+      <div class="fc">
+        <h5 id="footer-cat-heading">বিভাগ</h5>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 12px;">
+          <a href="https://dainikanulipi.github.io/da/" id="ft-cat-latest">সর্বশেষ</a>
+          <a href="https://dainikanulipi.github.io/da/#cat/অর্থনীতি" id="ft-cat-economy">অর্থনীতি</a>
+          <a href="https://dainikanulipi.github.io/da/#cat/জাতীয়" id="ft-cat-national">জাতীয়</a>
+          <a href="sports.html" id="ft-cat-sports">খেলা</a>
+          <a href="https://dainikanulipi.github.io/da/#cat/সারাদেশ" id="ft-cat-country">সারাদেশ</a>
+          <a href="https://dainikanulipi.github.io/da/#cat/আনন্দ সময়" id="ft-cat-entertainment">আনন্দ সময়</a>
+          <a href="https://dainikanulipi.github.io/da/#cat/বিশ্ব সংবাদ" id="ft-cat-world">বিশ্ব সংবাদ</a>
+          <a href="https://dainikanulipi.github.io/da/#cat/চাকরি" id="ft-cat-jobs">চাকরি</a>
+          <a href="https://dainikanulipi.github.io/da/#cat/বাণিজ্য" id="ft-cat-business">বাণিজ্য</a>
+          <a href="https://dainikanulipi.github.io/da/#cat/মতামত" id="ft-cat-opinion">মতামত</a>
+          <a href="https://dainikanulipi.github.io/da/#cat/বিশেষ সংবাদ" id="ft-cat-special" style="grid-column:1/-1;">বিশেষ সংবাদ</a>
+        </div>
+      </div>
+      <div class="fc">
+        <h5 id="footer-info-heading">তথ্য</h5>
+        <a onclick="openInfoPopup('about')" id="ft-about">আমাদের সম্পর্কে</a>
+        <a onclick="openContactPopup('যোগাযোগ')" id="ft-contact">যোগাযোগ করুন</a>
+        <a onclick="openContactPopup('বিজ্ঞাপন')" id="ft-advertise">বিজ্ঞাপন দিন</a>
+        <a href="submit.html" target="_blank" id="ft-reporter">রিপোর্টার পোর্টাল</a>
+        <a onclick="openInfoPopup('privacy')" id="ft-privacy">গোপনীয়তা নীতি</a>
+      </div>
+    </div>
+    <div class="footer-notice" id="footer-notice">
+      <div class="footer-notice-title" id="footer-notice-title">⚠️ জরুরি ঘোষণা</div>
+      <p id="footer-notice-text">এই নিউজ পোর্টালটি বর্তমানে "পরীক্ষামূলক সম্প্রচার" কার্যক্রম পরিচালনা করছে। আমরা সচেতনভাবে রাজনৈতিক সংবাদ এড়িয়ে চলি এবং শুধুমাত্র বিনোদন, তথ্য ও জনস্বার্থমূলক সংবাদ প্রকাশ করি। এখানে প্রকাশিত সংবাদের দায়ভার সংশ্লিষ্ট লেখকদের, পোর্টাল কর্তৃপক্ষের নয়। রেজিস্ট্রেশন প্রক্রিয়া এবং পূর্ণাঙ্গ সম্প্রচারের কাজ চলমান। আবহাওয়ার তথ্য Open-Meteo থেকে সংগৃহীত এবং শুধুমাত্র সাধারণ ধারণার জন্য — জরুরি সিদ্ধান্তের জন্য সরকারি আবহাওয়া অধিদপ্তরের তথ্য অনুসরণ করুন।</p>
+    </div>
+    <div class="fb-bot" id="footer-bottom">দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — সর্বস্বত্ব সংরক্ষিত ২০২৬</div>
+  </div>
+</footer>
+
+<!-- CONTACT/ADVERTISE POPUP -->
+<div id="contact-popup-overlay" onclick="closeContactPopup(event)" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);align-items:center;justify-content:center;">
+  <div style="background:var(--sur);width:100%;max-width:420px;margin:16px;border-top:4px solid var(--red);box-shadow:0 20px 60px rgba(0,0,0,.35);animation:popIn .22s ease;max-height:90vh;overflow-y:auto;">
+    <div style="padding:18px 20px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bdr);position:sticky;top:0;background:var(--sur);z-index:1;">
+      <div>
+        <div id="popup-title" style="font-size:17px;font-weight:700;color:var(--txt);font-family:'Noto Serif Bengali',serif;"></div>
+        <div style="font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-top:2px;">দৈনিক অনুলিপি</div>
+      </div>
+      <button onclick="closeContactPopup()" style="background:var(--sur3);border:none;width:32px;height:32px;border-radius:50%;font-size:16px;color:var(--txt2);cursor:pointer;flex-shrink:0;">✕</button>
+    </div>
+    <div style="padding:20px;">
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px;">
+        <a href="tel:+8801935128454" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--sur2);border:1px solid var(--bdr);text-decoration:none;color:var(--txt);transition:border-color .2s;" onmouseover="this.style.borderColor='var(--red)'" onmouseout="this.style.borderColor='var(--bdr)'">
+          <span style="font-size:20px;">📞</span>
+          <div><div style="font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;">ফোন / Phone</div><div style="font-size:14px;font-weight:700;">+880 19-3512-8454</div></div>
+        </a>
+        <a href="mailto:dainikanulipi@gmail.com" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--sur2);border:1px solid var(--bdr);text-decoration:none;color:var(--txt);transition:border-color .2s;" onmouseover="this.style.borderColor='var(--red)'" onmouseout="this.style.borderColor='var(--bdr)'">
+          <span style="font-size:20px;">✉️</span>
+          <div><div style="font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;">ইমেইল / Email</div><div style="font-size:14px;font-weight:700;">dainikanulipi@gmail.com</div></div>
+        </a>
+        <a href="https://wa.me/8801935128454" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--sur2);border:1px solid var(--bdr);text-decoration:none;color:var(--txt);transition:border-color .2s;" onmouseover="this.style.borderColor='#25d366'" onmouseout="this.style.borderColor='var(--bdr)'">
+          <span style="font-size:20px;">💬</span>
+          <div><div style="font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;">WhatsApp</div><div style="font-size:14px;font-weight:700;">+880 19-3512-8454</div></div>
+        </a>
+        <a href="https://facebook.com/dainikanulipi" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--sur2);border:1px solid var(--bdr);text-decoration:none;color:var(--txt);transition:border-color .2s;" onmouseover="this.style.borderColor='#1877f2'" onmouseout="this.style.borderColor='var(--bdr)'">
+          <span style="font-size:20px;">📘</span>
+          <div><div style="font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;">Facebook</div><div style="font-size:14px;font-weight:700;">facebook.com/dainikanulipi</div></div>
+        </a>
+      </div>
+      <a href="https://dainikanulipi.github.io/da/" target="_blank" rel="noopener" style="display:block;background:var(--red);color:#fff;text-align:center;padding:11px;font-size:14px;font-weight:700;font-family:'Noto Sans Bengali',sans-serif;text-decoration:none;" onmouseover="this.style.background='var(--dkred)'" onmouseout="this.style.background='var(--red)'">
+        🌐 ওয়েবসাইট ভিজিট করুন
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT/PRIVACY POPUP -->
+<div id="info-popup-overlay" onclick="closeInfoPopup(event)" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);align-items:center;justify-content:center;">
+  <div style="background:var(--sur);width:100%;max-width:520px;margin:16px;border-top:4px solid var(--red);box-shadow:0 20px 60px rgba(0,0,0,.35);animation:popIn .22s ease;max-height:88vh;overflow-y:auto;">
+    <div style="padding:18px 20px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bdr);position:sticky;top:0;background:var(--sur);z-index:1;">
+      <div>
+        <div id="info-popup-title" style="font-size:17px;font-weight:700;color:var(--txt);font-family:'Noto Serif Bengali',serif;"></div>
+        <div style="font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-top:2px;">দৈনিক অনুলিপি</div>
+      </div>
+      <button onclick="closeInfoPopup()" style="background:var(--sur3);border:none;width:32px;height:32px;border-radius:50%;font-size:16px;color:var(--txt2);cursor:pointer;flex-shrink:0;">✕</button>
+    </div>
+    <div id="info-popup-body" style="padding:22px;font-family:'Noto Serif Bengali',serif;font-size:15px;line-height:1.9;color:var(--txt);"></div>
+  </div>
+</div>
+
+<button class="totop-btn" id="toTopBtn" onclick="window.scrollTo({top:0,left:0,behavior:'smooth'})" aria-label="Scroll to top">↑</button>
+
+<!-- ══════════════════════════════════════════════
+     PAGE SCRIPT
+     ══════════════════════════════════════════════ -->
+<script>
+// ══════════════════════════════════════════════
+//  CITIES — all 64 district capitals of Bangladesh (lat/lon)
+// ══════════════════════════════════════════════
+const CITIES = [
+  // ঢাকা বিভাগ — Dhaka division
+  {id:'dhaka', div:'dhaka',          bn:'ঢাকা',          en:'Dhaka',          lat:23.8103, lon:90.4125},
+  {id:'faridpur', div:'dhaka',       bn:'ফরিদপুর',       en:'Faridpur',       lat:23.6070, lon:89.8429},
+  {id:'gazipur', div:'dhaka',        bn:'গাজীপুর',       en:'Gazipur',        lat:23.9999, lon:90.4203},
+  {id:'gopalganj', div:'dhaka',      bn:'গোপালগঞ্জ',     en:'Gopalganj',      lat:23.0050, lon:89.8266},
+  {id:'kishoreganj', div:'dhaka',    bn:'কিশোরগঞ্জ',     en:'Kishoreganj',    lat:24.4449, lon:90.7766},
+  {id:'madaripur', div:'dhaka',      bn:'মাদারীপুর',     en:'Madaripur',      lat:23.1641, lon:90.1897},
+  {id:'manikganj', div:'dhaka',      bn:'মানিকগঞ্জ',     en:'Manikganj',      lat:23.8644, lon:90.0047},
+  {id:'munshiganj', div:'dhaka',     bn:'মুন্সিগঞ্জ',    en:'Munshiganj',     lat:23.5422, lon:90.5305},
+  {id:'narayanganj', div:'dhaka',    bn:'নারায়ণগঞ্জ',   en:'Narayanganj',    lat:23.6238, lon:90.5000},
+  {id:'narsingdi', div:'dhaka',      bn:'নরসিংদী',       en:'Narsingdi',      lat:23.9223, lon:90.7150},
+  {id:'rajbari', div:'dhaka',        bn:'রাজবাড়ী',       en:'Rajbari',        lat:23.7574, lon:89.6444},
+  {id:'shariatpur', div:'dhaka',     bn:'শরীয়তপুর',     en:'Shariatpur',     lat:23.2423, lon:90.4348},
+  {id:'tangail', div:'dhaka',        bn:'টাঙ্গাইল',      en:'Tangail',        lat:24.2513, lon:89.9167},
+  // চট্টগ্রাম বিভাগ — Chattogram division
+  {id:'bandarban', div:'chattogram',      bn:'বান্দরবান',     en:'Bandarban',      lat:22.1953, lon:92.2183},
+  {id:'brahmanbaria', div:'chattogram',   bn:'ব্রাহ্মণবাড়িয়া', en:'Brahmanbaria', lat:23.9571, lon:91.1119},
+  {id:'chandpur', div:'chattogram',       bn:'চাঁদপুর',       en:'Chandpur',       lat:23.2333, lon:90.6667},
+  {id:'chattogram', div:'chattogram',     bn:'চট্টগ্রাম',     en:'Chattogram',     lat:22.3569, lon:91.7832},
+  {id:'cumilla', div:'chattogram',        bn:'কুমিল্লা',      en:'Cumilla',        lat:23.4607, lon:91.1809},
+  {id:'coxsbazar', div:'chattogram',      bn:'কক্সবাজার',     en:"Cox's Bazar",    lat:21.4272, lon:92.0058},
+  {id:'feni', div:'chattogram',           bn:'ফেনী',          en:'Feni',           lat:23.0159, lon:91.3976},
+  {id:'khagrachhari', div:'chattogram',   bn:'খাগড়াছড়ি',     en:'Khagrachhari',   lat:23.1193, lon:91.9847},
+  {id:'lakshmipur', div:'chattogram',     bn:'লক্ষ্মীপুর',    en:'Lakshmipur',     lat:22.9425, lon:90.8290},
+  {id:'noakhali', div:'chattogram',       bn:'নোয়াখালী',     en:'Noakhali',       lat:22.8696, lon:91.0995},
+  {id:'rangamati', div:'chattogram',      bn:'রাঙ্গামাটি',    en:'Rangamati',      lat:22.6533, lon:92.1734},
+  // রাজশাহী বিভাগ — Rajshahi division
+  {id:'bogura', div:'rajshahi',         bn:'বগুড়া',        en:'Bogura',         lat:24.8465, lon:89.3773},
+  {id:'chapainawabganj', div:'rajshahi',bn:'চাঁপাইনবাবগঞ্জ', en:'Chapainawabganj',lat:24.5965, lon:88.2775},
+  {id:'joypurhat', div:'rajshahi',      bn:'জয়পুরহাট',      en:'Joypurhat',      lat:25.0968, lon:89.0227},
+  {id:'naogaon', div:'rajshahi',        bn:'নওগাঁ',         en:'Naogaon',        lat:24.7936, lon:88.9318},
+  {id:'natore', div:'rajshahi',         bn:'নাটোর',         en:'Natore',         lat:24.4206, lon:88.9847},
+  {id:'pabna', div:'rajshahi',          bn:'পাবনা',         en:'Pabna',          lat:24.0064, lon:89.2372},
+  {id:'rajshahi', div:'rajshahi',       bn:'রাজশাহী',       en:'Rajshahi',       lat:24.3745, lon:88.6042},
+  {id:'sirajganj', div:'rajshahi',      bn:'সিরাজগঞ্জ',     en:'Sirajganj',      lat:24.4534, lon:89.7006},
+  // খুলনা বিভাগ — Khulna division
+  {id:'bagerhat', div:'khulna',       bn:'বাগেরহাট',      en:'Bagerhat',       lat:22.6602, lon:89.7895},
+  {id:'chuadanga', div:'khulna',      bn:'চুয়াডাঙ্গা',    en:'Chuadanga',      lat:23.6402, lon:88.8419},
+  {id:'jashore', div:'khulna',        bn:'যশোর',          en:'Jashore',        lat:23.1667, lon:89.2167},
+  {id:'jhenaidah', div:'khulna',      bn:'ঝিনাইদহ',       en:'Jhenaidah',      lat:23.5450, lon:89.1539},
+  {id:'khulna', div:'khulna',         bn:'খুলনা',         en:'Khulna',         lat:22.8456, lon:89.5403},
+  {id:'kushtia', div:'khulna',        bn:'কুষ্টিয়া',      en:'Kushtia',        lat:23.9013, lon:89.1200},
+  {id:'magura', div:'khulna',         bn:'মাগুরা',        en:'Magura',         lat:23.4855, lon:89.4198},
+  {id:'meherpur', div:'khulna',       bn:'মেহেরপুর',      en:'Meherpur',       lat:23.7622, lon:88.6318},
+  {id:'narail', div:'khulna',         bn:'নড়াইল',        en:'Narail',         lat:23.1725, lon:89.5127},
+  {id:'satkhira', div:'khulna',       bn:'সাতক্ষীরা',     en:'Satkhira',       lat:22.7085, lon:89.0714},
+  // বরিশাল বিভাগ — Barishal division
+  {id:'barguna', div:'barishal',        bn:'বরগুনা',        en:'Barguna',        lat:22.0953, lon:90.1121},
+  {id:'barishal', div:'barishal',       bn:'বরিশাল',        en:'Barishal',       lat:22.7010, lon:90.3535},
+  {id:'bhola', div:'barishal',          bn:'ভোলা',          en:'Bhola',          lat:22.6859, lon:90.6482},
+  {id:'jhalokathi', div:'barishal',     bn:'ঝালকাঠি',       en:'Jhalokathi',     lat:22.6406, lon:90.1987},
+  {id:'patuakhali', div:'barishal',     bn:'পটুয়াখালী',     en:'Patuakhali',     lat:22.3596, lon:90.3296},
+  {id:'pirojpur', div:'barishal',       bn:'পিরোজপুর',      en:'Pirojpur',       lat:22.5841, lon:89.9720},
+  // সিলেট বিভাগ — Sylhet division
+  {id:'habiganj', div:'sylhet',       bn:'হবিগঞ্জ',       en:'Habiganj',       lat:24.3745, lon:91.4156},
+  {id:'moulvibazar', div:'sylhet',    bn:'মৌলভীবাজার',    en:'Moulvibazar',    lat:24.4829, lon:91.7774},
+  {id:'sunamganj', div:'sylhet',      bn:'সুনামগঞ্জ',     en:'Sunamganj',      lat:25.0658, lon:91.3950},
+  {id:'sylhet', div:'sylhet',         bn:'সিলেট',         en:'Sylhet',         lat:24.8949, lon:91.8687},
+  // রংপুর বিভাগ — Rangpur division
+  {id:'dinajpur', div:'rangpur',       bn:'দিনাজপুর',      en:'Dinajpur',       lat:25.6279, lon:88.6332},
+  {id:'gaibandha', div:'rangpur',      bn:'গাইবান্ধা',     en:'Gaibandha',      lat:25.3288, lon:89.5289},
+  {id:'kurigram', div:'rangpur',       bn:'কুড়িগ্রাম',     en:'Kurigram',       lat:25.8054, lon:89.6362},
+  {id:'lalmonirhat', div:'rangpur',    bn:'লালমনিরহাট',    en:'Lalmonirhat',    lat:25.9923, lon:89.2847},
+  {id:'nilphamari', div:'rangpur',     bn:'নীলফামারী',     en:'Nilphamari',     lat:25.9317, lon:88.8560},
+  {id:'panchagarh', div:'rangpur',     bn:'পঞ্চগড়',       en:'Panchagarh',     lat:26.3411, lon:88.5541},
+  {id:'rangpur', div:'rangpur',        bn:'রংপুর',         en:'Rangpur',        lat:25.7439, lon:89.2752},
+  {id:'thakurgaon', div:'rangpur',     bn:'ঠাকুরগাঁও',     en:'Thakurgaon',     lat:26.0336, lon:88.4616},
+  // ময়মনসিংহ বিভাগ — Mymensingh division
+  {id:'jamalpur', div:'mymensingh',       bn:'জামালপুর',      en:'Jamalpur',       lat:24.9375, lon:89.9372},
+  {id:'mymensingh', div:'mymensingh',     bn:'ময়মনসিংহ',     en:'Mymensingh',     lat:24.7471, lon:90.4203},
+  {id:'netrokona', div:'mymensingh',      bn:'নেত্রকোণা',     en:'Netrokona',      lat:24.8824, lon:90.7280},
+  {id:'sherpur', div:'mymensingh',        bn:'শেরপুর',        en:'Sherpur',        lat:25.0205, lon:90.0153},
+];
+let currentCity = localStorage.getItem('wt_city') || 'dhaka';
+let geoCity = null; // populated by detectLocation() with {id:'geo', bn, en, lat, lon}
+
+// ── DIVISIONS — group headers for the district tree picker ──
+const DIVISIONS = [
+  {id:'dhaka',      bn:'ঢাকা বিভাগ',       en:'Dhaka Division'},
+  {id:'chattogram', bn:'চট্টগ্রাম বিভাগ',   en:'Chattogram Division'},
+  {id:'rajshahi',   bn:'রাজশাহী বিভাগ',     en:'Rajshahi Division'},
+  {id:'khulna',     bn:'খুলনা বিভাগ',       en:'Khulna Division'},
+  {id:'barishal',   bn:'বরিশাল বিভাগ',      en:'Barishal Division'},
+  {id:'sylhet',     bn:'সিলেট বিভাগ',       en:'Sylhet Division'},
+  {id:'rangpur',    bn:'রংপুর বিভাগ',       en:'Rangpur Division'},
+  {id:'mymensingh', bn:'ময়মনসিংহ বিভাগ',   en:'Mymensingh Division'},
+];
+// which division panels are expanded — start with the current city's division open
+let openDivisions = {};
+
+// ── WMO WEATHER CODES → icon + bilingual description ──
+function wcodeInfo(code, isDay){
+  const map = {
+    0:  {icon: isDay?'☀️':'🌙', bn:'পরিষ্কার আকাশ', en:'Clear sky'},
+    1:  {icon: isDay?'🌤️':'🌙', bn:'প্রধানত পরিষ্কার', en:'Mainly clear'},
+    2:  {icon:'⛅', bn:'আংশিক মেঘলা', en:'Partly cloudy'},
+    3:  {icon:'☁️', bn:'মেঘলা', en:'Overcast'},
+    45: {icon:'🌫️', bn:'কুয়াশা', en:'Fog'},
+    48: {icon:'🌫️', bn:'কুয়াশাচ্ছন্ন', en:'Depositing rime fog'},
+    51: {icon:'🌦️', bn:'হালকা গুঁড়ি বৃষ্টি', en:'Light drizzle'},
+    53: {icon:'🌦️', bn:'গুঁড়ি বৃষ্টি', en:'Drizzle'},
+    55: {icon:'🌦️', bn:'ভারী গুঁড়ি বৃষ্টি', en:'Dense drizzle'},
+    56: {icon:'🌧️', bn:'হিমায়িত গুঁড়ি বৃষ্টি', en:'Freezing drizzle'},
+    57: {icon:'🌧️', bn:'ভারী হিমায়িত গুঁড়ি বৃষ্টি', en:'Dense freezing drizzle'},
+    61: {icon:'🌧️', bn:'হালকা বৃষ্টি', en:'Slight rain'},
+    63: {icon:'🌧️', bn:'বৃষ্টি', en:'Rain'},
+    65: {icon:'🌧️', bn:'ভারী বৃষ্টি', en:'Heavy rain'},
+    66: {icon:'🌧️', bn:'হিমায়িত বৃষ্টি', en:'Freezing rain'},
+    67: {icon:'🌧️', bn:'ভারী হিমায়িত বৃষ্টি', en:'Heavy freezing rain'},
+    71: {icon:'🌨️', bn:'হালকা তুষারপাত', en:'Slight snow'},
+    73: {icon:'🌨️', bn:'তুষারপাত', en:'Snow'},
+    75: {icon:'🌨️', bn:'ভারী তুষারপাত', en:'Heavy snow'},
+    77: {icon:'🌨️', bn:'তুষার কণা', en:'Snow grains'},
+    80: {icon:'🌦️', bn:'হালকা বৃষ্টির ঝাপটা', en:'Slight rain showers'},
+    81: {icon:'🌦️', bn:'বৃষ্টির ঝাপটা', en:'Rain showers'},
+    82: {icon:'⛈️', bn:'ভারী বৃষ্টির ঝাপটা', en:'Violent rain showers'},
+    85: {icon:'🌨️', bn:'তুষারের ঝাপটা', en:'Slight snow showers'},
+    86: {icon:'🌨️', bn:'ভারী তুষারের ঝাপটা', en:'Heavy snow showers'},
+    95: {icon:'⛈️', bn:'বজ্রঝড়', en:'Thunderstorm'},
+    96: {icon:'⛈️', bn:'শিলাসহ বজ্রঝড়', en:'Thunderstorm with hail'},
+    99: {icon:'⛈️', bn:'ভারী শিলাসহ বজ্রঝড়', en:'Severe thunderstorm with hail'},
+  };
+  return map[code] || {icon:'❓', bn:'অজানা', en:'Unknown'};
+}
+
+// ── LANG ──
+var lang = localStorage.getItem('anulipi_lang') || 'bn';
+if(lang==='ar') lang='bn';
+
+var T = {
+  bn:{
+    navWeather:'আবহাওয়া', title:'🌤️ আবহাওয়া',
+    note:'বাংলাদেশের ৬৪ জেলার বর্তমান তাপমাত্রা ও ৭ দিনের পূর্বাভাস — Open-Meteo থেকে সরাসরি।',
+    daysH:'৭ দিনের পূর্বাভাস', hoursH:'আজকের ঘণ্টাভিত্তিক পূর্বাভাস',
+    humidity:'আর্দ্রতা', wind:'বাতাসের গতি', rain:'বৃষ্টির সম্ভাবনা', sunset:'সূর্যাস্ত',
+    feels:'অনুভূত হচ্ছে', loading:'লোড হচ্ছে…', loaderText:'আবহাওয়ার তথ্য আনা হচ্ছে…',
+    err:'দুঃখিত, এই মুহূর্তে আবহাওয়ার তথ্য আনা যাচ্ছে না। একটু পর আবার চেষ্টা করুন।',
+    today:'আজ', tomorrow:'আগামীকাল',
+    days:['রবি','সোম','মঙ্গল','বুধ','বৃহঃ','শুক্র','শনি'],
+    myLocation:'আপনার অবস্থান', geoDenied:'অবস্থান শনাক্ত করা যায়নি — ঢাকার তথ্য দেখানো হচ্ছে।', geoLocating:'আপনার অবস্থান শনাক্ত করা হচ্ছে…',
+    tagline:'সত্যের সন্ধানে, নির্ভীক প্রকাশে!',
+    footerInfo:'প্রতিষ্ঠাতা ও প্রকাশক: অনিক অধিকারী<br>প্রতিষ্ঠাতা ও প্রধান সম্পাদক: মো: ফারহান শাহরিয়ার',
+    fCat:'বিভাগ', fInfo:'তথ্য',
+    ftAbout:'আমাদের সম্পর্কে', ftContact:'যোগাযোগ করুন', ftAds:'বিজ্ঞাপন দিন',
+    ftReporter:'রিপোর্টার পোর্টাল', ftPrivacy:'গোপনীয়তা নীতি',
+    footerBottom:'দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — সর্বস্বত্ব সংরক্ষিত ২০২৬',
+    contactTitle:'📬 যোগাযোগ করুন', adsTitle:'📢 বিজ্ঞাপন দিন',
+    navHome:'অনলাইন সংস্করণ', navEpaper:'ই-পেপার', navComic:'কমিকস', navLive:'লাইভ',
+    tbHome:'অনলাইন সংস্করণ', tbContact:'যোগাযোগ', tbAds:'বিজ্ঞাপন',
+    catLatest:'সর্বশেষ', catEconomy:'অর্থনীতি', catNational:'জাতীয়', catSports:'খেলা',
+    catCountry:'সারাদেশ', catEntertainment:'আনন্দ সময়', catWorld:'বিশ্ব সংবাদ',
+    catJobs:'চাকরি', catBusiness:'বাণিজ্য', catOpinion:'মতামত', catSpecial:'বিশেষ সংবাদ',
+  },
+  en:{
+    navWeather:'Weather', title:'🌤️ Weather',
+    note:"Current conditions and 7-day forecast for all 64 districts of Bangladesh — live from Open-Meteo.",
+    daysH:'7-Day Forecast', hoursH:"Today's Hourly Forecast",
+    humidity:'Humidity', wind:'Wind Speed', rain:'Chance of Rain', sunset:'Sunset',
+    feels:'Feels like', loading:'Loading…', loaderText:'Fetching weather data…',
+    err:"Sorry, weather data can't be reached right now. Please try again shortly.",
+    today:'Today', tomorrow:'Tomorrow',
+    days:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
+    myLocation:'Your Location', geoDenied:"Couldn't detect your location — showing Dhaka instead.", geoLocating:'Detecting your location…',
+    tagline:'In pursuit of truth, In fearless expression!',
+    footerInfo:'Founder & Publisher: Anik Adhikari<br>Founder & Editor-in-Chief: Md. Farhan Shahriar',
+    fCat:'Categories', fInfo:'Information',
+    ftAbout:'About Us', ftContact:'Contact Us', ftAds:'Advertise With Us',
+    ftReporter:'Reporter Portal', ftPrivacy:'Privacy Policy',
+    footerBottom:'দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — All rights reserved 2026',
+    contactTitle:'📬 Contact Us', adsTitle:'📢 Advertise With Us',
+    navHome:'Home Edition', navEpaper:'E-Paper', navComic:'Comics', navLive:'Live',
+    tbHome:'Home Edition', tbContact:'Contact', tbAds:'Advertise',
+    catLatest:'Latest', catEconomy:'Economy', catNational:'National', catSports:'Sports',
+    catCountry:'Nationwide', catEntertainment:'Entertainment', catWorld:'World News',
+    catJobs:'Jobs', catBusiness:'Business', catOpinion:'Opinion', catSpecial:'Special News',
+  }
+};
+
+// ── THEME ──
+function toggleTheme(){
+  const html=document.documentElement,isDark=html.getAttribute('data-theme')==='dark';
+  html.setAttribute('data-theme',isDark?'light':'dark');
+  document.getElementById('theme-btn').textContent=isDark?'🌙':'☀️';
+  localStorage.setItem('theme',isDark?'light':'dark');
+}
+function applyTheme(){
+  const saved=localStorage.getItem('theme')||'light';
+  document.documentElement.setAttribute('data-theme',saved);
+  document.getElementById('theme-btn').textContent=saved==='dark'?'☀️':'🌙';
+}
+
+// ── TOPBAR DATE ──
+function toBnDigits(str){const d=['০','১','২','৩','৪','৫','৬','৭','৮','৯'];return String(str).replace(/\d/g,n=>d[n]);}
+function setTopbarDate(){
+  const d=new Date();
+  if(lang==='en'){
+    const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+    document.getElementById('tbar-date').textContent=`${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+  } else {
+    const months=['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+    const days=['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'];
+    document.getElementById('tbar-date').textContent=`${days[d.getDay()]}, ${toBnDigits(String(d.getDate()))} ${months[d.getMonth()]} ${toBnDigits(String(d.getFullYear()))}`;
+  }
+}
+
+// ── CONTACT POPUP ──
+function openContactPopup(type){
+  const isAd = type==='বিজ্ঞাপন';
+  document.getElementById('popup-title').textContent = isAd ? T[lang].adsTitle : T[lang].contactTitle;
+  document.getElementById('contact-popup-overlay').style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function closeContactPopup(e){
+  if(e&&e.target!==document.getElementById('contact-popup-overlay'))return;
+  document.getElementById('contact-popup-overlay').style.display='none';
+  document.body.style.overflow='';
+}
+
+// ── INFO POPUP (about/privacy) ──
+const INFO_CONTENT={
+  about:{
+    bn:{title:'🗞️ আমাদের সম্পর্কে', body:`<p>দৈনিক অনুলিপি একটি বাংলা অনলাইন সংবাদ পোর্টাল। এই পাতাটি পাঠকদের জন্য বাংলাদেশের বিভাগীয় শহরগুলোর আবহাওয়ার তথ্য দেখায়।</p>`},
+    en:{title:'🗞️ About Us', body:`<p>Dainik Anulipi is a Bengali-language online news portal. This page shows weather information for Bangladesh's divisional cities.</p>`},
+  },
+  privacy:{
+    bn:{title:'🔒 গোপনীয়তা নীতি', body:`<p>এই পাতাটি কোনো ব্যক্তিগত তথ্য সংগ্রহ করে না। আবহাওয়ার তথ্য Open-Meteo থেকে সরাসরি আনা হয়, শুধুমাত্র নির্বাচিত শহরের নাম ব্রাউজারে স্থানীয়ভাবে সংরক্ষিত থাকে।</p>`},
+    en:{title:'🔒 Privacy Policy', body:`<p>This page does not collect any personal data. Weather data is fetched directly from Open-Meteo; only your selected city is stored locally in your browser.</p>`},
+  }
+};
+function openInfoPopup(key){
+  const c = INFO_CONTENT[key][lang] || INFO_CONTENT[key].bn;
+  document.getElementById('info-popup-title').textContent = c.title;
+  document.getElementById('info-popup-body').innerHTML = c.body;
+  document.getElementById('info-popup-overlay').style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function closeInfoPopup(e){
+  if(e&&e.target!==document.getElementById('info-popup-overlay'))return;
+  document.getElementById('info-popup-overlay').style.display='none';
+  document.body.style.overflow='';
+}
+
+// ── LANGUAGE ──
+function applyLang(l){
+  lang=l;
+  const s=T[l];
+  document.documentElement.setAttribute('lang',l);
+  document.querySelectorAll('.lb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('lb-'+l).classList.add('on');
+  document.getElementById('nav-weather-label').textContent=s.navWeather;
+  document.getElementById('nav-home-label').textContent=s.navHome;
+  document.getElementById('nav-epaper-label').textContent=s.navEpaper;
+  document.getElementById('nav-comic-label').textContent=s.navComic;
+  document.getElementById('nav-live-label').textContent=s.navLive;
+  document.getElementById('tb-home').textContent=s.tbHome;
+  document.getElementById('tb-contact').textContent=s.tbContact;
+  document.getElementById('tb-ads').textContent=s.tbAds;
+  document.getElementById('ft-cat-latest').textContent=s.catLatest;
+  document.getElementById('ft-cat-economy').textContent=s.catEconomy;
+  document.getElementById('ft-cat-national').textContent=s.catNational;
+  document.getElementById('ft-cat-sports').textContent=s.catSports;
+  document.getElementById('ft-cat-country').textContent=s.catCountry;
+  document.getElementById('ft-cat-entertainment').textContent=s.catEntertainment;
+  document.getElementById('ft-cat-world').textContent=s.catWorld;
+  document.getElementById('ft-cat-jobs').textContent=s.catJobs;
+  document.getElementById('ft-cat-business').textContent=s.catBusiness;
+  document.getElementById('ft-cat-opinion').textContent=s.catOpinion;
+  document.getElementById('ft-cat-special').textContent=s.catSpecial;
+  document.getElementById('wt-title').textContent=s.title;
+  document.getElementById('wt-note').textContent=s.note;
+  document.getElementById('wt-days-h').textContent=s.daysH;
+  document.getElementById('wt-hours-h').textContent=s.hoursH;
+  document.getElementById('lbl-humidity').textContent=s.humidity;
+  document.getElementById('lbl-wind').textContent=s.wind;
+  document.getElementById('lbl-rain').textContent=s.rain;
+  document.getElementById('lbl-sun').textContent=s.sunset;
+  document.getElementById('mast-tagline').textContent=s.tagline;
+  document.getElementById('footer-tagline').textContent=s.tagline;
+  document.getElementById('footer-info').innerHTML=s.footerInfo;
+  document.getElementById('footer-cat-heading').textContent=s.fCat;
+  document.getElementById('footer-info-heading').textContent=s.fInfo;
+  document.getElementById('ft-about').textContent=s.ftAbout;
+  document.getElementById('ft-contact').textContent=s.ftContact;
+  document.getElementById('ft-advertise').textContent=s.ftAds;
+  document.getElementById('ft-reporter').textContent=s.ftReporter;
+  document.getElementById('ft-privacy').textContent=s.ftPrivacy;
+  document.getElementById('footer-bottom').textContent=s.footerBottom;
+  localStorage.setItem('anulipi_lang',l);
+  setTopbarDate();
+  renderChips();
+  loadWeather(currentCity);
+}
+function setLang(l){ applyLang(l); }
+
+// ── DISTRICT TREE PICKER ──
+function togglePicker(){
+  document.getElementById('wt-picker').classList.toggle('open');
+}
+function closePicker(){
+  document.getElementById('wt-picker').classList.remove('open');
+}
+function selectDistrict(id){
+  if(id==='geo' && !geoCity){ detectLocation(); return; }
+  currentCity=id; localStorage.setItem('wt_city',id);
+  closePicker();
+  renderChips();
+  loadWeather(id);
+}
+function toggleDivision(divId){
+  openDivisions[divId] = !openDivisions[divId];
+  renderChips();
+}
+function renderChips(){
+  // keep the current city's division expanded by default
+  const curCity = CITIES.find(c=>c.id===currentCity);
+  if(curCity && openDivisions[curCity.div]===undefined) openDivisions[curCity.div] = true;
+
+  // button label
+  const activeCity = (currentCity==='geo' && geoCity) ? geoCity : (curCity || CITIES[0]);
+  document.getElementById('wt-picker-label').textContent = lang==='en' ? activeCity.en : activeCity.bn;
+
+  const panel = document.getElementById('wt-tree-panel');
+  panel.innerHTML='';
+
+  // "my location" row, always on top
+  const geoBtn = document.createElement('button');
+  geoBtn.className='wt-tree-geo';
+  const geoLabel = geoCity ? (lang==='en'?geoCity.en:geoCity.bn) : T[lang].myLocation;
+  geoBtn.innerHTML = `📍 ${geoLabel}`;
+  geoBtn.onclick=()=>selectDistrict('geo');
+  panel.appendChild(geoBtn);
+
+  DIVISIONS.forEach(div=>{
+    const districts = CITIES.filter(c=>c.div===div.id);
+    const isOpen = !!openDivisions[div.id];
+    const hasCurrent = districts.some(c=>c.id===currentCity);
+
+    const group = document.createElement('div');
+    group.className = 'wt-tree-group' + (isOpen?' open':'');
+
+    const h = document.createElement('button');
+    h.className = 'wt-tree-group-h' + (hasCurrent?' active':'');
+    h.innerHTML = `<span>${lang==='en'?div.en:div.bn}</span><span class="wt-tree-group-chev">▸</span>`;
+    h.onclick = ()=>toggleDivision(div.id);
+    group.appendChild(h);
+
+    const list = document.createElement('div');
+    list.className = 'wt-tree-districts';
+    districts.forEach(c=>{
+      const item = document.createElement('button');
+      item.className = 'wt-tree-item' + (c.id===currentCity?' on':'');
+      item.textContent = lang==='en' ? c.en : c.bn;
+      item.onclick = ()=>selectDistrict(c.id);
+      list.appendChild(item);
+    });
+    group.appendChild(list);
+    panel.appendChild(group);
+  });
+}
+// close the tree panel when clicking outside it
+document.addEventListener('click', (e)=>{
+  const picker = document.getElementById('wt-picker');
+  if(picker && !picker.contains(e.target)) closePicker();
+});
+
+// ── LIVE STATUS DETECTION ──
+// Silently checks whether the YouTube channel is actually streaming right
+// now, using the YouTube IFrame Player API (no API key needed) — the
+// red dot on the লাইভ tab only blinks when a stream is really live.
+// Same channel ID as index.html/comic.html/epaper.html/live.html.
+const YT_CHANNEL_ID = 'UCV4MqKW7pl0wb58CuddGiEQ';
+function loadYouTubeIframeAPI(cb){
+  if(window.YT && window.YT.Player){ cb(); return; }
+  const prev = window.onYouTubeIframeAPIReady;
+  window.onYouTubeIframeAPIReady = function(){ if(prev) prev(); cb(); };
+  if(!document.getElementById('yt-iframe-api')){
+    const tag = document.createElement('script');
+    tag.id = 'yt-iframe-api';
+    tag.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(tag);
+  }
+}
+function setLiveDotState(isLive){
+  document.querySelectorAll('.live-dot').forEach(d=>d.classList.toggle('is-live', !!isLive));
+  const navLiveBtn = document.getElementById('nav-live');
+  if(navLiveBtn) navLiveBtn.classList.toggle('is-live', !!isLive);
+}
+function onLiveDetectStateChange(e){
+  const YTS = window.YT.PlayerState;
+  if(e.data===YTS.PLAYING || e.data===YTS.BUFFERING) setLiveDotState(true);
+  else if(e.data===YTS.ENDED || e.data===YTS.CUED || e.data===YTS.UNSTARTED) setLiveDotState(false);
+}
+function onLiveDetectError(){ setLiveDotState(false); }
+function initLiveDetection(){
+  if(!YT_CHANNEL_ID) return;
+  const frame = document.getElementById('live-detect-frame');
+  if(!frame) return;
+  frame.src = `https://www.youtube.com/embed/live_stream?channel=${YT_CHANNEL_ID}&mute=1&autoplay=1&enablejsapi=1&origin=${encodeURIComponent(location.origin)}`;
+  loadYouTubeIframeAPI(()=>{
+    new YT.Player('live-detect-frame', {
+      events: { onStateChange: onLiveDetectStateChange, onError: onLiveDetectError }
+    });
+  });
+}
+
+// ── GEOLOCATION ──
+function setGeoStatus(msg){
+  const el=document.getElementById('wt-geo-status');
+  if(!msg){ el.style.display='none'; el.textContent=''; return; }
+  el.style.display='block'; el.textContent=msg;
+}
+
+function detectLocation(){
+  if(!navigator.geolocation){
+    setGeoStatus(T[lang].geoDenied);
+    return;
+  }
+  setGeoStatus(T[lang].geoLocating);
+  navigator.geolocation.getCurrentPosition(
+    async (pos)=>{
+      const { latitude, longitude } = pos.coords;
+      geoCity = { id:'geo', bn:T.bn.myLocation, en:T.en.myLocation, lat:latitude, lon:longitude };
+      try{
+        const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`);
+        if(res.ok){
+          const data = await res.json();
+          const name = data.city || data.locality || data.principalSubdivision;
+          if(name){ geoCity.bn = name; geoCity.en = name; }
+        }
+      }catch(e){ /* keep default label if reverse geocoding fails */ }
+      currentCity = 'geo';
+      localStorage.setItem('wt_city','geo');
+      setGeoStatus(null);
+      renderChips();
+      loadWeather('geo');
+    },
+    (err)=>{
+      setGeoStatus(T[lang].geoDenied);
+      // fall back to whatever city is already loaded (saved city or Dhaka)
+    },
+    { enableHighAccuracy:false, timeout:8000, maximumAge:600000 }
+  );
+}
+
+// ── FETCH + RENDER ──
+async function loadWeather(cityId){
+  const city = (cityId==='geo' && geoCity) ? geoCity : (CITIES.find(c=>c.id===cityId) || CITIES[0]);
+  document.getElementById('wt-hero-city').textContent = lang==='en' ? city.en : city.bn;
+  document.getElementById('wt-hero-desc').textContent = T[lang].loading;
+
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}`
+    + `&current=temperature_2m,relative_humidity_2m,apparent_temperature,weathercode,wind_speed_10m,is_day`
+    + `&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_probability_max`
+    + `&hourly=temperature_2m,weathercode`
+    + `&timezone=Asia%2FDhaka&forecast_days=7`;
+
+  try{
+    const res = await fetch(url);
+    if(!res.ok) throw new Error('bad response');
+    const data = await res.json();
+    renderHero(city, data);
+    renderDays(data);
+    renderHours(data);
+  }catch(err){
+    document.getElementById('wt-hero-desc').textContent = T[lang].err;
+    document.getElementById('wt-days').innerHTML = `<div class="wt-err">${T[lang].err}</div>`;
+    document.getElementById('wt-hours').innerHTML = '';
+  }
+}
+
+function fmtTime(iso){
+  const d = new Date(iso);
+  return d.toLocaleTimeString(lang==='en'?'en-US':'bn-BD', {hour:'2-digit',minute:'2-digit',hour12:false});
+}
+
+function renderHero(city, data){
+  const cur = data.current;
+  const info = wcodeInfo(cur.weathercode, cur.is_day===1);
+  document.getElementById('wt-hero-date').textContent = new Date().toLocaleDateString(lang==='en'?'en-US':'bn-BD', {weekday:'long', day:'numeric', month:'long'});
+  document.getElementById('wt-hero-icon').textContent = info.icon;
+  document.getElementById('wt-hero-temp').textContent = Math.round(cur.temperature_2m)+'°C';
+  document.getElementById('wt-hero-desc').textContent = lang==='en' ? info.en : info.bn;
+  document.getElementById('wt-hero-feels').textContent = `${T[lang].feels}: ${Math.round(cur.apparent_temperature)}°C`;
+  document.getElementById('wt-humidity').textContent = Math.round(cur.relative_humidity_2m)+'%';
+  document.getElementById('wt-wind').textContent = Math.round(cur.wind_speed_10m)+' '+(lang==='en'?'km/h':'কিমি/ঘ');
+  document.getElementById('wt-rain').textContent = (data.daily.precipitation_probability_max[0] ?? 0)+'%';
+  document.getElementById('wt-sunset').textContent = fmtTime(data.daily.sunset[0]);
+}
+
+function renderDays(data){
+  const wrap=document.getElementById('wt-days');
+  wrap.innerHTML='';
+  const s=T[lang];
+  data.daily.time.forEach((dateStr,i)=>{
+    const d=new Date(dateStr+'T00:00:00');
+    const info=wcodeInfo(data.daily.weathercode[i], true);
+    const lbl = i===0 ? s.today : i===1 ? s.tomorrow : s.days[d.getDay()];
+    const hi=Math.round(data.daily.temperature_2m_max[i]);
+    const lo=Math.round(data.daily.temperature_2m_min[i]);
+    const rain=data.daily.precipitation_probability_max[i] ?? 0;
+    const el=document.createElement('div');
+    el.className='wt-day';
+    el.innerHTML=`<div class="wt-day-lbl">${lbl}</div><div class="wt-day-icon">${info.icon}</div><div><span class="wt-day-hi">${hi}°</span><span class="wt-day-lo">${lo}°</span></div><div class="wt-day-rain">💧 ${rain}%</div>`;
+    wrap.appendChild(el);
+  });
+}
+
+function renderHours(data){
+  const wrap=document.getElementById('wt-hours');
+  wrap.innerHTML='';
+  const now=new Date();
+  const nowHourIdx = data.hourly.time.findIndex(t=>new Date(t) >= now);
+  const startIdx = nowHourIdx>=0 ? nowHourIdx : 0;
+  const slice = data.hourly.time.slice(startIdx, startIdx+24);
+  slice.forEach((t,i)=>{
+    const idx=startIdx+i;
+    const info=wcodeInfo(data.hourly.weathercode[idx], true);
+    const temp=Math.round(data.hourly.temperature_2m[idx]);
+    const d=new Date(t);
+    const hourLbl = d.toLocaleTimeString(lang==='en'?'en-US':'bn-BD',{hour:'2-digit',hour12:true}).replace(':00','');
+    const el=document.createElement('div');
+    el.className='wt-hour';
+    el.innerHTML=`<div class="wt-hour-lbl">${i===0?T[lang].today:hourLbl}</div><div class="wt-hour-icon">${info.icon}</div><div class="wt-hour-t">${temp}°</div>`;
+    wrap.appendChild(el);
+  });
+}
+
+// ── SCROLL TO TOP ──
+window.addEventListener('scroll', ()=>{
+  document.getElementById('toTopBtn').classList.toggle('show', window.scrollY>200);
+});
+
+// ── BOOT ──
+function boot(){
+  applyTheme();
+  document.getElementById('loader-text').textContent = T[lang].loaderText;
+  applyLang(lang);
+  setTimeout(()=>{ document.getElementById('site-loader').classList.add('hide'); }, 400);
+  // Ask the browser for the user's location so the hero card can show
+  // weather for exactly where they are, not just a divisional HQ.
+  detectLocation();
+  initLiveDetection();
+}
+boot();
+</script>
+
+<!-- LIVE STATUS DETECTOR: invisible, off-screen iframe used only to check whether
+     the YouTube channel is currently streaming — same pattern as index.html/comic.html/live.html. -->
+<div style="position:absolute;width:1px;height:1px;overflow:hidden;left:-9999px;top:-9999px;">
+  <iframe id="live-detect-frame" src="about:blank" title="live status detector" allow="autoplay"></iframe>
+</div>
+</body>
+</html>
