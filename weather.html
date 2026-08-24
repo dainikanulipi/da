@@ -381,11 +381,11 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
       </div>
       <div class="fc">
         <h5 id="footer-info-heading">তথ্য</h5>
-        <a onclick="openInfoPopup('about')" id="ft-about">আমাদের সম্পর্কে</a>
-        <a onclick="openContactPopup('যোগাযোগ')" id="ft-contact">যোগাযোগ করুন</a>
-        <a onclick="openContactPopup('বিজ্ঞাপন')" id="ft-advertise">বিজ্ঞাপন দিন</a>
+        <a onclick="openInfoPopup('about')" style="cursor:pointer;" id="ft-about">আমাদের সম্পর্কে</a>
+        <a onclick="openContactPopup('যোগাযোগ')" style="cursor:pointer;" id="ft-contact">যোগাযোগ করুন</a>
+        <a onclick="openContactPopup('বিজ্ঞাপন')" style="cursor:pointer;" id="ft-advertise">বিজ্ঞাপন দিন</a>
         <a href="submit.html" target="_blank" id="ft-reporter">রিপোর্টার পোর্টাল</a>
-        <a onclick="openInfoPopup('privacy')" id="ft-privacy">গোপনীয়তা নীতি</a>
+        <a onclick="openInfoPopup('privacy')" style="cursor:pointer;" id="ft-privacy">গোপনীয়তা নীতি</a>
       </div>
     </div>
     <div class="footer-notice" id="footer-notice">
@@ -678,12 +678,122 @@ function closeContactPopup(e){
 // ── INFO POPUP (about/privacy) ──
 const INFO_CONTENT={
   about:{
-    bn:{title:'🗞️ আমাদের সম্পর্কে', body:`<p>দৈনিক অনুলিপি একটি বাংলা অনলাইন সংবাদ পোর্টাল। এই পাতাটি পাঠকদের জন্য বাংলাদেশের বিভাগীয় শহরগুলোর আবহাওয়ার তথ্য দেখায়।</p>`},
-    en:{title:'🗞️ About Us', body:`<p>Dainik Anulipi is a Bengali-language online news portal. This page shows weather information for Bangladesh's divisional cities.</p>`},
+    bn:{title:'🗞️ আমাদের সম্পর্কে', body:`
+      <div style="margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid var(--bdr);text-align:center;">
+        <img src="assets/logo.png"      alt="দৈনিক অনুলিপি" class="about-logo about-logo-light">
+        <img src="assets/logo-dark.png" alt="দৈনিক অনুলিপি" class="about-logo about-logo-dark">
+        <div style="font-size:12px;color:var(--txt2);font-style:italic;margin-top:8px;">সত্যের সন্ধানে, নির্ভীক প্রকাশে!</div>
+      </div>
+      <div style="background:var(--sur2);border-left:4px solid var(--red);padding:14px 16px;margin-bottom:18px;">
+        <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:6px;font-family:'Noto Sans Bengali',sans-serif;">⚠️ জরুরি ঘোষণা</div>
+        <p style="font-size:13.5px;line-height:1.85;color:var(--txt2);margin:0;">এই নিউজ পোর্টালটি বর্তমানে "পরীক্ষামূলক সম্প্রচার" কার্যক্রম পরিচালনা করছে। আমরা সচেতনভাবে রাজনৈতিক সংবাদ এড়িয়ে চলি এবং শুধুমাত্র বিনোদন, তথ্য ও জনবার্থমূলক সংবাদ প্রকাশ করি। এখানে প্রকাশিত সংবাদের দায়ভার সংশ্লিষ্ট লেখকদের, পোর্টাল কর্তৃপক্ষের নয়। রেজিস্ট্রেশন প্রক্রিয়া এবং পূর্ণাঙ্গ সম্প্রচারের কাজ চলমান।</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;">
+        <div style="background:var(--sur2);padding:12px 14px;border:1px solid var(--bdr);">
+          <div style="font-size:10px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-bottom:4px;">প্রতিষ্ঠাতা ও প্রকাশক</div>
+          <div style="font-size:13.5px;font-weight:700;">অনিক অধিকারী</div>
+        </div>
+        <div style="background:var(--sur2);padding:12px 14px;border:1px solid var(--bdr);">
+          <div style="font-size:10px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-bottom:4px;">প্রতিষ্ঠাতা ও প্রধান সম্পাদক</div>
+          <div style="font-size:13.5px;font-weight:700;">মো: ফারহান শাহরিয়ার</div>
+        </div>
+      </div>
+      <p style="font-size:14px;line-height:1.9;color:var(--txt2);margin-bottom:14px;">দৈনিক অনুলিপি একটি অনলাইন সংবাদ পোর্টাল যা সত্য ও নিরপেক্ষ সংবাদ পরিবেশনের লক্ষ্যে যাত্রা শুরু করেছে। আমরা বিশ্বাস করি, তথ্যের অধিকার প্রতিটি মানুষের মৌলিক অধিকার।</p>
+      <div style="text-align:center;padding-top:14px;border-top:1px solid var(--bdr);">
+        <div style="font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;">© ২০২৬ দৈনিক অনুলিপি কর্তৃক সংরক্ষিত</div>
+      </div>
+    `},
+    en:{title:'🗞️ About Us', body:`
+      <div style="margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid var(--bdr);text-align:center;">
+        <img src="assets/logo.png"      alt="Dainik Anulipi" class="about-logo about-logo-light">
+        <img src="assets/logo-dark.png" alt="Dainik Anulipi" class="about-logo about-logo-dark">
+        <div style="font-size:12px;color:var(--txt2);font-style:italic;margin-top:8px;">In pursuit of truth, In fearless expression!</div>
+      </div>
+      <div style="background:var(--sur2);border-left:4px solid var(--red);padding:14px 16px;margin-bottom:18px;">
+        <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:6px;">⚠️ Important Notice</div>
+        <p style="font-size:13.5px;line-height:1.85;color:var(--txt2);margin:0;">This news portal is currently running on a "trial broadcast" basis. We consciously avoid political news and publish only entertainment, informational, and public-interest content. Responsibility for news published here lies with the respective authors, not the portal authority. The registration process and full broadcast are underway.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;">
+        <div style="background:var(--sur2);padding:12px 14px;border:1px solid var(--bdr);">
+          <div style="font-size:10px;color:var(--txt3);margin-bottom:4px;">Founder & Publisher</div>
+          <div style="font-size:13.5px;font-weight:700;">Anik Adhikari</div>
+        </div>
+        <div style="background:var(--sur2);padding:12px 14px;border:1px solid var(--bdr);">
+          <div style="font-size:10px;color:var(--txt3);margin-bottom:4px;">Founder & Editor-in-Chief</div>
+          <div style="font-size:13.5px;font-weight:700;">Md. Farhan Shahriar</div>
+        </div>
+      </div>
+      <p style="font-size:14px;line-height:1.9;color:var(--txt2);margin-bottom:14px;">Dainik Anulipi is an online news portal that began its journey with the goal of presenting truthful and impartial news. We believe that the right to information is a fundamental right of every person.</p>
+      <div style="text-align:center;padding-top:14px;border-top:1px solid var(--bdr);">
+        <div style="font-size:11px;color:var(--txt3);">© 2026 Dainik Anulipi. All rights reserved</div>
+      </div>
+    `},
   },
   privacy:{
-    bn:{title:'🔒 গোপনীয়তা নীতি', body:`<p>এই পাতাটি কোনো ব্যক্তিগত তথ্য সংগ্রহ করে না। আবহাওয়ার তথ্য Open-Meteo থেকে সরাসরি আনা হয়, শুধুমাত্র নির্বাচিত শহরের নাম ব্রাউজারে স্থানীয়ভাবে সংরক্ষিত থাকে।</p>`},
-    en:{title:'🔒 Privacy Policy', body:`<p>This page does not collect any personal data. Weather data is fetched directly from Open-Meteo; only your selected city is stored locally in your browser.</p>`},
+    bn:{title:'🔒 গোপনীয়তা নীতি', body:`
+      <p style="font-size:12px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-bottom:16px;">সর্বশেষ আপডেট: জানুয়ারি ২০২৬</p>
+      <div style="display:flex;flex-direction:column;gap:0;">
+        <div style="padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--bdr);">
+          <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;font-family:'Noto Sans Bengali',sans-serif;">📋 তথ্য সংগ্রহ</div>
+          <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">আমরা কেবলমাত্র পোর্টালের সেবা উন্নত করার জন্য প্রয়োজনীয় তথ্য সংগ্রহ করি। পাঠকদের ব্যক্তিগত তথ্য কোনো তৃতীয় পক্ষের কাছে বিক্রি বা হস্তান্তর করা হয় সম্মেলনে।</p>
+        </div>
+        <div style="padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--bdr);">
+          <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;font-family:'Noto Sans Bengali',sans-serif;">🍪 কুকিজ ব্যবহার</div>
+          <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">এই পোর্টালটি ব্যবহারকারীর অভিজ্ঞতা উন্নত করতে কুকিজ ব্যবহার করে। থিম ও ভাষা পছন্দ সংরক্ষণের জন্য লোকাল স্টোরেজ ব্যবহার করা হয়।</p>
+        </div>
+        <div style="padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--bdr);">
+          <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;font-family:'Noto Sans Bengali',sans-serif;">🌤️ আবহাওয়ার তথ্য</div>
+          <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">এই পাতাটি কোনো ব্যক্তিগত তথ্য সংগ্রহ করে না। আবহাওয়ার তথ্য Open-Meteo থেকে সরাসরি আনা হয়, শুধুমাত্র নির্বাচিত শহরের নাম ব্রাউজারে স্থানীয়ভাবে সংরক্ষিত থাকে।</p>
+        </div>
+        <div style="padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--bdr);">
+          <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;font-family:'Noto Sans Bengali',sans-serif;">📰 বিষয়বস্তুর দায়বদ্ধতা</div>
+          <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">পোর্টালে প্রকাশিত সংবাদ ও মতামতের দায়ভার সংশ্লিষ্ট লেখক ও রিপোর্টারদের। পোর্টাল কর্তৃপক্ষ সংবাদের সত্যতা যাচাইয়ে সচেষ্ট থাকে।</p>
+        </div>
+        <div style="padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--bdr);">
+          <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;font-family:'Noto Sans Bengali',sans-serif;">📢 বিজ্ঞাপন নীতি</div>
+          <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">আমরা বিজ্ঞাপনদাতাদের সাথে স্বচ্ছ ও নৈতিক ব্যবসায়িক সম্পর্ক বজায় রাখি। বিজ্ঞাপনের বিষয়বস্তু সম্পাদকীয় নীতিকে প্রভাবিত করে না।</p>
+        </div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;font-family:'Noto Sans Bengali',sans-serif;">✉️ যোগাযোগ</div>
+          <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">গোপনীয়তা সংক্রান্ত যেকোনো প্রশ্নের জন্য: <a href="mailto:dainikanulipi@gmail.com" style="color:var(--red);font-weight:700;">dainikanulipi@gmail.com</a></p>
+        </div>
+      </div>
+      <div style="text-align:center;padding-top:16px;margin-top:16px;border-top:1px solid var(--bdr);">
+        <div style="font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;">© ২০২৬ দৈনিক অনুলিপি — সর্বস্বত্ব সংরক্ষিত</div>
+      </div>
+    `},
+    en:{title:'🔒 Privacy Policy', body:`
+      <p style="font-size:12px;color:var(--txt3);margin-bottom:16px;">Last updated: January 2026</p>
+      <div style="display:flex;flex-direction:column;gap:0;">
+        <div style="padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--bdr);">
+          <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;">📋 Data Collection</div>
+          <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">We only collect information necessary to improve the portal's services. Readers' personal information is never sold or shared with any third party.</p>
+        </div>
+        <div style="padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--bdr);">
+          <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;">🍪 Use of Cookies</div>
+          <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">This portal uses cookies to improve the user experience. Local storage is used to save theme and language preferences.</p>
+        </div>
+        <div style="padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--bdr);">
+          <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;">🌤️ Weather Data</div>
+          <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">This page does not collect any personal data. Weather data is fetched directly from Open-Meteo; only your selected city is stored locally in your browser.</p>
+        </div>
+        <div style="padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--bdr);">
+          <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;">📰 Content Responsibility</div>
+          <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">Responsibility for the news and opinions published on the portal lies with the respective authors and reporters. The portal authority strives to verify the accuracy of the news.</p>
+        </div>
+        <div style="padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--bdr);">
+          <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;">📢 Advertising Policy</div>
+          <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">We maintain transparent and ethical business relationships with advertisers. Advertising content does not influence editorial policy.</p>
+        </div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;">✉️ Contact</div>
+          <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">For any privacy-related questions: <a href="mailto:dainikanulipi@gmail.com" style="color:var(--red);font-weight:700;">dainikanulipi@gmail.com</a></p>
+        </div>
+      </div>
+      <div style="text-align:center;padding-top:16px;margin-top:16px;border-top:1px solid var(--bdr);">
+        <div style="font-size:11px;color:var(--txt3);">© 2026 Dainik Anulipi — All rights reserved</div>
+      </div>
+    `},
   }
 };
 function openInfoPopup(key){
@@ -880,7 +990,10 @@ function detectLocation(){
       const { latitude, longitude } = pos.coords;
       geoCity = { id:'geo', bn:T.bn.myLocation, en:T.en.myLocation, lat:latitude, lon:longitude };
       try{
-        const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`);
+        const ctrl = new AbortController();
+        const t = setTimeout(()=>ctrl.abort(), 2000);
+        const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`, {signal: ctrl.signal});
+        clearTimeout(t);
         if(res.ok){
           const data = await res.json();
           const name = data.city || data.locality || data.principalSubdivision;
@@ -897,7 +1010,7 @@ function detectLocation(){
       setGeoStatus(T[lang].geoDenied);
       // fall back to whatever city is already loaded (saved city or Dhaka)
     },
-    { enableHighAccuracy:false, timeout:8000, maximumAge:600000 }
+    { enableHighAccuracy:false, timeout:2000, maximumAge:600000 }
   );
 }
 
@@ -914,7 +1027,10 @@ async function loadWeather(cityId){
     + `&timezone=Asia%2FDhaka&forecast_days=7`;
 
   try{
-    const res = await fetch(url);
+    const ctrl = new AbortController();
+    const t = setTimeout(()=>ctrl.abort(), 2000);
+    const res = await fetch(url, {signal: ctrl.signal});
+    clearTimeout(t);
     if(!res.ok) throw new Error('bad response');
     const data = await res.json();
     renderHero(city, data);
