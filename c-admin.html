@@ -443,7 +443,7 @@ body{font-family:'Noto Sans Bengali',sans-serif;background:var(--bg);color:var(-
           </div>
           <div class="field">
             <label id="f-published-at-label">প্রকাশের তারিখ</label>
-            <input type="text" id="f-published-at" placeholder="yyyy-MM-dd বা yyyy-MM-dd HH:mm">
+            <input type="datetime-local" id="f-published-at">
           </div>
         </div>
         <div class="hint" id="status-hint" style="margin:-8px 0 14px;">খালি রাখলে আজকের তারিখ অটো বসবে। "নির্ধারিত" করলে ভবিষ্যতের একটা তারিখ/সময় দিতেই হবে — ততক্ষণ কমিকটা পাবলিকের কাছে লুকানো থাকবে।</div>
@@ -935,7 +935,7 @@ function onStatusChange(){
   const hint = document.getElementById('status-hint');
   if(status === 'scheduled'){
     label.innerHTML = 'প্রকাশের তারিখ/সময় <span style="color:var(--red);">*</span>';
-    hint.textContent = '"নির্ধারিত"-এর জন্য ভবিষ্যতের একটা তারিখ/সময় আবশ্যক — ততক্ষণ কমিকটা পাবলিকের কাছে লুকানো থাকবে।';
+    hint.textContent = '"নির্ধারিত"-এর জন্য ক্যালেন্ডার থেকে ভবিষ্যতের একটা তারিখ/সময় বাছাই করতে হবে — ততক্ষণ কমিকটা পাবলিকের কাছে লুকানো থাকবে।';
   } else {
     label.textContent = 'প্রকাশের তারিখ';
     hint.textContent = 'খালি রাখলে আজকের তারিখ অটো বসবে (নতুন কমিকের জন্য), অথবা আগের তারিখই থাকবে (এডিটের ক্ষেত্রে)।';
@@ -961,7 +961,7 @@ function openModal(comicJsonStr, presetSeriesSlug){
   document.getElementById('f-popular').checked = c ? !!c.popular : false;
   document.getElementById('f-episode').value = c ? c.episode||'' : '';
   document.getElementById('f-status').value = c ? (c.status||'published') : 'published';
-  document.getElementById('f-published-at').value = c ? c.published_at||'' : '';
+  document.getElementById('f-published-at').value = c ? toDatetimeLocalValue(c.published_at||'') : '';
   populateBadgeSuggestions();
   populateSeriesSelect(c ? c.series_slug||'' : (presetSeriesSlug||''));
   onSeriesSelectChange();
@@ -980,6 +980,20 @@ function parsePublishedAtLocal(v){
   const iso = s.indexOf(' ') > -1 ? s.replace(' ','T') : s + 'T00:00';
   const d = new Date(iso);
   return isNaN(d.getTime()) ? null : d;
+}
+// Converts a stored "yyyy-MM-dd" or "yyyy-MM-dd HH:mm" value into the
+// "yyyy-MM-ddTHH:mm" shape the <input type="datetime-local"> field needs.
+function toDatetimeLocalValue(v){
+  const s = (v||'').trim();
+  if(!s) return '';
+  return s.indexOf(' ') > -1 ? s.replace(' ','T') : s + 'T00:00';
+}
+// Converts the datetime-local field's "yyyy-MM-ddTHH:mm" value back into
+// the "yyyy-MM-dd HH:mm" shape saved to the sheet.
+function fromDatetimeLocalValue(v){
+  const s = (v||'').trim();
+  if(!s) return '';
+  return s.replace('T',' ');
 }
 
 async function saveComic(e){
@@ -1002,12 +1016,12 @@ async function saveComic(e){
 
   const status = document.getElementById('f-status').value;
   if(STATUS_VALUES.indexOf(status) < 0){ showStatus('অজানা স্ট্যাটাস।', false); return false; }
-  let publishedAt = document.getElementById('f-published-at').value.trim();
+  let publishedAt = fromDatetimeLocalValue(document.getElementById('f-published-at').value);
   if(status === 'scheduled'){
-    if(!publishedAt){ showStatus('"নির্ধারিত" স্ট্যাটাসের জন্য প্রকাশের তারিখ/সময় দিতে হবে।', false); return false; }
-    if(!parsePublishedAtLocal(publishedAt)){ showStatus('তারিখ/সময় ফরম্যাট: yyyy-MM-dd বা yyyy-MM-dd HH:mm', false); return false; }
+    if(!publishedAt){ showStatus('"নির্ধারিত" স্ট্যাটাসের জন্য ক্যালেন্ডার থেকে প্রকাশের তারিখ/সময় বাছাই করো।', false); return false; }
+    if(!parsePublishedAtLocal(publishedAt)){ showStatus('তারিখ/সময়টা সঠিক নয়।', false); return false; }
   } else if(publishedAt && !parsePublishedAtLocal(publishedAt)){
-    showStatus('তারিখ/সময় ফরম্যাট: yyyy-MM-dd বা yyyy-MM-dd HH:mm', false); return false;
+    showStatus('তারিখ/সময়টা সঠিক নয়।', false); return false;
   }
 
   const data = {
