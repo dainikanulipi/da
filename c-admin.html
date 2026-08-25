@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" type="image/png" href="assets/favicon.png">
-<link rel="manifest" href="manifest-desk.json">
-<link rel="apple-touch-icon" href="assets/favicon.png">
 <title>কমিকস অ্যাডমিন | দৈনিক অনুলিপি</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700;800&family=Patrick+Hand&display=swap" rel="stylesheet">
@@ -1271,16 +1269,6 @@ async function deleteSeriesConfirm(){
   }finally{
     setBtnLoading(btn, false);
   }
-}
-</script>
-<!-- PWA: register Anulipi Desk service worker -->
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('service-worker-desk.js').catch(err => {
-      console.log('Service worker registration failed:', err);
-    });
-  });
 }
 </script>
 </body>

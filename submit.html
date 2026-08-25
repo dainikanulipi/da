@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>রিপোর্টার পোর্টাল | দৈনিক অনুলিপি</title>
 <link rel="icon" type="image/png" href="assets/favicon.png">
-<link rel="manifest" href="manifest-desk.json">
-<link rel="apple-touch-icon" href="assets/favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -956,16 +954,6 @@ function resetForm(){
   ['bn','en'].forEach(l=>{if(prevOpen[l])togglePrev(l);});
   switchLangTab('bn');
   scrollTo(0,0);
-}
-</script>
-<!-- PWA: register Anulipi Desk service worker -->
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('service-worker-desk.js').catch(err => {
-      console.log('Service worker registration failed:', err);
-    });
-  });
 }
 </script>
 </body>

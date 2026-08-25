@@ -19,10 +19,6 @@
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="canonical" href="https://dainikanulipi.github.io/da/" id="meta-canonical">
 
-<!-- PWA: installable app support -->
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="assets/favicon.png">
-
 <!-- FACEBOOK / OPEN GRAPH SHARING TAGS -->
 <meta property="og:type" content="website" id="meta-og-type">
 <meta property="og:url" content="https://dainikanulipi.github.io/da/" id="meta-og-url">
@@ -1982,16 +1978,5 @@ document.addEventListener('keydown', e => {
 <div style="position:absolute;width:2px;height:2px;overflow:hidden;opacity:0;pointer-events:none;left:-9999px;top:-9999px;" aria-hidden="true">
   <iframe id="live-detect-frame" src="about:blank" title="live status detector" allow="autoplay"></iframe>
 </div>
-
-<!-- PWA: register service worker -->
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('service-worker.js').catch(err => {
-      console.log('Service worker registration failed:', err);
-    });
-  });
-}
-</script>
 </body>
 </html>

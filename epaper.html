@@ -16,8 +16,6 @@
 <meta name="description" content="দৈনিক অনুলিপি ই-পেপার — আজকের সংখ্যা পড়ুন">
 <title>দৈনিক অনুলিপি | ই-পেপার</title>
 <link rel="icon" type="image/png" href="assets/favicon.png">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="assets/favicon.png">
 
 <!-- GOOGLE FONTS: Bengali serif/sans -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1743,15 +1741,5 @@ document.addEventListener('DOMContentLoaded',init);
 <div style="position:absolute;width:2px;height:2px;overflow:hidden;opacity:0;pointer-events:none;left:-9999px;top:-9999px;" aria-hidden="true">
   <iframe id="live-detect-frame" src="" title="live status detector" allow="autoplay"></iframe>
 </div>
-<!-- PWA: register service worker -->
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('service-worker.js').catch(err => {
-      console.log('Service worker registration failed:', err);
-    });
-  });
-}
-</script>
 </body>
 </html>
