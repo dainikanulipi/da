@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>অ্যাডমিন প্যানেল | দৈনিক অনুলিপি</title>
 <link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="manifest" href="manifest-desk.json">
+<link rel="apple-touch-icon" href="assets/favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -1254,6 +1256,16 @@ document.getElementById('edit-modal').addEventListener('click', function(e) {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') { closeModal(); closeConfirm(); closeSidebar(); }
 });
+</script>
+<!-- PWA: register Anulipi Desk service worker -->
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('service-worker-desk.js').catch(err => {
+      console.log('Service worker registration failed:', err);
+    });
+  });
+}
 </script>
 </body>
 </html>
