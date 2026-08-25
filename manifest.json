@@ -1,0 +1,39 @@
+{
+  "name": "দৈনিক অনুলিপি – The Daily Anulipi",
+  "short_name": "The Daily Anulipi",
+  "description": "দৈনিক অনুলিপি — সত্যের সন্ধানে, নির্ভীক প্রকাশে!",
+  "start_url": "/da/",
+  "scope": "/da/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#e2e2e2",
+  "theme_color": "#C8102E",
+  "lang": "bn",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "assets/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
