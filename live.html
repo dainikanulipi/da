@@ -16,6 +16,8 @@
 <meta name="description" content="দৈনিক অনুলিপি — সরাসরি সম্প্রচার দেখুন">
 <title>দৈনিক অনুলিপি | সরাসরি সম্প্রচার</title>
 <link rel="icon" type="image/png" href="assets/favicon.png" id="fav-icon">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="assets/favicon.png">
 
 <!-- OPEN GRAPH / TWITTER CARD (for FB/WhatsApp/Twitter share previews) -->
 <meta property="og:type" content="website">
@@ -908,6 +910,16 @@ function init(){
   setTimeout(()=>{ if(loader) loader.classList.add('hide'); }, 1000);
 }
 document.addEventListener('DOMContentLoaded', init);
+</script>
+<!-- PWA: register service worker -->
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('service-worker.js').catch(err => {
+      console.log('Service worker registration failed:', err);
+    });
+  });
+}
 </script>
 </body>
 </html>
