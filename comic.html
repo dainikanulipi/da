@@ -16,6 +16,8 @@
 <meta name="description" content="দৈনিক অনুলিপি — কমিকস: প্রতিদিনের কমিক স্ট্রিপ, কার্টুন, কবিতা ও আঁকাআঁকির কর্নার" id="meta-desc">
 <title>দৈনিক অনুলিপি | কমিকস</title>
 <link rel="icon" type="image/png" href="assets/favicon.png" id="fav-icon">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="assets/favicon.png">
 <link rel="canonical" href="https://dainikanulipi.github.io/da/comic.html" id="meta-canonical">
 
 <meta property="og:type" content="website">
@@ -1978,5 +1980,15 @@ document.addEventListener('DOMContentLoaded', init);
 <div style="position:absolute;width:1px;height:1px;overflow:hidden;left:-9999px;top:-9999px;">
   <iframe id="live-detect-frame" src="about:blank" title="live status detector" allow="autoplay"></iframe>
 </div>
+<!-- PWA: register service worker -->
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('service-worker.js').catch(err => {
+      console.log('Service worker registration failed:', err);
+    });
+  });
+}
+</script>
 </body>
 </html>
