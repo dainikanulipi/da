@@ -53,6 +53,7 @@
   --nav-bg:#fff;--topbar:#1a1a1a;--foot:#0f0f0f;
   --ticker:#C8102E;--ticker-lbl:#111;
   --tog-bg:#eee;--tog-c:#444;
+  --ink:#161616;--paper:#fbf8f0;
 }
 [data-theme=dark]{
   --bg:#0d0d0d;--sur:#1b1b1b;--sur2:#232323;--sur3:#2b2b2b;
@@ -61,6 +62,7 @@
   --nav-bg:#161616;--topbar:#080808;--foot:#080808;
   --ticker:#7a0617;--ticker-lbl:#0a0a0a;
   --tog-bg:#2e2e2e;--tog-c:#ddd;
+  --ink:#f2f2f2;--paper:#1e1c17;
 }
 html[dir=rtl] body,html[dir=rtl] input,html[dir=rtl] textarea,html[dir=rtl] select{
   font-family:'Noto Naskh Arabic',serif;
@@ -296,6 +298,25 @@ button{font-family:inherit;cursor:pointer;}
 .sbtn.wa{background:#25d366;color:#fff;}
 .sbtn.cp{background:var(--sur3);color:var(--txt);border:1px solid var(--bdr);}
 .copied{font-size:12.5px;color:green;display:none;}
+
+/* SHARE POPUP (ported from comic.html) */
+.cx-share-btn{min-height:44px;box-sizing:border-box;background:var(--red);color:#fff;border:none;font-family:'Noto Sans Bengali',sans-serif;font-weight:700;font-size:13px;padding:10px 18px;display:inline-flex;align-items:center;justify-content:center;gap:7px;transition:background .2s;}
+.cx-share-btn:hover{background:var(--dkred);}
+.cx-share-opt{color:#fff;text-decoration:none;padding:12px 8px;min-height:44px;box-sizing:border-box;font-family:'Noto Sans Bengali',sans-serif;font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center;gap:6px;text-align:center;border-radius:3px;transition:opacity .15s;}
+.cx-share-opt:hover{opacity:.85;}
+.cx-share-system-btn{width:100%;min-height:44px;box-sizing:border-box;background:var(--ink);color:var(--paper);border:none;padding:12px;font-family:'Noto Sans Bengali',sans-serif;font-weight:700;font-size:13.5px;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;border-radius:3px;transition:opacity .15s;}
+.cx-share-system-btn:hover{opacity:.85;}
+.cx-share-copyrow{margin-top:14px;display:flex;gap:8px;}
+.cx-share-link-input{flex:1;min-width:0;min-height:40px;box-sizing:border-box;background:var(--sur2);border:1px solid var(--bdr);padding:9px 10px;font-size:16px;color:var(--txt2);font-family:monospace;}
+.cx-share-copy-btn{background:var(--red);color:#fff;border:none;padding:9px 16px;min-height:40px;box-sizing:border-box;font-family:'Noto Sans Bengali',sans-serif;font-weight:700;font-size:12px;cursor:pointer;white-space:nowrap;border-radius:3px;transition:background .2s;}
+.cx-share-copy-btn:hover{background:var(--dkred);}
+.cx-share-overlay{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);align-items:center;justify-content:center;padding:14px;box-sizing:border-box;}
+.cx-share-overlay.show{display:flex;}
+.cx-share-modal{background:var(--sur);width:100%;max-width:380px;border-top:4px solid var(--red);box-shadow:0 20px 60px rgba(0,0,0,.35);animation:popIn .22s ease;max-height:88vh;overflow-y:auto;}
+.cx-share-modal-head{padding:18px 20px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid var(--bdr);}
+.cx-share-close{background:var(--sur3);border:none;width:40px;height:40px;min-width:40px;border-radius:50%;font-size:16px;color:var(--txt2);cursor:pointer;flex-shrink:0;}
+.cx-share-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;}
+@media(max-width:360px){.cx-share-grid{grid-template-columns:1fr;}}
 
 /* SIDEBAR */
 .sidebar-w{background:var(--sur);padding:15px;margin-bottom:15px;transition:background .3s;}
@@ -1483,11 +1504,7 @@ async function renderArticle(slug) {
         ${tlNote}
         ${paras}
         <div class="share-row">
-          <span class="share-lbl">${s.share}</span>
-          <button class="sbtn fb" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${artUrl}','_blank')">📘 ${s.fb}</button>
-          <button class="sbtn wa" onclick="window.open('https://wa.me/?text=${encodeURIComponent((title||a.titleBn)+' — ')}${artUrl}','_blank')">💬 ${s.wa}</button>
-          <button class="sbtn cp" onclick="doCopy()">🔗 ${s.copy}</button>
-          <span class="copied" id="copied">${s.copied}</span>
+          <button class="cx-share-btn" onclick="openSharePopup('${esc(location.href)}','${escJs(title||a.titleBn)}')">📤 ${lang==='en'?'Share':'শেয়ার করুন'}</button>
         </div>
       </div>
     </div>
@@ -1760,6 +1777,31 @@ setTimeout(hideSiteLoader, SITE_LOADER_MAX_MS); // hard cap — fires regardless
   </div>
 </div>
 
+<!-- SHARE POPUP (ported from comic.html) — "in-depth" sharing: native share
+     sheet where available, plus direct WhatsApp/Facebook/X/Telegram/Email
+     links and a copy-link field, for the article currently open. -->
+<div id="share-popup-overlay" onclick="closeSharePopup(event)" class="cx-share-overlay">
+  <div class="cx-share-modal">
+    <div class="cx-share-modal-head">
+      <div style="min-width:0;">
+        <div id="share-popup-title" style="font-size:17px;font-weight:700;color:var(--txt);font-family:'Noto Serif Bengali',serif;">শেয়ার করুন</div>
+        <div id="share-popup-sub" style="font-size:11.5px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-top:2px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></div>
+      </div>
+      <button onclick="closeSharePopup()" class="cx-share-close" aria-label="বন্ধ করো">✕</button>
+    </div>
+    <div style="padding:18px 20px;">
+      <div id="share-native-row" style="display:none;margin-bottom:14px;">
+        <button class="cx-share-system-btn" onclick="shareViaSystem()">📤 <span id="share-system-txt">সিস্টেম শেয়ার মেনু</span></button>
+      </div>
+      <div class="cx-share-grid" id="share-grid"><!-- filled by JS --></div>
+      <div class="cx-share-copyrow">
+        <input id="share-link-input" class="cx-share-link-input" readonly onclick="this.select()" />
+        <button class="cx-share-copy-btn" id="share-copy-btn" onclick="copyShareLink()">কপি</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- POPUP ANIMATION + AUTO-UPDATE BANNER STYLES -->
 <style>
 @keyframes popIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
@@ -1968,8 +2010,56 @@ function closeInfoPopup(e) {
   document.body.style.overflow = '';
 }
 
+/* ── SHARE POPUP (ported from comic.html) ── */
+let shareCtx = { url:'', title:'' };
+function openSharePopup(url, title){
+  shareCtx = { url, title };
+  document.getElementById('share-popup-title').textContent = lang==='en' ? 'Share' : 'শেয়ার করুন';
+  document.getElementById('share-popup-sub').textContent = title;
+  document.getElementById('share-link-input').value = url;
+  document.getElementById('share-copy-btn').textContent = lang==='en' ? 'Copy' : 'কপি';
+  document.getElementById('share-system-txt').textContent = lang==='en' ? 'More sharing options' : 'সিস্টেম শেয়ার মেনু';
+  document.getElementById('share-native-row').style.display = navigator.share ? 'block' : 'none';
+  renderShareGrid();
+  document.getElementById('share-popup-overlay').classList.add('show');
+}
+function closeSharePopup(e){
+  if(e && e.target!==document.getElementById('share-popup-overlay')) return;
+  document.getElementById('share-popup-overlay').classList.remove('show');
+}
+function shareViaSystem(){
+  if(!navigator.share) return;
+  navigator.share({ title: shareCtx.title, url: shareCtx.url }).catch(()=>{});
+}
+function renderShareGrid(){
+  const { url, title } = shareCtx;
+  const enc = encodeURIComponent;
+  const opts = [
+    { label:'WhatsApp', emoji:'💬', bg:'#25D366', href:`https://wa.me/?text=${enc(title+' — '+url)}` },
+    { label:'Facebook', emoji:'📘', bg:'#1877F2', href:`https://www.facebook.com/sharer/sharer.php?u=${enc(url)}` },
+    { label: lang==='en' ? 'X (Twitter)' : 'এক্স (টুইটার)', emoji:'✖️', bg:'#000', href:`https://twitter.com/intent/tweet?url=${enc(url)}&text=${enc(title)}` },
+    { label:'Telegram', emoji:'✈️', bg:'#26A5E4', href:`https://t.me/share/url?url=${enc(url)}&text=${enc(title)}` },
+    { label: lang==='en' ? 'Email' : 'ইমেইল', emoji:'✉️', bg:'#555', href:`mailto:?subject=${enc(title)}&body=${enc(url)}` }
+  ];
+  document.getElementById('share-grid').innerHTML = opts.map(o=>
+    `<a class="cx-share-opt" style="background:${o.bg};" href="${esc(o.href)}" target="_blank" rel="noopener noreferrer">${o.emoji} ${esc(o.label)}</a>`
+  ).join('');
+}
+function copyShareLink(){
+  const input = document.getElementById('share-link-input');
+  const btn = document.getElementById('share-copy-btn');
+  const done = ()=>{ btn.textContent = lang==='en' ? 'Copied!' : 'কপি হয়েছে!'; setTimeout(()=>{ btn.textContent = lang==='en' ? 'Copy' : 'কপি'; }, 1600); };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(input.value).then(done).catch(()=>{ input.select(); try{document.execCommand('copy');}catch(_e){} done(); });
+  } else {
+    input.select();
+    try{ document.execCommand('copy'); }catch(_e){}
+    done();
+  }
+}
+
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { closeContactPopup(); closeInfoPopup(); }
+  if (e.key === 'Escape') { closeContactPopup(); closeInfoPopup(); closeSharePopup(); }
 });
 </script>
 
