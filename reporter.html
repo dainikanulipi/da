@@ -41,6 +41,78 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;overflow-x:hidden;}
+.totop-btn{position:fixed;bottom:24px;right:24px;width:48px;height:48px;border-radius:50%;background:var(--red);color:#fff;border:none;font-size:20px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px var(--shd);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .25s;z-index:9000;cursor:pointer;}
+.totop-btn.show{opacity:1;visibility:visible;transform:translateY(0);}
+.totop-btn:hover{background:var(--dkred);}
+
+/* SITE LOADER (splash screen shown while the page loads) */
+#site-loader{position:fixed;inset:0;z-index:99999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .5s ease,visibility .5s ease;}
+#site-loader.hide{opacity:0;visibility:hidden;pointer-events:none;}
+.loader-logo{height:56px;width:auto;max-width:190px;object-fit:contain;}
+.loader-logo-light{display:block;}
+.loader-logo-dark{display:none;}
+[data-theme=dark] .loader-logo-light{display:none;}
+[data-theme=dark] .loader-logo-dark{display:block;}
+.loader-scene{position:relative;width:150px;height:112px;}
+.loader-reporter{position:absolute;top:-8px;left:-6px;font-size:26px;transform-origin:70% 90%;animation:loaderBob 1.8s ease-in-out infinite;filter:drop-shadow(0 2px 3px var(--shd));z-index:2;}
+.loader-doc{width:100%;height:100%;display:block;overflow:visible;}
+.loader-doc-bg{fill:var(--sur);stroke:var(--bdr);stroke-width:1.5;}
+.loader-doc-line{fill:var(--red);}
+.loader-doc-line.hl{fill:var(--red);animation:loaderType-hl 3.4s ease-in-out infinite;}
+.loader-doc-line.l1{fill:var(--txt3);animation:loaderType-l1 3.4s ease-in-out infinite;}
+.loader-doc-line.l2{fill:var(--txt3);animation:loaderType-l2 3.4s ease-in-out infinite;}
+.loader-doc-line.l3{fill:var(--txt3);animation:loaderType-l3 3.4s ease-in-out infinite;}
+.loader-doc-line.l4{fill:var(--txt3);animation:loaderType-l4 3.4s ease-in-out infinite;}
+.loader-cursor{fill:var(--red);animation:loaderCursorBlink .8s steps(1) infinite,loaderCursorMove 3.4s ease-in-out infinite;}
+.loader-text{font-family:'Noto Sans Bengali',sans-serif;font-size:13.5px;color:var(--txt2);letter-spacing:.3px;}
+@keyframes loaderBob{
+  0%,100%{transform:translateY(0) rotate(-4deg);}
+  50%{transform:translateY(-5px) rotate(3deg);}
+}
+/* Each name-line waits its turn, types out to full width, holds while the
+   rest are written, then the whole "list" clears together before the loop
+   repeats — reads as reporter names being typed into a list one by one. */
+@keyframes loaderType-hl{
+  0%,4%{width:0;}
+  14%,82%{width:var(--lw);}
+  90%,100%{width:0;}
+}
+@keyframes loaderType-l1{
+  0%,16%{width:0;}
+  26%,82%{width:var(--lw);}
+  90%,100%{width:0;}
+}
+@keyframes loaderType-l2{
+  0%,30%{width:0;}
+  40%,82%{width:var(--lw);}
+  90%,100%{width:0;}
+}
+@keyframes loaderType-l3{
+  0%,44%{width:0;}
+  54%,82%{width:var(--lw);}
+  90%,100%{width:0;}
+}
+@keyframes loaderType-l4{
+  0%,58%{width:0;}
+  68%,82%{width:var(--lw);}
+  90%,100%{width:0;}
+}
+@keyframes loaderCursorBlink{
+  0%,49%{opacity:1;}
+  50%,100%{opacity:0;}
+}
+@keyframes loaderCursorMove{
+  0%,4%{y:22px;opacity:0;}
+  4.01%{opacity:1;}
+  16%{y:22px;}
+  16.01%,30%{y:42px;}
+  30.01%,44%{y:54px;}
+  44.01%,58%{y:66px;}
+  58.01%,82%{y:78px;}
+  82.01%,90%{opacity:0;}
+  100%{y:22px;opacity:0;}
+}
+html[dir=rtl] .totop-btn{right:auto;left:24px;}
 body{font-family:'Noto Serif Bengali',serif;background:var(--bg);color:var(--txt);transition:background .3s,color .3s;min-height:100vh;font-size:17px;line-height:1.6;overflow-x:hidden;}
 a{text-decoration:none;color:inherit;}
 img{display:block;max-width:100%;}
@@ -133,6 +205,31 @@ button{font-family:inherit;cursor:pointer;}
   .rep-link-btn{font-size:15px;}
 }
 .rep-empty{background:var(--sur);border:1px dashed var(--bdr);padding:44px 20px;text-align:center;color:var(--txt2);font-size:14.5px;font-family:'Noto Sans Bengali',sans-serif;margin-bottom:12px;}
+
+/* ── Loading skeleton (shown while reporters are being fetched) ── */
+.rep-skel-card{background:var(--sur);border:1px solid var(--bdr);padding:24px;display:flex;gap:18px;}
+.rep-skel-photo{width:92px;height:92px;border-radius:10px;flex-shrink:0;}
+.rep-skel-lines{flex:1;display:flex;flex-direction:column;gap:10px;padding-top:4px;}
+.rep-skel-bar{height:12px;border-radius:6px;}
+.rep-skel-bar.w60{width:60%;height:16px;}
+.rep-skel-bar.w40{width:40%;height:11px;}
+.rep-skel-bar.w90{width:90%;}
+.rep-skel-bar.w75{width:75%;}
+.rep-skel-photo,.rep-skel-bar{
+  background:linear-gradient(90deg,var(--sur3) 25%,var(--sur2) 37%,var(--sur3) 63%);
+  background-size:400% 100%;
+  animation:repShimmer 1.4s ease-in-out infinite;
+}
+@keyframes repShimmer{
+  0%{background-position:100% 50%;}
+  100%{background-position:0 50%;}
+}
+html[dir=rtl] .rep-skel-photo,html[dir=rtl] .rep-skel-bar{animation-direction:reverse;}
+@media(max-width:640px){
+  .rep-skel-card{padding:16px;gap:12px;}
+  .rep-skel-photo{width:64px;height:64px;border-radius:8px;}
+}
+.rep-loading-label{text-align:center;color:var(--txt3);font-size:13.5px;font-family:'Noto Sans Bengali',sans-serif;margin:2px 0 16px;}
 .rep-verify-note{font-size:13px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-bottom:32px;}
 .rep-link-btn{background:none;border:none;color:var(--txt3);font-size:16px;padding:2px 4px;flex-shrink:0;line-height:1;transition:color .2s,transform .2s;}
 .rep-link-btn:hover{color:var(--red);}
@@ -245,6 +342,25 @@ footer{background:var(--foot);padding:36px 0 0;transition:background .3s;}
 </style>
 </head>
 <body>
+
+<!-- SITE LOADER: full-page splash shown until the page has finished loading -->
+<div id="site-loader">
+  <img src="assets/logo.png"      alt="দৈনিক অনুলিপি" class="loader-logo loader-logo-light">
+  <img src="assets/logo-dark.png" alt="দৈনিক অনুলিপি" class="loader-logo loader-logo-dark">
+  <div class="loader-scene">
+    <div class="loader-reporter">🎙️</div>
+    <svg class="loader-doc" viewBox="0 0 140 104" xmlns="http://www.w3.org/2000/svg">
+      <rect class="loader-doc-bg" x="6" y="4" width="128" height="96" rx="7"/>
+      <rect class="loader-doc-line hl" x="20" y="22" height="9" rx="4.5" style="--lw:64px"/>
+      <rect class="loader-doc-line l1" x="20" y="42" height="5" rx="2.5" style="--lw:96px"/>
+      <rect class="loader-doc-line l2" x="20" y="54" height="5" rx="2.5" style="--lw:84px"/>
+      <rect class="loader-doc-line l3" x="20" y="66" height="5" rx="2.5" style="--lw:100px"/>
+      <rect class="loader-doc-line l4" x="20" y="78" height="5" rx="2.5" style="--lw:70px"/>
+      <rect class="loader-cursor" x="14" y="22" width="3" height="7" rx="1"/>
+    </svg>
+  </div>
+  <div class="loader-text" id="loader-text">রিপোর্টার তালিকা লোড হচ্ছে...</div>
+</div>
 
 <!-- TOP BAR: thin strip above the header — shows today's date/time -->
 <div class="topbar">
@@ -406,6 +522,9 @@ footer{background:var(--foot);padding:36px 0 0;transition:background .3s;}
   </div>
 </footer>
 
+<!-- SCROLL-TO-TOP BUTTON: fixed bottom-right, fades in after scrolling down 200px -->
+<button class="totop-btn" id="toTopBtn" onclick="window.scrollTo({top:0,left:0,behavior:'smooth'})" aria-label="Scroll to top">↑</button>
+
 <!-- CONTACT/ADVERTISE POPUP -->
 <div id="contact-popup-overlay" onclick="closeContactPopup(event)" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);align-items:center;justify-content:center;">
   <div style="background:var(--sur);width:100%;max-width:420px;margin:16px;border-top:4px solid var(--red);box-shadow:0 20px 60px rgba(0,0,0,.35);animation:popIn .22s ease;max-height:90vh;overflow-y:auto;">
@@ -472,8 +591,9 @@ footer{background:var(--foot);padding:36px 0 0;transition:background .3s;}
    slug             : optional; auto-generated from nameEn/nameBn if left blank.
    Leave any other field blank to hide that piece of UI for that reporter.
 
-   FALLBACK_REPORTERS below is only used if the backend can't be reached
-   (network issue, wrong URL, etc.) so the page is never empty.
+   If the backend can't be reached (network issue, wrong URL, etc.), REPORTERS
+   stays empty and the directory shows the "couldn't load" error banner —
+   no fake/placeholder reporters are shown.
    ══════════════════════════════════════════════ */
 
 // Paste your Apps Script Web app deployment URL here (see Reporter-Applications-Backend.js setup steps).
@@ -483,87 +603,6 @@ const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwLmOzNCYml95t1
 let REPORTERS = [];
 let reportersLoaded = false;
 let reportersLoadError = false;
-
-const FALLBACK_REPORTERS = [
-  {
-    slug:'anik-adhikari',
-    nameBn:'অনিক অধিকারী', nameEn:'Anik Adhikari',
-    roleBn:'প্রতিষ্ঠাতা ও প্রকাশক', roleEn:'Founder & Publisher',
-    photo:'assets/reporters/anik.jpg',
-    pinned:true,
-    beatBn:'সম্পাদকীয়', beatEn:'Editorial',
-    districtBn:'ঢাকা', districtEn:'Dhaka',
-    idCard:'DA-2024-001', joinDate:'২০২৪-০১-০১', status:'active',
-    email:'anik@dainikanulipi.example', phone:'+8801XXXXXXXX1',
-    bioBn:'দৈনিক অনুলিপির প্রতিষ্ঠাতা ও প্রকাশক, সামগ্রিক সম্পাদকীয় দিকনির্দেশনায় নিয়োজিত।',
-    bioEn:'Founder and publisher of Dainik Anulipi, overseeing overall editorial direction.',
-    whatsapp:'8801XXXXXXXX1'
-  },
-  {
-    slug:'farhan-shahriar',
-    nameBn:'মো: ফারহান শাহরিয়ার', nameEn:'Md. Farhan Shahriar',
-    roleBn:'প্রতিষ্ঠাতা ও প্রধান সম্পাদক', roleEn:'Founder & Editor-in-Chief',
-    photo:'assets/reporters/farhan.jpg',
-    pinned:true,
-    beatBn:'সম্পাদকীয়', beatEn:'Editorial',
-    districtBn:'ঢাকা', districtEn:'Dhaka',
-    idCard:'DA-2024-002', joinDate:'২০২৪-০১-০১', status:'active',
-    email:'farhan@dainikanulipi.example', phone:'+8801XXXXXXXX2',
-    bioBn:'দৈনিক অনুলিপির প্রতিষ্ঠাতা ও প্রধান সম্পাদক, প্রযুক্তি ও কনটেন্ট তত্ত্বাবধানে নিয়োজিত।',
-    bioEn:'Founder and Editor-in-Chief of Dainik Anulipi, overseeing tech and content.',
-    whatsapp:'8801XXXXXXXX2'
-  },
-  {
-    slug:'rima-chowdhury',
-    nameBn:'রিমা চৌধুরী', nameEn:'Rima Chowdhury',
-    roleBn:'স্টাফ রিপোর্টার', roleEn:'Staff Reporter',
-    photo:'',
-    beatBn:'জাতীয়', beatEn:'National',
-    districtBn:'ঢাকা', districtEn:'Dhaka',
-    idCard:'DA-2024-003', joinDate:'২০২৪-০৩-১৫', status:'active',
-    email:'rima@dainikanulipi.example', phone:'+8801XXXXXXXX3',
-    bioBn:'ঢাকা কেন্দ্রিক জাতীয় সংবাদ কভার করেন, বিশেষত নীতি ও প্রশাসন বিষয়ে।',
-    bioEn:'Covers Dhaka-based national news, focusing on policy and administration.',
-    whatsapp:'8801XXXXXXXX3'
-  },
-  {
-    slug:'sajib-hasan',
-    nameBn:'সজীব হাসান', nameEn:'Sajib Hasan',
-    roleBn:'স্টাফ রিপোর্টার', roleEn:'Staff Reporter',
-    photo:'',
-    beatBn:'অর্থনীতি', beatEn:'Economy',
-    districtBn:'চট্টগ্রাম', districtEn:'Chattogram',
-    idCard:'DA-2024-004', joinDate:'২০২৪-০৪-১০', status:'active',
-    email:'sajib@dainikanulipi.example', phone:'',
-    bioBn:'বাজার, বাণিজ্য ও অর্থনৈতিক নীতি নিয়ে প্রতিবেদন করেন।',
-    bioEn:'Reports on markets, trade, and economic policy.'
-  },
-  {
-    slug:'nusrat-jahan',
-    nameBn:'নুসরাত জাহান', nameEn:'Nusrat Jahan',
-    roleBn:'ফিল্ড রিপোর্টার', roleEn:'Field Reporter',
-    photo:'',
-    beatBn:'সারাদেশ', beatEn:'Nationwide',
-    districtBn:'রাজশাহী', districtEn:'Rajshahi',
-    idCard:'DA-2024-005', joinDate:'২০২৪-০৬-০১', status:'active',
-    email:'', phone:'+8801XXXXXXXX5',
-    bioBn:'দেশের বিভিন্ন জেলা থেকে মাঠপর্যায়ের সংবাদ সংগ্রহ করেন।',
-    bioEn:'Gathers on-the-ground news from districts across the country.',
-    whatsapp:'8801XXXXXXXX5'
-  },
-  {
-    slug:'tariq-islam',
-    nameBn:'তারিক ইসলাম', nameEn:'Tariq Islam',
-    roleBn:'স্পোর্টস করেসপন্ডেন্ট', roleEn:'Sports Correspondent',
-    photo:'',
-    beatBn:'খেলা', beatEn:'Sports',
-    districtBn:'সিলেট', districtEn:'Sylhet',
-    idCard:'DA-2023-011', joinDate:'২০২৩-১১-২০', status:'inactive',
-    email:'tariq@dainikanulipi.example', phone:'+8801XXXXXXXX6',
-    bioBn:'দেশীয় ও আন্তর্জাতিক ক্রীড়া সংবাদ কভার করেন।',
-    bioEn:'Covers domestic and international sports news.'
-  },
-];
 
 /* ── SLUG HELPERS (deep-link ids) ── */
 function slugify(str){
@@ -604,9 +643,11 @@ function mapRowToReporter(obj){
   };
 }
 
-/* ── Fetch + parse the live reporter list from the Apps Script backend (JSON),
-   falling back to FALLBACK_REPORTERS on any failure. No CSV, no CORS proxy —
-   Apps Script web apps send permissive CORS headers on their own. ── */
+/* ── Fetch + parse the live reporter list from the Apps Script backend (JSON).
+   On any failure, REPORTERS stays empty and reportersLoadError is set so the
+   UI shows an error banner — no fake/placeholder data is ever shown.
+   No CSV, no CORS proxy — Apps Script web apps send permissive CORS headers
+   on their own. ── */
 async function loadReporters(){
   try{
     if(!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes('PASTE_YOUR')){
@@ -623,9 +664,9 @@ async function loadReporters(){
     REPORTERS = parsed;
     reportersLoadError = false;
   } catch(err){
-    console.error('[reporters] fetch from Apps Script failed — showing FALLBACK_REPORTERS instead. Root cause:', err);
+    console.error('[reporters] fetch from Apps Script failed. Root cause:', err);
     console.error('[reporters] check that APPS_SCRIPT_URL is correct and the deployment access is set to "Anyone".');
-    REPORTERS = FALLBACK_REPORTERS;
+    REPORTERS = [];
     reportersLoadError = true;
   }
   assignSlugs();
@@ -642,7 +683,7 @@ const S = {
     h1:'রিপোর্টার তালিকা',p1:'দৈনিক অনুলিপির পক্ষে মাঠপর্যায়ে কর্মরত যাচাইকৃত রিপোর্টারদের তালিকা এখানে দেওয়া থাকবে। কোনো ব্যক্তি নিজেকে আমাদের রিপোর্টার দাবি করলে, নিচের তালিকায় নাম যাচাই করে নিন।',
     emptyDir:'এখনও কোনো রিপোর্টার তালিকাভুক্ত করা হয়নি।',
     loadingDir:'রিপোর্টার তালিকা লোড হচ্ছে...',
-    sheetLoadError:'সর্বশেষ তালিকা লোড করা যায়নি, তাই একটি পুরনো/সংরক্ষিত তালিকা দেখানো হচ্ছে।',
+    sheetLoadError:'রিপোর্টার তালিকা লোড করা যায়নি। অনুগ্রহ করে একটু অপেক্ষা করুন অথবা পরে আবার চেষ্টা করুন।',
     searchPlaceholder:'নাম, পদবি বা বিভাগ দিয়ে খুঁজুন...',
     noSearchResults:'কোনো রিপোর্টার পাওয়া যায়নি।',
     verifyNote:'তালিকায় নাম না থাকলে তিনি দৈনিক অনুলিপির অনুমোদিত রিপোর্টার নন। সন্দেহ হলে যোগাযোগ করুন:',
@@ -673,7 +714,7 @@ const S = {
     h1:'Reporter Directory',p1:'This page lists verified reporters currently working with Dainik Anulipi. If anyone claims to represent us, please check the list below first.',
     emptyDir:'No reporters have been listed yet.',
     loadingDir:'Loading reporter list...',
-    sheetLoadError:'Couldn\u2019t load the latest list, so a saved backup list is shown instead.',
+    sheetLoadError:'Couldn\u2019t load the reporter list. Please try again later.',
     searchPlaceholder:'Search by name, role, or beat...',
     noSearchResults:'No matching reporters found.',
     verifyNote:'If a name is not on this list, that person is not an authorized reporter of Dainik Anulipi. If in doubt, contact us at:',
@@ -738,6 +779,21 @@ function matchesQuery(r, q){
   return hay.includes(q);
 }
 
+function skeletonHtml(count){
+  const n = count || 6;
+  const card = `
+    <div class="rep-skel-card">
+      <div class="rep-skel-photo"></div>
+      <div class="rep-skel-lines">
+        <div class="rep-skel-bar w60"></div>
+        <div class="rep-skel-bar w40"></div>
+        <div class="rep-skel-bar w90"></div>
+        <div class="rep-skel-bar w75"></div>
+      </div>
+    </div>`;
+  return `<div class="rep-grid">${card.repeat(n)}</div>`;
+}
+
 function renderDirectory(query){
   const s = S[lang];
   const el = document.getElementById('rep-directory');
@@ -746,23 +802,22 @@ function renderDirectory(query){
 
   if(!reportersLoaded){
     emptyEl.style.display = 'none';
-    el.innerHTML = `<div class="rep-empty">${s.loadingDir}</div>`;
+    el.innerHTML = `<div class="rep-loading-label">${s.loadingDir}</div>` + skeletonHtml();
     return;
   }
 
   if(!REPORTERS.length){
     emptyEl.style.display = 'none';
-    el.innerHTML = `<div class="rep-empty">${s.emptyDir}</div>`;
+    el.innerHTML = reportersLoadError
+      ? `<div class="rep-load-warning">⚠️ ${s.sheetLoadError}</div>`
+      : `<div class="rep-empty">${s.emptyDir}</div>`;
     return;
   }
-
-  const errorBanner = reportersLoadError
-    ? `<div class="rep-load-warning">⚠️ ${s.sheetLoadError}</div>` : '';
 
   const list = q ? REPORTERS.filter(r => matchesQuery(r, q)) : REPORTERS;
 
   if(q && !list.length){
-    el.innerHTML = errorBanner;
+    el.innerHTML = '';
     emptyEl.textContent = s.noSearchResults;
     emptyEl.style.display = 'block';
     return;
@@ -822,7 +877,7 @@ function renderDirectory(query){
     <div class="rep-beat-title">📍 ${beat} (${groups[beat].length})</div>
     <div class="rep-grid">${groups[beat].map(cardHtml).join('')}</div>`).join('');
 
-  el.innerHTML = errorBanner + pinnedBlock + groupBlocks;
+  el.innerHTML = pinnedBlock + groupBlocks;
 }
 
 function applyLang(l){
@@ -833,6 +888,9 @@ function applyLang(l){
   document.getElementById('meta-desc').setAttribute('content', s.pageDesc);
   document.querySelectorAll('.lb').forEach(b=>b.classList.remove('on'));
   document.getElementById('lb-'+l).classList.add('on');
+
+  const loaderTextEl = document.getElementById('loader-text');
+  if(loaderTextEl) loaderTextEl.textContent = l==='en' ? 'Loading reporter list...' : 'রিপোর্টার তালিকা লোড হচ্ছে...';
 
   document.getElementById('tagline').textContent = s.tagline;
   document.getElementById('h1-title').textContent = s.h1;
@@ -1233,6 +1291,21 @@ applyLang(lang);
 document.getElementById('date-display').textContent = bengaliDate();
 setInterval(() => { document.getElementById('date-display').textContent = bengaliDate(); }, 1000); // live clock, updates every second
 loadReporters();
+
+/* SCROLL-TO-TOP: show button after scrolling down 200px */
+const toTopBtn = document.getElementById('toTopBtn');
+window.addEventListener('scroll', () => {
+  toTopBtn.classList.toggle('show', window.scrollY > 200);
+});
+
+/* SITE LOADER: always shows for exactly 2s, then fades — not tied to page load event */
+function hideSiteLoader(){
+  const el = document.getElementById('site-loader');
+  if(!el) return;
+  el.classList.add('hide');
+  setTimeout(() => el.remove(), 600);
+}
+setTimeout(hideSiteLoader, 2000);
 </script>
 </body>
 </html>
