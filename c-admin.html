@@ -702,15 +702,28 @@ async function publishNow(id, btn){
 const emoji = ['🖼️','☕','🤖','🐈','🚌','📶','🏆','✏️','🎨'];
 function pickEmoji(seed){ let h=0; for(const c of (seed||'')) h=(h*31+c.charCodeAt(0))>>>0; return emoji[h%emoji.length]; }
 
+// A "scheduled" comic becomes publicly visible the moment its published_at
+// time passes (see Comic-Backend.js isPublic_) — but the sheet's status
+// column stays literally "scheduled" until someone hits "প্রকাশ করো" or
+// re-saves it. So don't trust c.status alone; check the actual time too.
+function isEffectivelyPublished(c){
+  if(c.status === 'published') return true;
+  if(c.status === 'scheduled'){
+    const when = parsePublishedAtLocal(c.published_at);
+    return !!when && when.getTime() <= Date.now();
+  }
+  return false;
+}
+
 function statusPillHtml(c){
-  if(c.status === 'scheduled') return `<div class="status-pill scheduled">🕓 নির্ধারিত${c.published_at ? ' — '+esc(c.published_at) : ''}</div>`;
+  if(c.status === 'scheduled' && !isEffectivelyPublished(c)) return `<div class="status-pill scheduled">🕓 নির্ধারিত${c.published_at ? ' — '+esc(c.published_at) : ''}</div>`;
   if(c.status === 'private') return `<div class="status-pill private">🔒 প্রাইভেট</div>`;
   return '';
 }
 
 function cardHTML(c){
   const s = c.series_slug ? seriesBySlug(c.series_slug) : null;
-  const notPublished = c.status !== 'published';
+  const notPublished = !isEffectivelyPublished(c);
   return `
     <div class="card">
       ${c.popular ? '<div class="pin">⭐ জনপ্রিয়</div>' : ''}
