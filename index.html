@@ -509,8 +509,7 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
 /* Mobile: ≤600px */
 @media(max-width:600px){
   .wrap{padding:0 12px;}
-  .topbar .wrap{flex-direction:row;justify-content:flex-end;}
-  #date-display{display:none;}
+  .topbar .wrap{flex-direction:column;gap:4px;text-align:center;}
   .mast{padding:10px 0;}
   .mast .wrap{flex-direction:row;align-items:center;justify-content:space-between;gap:8px;flex-wrap:nowrap;}
   .logo{min-width:0;flex-shrink:1;}
@@ -642,11 +641,6 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
 <div class="topbar">
   <div class="wrap">
     <span id="date-display">লোড হচ্ছে...</span>
-    <div class="topbar-r">
-      <a href="submit.html" target="_blank" id="tb-reporter">রিপোর্টার পোর্টাল</a>
-      <a href="javascript:void(0)" onclick="openContactPopup('যোগাযোগ')" id="tb-contact">যোগাযোগ</a>
-      <a href="javascript:void(0)" onclick="openContactPopup('বিজ্ঞাপন')" id="tb-ads">বিজ্ঞাপন</a>
-    </div>
   </div>
 </div>
 
@@ -804,7 +798,8 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
         <a onclick="openInfoPopup('about')" style="cursor:pointer;" id="ft-about">আমাদের সম্পর্কে</a>
         <a onclick="openContactPopup('যোগাযোগ')" style="cursor:pointer;" id="ft-contact">যোগাযোগ করুন</a>
         <a onclick="openContactPopup('বিজ্ঞাপন')" style="cursor:pointer;" id="ft-advertise">বিজ্ঞাপন দিন</a>
-        <a href="submit.html" target="_blank" id="ft-reporter">রিপোর্টার পোর্টাল</a>
+        <a href="reporter.html" target="_blank" id="ft-reporter">রিপোর্টার পোর্টাল</a>
+        <a href="submit.html" target="_blank" id="ft-submit-news">সংবাদ পাঠান</a>
         <a onclick="openInfoPopup('privacy')" style="cursor:pointer;" id="ft-privacy">গোপনীয়তা নীতি</a>
       </div>
     </div>
@@ -914,15 +909,15 @@ function resetMeta() {
 // ── LANGUAGE STRINGS ──
 const S = {
   bn:{dir:'ltr',lang:'bn',breaking:'শিরোনাম',latest:'সর্বশেষ সংবাদ',noNews:'সংবাদ ফাইবার কেবলে চড়ে আসছে',noNewsMsg:'আলোর গতিতে ফাইবার অপটিক ক্যাবল বেয়ে আপনার সংবাদ পাঠানো হচ্ছে — মাঝেমধ্যে ঢাকার রাস্তার মতোই একটু জ্যামে আটকে যায়! ততক্ষণে আমাদের ই-পেপার সংস্করণটা দেখে নিন।',loading:'সংবাদ লোড হচ্ছে…',share:'শেয়ার করুন:',fb:'ফেসবুক',wa:'হোয়াটসঅ্যাপ',copy:'লিংক কপি',copied:'✓ কপি!',back:'← পেছনে',related:'সম্পর্কিত সংবাদ',recent:'সাম্প্রতিক সংবাদ',more:'আরও দেখুন →',notFound:'সংবাদটি পাওয়া যায়নি',notFoundMsg:'আপনি যে সংবাদটি খুঁজছেন তা পাওয়া যাচ্ছে না।',tagline:'সত্যের সন্ধানে, নির্ভীক প্রকাশে!',translating:'অনুবাদ হচ্ছে…',translateErr:'অনুবাদ ব্যর্থ',epaper:'ই-পেপার',by:'',goHome:'হোমে ফিরুন',searchPh:'অনুসন্ধান করুন…',searchBtn:'খুঁজুন',searchResults:'অনুসন্ধানের ফলাফল',searchFor:'এর জন্য ফলাফল',resultsFound:'টি সংবাদ পাওয়া গেছে',noResults:'কোনো সংবাদ পাওয়া যায়নি',noResultsMsg:'অন্য শব্দ দিয়ে চেষ্টা করুন।',
-    navHome:'সর্বশেষ',navHomeFull:'সর্বশেষ সংবাদ',tabHome:'🌐 অনলাইন সংস্করণ',tabEpaper:'ই-পেপার',tabComic:'কমিকস',tabWeather:'আবহাওয়া',tabLive:'লাইভ',tbReporter:'রিপোর্টার পোর্টাল',tbContact:'যোগাযোগ',tbAds:'বিজ্ঞাপন',
+    navHome:'সর্বশেষ',navHomeFull:'সর্বশেষ সংবাদ',tabHome:'🌐 অনলাইন সংস্করণ',tabEpaper:'ই-পেপার',tabComic:'কমিকস',tabWeather:'আবহাওয়া',tabLive:'লাইভ',tbReporter:'রিপোর্টার পোর্টাল',tbSubmitNews:'সংবাদ পাঠান',tbContact:'যোগাযোগ',tbAds:'বিজ্ঞাপন',
     liveTitle:'🔴 সরাসরি সম্প্রচার',liveNote:'YouTube বর্তমানে যা সম্প্রচার করছে তা এখানে স্বয়ংক্রিয়ভাবে দেখানো হয় — কিছু সম্প্রচার না চললে একটি খালি স্ক্রিন দেখাতে পারে।',liveWatchYt:'YouTube-এ খুলুন',liveWatchFb:'Facebook-এ দেখুন',liveNoAuto:'📡 ব্রাউজারেই সরাসরি দেখানোর সেটআপ শীঘ্রই আসছে। এখন নিচের বাটনে চাপুন — লাইভ থাকলে সরাসরি সেখানে নিয়ে যাবে, না থাকলে চ্যানেল/পেজ দেখাবে।',liveAltPrompt:'অন্য জায়গায় দেখতে চান?',
-    ftCatHeading:'বিভাগ',ftInfoHeading:'তথ্য',ftAbout:'আমাদের সম্পর্কে',ftContact:'যোগাযোগ করুন',ftAdvertise:'বিজ্ঞাপন দিন',ftReporter:'রিপোর্টার পোর্টাল',ftPrivacy:'গোপনীয়তা নীতি',
+    ftCatHeading:'বিভাগ',ftInfoHeading:'তথ্য',ftAbout:'আমাদের সম্পর্কে',ftContact:'যোগাযোগ করুন',ftAdvertise:'বিজ্ঞাপন দিন',ftReporter:'রিপোর্টার পোর্টাল',ftSubmitNews:'সংবাদ পাঠান',ftPrivacy:'গোপনীয়তা নীতি',
     footerInfo:'প্রতিষ্ঠাতা ও প্রকাশক: অনিক অধিকারী<br>প্রতিষ্ঠাতা ও প্রধান সম্পাদক: মো: ফারহান শাহরিয়ার',
     footerBottom:'দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — সর্বস্বত্ব সংরক্ষিত ২০২৬',visitWebsite:'🌐 ওয়েবসাইট ভিজিট করুন',footerNoticeTitle:'⚠️ জরুরি ঘোষণা',footerNoticeText:'এই নিউজ পোর্টালটি বর্তমানে "পরীক্ষামূলক সম্প্রচার" কার্যক্রম পরিচালনা করছে। আমরা সচেতনভাবে রাজনৈতিক সংবাদ এড়িয়ে চলি এবং শুধুমাত্র বিনোদন, তথ্য ও জনস্বার্থমূলক সংবাদ প্রকাশ করি। এখানে প্রকাশিত সংবাদের দায়ভার সংশ্লিষ্ট লেখকদের, পোর্টাল কর্তৃপক্ষের নয়। রেজিস্ট্রেশন প্রক্রিয়া এবং পূর্ণাঙ্গ সম্প্রচারের কাজ চলমান।'},
   en:{dir:'ltr',lang:'en',breaking:'Breaking',latest:'Latest News',noNews:'News Is Riding the Fiber Cable',noNewsMsg:"Your stories are zipping over at the speed of light through our fiber-optic cables \u2014 though even light hits a bit of traffic sometimes. Hang tight, or hop over to our E-Paper edition while you wait.",loading:'Loading news…',share:'Share:',fb:'Facebook',wa:'WhatsApp',copy:'Copy Link',copied:'✓ Copied!',back:'← Back',related:'Related News',recent:'Recent News',more:'See more →',notFound:'Article Not Found',notFoundMsg:'The article you are looking for could not be found.',tagline:'In pursuit of truth, In fearless expression!',translating:'Translating…',translateErr:'Translation failed',epaper:'E-Paper',by:'By',goHome:'Go Home',searchPh:'Search…',searchBtn:'Search',searchResults:'Search Results',searchFor:'Results for',resultsFound:'articles found',noResults:'No articles found',noResultsMsg:'Try different keywords.',
-    navHome:'Latest',navHomeFull:'Latest News',tabHome:'🌐 Online Version',tabEpaper:'E-Paper',tabComic:'Comics',tabWeather:'Weather',tabLive:'Live',tbReporter:'Reporter Portal',tbContact:'Contact',tbAds:'Advertise',
+    navHome:'Latest',navHomeFull:'Latest News',tabHome:'🌐 Online Version',tabEpaper:'E-Paper',tabComic:'Comics',tabWeather:'Weather',tabLive:'Live',tbReporter:'Reporter Portal',tbSubmitNews:'Submit News',tbContact:'Contact',tbAds:'Advertise',
     liveTitle:'🔴 Live Broadcast',liveNote:'This automatically shows whatever is currently live on our YouTube channel — it may look blank if nothing is streaming right now.',liveWatchYt:'Open in YouTube',liveWatchFb:'Watch on Facebook',liveNoAuto:'📡 In-browser playback setup is coming soon. For now, tap a button below — it opens the live stream directly if we\u2019re live, or our channel/page if not.',liveAltPrompt:'Prefer to watch elsewhere?',
-    ftCatHeading:'Categories',ftInfoHeading:'Information',ftAbout:'About Us',ftContact:'Contact Us',ftAdvertise:'Advertise With Us',ftReporter:'Reporter Portal',ftPrivacy:'Privacy Policy',
+    ftCatHeading:'Categories',ftInfoHeading:'Information',ftAbout:'About Us',ftContact:'Contact Us',ftAdvertise:'Advertise With Us',ftReporter:'Reporter Portal',ftSubmitNews:'Submit News',ftPrivacy:'Privacy Policy',
     footerInfo:'Founder & Publisher: Anik Adhikari<br>Founder & Editor-in-Chief: Md. Farhan Shahriar',
     footerBottom:'দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — All rights reserved 2026',visitWebsite:'🌐 Visit Website',footerNoticeTitle:'⚠️ Important Notice',footerNoticeText:'This news portal is currently running on a "trial broadcast" basis. We consciously avoid political news and publish only entertainment, informational, and public-interest content. Responsibility for news published here lies with the respective authors, not the portal authority. The registration process and full broadcast are underway.'},
 };
@@ -975,9 +970,6 @@ function applyLang(l) {
   });
 
   // ── TOPBAR ──
-  document.getElementById('tb-reporter').textContent = s.tbReporter;
-  document.getElementById('tb-contact').textContent = s.tbContact;
-  document.getElementById('tb-ads').textContent = s.tbAds;
 
   // ── TAB BAR ──
   const tabHomeLabel = document.getElementById('tab-home-label');
@@ -1016,6 +1008,7 @@ function applyLang(l) {
   document.getElementById('ft-contact').textContent = s.ftContact;
   document.getElementById('ft-advertise').textContent = s.ftAdvertise;
   document.getElementById('ft-reporter').textContent = s.ftReporter;
+  document.getElementById('ft-submit-news').textContent = s.ftSubmitNews;
   document.getElementById('ft-privacy').textContent = s.ftPrivacy;
   document.getElementById('footer-bottom').textContent = s.footerBottom;
   document.getElementById('footer-notice-title').textContent = s.footerNoticeTitle;
@@ -1054,9 +1047,20 @@ async function tlParas(content, toLang) {
 // ── DATE ──
 function bengaliDate() {
   const d=new Date();
+  const bn=['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+  const toBn = n => String(n).split('').map(c => bn[c] || c).join('');
+  let h=d.getHours(); const ampm = h>=12 ? 'PM' : 'AM';
+  h = h % 12; if(h===0) h=12;
+  const m = String(d.getMinutes()).padStart(2,'0');
+  const s = String(d.getSeconds()).padStart(2,'0');
+  if(lang==='en'){
+    const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+    return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()} — ${h}:${m}:${s} ${ampm}`;
+  }
   const dn=['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'];
   const mn=['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
-  return `${dn[d.getDay()]}, ${d.getDate()} ${mn[d.getMonth()]} ${d.getFullYear()}`;
+  return `${dn[d.getDay()]}, ${toBn(String(d.getDate()))} ${mn[d.getMonth()]} ${toBn(String(d.getFullYear()))} — ${toBn(h)}:${toBn(m)}:${toBn(s)} ${ampm}`;
 }
 
 // ── CSV PARSER ──
@@ -1589,6 +1593,7 @@ setTimeout(hideSiteLoader, SITE_LOADER_MAX_MS); // hard cap — fires regardless
   applyTheme(theme);
   applyLang(lang); // sets dir/lang attrs
   document.getElementById('date-display').textContent = bengaliDate();
+  setInterval(() => { document.getElementById('date-display').textContent = bengaliDate(); }, 1000); // live clock, updates every second
 
   // Restore active lang buttons (applyLang already done, also fix topbar)
   document.querySelectorAll('.lb').forEach(b => {

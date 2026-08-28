@@ -422,15 +422,10 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
 </div>
 
 
-<!-- TOP BAR: thin strip above the header — today's date and quick links (home, contact, advertise) -->
+<!-- TOP BAR: thin strip above the header — live date/time -->
 <div class="topbar">
   <div class="wrap">
     <span id="tbar-date"></span>
-    <div class="topbar-r">
-      <a href="https://dainikanulipi.github.io/da/" id="tb-home">অনলাইন সংস্করণ</a>
-      <a onclick="openContactPopup('যোগাযোগ')" id="tb-contact">যোগাযোগ</a>
-      <a onclick="openContactPopup('বিজ্ঞাপন')" id="tb-ads">বিজ্ঞাপন</a>
-    </div>
   </div>
 </div>
 
@@ -600,7 +595,7 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
       <div class="fc">
         <h5 id="footer-cat-heading">বিভাগ</h5>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 12px;">
-          <a href="https://dainikanulipi.github.io/da/" id="ft-সর্বশেষ">সর্বশেষ</a>
+          <a href="https://dainikanulipi.github.io/da/" id="ft-cat-0">সর্বশেষ</a>
           <a href="https://dainikanulipi.github.io/da/#cat/অর্থনীতি" id="ft-cat-5">অর্থনীতি</a>
           <a href="https://dainikanulipi.github.io/da/#cat/জাতীয়" id="ft-cat-1">জাতীয়</a>
           <a href="sports.html" id="ft-cat-6">খেলা</a>
@@ -619,7 +614,8 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
         <a onclick="openInfoPopup('about')" id="ft-about">আমাদের সম্পর্কে</a>
         <a onclick="openContactPopup('যোগাযোগ')" id="ft-contact">যোগাযোগ করুন</a>
         <a onclick="openContactPopup('বিজ্ঞাপন')" id="ft-advertise">বিজ্ঞাপন দিন</a>
-        <a href="submit.html" target="_blank" id="ft-reporter">রিপোর্টার পোর্টাল</a>
+        <a href="reporter.html" target="_blank" id="ft-reporter">রিপোর্টার পোর্টাল</a>
+        <a href="submit.html" target="_blank" id="ft-submit-news">সংবাদ পাঠান</a>
         <a onclick="openInfoPopup('privacy')" id="ft-privacy">গোপনীয়তা নীতি</a>
       </div>
     </div>
@@ -1385,14 +1381,18 @@ function applyTheme(){
 // ── TOPBAR DATE ──
 function setTopbarDate(){
   const d=new Date();
+  let h=d.getHours(); const ampm = h>=12 ? 'PM' : 'AM';
+  h = h % 12; if(h===0) h=12;
+  const m = String(d.getMinutes()).padStart(2,'0');
+  const s = String(d.getSeconds()).padStart(2,'0');
   if(lang==='en'){
     const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
     const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
-    document.getElementById('tbar-date').textContent=`${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+    document.getElementById('tbar-date').textContent=`${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()} — ${h}:${m}:${s} ${ampm}`;
   } else {
     const months=['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
     const days=['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'];
-    document.getElementById('tbar-date').textContent=`${days[d.getDay()]}, ${toBnDigits(String(d.getDate()))} ${months[d.getMonth()]} ${toBnDigits(String(d.getFullYear()))}`;
+    document.getElementById('tbar-date').textContent=`${days[d.getDay()]}, ${toBnDigits(String(d.getDate()))} ${months[d.getMonth()]} ${toBnDigits(String(d.getFullYear()))} — ${toBnDigits(String(h))}:${toBnDigits(m)}:${toBnDigits(s)} ${ampm}`;
   }
 }
 
@@ -1507,7 +1507,7 @@ function closeInfoPopup(e){
 }
 
 // ── LANGUAGE SYSTEM ──
-var CAT_EN = {'জাতীয়':'National','সারাদেশ':'Across the Country','বিশ্ব সংবাদ':'World','বাণিজ্য':'Business','অর্থনীতি':'Economy','খেলা':'Sports','আনন্দ সময়':'Entertainment','চাকরি':'Jobs','মতামত':'Opinion','বিশেষ সংবাদ':'Special News'};
+var CAT_EN = {'সর্বশেষ':'Latest','জাতীয়':'National','সারাদেশ':'Across the Country','বিশ্ব সংবাদ':'World','বাণিজ্য':'Business','অর্থনীতি':'Economy','খেলা':'Sports','আনন্দ সময়':'Entertainment','চাকরি':'Jobs','মতামত':'Opinion','বিশেষ সংবাদ':'Special News'};
 
 var T = {
   bn:{
@@ -1536,7 +1536,7 @@ var T = {
     footerNoticeText:'এই নিউজ পোর্টালটি বর্তমানে "পরীক্ষামূলক সম্প্রচার" কার্যক্রম পরিচালনা করছে। আমরা সচেতনভাবে রাজনৈতিক সংবাদ এড়িয়ে চলি এবং শুধুমাত্র বিনোদন, তথ্য ও জনস্বার্থমূলক সংবাদ প্রকাশ করি। এখানে প্রকাশিত সংবাদের দায়ভার সংশ্লিষ্ট লেখকদের, পোর্টাল কর্তৃপক্ষের নয়। রেজিস্ট্রেশন প্রক্রিয়া এবং পূর্ণাঙ্গ সম্প্রচারের কাজ চলমান।',
     fCat:'বিভাগ', fMore:'আরও', fInfo:'তথ্য',
     ftAbout:'আমাদের সম্পর্কে', ftContact:'যোগাযোগ করুন', ftAds:'বিজ্ঞাপন দিন',
-    ftReporter:'রিপোর্টার পোর্টাল', ftPrivacy:'গোপনীয়তা নীতি',
+    ftReporter:'রিপোর্টার পোর্টাল', ftSubmitNews:'সংবাদ পাঠান', ftPrivacy:'গোপনীয়তা নীতি',
     footerBottom:'দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — সর্বস্বত্ব সংরক্ষিত ২০২৬',
     visitWebsite:'🌐 ওয়েবসাইট ভিজিট করুন',
     contactTitle:'📬 যোগাযোগ করুন', adsTitle:'📢 বিজ্ঞাপন দিন',
@@ -1568,7 +1568,7 @@ var T = {
     footerNoticeText:'This news portal is currently running on a "trial broadcast" basis. We consciously avoid political news and publish only entertainment, informational, and public-interest content. Responsibility for news published here lies with the respective authors, not the portal authority. The registration process and full broadcast are underway.',
     fCat:'Categories', fMore:'More', fInfo:'Information',
     ftAbout:'About Us', ftContact:'Contact Us', ftAds:'Advertise With Us',
-    ftReporter:'Reporter Portal', ftPrivacy:'Privacy Policy',
+    ftReporter:'Reporter Portal', ftSubmitNews:'Submit News', ftPrivacy:'Privacy Policy',
     footerBottom:'দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — All rights reserved 2026',
     visitWebsite:'🌐 Visit Website',
     contactTitle:'📬 Contact Us', adsTitle:'📢 Advertise With Us',
@@ -1650,11 +1650,8 @@ var INFO_CONTENT_EN = {
 
 function applyLangUI() {
   const t = T[lang];
-  const catKeys = ['জাতীয়','সারাদেশ','বিশ্ব সংবাদ','বাণিজ্য','অর্থনীতি','খেলা','আনন্দ সময়','চাকরি','মতামত','বিশেষ সংবাদ'];
+  const catKeys = ['সর্বশেষ','জাতীয়','সারাদেশ','বিশ্ব সংবাদ','বাণিজ্য','অর্থনীতি','খেলা','আনন্দ সময়','চাকরি','মতামত','বিশেষ সংবাদ'];
 
-  document.getElementById('tb-home').textContent      = t.home;
-  document.getElementById('tb-contact').textContent   = t.contact;
-  document.getElementById('tb-ads').textContent       = t.ads;
   const mastBadge = document.getElementById('mast-badge'); if(mastBadge) mastBadge.textContent = t.badge;
   document.getElementById('nav-home').textContent     = t.navHome;
   document.getElementById('nav-epaper').textContent   = t.navEpaper;
@@ -1702,6 +1699,7 @@ function applyLangUI() {
   document.getElementById('ft-contact').textContent  = t.ftContact;
   document.getElementById('ft-advertise').textContent= t.ftAds;
   document.getElementById('ft-reporter').textContent = t.ftReporter;
+  document.getElementById('ft-submit-news').textContent = t.ftSubmitNews;
   document.getElementById('ft-privacy').textContent  = t.ftPrivacy;
   document.getElementById('footer-bottom').textContent     = t.footerBottom;
   const visitLink = document.querySelector('#contact-popup-overlay a[href*="dainikanulipi.github"]');
@@ -1709,7 +1707,7 @@ function applyLangUI() {
 
   // footer category links
   catKeys.forEach((cat,i) => {
-    const el = document.getElementById('ft-cat-'+(i+1));
+    const el = document.getElementById('ft-cat-'+i);
     if(el) el.textContent = lang==='en' ? (CAT_EN[cat]||cat) : cat;
   });
 
@@ -1726,6 +1724,7 @@ function applyLangUI() {
 // ── INIT ──
 async function init(){
   applyTheme(); setLang(lang);
+  setInterval(setTopbarDate, 1000); // live clock, updates every second
   buildArchive();
   initLiveDetection();
   document.getElementById('ed-date-input').max = folderStrToInputVal(todayStr()); // no picking a future date that can't have an edition yet

@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="bn" data-theme="light" dir="ltr">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0T6KD2GCKB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-0T6KD2GCKB');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="দৈনিক অনুলিপি — রিপোর্টার তালিকা ও রিপোর্টার হওয়ার আবেদন।" id="meta-desc">
+<title>রিপোর্টার তথ্য | দৈনিক অনুলিপি</title>
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="canonical" href="https://dainikanulipi.github.io/da/reporter-info.html">
+
+<meta name="theme-color" content="#C8102E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --red:#C8102E;--dkred:#9e0b22;
+  --bg:#e2e2e2;--sur:#fff;--sur2:#f5f5f5;--sur3:#eaeaea;
+  --txt:#111;--txt2:#555;--txt3:#999;
+  --bdr:#e0e0e0;--shd:rgba(0,0,0,.07);
+  --nav-bg:#fff;--topbar:#1a1a1a;--foot:#0f0f0f;
+  --tog-bg:#eee;--tog-c:#444;
+}
+[data-theme=dark]{
+  --bg:#0d0d0d;--sur:#1b1b1b;--sur2:#232323;--sur3:#2b2b2b;
+  --txt:#efefef;--txt2:#aaa;--txt3:#565656;
+  --bdr:#2d2d2d;--shd:rgba(0,0,0,.55);
+  --nav-bg:#161616;--topbar:#080808;--foot:#080808;
+  --tog-bg:#2e2e2e;--tog-c:#ddd;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;overflow-x:hidden;}
+body{font-family:'Noto Serif Bengali',serif;background:var(--bg);color:var(--txt);transition:background .3s,color .3s;min-height:100vh;font-size:17px;line-height:1.6;overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+img{display:block;max-width:100%;}
+button{font-family:inherit;cursor:pointer;}
+.wrap{max-width:1240px;margin:0 auto;padding:0 16px;}
+
+/* TOPBAR */
+.topbar{background:var(--topbar);color:#666;font-family:'Noto Sans Bengali',sans-serif;font-size:14.5px;padding:6px 0;transition:background .3s;}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;}
+.topbar-r{display:flex;gap:16px;}
+.topbar-r a{color:#555;transition:color .2s;}
+.topbar-r a:hover{color:#ddd;}
+
+/* MASTHEAD */
+.mast{background:var(--sur);border-bottom:3px solid var(--red);padding:14px 0;transition:background .3s;}
+.mast .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.logo{cursor:pointer;flex-shrink:0;}
+.logo-img{height:84px;width:auto;max-width:240px;object-fit:contain;display:block;}
+@media(max-width:960px){.logo-img{height:74px;max-width:210px;}}
+@media(max-width:768px){.logo-img{height:64px;max-width:182px;}}
+@media(max-width:600px){.logo-img{height:54px;max-width:154px;}}
+@media(max-width:380px){.logo-img{height:46px;max-width:131px;}}
+.logo-img-light{display:block;}
+.logo-img-dark{display:none;}
+[data-theme=dark] .logo-img-light{display:none;}
+[data-theme=dark] .logo-img-dark{display:block;}
+.logo-tag{font-size:15.5px;color:var(--txt2);font-style:italic;margin-top:4px;transition:color .3s;}
+.ctrl-row{display:flex;align-items:center;gap:10px;}
+.theme-btn{background:var(--tog-bg);border:none;width:34px;height:34px;border-radius:50%;font-size:15px;display:flex;align-items:center;justify-content:center;color:var(--tog-c);transition:all .3s;}
+.theme-btn:hover{transform:rotate(20deg);}
+.lang-grp{display:flex;border:1px solid var(--bdr);overflow:hidden;transition:border-color .3s;}
+.lb{background:none;border:none;padding:5px 11px;font-size:13.5px;font-weight:700;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;transition:all .2s;}
+.lb.on{background:var(--red);color:#fff;}
+.lb:hover:not(.on){background:var(--sur3);}
+
+/* TAB BAR */
+.tab-bar{background:var(--nav-bg);border-bottom:1px solid var(--bdr);transition:background .3s,border-color .3s;position:sticky;top:0;z-index:301;}
+.tab-bar .wrap{display:flex;align-items:stretch;overflow-x:auto;scrollbar-width:none;}
+.tab-bar .wrap::-webkit-scrollbar{display:none;}
+.tl{padding:11px 14px;font-size:14.5px;font-weight:700;white-space:nowrap;border-bottom:3px solid transparent;color:var(--txt2);transition:all .2s;cursor:pointer;font-family:'Noto Sans Bengali',sans-serif;border:none;background:none;display:flex;align-items:center;gap:5px;}
+.tl:hover,.tl.on{color:var(--red);border-bottom:3px solid var(--red);}
+
+/* PAGE / SECTION HEAD */
+.page{padding:24px 0 60px;}
+.sh{display:flex;align-items:center;margin-bottom:16px;}
+.sh h3{background:var(--red);color:#fff;padding:6px 18px;font-size:14.5px;font-weight:700;font-family:'Noto Sans Bengali',sans-serif;flex-shrink:0;}
+.sh-line{flex:1;height:2px;background:linear-gradient(to right,var(--red),transparent);}
+.intro{font-size:15px;line-height:1.9;color:var(--txt2);margin-bottom:22px;max-width:760px;}
+
+/* SEARCH BAR */
+.rep-search-wrap{position:relative;margin-bottom:20px;max-width:420px;}
+.rep-search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--txt3);pointer-events:none;}
+.rep-search-input{width:100%;background:var(--sur);border:1px solid var(--bdr);color:var(--txt);padding:11px 40px 11px 40px;font-size:14.5px;font-family:'Noto Sans Bengali',sans-serif;transition:border-color .2s;}
+.rep-search-input:focus{outline:none;border-color:var(--red);}
+.rep-search-input::placeholder{color:var(--txt3);}
+.rep-search-clear{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:var(--sur3);border:none;width:24px;height:24px;border-radius:50%;font-size:12px;color:var(--txt2);display:flex;align-items:center;justify-content:center;}
+.rep-search-clear:hover{color:var(--red);}
+@media(max-width:640px){
+  .rep-search-wrap{max-width:none;margin-bottom:14px;}
+  .rep-search-input{font-size:16px;padding:10px 36px;}
+}
+
+/* REPORTER DIRECTORY — CARD GRID */
+.rep-beat-title{font-size:14px;font-weight:700;font-family:'Noto Sans Bengali',sans-serif;color:var(--red);margin:22px 0 10px;}
+.rep-beat-title:first-child{margin-top:0;}
+.rep-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px;margin-bottom:16px;}
+.rep-card{background:var(--sur);border:1px solid var(--bdr);padding:24px;display:flex;gap:18px;cursor:pointer;transition:border-color .2s,transform .2s;}
+.rep-card:hover{border-color:var(--red);transform:translateY(-2px);}
+.rep-card-photo{width:92px;height:92px;border-radius:10px;overflow:hidden;background:var(--sur3);display:flex;align-items:center;justify-content:center;font-size:38px;flex-shrink:0;}
+.rep-card-photo img{width:100%;height:100%;object-fit:cover;}
+.rep-card-name{font-weight:700;font-size:19px;}
+.rep-card-role{font-weight:400;font-size:14px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-bottom:6px;}
+.rep-card-badge{font-size:12.5px;font-weight:700;color:#1b7d3a;font-family:'Noto Sans Bengali',sans-serif;display:block;margin-bottom:8px;}
+.rep-card-inactive{opacity:.65;}
+.rep-card-badge-inactive{color:#a33;}
+.rep-load-warning{background:#fff3cd;border:1px solid #f0d78c;color:#7a5c00;font-size:13px;font-family:'Noto Sans Bengali',sans-serif;padding:10px 14px;margin-bottom:16px;}
+[data-theme="dark"] .rep-load-warning{background:#3a3210;border-color:#5c4e12;color:#e0c060;}
+.rep-card-bio{font-size:14.5px;color:var(--txt2);line-height:1.75;margin-bottom:10px;}
+.rep-card-contacts{display:flex;gap:10px;}
+.rep-card-contacts a{width:34px;height:34px;border-radius:50%;background:var(--sur2);border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-size:15px;transition:border-color .2s,transform .2s;}
+.rep-card-contacts a:hover{border-color:var(--red);transform:translateY(-2px);}
+@media(max-width:640px){
+  .rep-grid{grid-template-columns:1fr;gap:14px;}
+  .rep-card{padding:16px;gap:12px;}
+  .rep-card-photo{width:64px;height:64px;font-size:26px;border-radius:8px;}
+  .rep-card-name{font-size:16px;}
+  .rep-card-role{font-size:12.5px;}
+  .rep-card-bio{font-size:13.5px;}
+  .rep-card-contacts a{width:30px;height:30px;font-size:13px;}
+  .rep-link-btn{font-size:15px;}
+}
+.rep-empty{background:var(--sur);border:1px dashed var(--bdr);padding:44px 20px;text-align:center;color:var(--txt2);font-size:14.5px;font-family:'Noto Sans Bengali',sans-serif;margin-bottom:12px;}
+.rep-verify-note{font-size:13px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-bottom:32px;}
+.rep-link-btn{background:none;border:none;color:var(--txt3);font-size:16px;padding:2px 4px;flex-shrink:0;line-height:1;transition:color .2s,transform .2s;}
+.rep-link-btn:hover{color:var(--red);}
+.rep-link-btn.copied{color:#1b7d3a;transform:scale(1.15);}
+@keyframes repHighlight{
+  0%{box-shadow:0 0 0 3px var(--red);}
+  70%{box-shadow:0 0 0 3px var(--red);}
+  100%{box-shadow:0 0 0 0 transparent;}
+}
+.rep-card.rep-highlight{animation:repHighlight 2.4s ease-out;}
+.rep-notfound{background:var(--sur);border-left:4px solid var(--red);padding:14px 16px;font-size:13.5px;color:var(--txt2);font-family:'Noto Sans Bengali',sans-serif;margin-bottom:16px;display:none;}
+
+/* REPORTER DETAIL VIEW (article-style, not a popup) */
+.rep-back{background:none;border:none;color:var(--txt2);font-size:14px;font-weight:700;font-family:'Noto Sans Bengali',sans-serif;padding:8px 0;margin-bottom:14px;cursor:pointer;}
+.rep-back:hover{color:var(--red);}
+.rep-detail-card{background:var(--sur);border:1px solid var(--bdr);padding:28px;max-width:640px;margin:0 auto;}
+@media(max-width:640px){
+  .rep-detail-card{padding:18px;}
+  .rep-detail-card h1{font-size:20px;}
+}
+@media(max-width:420px){
+  .rep-detail-card > div:first-child{flex-direction:column;align-items:flex-start !important;gap:12px !important;}
+}
+
+/* APPLICATION FORM */
+.rep-form-card{background:var(--sur);border:1px solid var(--bdr);border-top:3px solid var(--red);padding:26px 24px;max-width:640px;margin:0 auto;box-shadow:0 2px 10px var(--shd);}
+.field{margin-bottom:17px;}
+.field label{display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--txt2);font-family:'Noto Sans Bengali',sans-serif;margin-bottom:6px;}
+.field input,.field select,.field textarea{width:100%;background:var(--sur2);border:1px solid var(--bdr);color:var(--txt);padding:11px 13px;font-size:16px;font-family:'Noto Sans Bengali',sans-serif;border-radius:4px;transition:border-color .2s,box-shadow .2s;}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px rgba(200,16,46,.12);}
+.field textarea{resize:vertical;min-height:90px;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:520px){.field-row{grid-template-columns:1fr;}}
+@media(max-width:400px){
+  .rep-form-card{padding:18px 16px;}
+  .btn-primary{width:100%;padding:13px 20px;}
+}
+
+/* ── RESPONSIVE (matches index.html breakpoints) ── */
+@media(max-width:768px){
+  .wrap{padding:0 14px;}
+  .topbar .wrap{flex-direction:column;align-items:flex-start;gap:4px;}
+  .topbar-r{gap:12px;flex-wrap:wrap;}
+  .mast .wrap{flex-wrap:nowrap;gap:10px;}
+}
+@media(max-width:600px){
+  .wrap{padding:0 12px;}
+  .topbar .wrap{flex-direction:column;gap:4px;text-align:center;}
+  .mast{padding:10px 0;}
+  .mast .wrap{flex-direction:row;align-items:center;justify-content:space-between;gap:8px;flex-wrap:nowrap;}
+  .logo{min-width:0;flex-shrink:1;}
+  .logo-tag{font-size:13.5px;margin-top:2px;}
+  .ctrl-row{gap:5px;flex-shrink:0;}
+  .theme-btn{width:30px;height:30px;font-size:14px;flex-shrink:0;}
+  .lang-grp{border:1px solid var(--bdr);flex-shrink:0;}
+  .lb{padding:4px 7px;font-size:13px;}
+  .sh h3{font-size:13.5px;padding:5px 14px;}
+  .page{padding:15px 0 45px;}
+  footer{padding:24px 0 0;}
+}
+@media(max-width:380px){
+  .ctrl-row{gap:4px;}
+  .lb{padding:3px 6px;font-size:10.5px;}
+  .theme-btn{width:28px;height:28px;font-size:13px;}
+}
+
+/* Touch-friendly tap targets */
+@media(hover:none){
+  .rep-card,.tl{-webkit-tap-highlight-color:rgba(200,16,46,.1);}
+}
+
+/* Safe area insets for notched phones */
+@supports(padding:max(0px)){
+  .mast .wrap{padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right));}
+  footer .wrap{padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right));}
+}
+.field-hint{font-size:11.5px;color:var(--txt3);margin-top:4px;font-family:'Noto Sans Bengali',sans-serif;}
+.btn-primary{background:var(--red);color:#fff;border:none;padding:13px 30px;font-size:15px;font-weight:700;font-family:'Noto Sans Bengali',sans-serif;border-radius:4px;display:inline-flex;align-items:center;gap:8px;transition:background .2s,transform .2s;}
+.btn-primary:hover{background:var(--dkred);transform:translateY(-1px);}
+.form-note{display:flex;gap:8px;align-items:flex-start;background:var(--sur2);border:1px solid var(--bdr);border-radius:4px;padding:11px 13px;font-size:12px;color:var(--txt2);font-family:'Noto Sans Bengali',sans-serif;margin-top:16px;line-height:1.75;}
+.form-note::before{content:'ℹ️';flex-shrink:0;font-size:13px;line-height:1.75;}
+.form-sent{display:none;background:#1b7d3a1a;border-left:4px solid #1b7d3a;color:#1b7d3a;padding:12px 14px;font-size:13.5px;font-family:'Noto Sans Bengali',sans-serif;margin-bottom:16px;border-radius:4px;}
+
+/* FOOTER (shared chrome) */
+footer{background:var(--foot);padding:36px 0 0;transition:background .3s;}
+.fg{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:28px;padding-bottom:26px;}
+.footer-logo-img{height:72px;width:auto;max-width:205px;object-fit:contain;display:block;margin-bottom:6px;}
+.fl-tag{color:#aaa;font-size:14px;font-style:italic;margin-bottom:10px;font-family:'Noto Sans Bengali',sans-serif;}
+.fl-info{color:#888;font-size:13px;line-height:1.8;font-family:'Noto Sans Bengali',sans-serif;}
+.fl-social{display:flex;gap:10px;margin-top:16px;}
+.fl-social a{width:36px;height:36px;border-radius:50%;background:#1e1e1e;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s;flex-shrink:0;}
+.fl-social a:hover{transform:translateY(-2px);}
+.fc h5{color:#fff;font-size:15px;font-weight:700;margin-bottom:11px;padding-bottom:6px;border-bottom:1px solid #1e1e1e;font-family:'Noto Sans Bengali',sans-serif;}
+.fc a{display:block;color:#fff;font-size:15px;margin-bottom:6px;font-family:'Noto Sans Bengali',sans-serif;transition:color .2s;cursor:pointer;}
+.fc a:hover{color:var(--red);}
+.fb-bot{text-align:center;padding:12px;font-size:13.5px;color:#fff;font-family:'Noto Sans Bengali',sans-serif;}
+.footer-notice{max-width:760px;margin:0 auto 22px;padding:16px 20px;text-align:center;background:#161616;border:1px solid #262626;border-top:3px solid var(--red);}
+.footer-notice-title{font-size:15px;font-weight:700;color:var(--red);margin-bottom:6px;font-family:'Noto Sans Bengali',sans-serif;}
+.footer-notice p{font-size:14px;line-height:1.85;color:#bbb;font-family:'Noto Sans Bengali',sans-serif;margin:0;}
+@media(max-width:768px){.fg{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.fg{grid-template-columns:1fr;}.footer-logo-img{height:56px;max-width:160px;}.footer-notice{padding:14px 16px;margin-bottom:16px;}.footer-notice p{font-size:13.5px;}}
+
+/* POPUPS (contact / about-privacy) */
+@keyframes popIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+.about-logo{height:68px;width:auto;max-width:240px;object-fit:contain;margin:0 auto;}
+.about-logo-light{display:block;}
+.about-logo-dark{display:none;}
+[data-theme=dark] .about-logo-light{display:none;}
+[data-theme=dark] .about-logo-dark{display:block;}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR: thin strip above the header — shows today's date/time -->
+<div class="topbar">
+  <div class="wrap">
+    <span id="date-display">লোড হচ্ছে...</span>
+  </div>
+</div>
+
+<!-- MASTHEAD -->
+<header class="mast">
+  <div class="wrap">
+    <a class="logo" href="index.html">
+      <img src="assets/logo.png"      alt="দৈনিক অনুলিপি" class="logo-img logo-img-light">
+      <img src="assets/logo-dark.png" alt="দৈনিক অনুলিপি" class="logo-img logo-img-dark">
+      <div class="logo-tag" id="tagline">সত্যের সন্ধানে, নির্ভীক প্রকাশে!</div>
+    </a>
+    <div class="ctrl-row">
+      <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Dark/Light mode">🌙</button>
+      <div class="lang-grp">
+        <button class="lb on" id="lb-bn" onclick="setLang('bn')">বাং</button>
+        <button class="lb"    id="lb-en" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap"><div class="page">
+
+<div id="rep-list-view">
+  <div class="sh"><h3 id="h1-title">রিপোর্টার তালিকা</h3><div class="sh-line"></div></div>
+  <p class="intro" id="p1-intro">দৈনিক অনুলিপির পক্ষে মাঠপর্যায়ে কর্মরত যাচাইকৃত রিপোর্টারদের তালিকা এখানে দেওয়া থাকবে। কোনো ব্যক্তি নিজেকে আমাদের রিপোর্টার দাবি করলে, নিচের তালিকায় নাম যাচাই করে নিন।</p>
+
+  <div class="rep-search-wrap">
+    <span class="rep-search-icon">🔍</span>
+    <input type="text" id="rep-search" class="rep-search-input" oninput="filterReporters(this.value)" autocomplete="off">
+    <button type="button" id="rep-search-clear" class="rep-search-clear" onclick="clearReporterSearch()" style="display:none;" aria-label="Clear">✕</button>
+  </div>
+
+  <div id="rep-directory"></div>
+  <div id="rep-search-empty" class="rep-empty" style="display:none;"></div>
+  <div id="rep-notfound" class="rep-notfound"></div>
+  <p class="rep-verify-note" id="verify-note">তালিকায় নাম না থাকলে তিনি দৈনিক অনুলিপির অনুমোদিত রিপোর্টার নন। সন্দেহ হলে যোগাযোগ করুন: <a href="mailto:dainikanulipi@gmail.com" style="color:var(--red);font-weight:700;">dainikanulipi@gmail.com</a></p>
+
+  <div class="sh" id="apply" style="margin-top:8px;"><h3 id="h2-title">রিপোর্টার হতে চান?</h3><div class="sh-line"></div></div>
+  <p class="intro" id="p2-intro">নিচের ফর্মটি পূরণ করুন। জমা দিলে এটি আপনার ইমেইল অ্যাপে খুলবে — সেখান থেকে আমাদের কাছে পাঠিয়ে দিন। আমরা যাচাই করে যোগাযোগ করব।</p>
+
+  <div class="rep-form-card">
+    <div class="form-sent" id="form-sent">✅ <span id="sent-text">আপনার ইমেইল অ্যাপ খোলা হয়েছে — মেইলটি পাঠিয়ে দিন।</span></div>
+    <form id="rep-apply-form" onsubmit="submitApplication(event)">
+      <div class="field-row">
+        <div class="field">
+          <label id="lbl-name">🧑 পূর্ণ নাম *</label>
+          <input type="text" id="f-name" required>
+        </div>
+        <div class="field">
+          <label id="lbl-phone">📞 মোবাইল নম্বর *</label>
+          <input type="tel" id="f-phone" required>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label id="lbl-email">✉️ ইমেইল</label>
+          <input type="email" id="f-email">
+        </div>
+        <div class="field">
+          <label id="lbl-age">🎂 বয়স</label>
+          <input type="number" id="f-age" min="14" max="100">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label id="lbl-area">📍 এলাকা / জেলা *</label>
+          <input type="text" id="f-area" required>
+        </div>
+        <div class="field">
+          <label id="lbl-edu">🎓 শিক্ষাগত যোগ্যতা</label>
+          <select id="f-edu">
+            <option value="" id="opt-edu-select">— নির্বাচন করুন —</option>
+            <option value="ssc" id="opt-edu-ssc">এসএসসি</option>
+            <option value="hsc" id="opt-edu-hsc">এইচএসসি</option>
+            <option value="bachelor" id="opt-edu-bachelor">স্নাতক</option>
+            <option value="master" id="opt-edu-master">স্নাতকোত্তর</option>
+            <option value="other" id="opt-edu-other">অন্যান্য</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label id="lbl-avail">🕒 প্রাপ্যতা</label>
+          <select id="f-avail">
+            <option value="" id="opt-avail-select">— নির্বাচন করুন —</option>
+            <option value="full" id="opt-avail-full">পূর্ণকালীন</option>
+            <option value="part" id="opt-avail-part">খণ্ডকালীন</option>
+            <option value="freelance" id="opt-avail-freelance">ফ্রিল্যান্স</option>
+          </select>
+        </div>
+        <div class="field">
+          <label id="lbl-beat">🗂️ পছন্দের বিভাগ</label>
+          <select id="f-beat">
+            <option value="" id="opt-beat-select">— নির্বাচন করুন —</option>
+            <option value="politics" id="opt-beat-politics">রাজনীতি</option>
+            <option value="sports" id="opt-beat-sports">খেলাধুলা</option>
+            <option value="entertainment" id="opt-beat-entertainment">বিনোদন</option>
+            <option value="tech" id="opt-beat-tech">প্রযুক্তি</option>
+            <option value="local" id="opt-beat-local">স্থানীয় সংবাদ</option>
+            <option value="other" id="opt-beat-other">অন্যান্য</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label id="lbl-exp">📝 অভিজ্ঞতা ও লেখার কারণ</label>
+        <textarea id="f-exp" placeholder=""></textarea>
+        <div class="field-hint" id="hint-exp">পূর্ববর্তী কোনো সংবাদমাধ্যমে কাজের অভিজ্ঞতা থাকলে উল্লেখ করুন (ঐচ্ছিক)।</div>
+      </div>
+      <button type="submit" class="btn-primary" id="btn-submit">📨 আবেদন জমা দিন</button>
+    </form>
+    <p class="form-note" id="form-note">* চিহ্নিত ঘরগুলো পূরণ করা আবশ্যক। আবেদন জমা দেওয়ার অর্থ এই নয় যে আপনি স্বয়ংক্রিয়ভাবে নিযুক্ত হয়েছেন — যাচাইয়ের পর আমরা যোগাযোগ করব।</p>
+  </div>
+</div>
+
+<div id="rep-detail-view" style="display:none;"></div>
+
+</div></div>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="fg">
+      <div>
+        <img src="assets/logo-dark.png" alt="দৈনিক অনুলিপি" class="footer-logo-img">
+        <div class="fl-tag" id="footer-tagline">সত্যের সন্ধানে, নির্ভীক প্রকাশে!</div>
+        <div class="fl-info" id="footer-info">প্রতিষ্ঠাতা ও প্রকাশক: অনিক অধিকারী<br>প্রতিষ্ঠাতা ও প্রধান সম্পাদক: মো: ফারহান শাহরিয়ার</div>
+        <div class="fl-social">
+          <a href="https://facebook.com/dainikanulipi" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 320 512" width="15" height="15"><path fill="#1877f2" d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"/></svg></a>
+          <a href="https://youtube.com/@dainikanulipi" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 576 512" width="19" height="19"><path fill="#ff0000" d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232 337.6V174.4L361 256l-129 81.6z"/></svg></a>
+        </div>
+      </div>
+      <div class="fc">
+        <h5 id="footer-cat-heading">বিভাগ</h5>
+        <a href="reporter-info.html" id="ft-cat-directory">রিপোর্টার তালিকা</a>
+        <a href="reporter-info.html#apply" id="ft-cat-join">আমাদের টিমে যোগ দিতে চান?</a>
+      </div>
+      <div class="fc">
+        <h5 id="footer-info-heading">তথ্য</h5>
+        <a onclick="openInfoPopup('about')" style="cursor:pointer;" id="ft-about">আমাদের সম্পর্কে</a>
+        <a onclick="openContactPopup('যোগাযোগ')" style="cursor:pointer;" id="ft-contact">যোগাযোগ করুন</a>
+        <a onclick="openContactPopup('বিজ্ঞাপন')" style="cursor:pointer;" id="ft-advertise">বিজ্ঞাপন দিন</a>
+        <a href="reporter.html" target="_blank" id="ft-reporter">রিপোর্টার পোর্টাল</a>
+        <a href="submit.html" target="_blank" id="ft-submit-news">সংবাদ পাঠান</a>
+        <a onclick="openInfoPopup('privacy')" style="cursor:pointer;" id="ft-privacy">গোপনীয়তা নীতি</a>
+      </div>
+    </div>
+    <div class="footer-notice" id="footer-notice">
+      <div class="footer-notice-title" id="footer-notice-title">⚠️ জরুরি ঘোষণা</div>
+      <p id="footer-notice-text">এই নিউজ পোর্টালটি বর্তমানে "পরীক্ষামূলক সম্প্রচার" কার্যক্রম পরিচালনা করছে। আমরা সচেতনভাবে রাজনৈতিক সংবাদ এড়িয়ে চলি এবং শুধুমাত্র বিনোদন, তথ্য ও জনস্বার্থমূলক সংবাদ প্রকাশ করি। এখানে প্রকাশিত সংবাদের দায়ভার সংশ্লিষ্ট লেখকদের, পোর্টাল কর্তৃপক্ষের নয়। রেজিস্ট্রেশন প্রক্রিয়া এবং পূর্ণাঙ্গ সম্প্রচারের কাজ চলমান।</p>
+    </div>
+    <div class="fb-bot" id="footer-bottom">দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — সর্বস্বত্ব সংরক্ষিত ২০২৬</div>
+  </div>
+</footer>
+
+<!-- CONTACT/ADVERTISE POPUP -->
+<div id="contact-popup-overlay" onclick="closeContactPopup(event)" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);align-items:center;justify-content:center;">
+  <div style="background:var(--sur);width:100%;max-width:420px;margin:16px;border-top:4px solid var(--red);box-shadow:0 20px 60px rgba(0,0,0,.35);animation:popIn .22s ease;max-height:90vh;overflow-y:auto;">
+    <div style="padding:18px 20px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bdr);position:sticky;top:0;background:var(--sur);z-index:1;">
+      <div>
+        <div id="popup-title" style="font-size:17px;font-weight:700;color:var(--txt);font-family:'Noto Serif Bengali',serif;"></div>
+        <div style="font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-top:2px;">দৈনিক অনুলিপি</div>
+      </div>
+      <button onclick="closeContactPopup()" style="background:var(--sur3);border:none;width:32px;height:32px;border-radius:50%;font-size:16px;color:var(--txt2);cursor:pointer;flex-shrink:0;">✕</button>
+    </div>
+    <div style="padding:20px;">
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px;">
+        <a href="tel:+8801935128454" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--sur2);border:1px solid var(--bdr);text-decoration:none;color:var(--txt);">
+          <span style="font-size:20px;flex-shrink:0;">📞</span>
+          <div style="min-width:0;flex:1;"><div style="font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;">ফোন / Phone</div><div style="font-size:14px;font-weight:700;word-break:break-word;overflow-wrap:anywhere;">+880 19-3512-8454</div></div>
+        </a>
+        <a href="mailto:dainikanulipi@gmail.com" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--sur2);border:1px solid var(--bdr);text-decoration:none;color:var(--txt);">
+          <span style="font-size:20px;flex-shrink:0;">✉️</span>
+          <div style="min-width:0;flex:1;"><div style="font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;">ইমেইল / Email</div><div style="font-size:14px;font-weight:700;word-break:break-word;overflow-wrap:anywhere;">dainikanulipi@gmail.com</div></div>
+        </a>
+        <a href="https://wa.me/8801935128454" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--sur2);border:1px solid var(--bdr);text-decoration:none;color:var(--txt);">
+          <span style="font-size:20px;flex-shrink:0;">💬</span>
+          <div style="min-width:0;flex:1;"><div style="font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;">WhatsApp</div><div style="font-size:14px;font-weight:700;word-break:break-word;overflow-wrap:anywhere;">+880 19-3512-8454</div></div>
+        </a>
+        <a href="https://facebook.com/dainikanulipi" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--sur2);border:1px solid var(--bdr);text-decoration:none;color:var(--txt);">
+          <span style="font-size:20px;flex-shrink:0;">📘</span>
+          <div style="min-width:0;flex:1;"><div style="font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;">Facebook</div><div style="font-size:14px;font-weight:700;word-break:break-word;overflow-wrap:anywhere;">facebook.com/dainikanulipi</div></div>
+        </a>
+      </div>
+      <a href="index.html" id="popup-visit-link" style="display:block;background:var(--red);color:#fff;text-align:center;padding:11px;font-size:14px;font-weight:700;font-family:'Noto Sans Bengali',sans-serif;text-decoration:none;">
+        🌐 ওয়েবসাইট ভিজিট করুন
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT/PRIVACY POPUP -->
+<div id="info-popup-overlay" onclick="closeInfoPopup(event)" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);align-items:center;justify-content:center;">
+  <div style="background:var(--sur);width:100%;max-width:520px;margin:16px;border-top:4px solid var(--red);box-shadow:0 20px 60px rgba(0,0,0,.35);animation:popIn .22s ease;max-height:88vh;overflow-y:auto;">
+    <div style="padding:18px 20px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bdr);position:sticky;top:0;background:var(--sur);z-index:1;">
+      <div>
+        <div id="info-popup-title" style="font-size:17px;font-weight:700;color:var(--txt);font-family:'Noto Serif Bengali',serif;"></div>
+        <div style="font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-top:2px;">দৈনিক অনুলিপি</div>
+      </div>
+      <button onclick="closeInfoPopup()" style="background:var(--sur3);border:none;width:32px;height:32px;border-radius:50%;font-size:16px;color:var(--txt2);cursor:pointer;flex-shrink:0;">✕</button>
+    </div>
+    <div id="info-popup-body" style="padding:22px;font-family:'Noto Serif Bengali',serif;font-size:15px;line-height:1.9;color:var(--txt);"></div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════
+   REPORTER DIRECTORY — now loaded LIVE from the Apps Script backend as JSON.
+   Edit the live reporters sheet (not this file) to add/remove/update reporters —
+   the same Apps Script web app URL below (doGet) serves it, no CSV publishing
+   or CORS proxy needed.
+   Sheet columns (exact header names, any order):
+   slug, nameBn, nameEn, roleBn, roleEn, photo, pinned, beatBn, beatEn,
+   districtBn, districtEn, idCard, joinDate, status,
+   email, phone, whatsapp, bioBn, bioEn
+
+   pinned           : 'yes' / 'true' / '1' → pinned to the "Core team" section. Anything else = not pinned.
+   status           : 'inactive' → shown dimmed as a former reporter. Anything else (or blank) = active.
+   slug             : optional; auto-generated from nameEn/nameBn if left blank.
+   Leave any other field blank to hide that piece of UI for that reporter.
+
+   FALLBACK_REPORTERS below is only used if the backend can't be reached
+   (network issue, wrong URL, etc.) so the page is never empty.
+   ══════════════════════════════════════════════ */
+
+// Paste your Apps Script Web app deployment URL here (see Reporter-Applications-Backend.js setup steps).
+// This one URL is used both to submit applications (POST) and to load the live reporter list (GET).
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwLmOzNCYml95t1oqKGS2bvI_PRMsK-aA7Q15CuYYERyjVpGuEA-uDD4SayCRKz4y2E/exec';
+
+let REPORTERS = [];
+let reportersLoaded = false;
+let reportersLoadError = false;
+
+const FALLBACK_REPORTERS = [
+  {
+    slug:'anik-adhikari',
+    nameBn:'অনিক অধিকারী', nameEn:'Anik Adhikari',
+    roleBn:'প্রতিষ্ঠাতা ও প্রকাশক', roleEn:'Founder & Publisher',
+    photo:'assets/reporters/anik.jpg',
+    pinned:true,
+    beatBn:'সম্পাদকীয়', beatEn:'Editorial',
+    districtBn:'ঢাকা', districtEn:'Dhaka',
+    idCard:'DA-2024-001', joinDate:'২০২৪-০১-০১', status:'active',
+    email:'anik@dainikanulipi.example', phone:'+8801XXXXXXXX1',
+    bioBn:'দৈনিক অনুলিপির প্রতিষ্ঠাতা ও প্রকাশক, সামগ্রিক সম্পাদকীয় দিকনির্দেশনায় নিয়োজিত।',
+    bioEn:'Founder and publisher of Dainik Anulipi, overseeing overall editorial direction.',
+    whatsapp:'8801XXXXXXXX1'
+  },
+  {
+    slug:'farhan-shahriar',
+    nameBn:'মো: ফারহান শাহরিয়ার', nameEn:'Md. Farhan Shahriar',
+    roleBn:'প্রতিষ্ঠাতা ও প্রধান সম্পাদক', roleEn:'Founder & Editor-in-Chief',
+    photo:'assets/reporters/farhan.jpg',
+    pinned:true,
+    beatBn:'সম্পাদকীয়', beatEn:'Editorial',
+    districtBn:'ঢাকা', districtEn:'Dhaka',
+    idCard:'DA-2024-002', joinDate:'২০২৪-০১-০১', status:'active',
+    email:'farhan@dainikanulipi.example', phone:'+8801XXXXXXXX2',
+    bioBn:'দৈনিক অনুলিপির প্রতিষ্ঠাতা ও প্রধান সম্পাদক, প্রযুক্তি ও কনটেন্ট তত্ত্বাবধানে নিয়োজিত।',
+    bioEn:'Founder and Editor-in-Chief of Dainik Anulipi, overseeing tech and content.',
+    whatsapp:'8801XXXXXXXX2'
+  },
+  {
+    slug:'rima-chowdhury',
+    nameBn:'রিমা চৌধুরী', nameEn:'Rima Chowdhury',
+    roleBn:'স্টাফ রিপোর্টার', roleEn:'Staff Reporter',
+    photo:'',
+    beatBn:'জাতীয়', beatEn:'National',
+    districtBn:'ঢাকা', districtEn:'Dhaka',
+    idCard:'DA-2024-003', joinDate:'২০২৪-০৩-১৫', status:'active',
+    email:'rima@dainikanulipi.example', phone:'+8801XXXXXXXX3',
+    bioBn:'ঢাকা কেন্দ্রিক জাতীয় সংবাদ কভার করেন, বিশেষত নীতি ও প্রশাসন বিষয়ে।',
+    bioEn:'Covers Dhaka-based national news, focusing on policy and administration.',
+    whatsapp:'8801XXXXXXXX3'
+  },
+  {
+    slug:'sajib-hasan',
+    nameBn:'সজীব হাসান', nameEn:'Sajib Hasan',
+    roleBn:'স্টাফ রিপোর্টার', roleEn:'Staff Reporter',
+    photo:'',
+    beatBn:'অর্থনীতি', beatEn:'Economy',
+    districtBn:'চট্টগ্রাম', districtEn:'Chattogram',
+    idCard:'DA-2024-004', joinDate:'২০২৪-০৪-১০', status:'active',
+    email:'sajib@dainikanulipi.example', phone:'',
+    bioBn:'বাজার, বাণিজ্য ও অর্থনৈতিক নীতি নিয়ে প্রতিবেদন করেন।',
+    bioEn:'Reports on markets, trade, and economic policy.'
+  },
+  {
+    slug:'nusrat-jahan',
+    nameBn:'নুসরাত জাহান', nameEn:'Nusrat Jahan',
+    roleBn:'ফিল্ড রিপোর্টার', roleEn:'Field Reporter',
+    photo:'',
+    beatBn:'সারাদেশ', beatEn:'Nationwide',
+    districtBn:'রাজশাহী', districtEn:'Rajshahi',
+    idCard:'DA-2024-005', joinDate:'২০২৪-০৬-০১', status:'active',
+    email:'', phone:'+8801XXXXXXXX5',
+    bioBn:'দেশের বিভিন্ন জেলা থেকে মাঠপর্যায়ের সংবাদ সংগ্রহ করেন।',
+    bioEn:'Gathers on-the-ground news from districts across the country.',
+    whatsapp:'8801XXXXXXXX5'
+  },
+  {
+    slug:'tariq-islam',
+    nameBn:'তারিক ইসলাম', nameEn:'Tariq Islam',
+    roleBn:'স্পোর্টস করেসপন্ডেন্ট', roleEn:'Sports Correspondent',
+    photo:'',
+    beatBn:'খেলা', beatEn:'Sports',
+    districtBn:'সিলেট', districtEn:'Sylhet',
+    idCard:'DA-2023-011', joinDate:'২০২৩-১১-২০', status:'inactive',
+    email:'tariq@dainikanulipi.example', phone:'+8801XXXXXXXX6',
+    bioBn:'দেশীয় ও আন্তর্জাতিক ক্রীড়া সংবাদ কভার করেন।',
+    bioEn:'Covers domestic and international sports news.'
+  },
+];
+
+/* ── SLUG HELPERS (deep-link ids) ── */
+function slugify(str){
+  return String(str||'')
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g,'-')
+    .replace(/^-+|-+$/g,'');
+}
+// Assign a stable slug to every reporter once (explicit slug wins; else derived
+// from nameEn; else falls back to rep-<index> so links never collide/break).
+function assignSlugs(){
+  REPORTERS.forEach((r,i) => {
+    r._slug = r.slug || slugify(r.nameEn) || slugify(r.nameBn) || ('rep-'+i);
+  });
+}
+function findReporterBySlug(slug){
+  return REPORTERS.find(r => r._slug === slug);
+}
+
+/* ── Map one raw reporter object (as returned by the Apps Script doGet JSON) into a REPORTERS-shaped object ── */
+function mapRowToReporter(obj){
+  const clean = v => (v===undefined || v===null) ? '' : String(v).trim();
+  const truthy = v => /^(yes|true|1)$/i.test(clean(v));
+  return {
+    slug: clean(obj.slug),
+    nameBn: clean(obj.nameBn), nameEn: clean(obj.nameEn),
+    roleBn: clean(obj.roleBn), roleEn: clean(obj.roleEn),
+    photo: clean(obj.photo),
+    pinned: truthy(obj.pinned),
+    beatBn: clean(obj.beatBn), beatEn: clean(obj.beatEn),
+    districtBn: clean(obj.districtBn), districtEn: clean(obj.districtEn),
+    idCard: clean(obj.idCard),
+    joinDate: clean(obj.joinDate),
+    status: clean(obj.status).toLowerCase() === 'inactive' ? 'inactive' : 'active',
+    email: clean(obj.email), phone: clean(obj.phone), whatsapp: clean(obj.whatsapp),
+    bioBn: clean(obj.bioBn), bioEn: clean(obj.bioEn)
+  };
+}
+
+/* ── Fetch + parse the live reporter list from the Apps Script backend (JSON),
+   falling back to FALLBACK_REPORTERS on any failure. No CSV, no CORS proxy —
+   Apps Script web apps send permissive CORS headers on their own. ── */
+async function loadReporters(){
+  try{
+    if(!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes('PASTE_YOUR')){
+      throw new Error('APPS_SCRIPT_URL is not configured');
+    }
+    const res = await fetch(APPS_SCRIPT_URL, {cache:'no-store'});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const data = await res.json();
+    if(data.error) throw new Error(data.error);
+    const list = Array.isArray(data.reporters) ? data.reporters : [];
+    const parsed = list.map(mapRowToReporter)
+      .filter(r => r.nameBn || r.nameEn); // skip fully blank rows
+    if(!parsed.length) throw new Error('No usable reporter rows');
+    REPORTERS = parsed;
+    reportersLoadError = false;
+  } catch(err){
+    console.error('[reporters] fetch from Apps Script failed — showing FALLBACK_REPORTERS instead. Root cause:', err);
+    console.error('[reporters] check that APPS_SCRIPT_URL is correct and the deployment access is set to "Anyone".');
+    REPORTERS = FALLBACK_REPORTERS;
+    reportersLoadError = true;
+  }
+  assignSlugs();
+  reportersLoaded = true;
+  const searchVal = document.getElementById('rep-search') ? document.getElementById('rep-search').value : '';
+  renderDirectory(searchVal);
+  routeToReporter();
+}
+
+const S = {
+  bn:{
+    tagline:'সত্যের সন্ধানে, নির্ভীক প্রকাশে!',tbReporter:'রিপোর্টার পোর্টাল',tbContact:'যোগাযোগ',tbAds:'বিজ্ঞাপন',
+    tabHome:'অনলাইন সংস্করণ',tabEpaper:'ই-পেপার',tabComic:'কমিকস',tabWeather:'আবহাওয়া',tabLive:'লাইভ',tabReporter:'রিপোর্টার তথ্য',
+    h1:'রিপোর্টার তালিকা',p1:'দৈনিক অনুলিপির পক্ষে মাঠপর্যায়ে কর্মরত যাচাইকৃত রিপোর্টারদের তালিকা এখানে দেওয়া থাকবে। কোনো ব্যক্তি নিজেকে আমাদের রিপোর্টার দাবি করলে, নিচের তালিকায় নাম যাচাই করে নিন।',
+    emptyDir:'এখনও কোনো রিপোর্টার তালিকাভুক্ত করা হয়নি।',
+    loadingDir:'রিপোর্টার তালিকা লোড হচ্ছে...',
+    sheetLoadError:'সর্বশেষ তালিকা লোড করা যায়নি, তাই একটি পুরনো/সংরক্ষিত তালিকা দেখানো হচ্ছে।',
+    searchPlaceholder:'নাম, পদবি বা বিভাগ দিয়ে খুঁজুন...',
+    noSearchResults:'কোনো রিপোর্টার পাওয়া যায়নি।',
+    verifyNote:'তালিকায় নাম না থাকলে তিনি দৈনিক অনুলিপির অনুমোদিত রিপোর্টার নন। সন্দেহ হলে যোগাযোগ করুন:',
+    h2:'আমাদের টিমে যোগ দিতে চান?',p2:'নিচের ফর্মটি পূরণ করে জমা দিন — আমরা তথ্য যাচাই করে আপনার সাথে যোগাযোগ করব।',
+    lblName:'🧑 পূর্ণ নাম *',lblPhone:'📞 মোবাইল নম্বর *',lblEmail:'✉️ ইমেইল',lblAge:'🎂 বয়স',lblArea:'📍 এলাকা / জেলা *',lblEdu:'🎓 শিক্ষাগত যোগ্যতা',lblAvail:'🕒 প্রাপ্যতা',lblExp:'📝 অভিজ্ঞতা ও লেখার কারণ',
+    availSelect:'— নির্বাচন করুন —',availFull:'পূর্ণকালীন',availPart:'খণ্ডকালীন',availFreelance:'ফ্রিল্যান্স',
+    eduSelect:'— নির্বাচন করুন —',eduSsc:'এসএসসি',eduHsc:'এইচএসসি',eduBachelor:'স্নাতক',eduMaster:'স্নাতকোত্তর',eduOther:'অন্যান্য',
+    lblBeat:'🗂️ পছন্দের বিভাগ',beatSelect:'— নির্বাচন করুন —',beatPolitics:'রাজনীতি',beatSports:'খেলাধুলা',beatEntertainment:'বিনোদন',beatTech:'প্রযুক্তি',beatLocal:'স্থানীয় সংবাদ',beatOther:'অন্যান্য',
+    hintExp:'পূর্ববর্তী কোনো সংবাদমাধ্যমে কাজের অভিজ্ঞতা থাকলে উল্লেখ করুন (ঐচ্ছিক)।',
+    btnSubmit:'📨 আবেদন জমা দিন',formNote:'* চিহ্নিত ঘরগুলো পূরণ করা আবশ্যক। আবেদন জমা দেওয়ার অর্থ এই নয় যে আপনি স্বয়ংক্রিয়ভাবে নিযুক্ত হয়েছেন — যাচাইয়ের পর আমরা যোগাযোগ করব।',
+    sentText:'আপনার আবেদন গ্রহণ করা হয়েছে। আমরা যাচাই করে শীঘ্রই যোগাযোগ করব।',
+    ftCatHeading:'বিভাগ',ftCatDirectory:'রিপোর্টার তালিকা',ftCatJoin:'আমাদের টিমে যোগ দিতে চান?',ftInfoHeading:'তথ্য',ftAbout:'আমাদের সম্পর্কে',ftContact:'যোগাযোগ করুন',ftAdvertise:'বিজ্ঞাপন দিন',ftReporter:'রিপোর্টার পোর্টাল',ftSubmitNews:'সংবাদ পাঠান',ftPrivacy:'গোপনীয়তা নীতি',
+    footerInfo:'প্রতিষ্ঠাতা ও প্রকাশক: অনিক অধিকারী<br>প্রতিষ্ঠাতা ও প্রধান সম্পাদক: মো: ফারহান শাহরিয়ার',
+    footerBottom:'দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — সর্বস্বত্ব সংরক্ষিত ২০২৬',
+    footerNoticeTitle:'⚠️ জরুরি ঘোষণা',
+    footerNoticeText:'এই নিউজ পোর্টালটি বর্তমানে "পরীক্ষামূলক সম্প্রচার" কার্যক্রম পরিচালনা করছে। আমরা সচেতনভাবে রাজনৈতিক সংবাদ এড়িয়ে চলি এবং শুধুমাত্র বিনোদন, তথ্য ও জনস্বার্থমূলক সংবাদ প্রকাশ করি। এখানে প্রকাশিত সংবাদের দায়ভার সংশ্লিষ্ট লেখকদের, পোর্টাল কর্তৃপক্ষের নয়। রেজিস্ট্রেশন প্রক্রিয়া এবং পূর্ণাঙ্গ সম্প্রচারের কাজ চলমান।',
+    visitWebsite:'🌐 ওয়েবসাইট ভিজিট করুন',verified:'✅ যাচাইকৃত',pageTitle:'রিপোর্টার তথ্য | দৈনিক অনুলিপি',pageDesc:'দৈনিক অনুলিপি — রিপোর্টার তালিকা ও রিপোর্টার হওয়ার আবেদন।',treeRoot:'দৈনিক অনুলিপি রিপোর্টার নেটওয়ার্ক',pinnedTitle:'মূল টিম',
+    titleEmail:'ইমেইল',titlePhone:'ফোন',titleWhatsapp:'হোয়াটসঅ্যাপ',
+    lblDistrict:'জেলা',lblIdCard:'আইডি কার্ড নম্বর',lblJoinDate:'যোগদানের তারিখ',
+    statusActive:'✅ সক্রিয়',statusInactive:'⛔ সাবেক রিপোর্টার (নিষ্ক্রিয়)',
+    copyLink:'লিংক কপি করুন',linkCopied:'লিংক কপি হয়েছে ✓',
+    repNotFound:'⚠️ এই লিংকের রিপোর্টারকে তালিকায় খুঁজে পাওয়া যায়নি। বানান ভুল থাকতে পারে, লিংকটি পুরনো হতে পারে, অথবা তিনি আমাদের অনুমোদিত রিপোর্টার নন। নিশ্চিত হতে যোগাযোগ করুন:',
+    backToList:'রিপোর্টার তালিকায় ফিরুন'
+  },
+  en:{
+    tagline:'In pursuit of truth, In fearless expression!',tbReporter:'Reporter Portal',tbContact:'Contact',tbAds:'Advertise',
+    tabHome:'Online Version',tabEpaper:'E-Paper',tabComic:'Comics',tabWeather:'Weather',tabLive:'Live',tabReporter:'Reporter Info',
+    h1:'Reporter Directory',p1:'This page lists verified reporters currently working with Dainik Anulipi. If anyone claims to represent us, please check the list below first.',
+    emptyDir:'No reporters have been listed yet.',
+    loadingDir:'Loading reporter list...',
+    sheetLoadError:'Couldn\u2019t load the latest list, so a saved backup list is shown instead.',
+    searchPlaceholder:'Search by name, role, or beat...',
+    noSearchResults:'No matching reporters found.',
+    verifyNote:'If a name is not on this list, that person is not an authorized reporter of Dainik Anulipi. If in doubt, contact us at:',
+    h2:'Want to join our team?',p2:'Fill out the form below and submit — we will verify your details and get in touch.',
+    lblName:'🧑 Full Name *',lblPhone:'📞 Mobile Number *',lblEmail:'✉️ Email',lblAge:'🎂 Age',lblArea:'📍 Area / District *',lblEdu:'🎓 Education',lblAvail:'🕒 Availability',lblExp:'📝 Experience & motivation',
+    availSelect:'— Select —',availFull:'Full-time',availPart:'Part-time',availFreelance:'Freelance',
+    eduSelect:'— Select —',eduSsc:'SSC',eduHsc:'HSC',eduBachelor:"Bachelor's",eduMaster:"Master's",eduOther:'Other',
+    lblBeat:'🗂️ Preferred Beat',beatSelect:'— Select —',beatPolitics:'Politics',beatSports:'Sports',beatEntertainment:'Entertainment',beatTech:'Technology',beatLocal:'Local News',beatOther:'Other',
+    hintExp:'Mention any prior media experience, if applicable (optional).',
+    btnSubmit:'📨 Submit Application',formNote:'* Required fields. Submitting this form does not mean you are automatically hired — we will verify and contact you.',
+    sentText:'Your application has been received. We will verify and get in touch soon.',
+    ftCatHeading:'Categories',ftCatDirectory:'Reporter Directory',ftCatJoin:'Want to join our team?',ftInfoHeading:'Information',ftAbout:'About Us',ftContact:'Contact Us',ftAdvertise:'Advertise With Us',ftReporter:'Reporter Portal',ftSubmitNews:'Submit News',ftPrivacy:'Privacy Policy',
+    footerInfo:'Founder & Publisher: Anik Adhikari<br>Founder & Editor-in-Chief: Md. Farhan Shahriar',
+    footerBottom:'দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — All rights reserved 2026',
+    footerNoticeTitle:'⚠️ Important Notice',
+    footerNoticeText:'This news portal is currently running on a "trial broadcast" basis. We consciously avoid political news and publish only entertainment, informational, and public-interest content. Responsibility for news published here lies with the respective authors, not the portal authority. The registration process and full broadcast are underway.',
+    visitWebsite:'🌐 Visit Website',verified:'✅ Verified',pageTitle:'Reporter Info | Dainik Anulipi',pageDesc:'Dainik Anulipi — Reporter directory and reporter application.',treeRoot:'Dainik Anulipi Reporter Network',pinnedTitle:'Core team',
+    titleEmail:'Email',titlePhone:'Phone',titleWhatsapp:'WhatsApp',
+    lblDistrict:'District',lblIdCard:'ID Card Number',lblJoinDate:'Join Date',
+    statusActive:'✅ Active',statusInactive:'⛔ Former Reporter (Inactive)',
+    copyLink:'Copy link to this reporter',linkCopied:'Link copied ✓',
+    repNotFound:'⚠️ We couldn\u2019t find the reporter this link points to. It may be misspelled, out of date, or this person may not be an authorized reporter. If in doubt, contact us at:',
+    backToList:'Back to reporter list'
+  }
+};
+
+let lang = localStorage.getItem('anulipi_lang') || 'bn';
+if(lang==='ar') lang = 'bn';
+let theme = localStorage.getItem('anulipi_theme') || 'light';
+
+// ── DATE ──
+function bengaliDate() {
+  const d=new Date();
+  const bn=['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+  const toBn = n => String(n).split('').map(c => bn[c] || c).join('');
+  let h=d.getHours(); const ampm = h>=12 ? 'PM' : 'AM';
+  h = h % 12; if(h===0) h=12;
+  const m = String(d.getMinutes()).padStart(2,'0');
+  const s = String(d.getSeconds()).padStart(2,'0');
+  if(lang==='en'){
+    const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+    return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()} — ${h}:${m}:${s} ${ampm}`;
+  }
+  const dn=['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'];
+  const mn=['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+  return `${dn[d.getDay()]}, ${toBn(String(d.getDate()))} ${mn[d.getMonth()]} ${toBn(String(d.getFullYear()))} — ${toBn(h)}:${toBn(m)}:${toBn(s)} ${ampm}`;
+}
+
+function applyTheme(t){
+  theme = t;
+  document.documentElement.setAttribute('data-theme', t);
+  document.getElementById('theme-btn').textContent = t==='dark' ? '☀️' : '🌙';
+  localStorage.setItem('anulipi_theme', t);
+}
+function toggleTheme(){ applyTheme(theme==='dark' ? 'light' : 'dark'); }
+
+function matchesQuery(r, q){
+  if(!q) return true;
+  const hay = [r.nameBn, r.nameEn, r.roleBn, r.roleEn, r.beatBn, r.beatEn, r.districtBn, r.districtEn, r.idCard]
+    .filter(Boolean).join(' ').toLowerCase();
+  return hay.includes(q);
+}
+
+function renderDirectory(query){
+  const s = S[lang];
+  const el = document.getElementById('rep-directory');
+  const emptyEl = document.getElementById('rep-search-empty');
+  const q = (query || '').trim().toLowerCase();
+
+  if(!reportersLoaded){
+    emptyEl.style.display = 'none';
+    el.innerHTML = `<div class="rep-empty">${s.loadingDir}</div>`;
+    return;
+  }
+
+  if(!REPORTERS.length){
+    emptyEl.style.display = 'none';
+    el.innerHTML = `<div class="rep-empty">${s.emptyDir}</div>`;
+    return;
+  }
+
+  const errorBanner = reportersLoadError
+    ? `<div class="rep-load-warning">⚠️ ${s.sheetLoadError}</div>` : '';
+
+  const list = q ? REPORTERS.filter(r => matchesQuery(r, q)) : REPORTERS;
+
+  if(q && !list.length){
+    el.innerHTML = errorBanner;
+    emptyEl.textContent = s.noSearchResults;
+    emptyEl.style.display = 'block';
+    return;
+  }
+  emptyEl.style.display = 'none';
+
+  // pinned reporters (r.pinned:true) always show first, in their own section
+  const pinned = list.filter(r => r.pinned);
+  const rest   = list.filter(r => !r.pinned);
+
+  // group remaining reporters by beat (in the current language)
+  const groups = {};
+  rest.forEach(r => {
+    const beat = (lang==='en' ? (r.beatEn||r.beatBn) : r.beatBn) || (lang==='en' ? 'Unspecified' : 'অনির্দিষ্ট');
+    (groups[beat] = groups[beat] || []).push(r);
+  });
+
+  const contactRow = r => {
+    const items = [];
+    if(r.phone)    items.push(`<a href="tel:${r.phone}" title="${s.titlePhone}" onclick="event.stopPropagation()">📞</a>`);
+    if(r.whatsapp) items.push(`<a href="https://wa.me/${String(r.whatsapp).replace(/[^0-9]/g,'')}" target="_blank" rel="noopener" title="${s.titleWhatsapp}" onclick="event.stopPropagation()">💬</a>`);
+    if(r.email)    items.push(`<a href="mailto:${r.email}" title="${s.titleEmail}" onclick="event.stopPropagation()">✉️</a>`);
+
+    return items.length ? `<div class="rep-card-contacts">${items.join('')}</div>` : '';
+  };
+
+  const cardHtml = r => {
+    const name = lang==='en' ? (r.nameEn||r.nameBn) : r.nameBn;
+    const role = lang==='en' ? (r.roleEn||r.roleBn) : r.roleBn;
+    const bio  = lang==='en' ? (r.bioEn||r.bioBn)   : r.bioBn;
+    const isInactive = r.status === 'inactive';
+    const badge = isInactive ? s.statusInactive : s.statusActive;
+    const photo = r.photo
+      ? `<img src="${r.photo}" alt="${name}" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'🪪'}))">`
+      : '🪪';
+    return `<div class="rep-card${isInactive?' rep-card-inactive':''}" id="rep-${r._slug}" onclick="location.hash='rep/${r._slug}'">
+      <span class="rep-card-photo">${photo}</span>
+      <div style="flex:1;min-width:0;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
+          <div class="rep-card-name">${name||''}</div>
+          <button class="rep-link-btn" onclick="event.stopPropagation();copyReporterLink('${r._slug}', this)" title="${s.copyLink}">🔗</button>
+        </div>
+        ${role ? `<div class="rep-card-role">${role}</div>` : ''}
+        <span class="rep-card-badge${isInactive?' rep-card-badge-inactive':''}">${badge}</span>
+        ${bio ? `<p class="rep-card-bio">${bio}</p>` : ''}
+        ${contactRow(r)}
+      </div>
+    </div>`;
+  };
+
+  const pinnedBlock = pinned.length
+    ? `<div class="rep-beat-title">⭐ ${s.pinnedTitle} (${pinned.length})</div>
+       <div class="rep-grid">${pinned.map(cardHtml).join('')}</div>`
+    : '';
+
+  const groupBlocks = Object.keys(groups).map(beat => `
+    <div class="rep-beat-title">📍 ${beat} (${groups[beat].length})</div>
+    <div class="rep-grid">${groups[beat].map(cardHtml).join('')}</div>`).join('');
+
+  el.innerHTML = errorBanner + pinnedBlock + groupBlocks;
+}
+
+function applyLang(l){
+  lang = l;
+  const s = S[l];
+  document.documentElement.setAttribute('lang', l);
+  document.title = s.pageTitle;
+  document.getElementById('meta-desc').setAttribute('content', s.pageDesc);
+  document.querySelectorAll('.lb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('lb-'+l).classList.add('on');
+
+  document.getElementById('tagline').textContent = s.tagline;
+  document.getElementById('h1-title').textContent = s.h1;
+  document.getElementById('p1-intro').textContent = s.p1;
+  document.getElementById('verify-note').innerHTML = s.verifyNote + ' <a href="mailto:dainikanulipi@gmail.com" style="color:var(--red);font-weight:700;">dainikanulipi@gmail.com</a>';
+  document.getElementById('h2-title').textContent = s.h2;
+  document.getElementById('p2-intro').textContent = s.p2;
+
+  document.getElementById('lbl-name').textContent = s.lblName;
+  document.getElementById('lbl-phone').textContent = s.lblPhone;
+  document.getElementById('lbl-email').textContent = s.lblEmail;
+  document.getElementById('lbl-age').textContent = s.lblAge;
+  document.getElementById('lbl-area').textContent = s.lblArea;
+  document.getElementById('lbl-edu').textContent = s.lblEdu;
+  document.getElementById('lbl-avail').textContent = s.lblAvail;
+  document.getElementById('lbl-exp').textContent = s.lblExp;
+  document.getElementById('opt-avail-select').textContent = s.availSelect;
+  document.getElementById('opt-avail-full').textContent = s.availFull;
+  document.getElementById('opt-avail-part').textContent = s.availPart;
+  document.getElementById('opt-avail-freelance').textContent = s.availFreelance;
+  document.getElementById('opt-edu-select').textContent = s.eduSelect;
+  document.getElementById('opt-edu-ssc').textContent = s.eduSsc;
+  document.getElementById('opt-edu-hsc').textContent = s.eduHsc;
+  document.getElementById('opt-edu-bachelor').textContent = s.eduBachelor;
+  document.getElementById('opt-edu-master').textContent = s.eduMaster;
+  document.getElementById('opt-edu-other').textContent = s.eduOther;
+  document.getElementById('lbl-beat').textContent = s.lblBeat;
+  document.getElementById('opt-beat-select').textContent = s.beatSelect;
+  document.getElementById('opt-beat-politics').textContent = s.beatPolitics;
+  document.getElementById('opt-beat-sports').textContent = s.beatSports;
+  document.getElementById('opt-beat-entertainment').textContent = s.beatEntertainment;
+  document.getElementById('opt-beat-tech').textContent = s.beatTech;
+  document.getElementById('opt-beat-local').textContent = s.beatLocal;
+  document.getElementById('opt-beat-other').textContent = s.beatOther;
+  document.getElementById('hint-exp').textContent = s.hintExp;
+  document.getElementById('btn-submit').textContent = s.btnSubmit;
+  document.getElementById('form-note').textContent = s.formNote;
+  document.getElementById('sent-text').textContent = s.sentText;
+
+  document.getElementById('footer-tagline').textContent = s.tagline;
+  document.getElementById('footer-info').innerHTML = s.footerInfo;
+  document.getElementById('footer-cat-heading').textContent = s.ftCatHeading;
+  document.getElementById('ft-cat-directory').textContent = s.ftCatDirectory;
+  document.getElementById('ft-cat-join').textContent = s.ftCatJoin;
+  document.getElementById('footer-info-heading').textContent = s.ftInfoHeading;
+  document.getElementById('ft-about').textContent = s.ftAbout;
+  document.getElementById('ft-contact').textContent = s.ftContact;
+  document.getElementById('ft-advertise').textContent = s.ftAdvertise;
+  document.getElementById('ft-reporter').textContent = s.ftReporter;
+  document.getElementById('ft-submit-news').textContent = s.ftSubmitNews;
+  document.getElementById('ft-privacy').textContent = s.ftPrivacy;
+  document.getElementById('footer-bottom').textContent = s.footerBottom;
+  document.getElementById('footer-notice-title').textContent = s.footerNoticeTitle;
+  document.getElementById('footer-notice-text').textContent = s.footerNoticeText;
+  const visitLink = document.getElementById('popup-visit-link');
+  if(visitLink) visitLink.textContent = s.visitWebsite;
+
+  const searchInput = document.getElementById('rep-search');
+  searchInput.placeholder = s.searchPlaceholder;
+
+  renderDirectory(searchInput.value);
+  routeToReporter(); // re-apply any #rep/<slug> deep link after the cards re-render
+  localStorage.setItem('anulipi_lang', l);
+}
+function setLang(l){ applyLang(l); }
+
+/* ── SEARCH ── */
+function filterReporters(value){
+  document.getElementById('rep-search-clear').style.display = value ? 'flex' : 'none';
+  renderDirectory(value);
+}
+function clearReporterSearch(){
+  const input = document.getElementById('rep-search');
+  input.value = '';
+  input.focus();
+  filterReporters('');
+}
+
+/* ── DEEP LINKING — #rep/<slug> scrolls to & highlights one reporter card ──
+   Shareable link example: reporter-info.html#rep/jane-doe
+   Useful for "is this person really our reporter?" verification links. ── */
+function routeToReporter(){
+  const notFoundEl = document.getElementById('rep-notfound');
+  const hash = location.hash.replace('#','');
+  if(!hash.startsWith('rep/')){ if(notFoundEl) notFoundEl.style.display = 'none'; showReporterList(); return; }
+  const slug = decodeURIComponent(hash.slice(4));
+  const r = findReporterBySlug(slug);
+  if(!r){
+    // Unknown/removed slug (bad link, typo, or a name someone falsely claimed) —
+    // surface it instead of silently doing nothing, same spirit as the verify-note above.
+    showReporterList();
+    if(notFoundEl){
+      const s = S[lang];
+      notFoundEl.innerHTML = s.repNotFound + ' <a href="mailto:dainikanulipi@gmail.com" style="color:var(--red);font-weight:700;">dainikanulipi@gmail.com</a>';
+      notFoundEl.style.display = 'block';
+    }
+    return;
+  }
+  if(notFoundEl) notFoundEl.style.display = 'none';
+  showReporterDetail(r._slug);
+}
+function copyReporterLink(slug, btn){
+  const url = location.origin + location.pathname + '#rep/' + encodeURIComponent(slug);
+  const done = () => {
+    if(!btn) return;
+    const original = btn.textContent;
+    btn.textContent = '✅';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1500);
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(url).then(done).catch(() => window.prompt('Copy link:', url));
+  } else {
+    window.prompt('Copy link:', url);
+  }
+}
+window.addEventListener('hashchange', routeToReporter);
+
+/* ── REPORTER DETAIL VIEW — separate "page" like an article, not a popup ──
+   Swaps #rep-list-view out for #rep-detail-view, same idea as index.html's
+   route()/renderArticle() swapping #content between the feed and an article. ── */
+function showReporterList(){
+  document.getElementById('rep-list-view').style.display = '';
+  document.getElementById('rep-detail-view').style.display = 'none';
+}
+function showReporterDetail(slug){
+  const r = findReporterBySlug(slug);
+  if(!r){ showReporterList(); return; }
+  const s = S[lang];
+  const name = lang==='en' ? (r.nameEn||r.nameBn) : r.nameBn;
+  const role = lang==='en' ? (r.roleEn||r.roleBn) : r.roleBn;
+  const bio  = lang==='en' ? (r.bioEn||r.bioBn)   : r.bioBn;
+  const beat = lang==='en' ? (r.beatEn||r.beatBn) : r.beatBn;
+  const district = lang==='en' ? (r.districtEn||r.districtBn) : r.districtBn;
+  const isInactive = r.status === 'inactive';
+  const statusBadge = isInactive ? s.statusInactive : s.statusActive;
+  const photo = r.photo
+    ? `<img src="${r.photo}" alt="${name}" style="width:100%;height:100%;object-fit:cover;" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'🪪'}))">`
+    : '🪪';
+
+  const rows = [];
+  if(r.phone)    rows.push(['📞', s.titlePhone,    r.phone,    `tel:${r.phone}`]);
+  if(r.whatsapp) rows.push(['💬', s.titleWhatsapp, r.whatsapp, `https://wa.me/${String(r.whatsapp).replace(/[^0-9]/g,'')}`]);
+  if(r.email)    rows.push(['✉️', s.titleEmail,    r.email,    `mailto:${r.email}`]);
+  const rowsHtml = rows.map(([icon,label,value,href]) => `
+    <a href="${href}" target="${href.startsWith('http')?'_blank':'_self'}" rel="noopener" style="display:flex;align-items:center;gap:9px;padding:7px 10px;background:var(--sur2);border:1px solid var(--bdr);text-decoration:none;color:var(--txt);">
+      <span style="font-size:15px;flex-shrink:0;">${icon}</span>
+      <div style="min-width:0;flex:1;"><div style="font-size:9.5px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;">${label}</div><div style="font-size:12.5px;font-weight:700;word-break:break-word;overflow-wrap:anywhere;">${value}</div></div>
+    </a>`).join('');
+
+  // secondary meta rows: district, ID card, join date
+  const metaItems = [];
+  if(district)         metaItems.push([s.lblDistrict,   district]);
+  if(r.idCard)          metaItems.push([s.lblIdCard,     r.idCard]);
+  if(r.joinDate)         metaItems.push([s.lblJoinDate,   r.joinDate]);
+  const metaHtml = metaItems.length ? `
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:20px;">
+      ${metaItems.map(([label,value]) => `
+        <div style="background:var(--sur2);border:1px solid var(--bdr);padding:7px 10px;min-width:0;">
+          <div style="font-size:9px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-bottom:2px;">${label}</div>
+          <div style="font-size:12px;font-weight:700;word-break:break-word;overflow-wrap:anywhere;">${value}</div>
+        </div>`).join('')}
+    </div>` : '';
+
+  document.getElementById('rep-detail-view').innerHTML = `
+    <button class="rep-back" onclick="location.hash=''">← ${s.backToList}</button>
+    <div class="rep-detail-card">
+      <div style="display:flex;gap:20px;align-items:center;margin-bottom:18px;flex-wrap:wrap;">
+        <span style="width:104px;height:104px;border-radius:12px;overflow:hidden;background:var(--sur3);display:flex;align-items:center;justify-content:center;font-size:42px;flex-shrink:0;">${photo}</span>
+        <div>
+          <h1 style="font-size:24px;font-weight:700;font-family:'Noto Serif Bengali',serif;margin-bottom:4px;">${name||''}</h1>
+          ${role ? `<div style="font-size:15px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-bottom:6px;">${role}</div>` : ''}
+          <span class="rep-card-badge${isInactive?' rep-card-badge-inactive':''}">${statusBadge}</span>
+        </div>
+      </div>
+      ${beat ? `<div style="font-size:13px;color:var(--red);font-weight:700;font-family:'Noto Sans Bengali',sans-serif;margin-bottom:14px;">📍 ${beat}</div>` : ''}
+      ${bio ? `<p style="font-size:16px;line-height:1.9;color:var(--txt2);margin-bottom:22px;">${bio}</p>` : ''}
+      ${metaHtml}
+      ${rows.length ? `<div style="display:flex;flex-direction:column;gap:7px;margin-bottom:20px;">${rowsHtml}</div>` : ''}
+      <button class="btn-primary" onclick="copyReporterLink('${r._slug}', this)">🔗 ${s.copyLink}</button>
+    </div>
+  `;
+  document.getElementById('rep-list-view').style.display = 'none';
+  document.getElementById('rep-detail-view').style.display = '';
+  scrollTo(0,0);
+}
+
+/* ── APPLICATION SUBMIT (Apps Script backend, mailto as fallback) ── */
+function submitApplication(e){
+  e.preventDefault();
+  const name   = document.getElementById('f-name').value.trim();
+  const phone  = document.getElementById('f-phone').value.trim();
+  const email  = document.getElementById('f-email').value.trim();
+  const age    = document.getElementById('f-age').value.trim();
+  const area   = document.getElementById('f-area').value.trim();
+  const eduSel = document.getElementById('f-edu');
+  const edu    = eduSel.value ? eduSel.options[eduSel.selectedIndex].textContent : '';
+  const availSel = document.getElementById('f-avail');
+  const avail  = availSel.value ? availSel.options[availSel.selectedIndex].textContent : '';
+  const exp    = document.getElementById('f-exp').value.trim();
+
+  const payload = { name, phone, email, age, area, education: edu, availability: avail, experience: exp };
+  const btn = document.getElementById('btn-submit');
+  const originalBtnText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = lang==='en' ? 'Sending…' : 'পাঠানো হচ্ছে…';
+
+  const showSent = () => {
+    const sent = document.getElementById('form-sent');
+    sent.style.display = 'block';
+    sent.scrollIntoView({behavior:'smooth', block:'nearest'});
+    document.getElementById('rep-apply-form').reset();
+    btn.disabled = false;
+    btn.textContent = originalBtnText;
+  };
+
+  if (APPS_SCRIPT_URL && !APPS_SCRIPT_URL.includes('PASTE_YOUR')) {
+    fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors', // Apps Script web apps don't return CORS headers; we submit fire-and-forget.
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    })
+      .then(showSent)
+      .catch(() => { mailtoFallback_(payload); showSent(); });
+  } else {
+    // Backend URL not configured yet — fall back to mailto so nothing is lost.
+    mailtoFallback_(payload);
+    showSent();
+  }
+}
+
+function mailtoFallback_(p){
+  const subject = 'রিপোর্টার আবেদন / Reporter Application — ' + p.name;
+  const body =
+`নাম / Name: ${p.name}
+মোবাইল / Phone: ${p.phone}
+ইমেইল / Email: ${p.email}
+বয়স / Age: ${p.age}
+এলাকা / Area: ${p.area}
+শিক্ষাগত যোগ্যতা / Education: ${p.education}
+প্রাপ্যতা / Availability: ${p.availability}
+
+অভিজ্ঞতা / Experience:
+${p.experience}`;
+
+  window.location.href = 'mailto:dainikanulipi@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+}
+
+/* ── CONTACT POPUP ── */
+function openContactPopup(type){
+  const isAd = type === 'বিজ্ঞাপন';
+  const titles = lang==='en'
+    ? { ad:'📢 Advertise With Us', contact:'📬 Contact Us' }
+    : { ad:'📢 বিজ্ঞাপন দিন', contact:'📬 যোগাযোগ করুন' };
+  document.getElementById('popup-title').textContent = isAd ? titles.ad : titles.contact;
+  document.getElementById('contact-popup-overlay').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeContactPopup(e){
+  if(e && e.target !== document.getElementById('contact-popup-overlay')) return;
+  document.getElementById('contact-popup-overlay').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+/* ── ABOUT / PRIVACY POPUP ── */
+const INFO_CONTENT_BN = {
+  about: { title:'🗞️ আমাদের সম্পর্কে', body: `
+    <div style="margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid var(--bdr);text-align:center;">
+      <img src="assets/logo.png" alt="দৈনিক অনুলিপি" class="about-logo about-logo-light">
+      <img src="assets/logo-dark.png" alt="দৈনিক অনুলিপি" class="about-logo about-logo-dark">
+      <div style="font-size:12px;color:var(--txt2);font-style:italic;margin-top:8px;">সত্যের সন্ধানে, নির্ভীক প্রকাশে!</div>
+    </div>
+    <div style="background:var(--sur2);border-left:4px solid var(--red);padding:14px 16px;margin-bottom:18px;">
+      <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:6px;font-family:'Noto Sans Bengali',sans-serif;">⚠️ জরুরি ঘোষণা</div>
+      <p style="font-size:13.5px;line-height:1.85;color:var(--txt2);margin:0;">এই নিউজ পোর্টালটি বর্তমানে "পরীক্ষামূলক সম্প্রচার" কার্যক্রম পরিচালনা করছে। আমরা সচেতনভাবে রাজনৈতিক সংবাদ এড়িয়ে চলি এবং শুধুমাত্র বিনোদন, তথ্য ও জনস্বার্থমূলক সংবাদ প্রকাশ করি। এখানে প্রকাশিত সংবাদের দায়ভার সংশ্লিষ্ট লেখকদের, পোর্টাল কর্তৃপক্ষের নয়। রেজিস্ট্রেশন প্রক্রিয়া এবং পূর্ণাঙ্গ সম্প্রচারের কাজ চলমান।</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;">
+      <div style="background:var(--sur2);padding:12px 14px;border:1px solid var(--bdr);">
+        <div style="font-size:10px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-bottom:4px;">প্রতিষ্ঠাতা ও প্রকাশক</div>
+        <div style="font-size:13.5px;font-weight:700;">অনিক অধিকারী</div>
+      </div>
+      <div style="background:var(--sur2);padding:12px 14px;border:1px solid var(--bdr);">
+        <div style="font-size:10px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-bottom:4px;">প্রতিষ্ঠাতা ও প্রধান সম্পাদক</div>
+        <div style="font-size:13.5px;font-weight:700;">মো: ফারহান শাহরিয়ার</div>
+      </div>
+    </div>
+    <p style="font-size:14px;line-height:1.9;color:var(--txt2);margin-bottom:14px;">দৈনিক অনুলিপি একটি অনলাইন সংবাদ পোর্টাল যা সত্য ও নিরপেক্ষ সংবাদ পরিবেশনের লক্ষ্যে যাত্রা শুরু করেছে। আমরা বিশ্বাস করি, তথ্যের অধিকার প্রতিটি মানুষের মৌলিক অধিকার।</p>
+    <div style="text-align:center;padding-top:14px;border-top:1px solid var(--bdr);">
+      <div style="font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;">© ২০২৬ দৈনিক অনুলিপি কর্তৃক সংরক্ষিত</div>
+    </div>
+  `},
+  privacy: { title:'🔒 গোপনীয়তা নীতি', body: `
+    <p style="font-size:12px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-bottom:16px;">সর্বশেষ আপডেট: জানুয়ারি ২০২৬</p>
+    <div style="display:flex;flex-direction:column;gap:0;">
+      <div style="padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--bdr);">
+        <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;font-family:'Noto Sans Bengali',sans-serif;">📋 তথ্য সংগ্রহ</div>
+        <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">আমরা কেবলমাত্র পোর্টালের সেবা উন্নত করার জন্য প্রয়োজনীয় তথ্য সংগ্রহ করি। পাঠকদের ব্যক্তিগত তথ্য কোনো তৃতীয় পক্ষের কাছে বিক্রি বা হস্তান্তর করা হয় না।</p>
+      </div>
+      <div style="padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--bdr);">
+        <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;font-family:'Noto Sans Bengali',sans-serif;">🍪 কুকিজ ব্যবহার</div>
+        <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">এই পোর্টালটি ব্যবহারকারীর অভিজ্ঞতা উন্নত করতে কুকিজ ব্যবহার করে। থিম ও ভাষা পছন্দ সংরক্ষণের জন্য লোকাল স্টোরেজ ব্যবহার করা হয়।</p>
+      </div>
+      <div style="padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--bdr);">
+        <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;font-family:'Noto Sans Bengali',sans-serif;">📰 বিষয়বস্তুর দায়বদ্ধতা</div>
+        <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">পোর্টালে প্রকাশিত সংবাদ ও মতামতের দায়ভার সংশ্লিষ্ট লেখক ও রিপোর্টারদের। পোর্টাল কর্তৃপক্ষ সংবাদের সত্যতা যাচাইয়ে সচেষ্ট থাকে।</p>
+      </div>
+      <div style="padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--bdr);">
+        <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;font-family:'Noto Sans Bengali',sans-serif;">📢 বিজ্ঞাপন নীতি</div>
+        <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">আমরা বিজ্ঞাপনদাতাদের সাথে স্বচ্ছ ও নৈতিক ব্যবসায়িক সম্পর্ক বজায় রাখি। বিজ্ঞাপনের বিষয়বস্তু সম্পাদকীয় নীতিকে প্রভাবিত করে না।</p>
+      </div>
+      <div>
+        <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;font-family:'Noto Sans Bengali',sans-serif;">✉️ যোগাযোগ</div>
+        <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">গোপনীয়তা সংক্রান্ত যেকোনো প্রশ্নের জন্য: <a href="mailto:dainikanulipi@gmail.com" style="color:var(--red);font-weight:700;">dainikanulipi@gmail.com</a></p>
+      </div>
+    </div>
+    <div style="text-align:center;padding-top:16px;margin-top:16px;border-top:1px solid var(--bdr);">
+      <div style="font-size:11px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;">© ২০২৬ দৈনিক অনুলিপি — সর্বস্বত্ব সংরক্ষিত</div>
+    </div>
+  `}
+};
+const INFO_CONTENT_EN = {
+  about: { title:'🗞️ About Us', body: `
+    <div style="margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid var(--bdr);text-align:center;">
+      <img src="assets/logo.png" alt="Dainik Anulipi" class="about-logo about-logo-light">
+      <img src="assets/logo-dark.png" alt="Dainik Anulipi" class="about-logo about-logo-dark">
+      <div style="font-size:12px;color:var(--txt2);font-style:italic;margin-top:8px;">In pursuit of truth, In fearless expression!</div>
+    </div>
+    <div style="background:var(--sur2);border-left:4px solid var(--red);padding:14px 16px;margin-bottom:18px;">
+      <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:6px;">⚠️ Important Notice</div>
+      <p style="font-size:13.5px;line-height:1.85;color:var(--txt2);margin:0;">This news portal is currently running on a "trial broadcast" basis. We consciously avoid political news and publish only entertainment, informational, and public-interest content. Responsibility for news published here lies with the respective authors, not the portal authority. The registration process and full broadcast are underway.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;">
+      <div style="background:var(--sur2);padding:12px 14px;border:1px solid var(--bdr);">
+        <div style="font-size:10px;color:var(--txt3);margin-bottom:4px;">Founder & Publisher</div>
+        <div style="font-size:13.5px;font-weight:700;">Anik Adhikari</div>
+      </div>
+      <div style="background:var(--sur2);padding:12px 14px;border:1px solid var(--bdr);">
+        <div style="font-size:10px;color:var(--txt3);margin-bottom:4px;">Founder & Editor-in-Chief</div>
+        <div style="font-size:13.5px;font-weight:700;">Md. Farhan Shahriar</div>
+      </div>
+    </div>
+    <p style="font-size:14px;line-height:1.9;color:var(--txt2);margin-bottom:14px;">Dainik Anulipi is an online news portal that began its journey with the goal of presenting truthful and impartial news. We believe that the right to information is a fundamental right of every person.</p>
+    <div style="text-align:center;padding-top:14px;border-top:1px solid var(--bdr);">
+      <div style="font-size:11px;color:var(--txt3);">© 2026 Dainik Anulipi. All rights reserved</div>
+    </div>
+  `},
+  privacy: { title:'🔒 Privacy Policy', body: `
+    <p style="font-size:12px;color:var(--txt3);margin-bottom:16px;">Last updated: January 2026</p>
+    <div style="display:flex;flex-direction:column;gap:0;">
+      <div style="padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--bdr);">
+        <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;">📋 Data Collection</div>
+        <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">We only collect information necessary to improve the portal's services. Readers' personal information is never sold or shared with any third party.</p>
+      </div>
+      <div style="padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--bdr);">
+        <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;">🍪 Use of Cookies</div>
+        <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">This portal uses cookies to improve the user experience. Local storage is used to save theme and language preferences.</p>
+      </div>
+      <div style="padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--bdr);">
+        <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;">📰 Content Responsibility</div>
+        <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">Responsibility for the news and opinions published on the portal lies with the respective authors and reporters. The portal authority strives to verify the accuracy of the news.</p>
+      </div>
+      <div style="padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--bdr);">
+        <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;">📢 Advertising Policy</div>
+        <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">We maintain transparent and ethical business relationships with advertisers. Advertising content does not influence editorial policy.</p>
+      </div>
+      <div>
+        <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px;">✉️ Contact</div>
+        <p style="font-size:14px;line-height:1.85;color:var(--txt2);margin:0;">For any privacy-related questions: <a href="mailto:dainikanulipi@gmail.com" style="color:var(--red);font-weight:700;">dainikanulipi@gmail.com</a></p>
+      </div>
+    </div>
+    <div style="text-align:center;padding-top:16px;margin-top:16px;border-top:1px solid var(--bdr);">
+      <div style="font-size:11px;color:var(--txt3);">© 2026 Dainik Anulipi — All rights reserved</div>
+    </div>
+  `}
+};
+const INFO_CONTENT = { bn: INFO_CONTENT_BN, en: INFO_CONTENT_EN };
+function openInfoPopup(type){
+  const content = INFO_CONTENT[lang] && INFO_CONTENT[lang][type];
+  if(!content) return;
+  document.getElementById('info-popup-title').textContent = content.title;
+  document.getElementById('info-popup-body').innerHTML = content.body;
+  document.getElementById('info-popup-overlay').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeInfoPopup(e){
+  if(e && e.target !== document.getElementById('info-popup-overlay')) return;
+  document.getElementById('info-popup-overlay').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape'){ closeContactPopup(); closeInfoPopup(); }
+});
+
+applyTheme(theme);
+applyLang(lang);
+document.getElementById('date-display').textContent = bengaliDate();
+setInterval(() => { document.getElementById('date-display').textContent = bengaliDate(); }, 1000); // live clock, updates every second
+loadReporters();
+</script>
+</body>
+</html>

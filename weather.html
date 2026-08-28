@@ -260,15 +260,10 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
   <p class="site-loader-text" id="loader-text">আবহাওয়ার তথ্য আনা হচ্ছে…</p>
 </div>
 
-<!-- TOP BAR -->
+<!-- TOP BAR: thin strip above the header — shows today's date/time only -->
 <div class="topbar">
   <div class="wrap">
     <span id="tbar-date"></span>
-    <div class="topbar-r">
-      <a href="https://dainikanulipi.github.io/da/" id="tb-home">অনলাইন সংস্করণ</a>
-      <a onclick="openContactPopup('যোগাযোগ')" id="tb-contact">যোগাযোগ</a>
-      <a onclick="openContactPopup('বিজ্ঞাপন')" id="tb-ads">বিজ্ঞাপন</a>
-    </div>
   </div>
 </div>
 
@@ -393,7 +388,8 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
         <a onclick="openInfoPopup('about')" style="cursor:pointer;" id="ft-about">আমাদের সম্পর্কে</a>
         <a onclick="openContactPopup('যোগাযোগ')" style="cursor:pointer;" id="ft-contact">যোগাযোগ করুন</a>
         <a onclick="openContactPopup('বিজ্ঞাপন')" style="cursor:pointer;" id="ft-advertise">বিজ্ঞাপন দিন</a>
-        <a href="submit.html" target="_blank" id="ft-reporter">রিপোর্টার পোর্টাল</a>
+        <a href="reporter.html" target="_blank" id="ft-reporter">রিপোর্টার পোর্টাল</a>
+        <a href="submit.html" target="_blank" id="ft-submit-news">সংবাদ পাঠান</a>
         <a onclick="openInfoPopup('privacy')" style="cursor:pointer;" id="ft-privacy">গোপনীয়তা নীতি</a>
       </div>
     </div>
@@ -609,7 +605,7 @@ var T = {
     footerInfo:'প্রতিষ্ঠাতা ও প্রকাশক: অনিক অধিকারী<br>প্রতিষ্ঠাতা ও প্রধান সম্পাদক: মো: ফারহান শাহরিয়ার',
     fCat:'বিভাগ', fInfo:'তথ্য',
     ftAbout:'আমাদের সম্পর্কে', ftContact:'যোগাযোগ করুন', ftAds:'বিজ্ঞাপন দিন',
-    ftReporter:'রিপোর্টার পোর্টাল', ftPrivacy:'গোপনীয়তা নীতি',
+    ftReporter:'রিপোর্টার পোর্টাল', ftSubmitNews:'সংবাদ পাঠান', ftPrivacy:'গোপনীয়তা নীতি',
     footerBottom:'দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — সর্বস্বত্ব সংরক্ষিত ২০২৬',
     contactTitle:'📬 যোগাযোগ করুন', adsTitle:'📢 বিজ্ঞাপন দিন',
     navHome:'অনলাইন সংস্করণ', navEpaper:'ই-পেপার', navComic:'কমিকস', navLive:'লাইভ',
@@ -632,7 +628,7 @@ var T = {
     footerInfo:'Founder & Publisher: Anik Adhikari<br>Founder & Editor-in-Chief: Md. Farhan Shahriar',
     fCat:'Categories', fInfo:'Information',
     ftAbout:'About Us', ftContact:'Contact Us', ftAds:'Advertise With Us',
-    ftReporter:'Reporter Portal', ftPrivacy:'Privacy Policy',
+    ftReporter:'Reporter Portal', ftSubmitNews:'Submit News', ftPrivacy:'Privacy Policy',
     footerBottom:'দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — All rights reserved 2026',
     contactTitle:'📬 Contact Us', adsTitle:'📢 Advertise With Us',
     navHome:'Home Edition', navEpaper:'E-Paper', navComic:'Comics', navLive:'Live',
@@ -660,14 +656,18 @@ function applyTheme(){
 function toBnDigits(str){const d=['০','১','২','৩','৪','৫','৬','৭','৮','৯'];return String(str).replace(/\d/g,n=>d[n]);}
 function setTopbarDate(){
   const d=new Date();
+  let h=d.getHours(); const ampm = h>=12 ? 'PM' : 'AM';
+  h = h % 12; if(h===0) h=12;
+  const m = String(d.getMinutes()).padStart(2,'0');
+  const s = String(d.getSeconds()).padStart(2,'0');
   if(lang==='en'){
     const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
     const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
-    document.getElementById('tbar-date').textContent=`${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+    document.getElementById('tbar-date').textContent=`${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()} — ${h}:${m}:${s} ${ampm}`;
   } else {
     const months=['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
     const days=['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'];
-    document.getElementById('tbar-date').textContent=`${days[d.getDay()]}, ${toBnDigits(String(d.getDate()))} ${months[d.getMonth()]} ${toBnDigits(String(d.getFullYear()))}`;
+    document.getElementById('tbar-date').textContent=`${days[d.getDay()]}, ${toBnDigits(String(d.getDate()))} ${months[d.getMonth()]} ${toBnDigits(String(d.getFullYear()))} — ${toBnDigits(String(h))}:${toBnDigits(m)}:${toBnDigits(s)} ${ampm}`;
   }
 }
 
@@ -830,9 +830,6 @@ function applyLang(l){
   document.getElementById('nav-epaper-label').textContent=s.navEpaper;
   document.getElementById('nav-comic-label').textContent=s.navComic;
   document.getElementById('nav-live-label').textContent=s.navLive;
-  document.getElementById('tb-home').textContent=s.tbHome;
-  document.getElementById('tb-contact').textContent=s.tbContact;
-  document.getElementById('tb-ads').textContent=s.tbAds;
   document.getElementById('ft-cat-latest').textContent=s.catLatest;
   document.getElementById('ft-cat-economy').textContent=s.catEconomy;
   document.getElementById('ft-cat-national').textContent=s.catNational;
@@ -861,6 +858,7 @@ function applyLang(l){
   document.getElementById('ft-contact').textContent=s.ftContact;
   document.getElementById('ft-advertise').textContent=s.ftAds;
   document.getElementById('ft-reporter').textContent=s.ftReporter;
+  document.getElementById('ft-submit-news').textContent=s.ftSubmitNews;
   document.getElementById('ft-privacy').textContent=s.ftPrivacy;
   document.getElementById('footer-bottom').textContent=s.footerBottom;
   localStorage.setItem('anulipi_lang',l);
@@ -1119,6 +1117,7 @@ function boot(){
   applyTheme();
   document.getElementById('loader-text').textContent = T[lang].loaderText;
   applyLang(lang);
+  setInterval(setTopbarDate, 1000); // live clock, updates every second
   setTimeout(()=>{ document.getElementById('site-loader').classList.add('hide'); }, 400);
   // Ask the browser for the user's location so the hero card can show
   // weather for exactly where they are, not just a divisional HQ.
