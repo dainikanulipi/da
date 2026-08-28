@@ -10,13 +10,29 @@
   gtag('config', 'G-0T6KD2GCKB');
 </script>
 
+<!-- BASIC SEO META -->
+<meta name="google-site-verification" content="CrmvnItIALEJmUgbVzhpY8_ze_nwZpjrUZggcJi19Bk" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="দৈনিক অনুলিপি — রিপোর্টার তালিকা ও রিপোর্টার হওয়ার আবেদন।" id="meta-desc">
 <title>রিপোর্টার তথ্য | দৈনিক অনুলিপি</title>
 <link rel="icon" type="image/png" href="assets/favicon.png">
-<link rel="canonical" href="https://dainikanulipi.github.io/da/reporter-info.html">
+<link rel="canonical" href="https://dainikanulipi.github.io/da/reporter-info.html" id="meta-canonical">
 
+<!-- FACEBOOK / OPEN GRAPH SHARING TAGS -->
+<meta property="og:type" content="website" id="meta-og-type">
+<meta property="og:url" content="https://dainikanulipi.github.io/da/reporter-info.html" id="meta-og-url">
+<meta property="og:title" content="রিপোর্টার তথ্য | দৈনিক অনুলিপি" id="meta-og-title">
+<meta property="og:description" content="দৈনিক অনুলিপি — রিপোর্টার তালিকা ও রিপোর্টার হওয়ার আবেদন।" id="meta-og-desc">
+<meta property="og:image" content="https://dainikanulipi.github.io/da/assets/preview.jpg" id="meta-og-img">
+
+<!-- TWITTER/X SHARING TAGS -->
+<meta name="twitter:card" content="summary_large_image" id="meta-tw-card">
+<meta name="twitter:title" content="রিপোর্টার তথ্য | দৈনিক অনুলিপি" id="meta-tw-title">
+<meta name="twitter:description" content="দৈনিক অনুলিপি — রিপোর্টার তালিকা ও রিপোর্টার হওয়ার আবেদন।" id="meta-tw-desc">
+<meta name="twitter:image" content="https://dainikanulipi.github.io/da/assets/preview.jpg" id="meta-tw-img">
+
+<!-- BROWSER ADDRESS-BAR THEME COLOR (Android Chrome) -->
 <meta name="theme-color" content="#C8102E">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -390,6 +406,7 @@ footer{background:var(--foot);padding:36px 0 0;transition:background .3s;}
 <div class="wrap"><div class="page">
 
 <div id="rep-list-view">
+  <a href="index.html" id="btn-home" class="rep-back" style="display:inline-block;">← অনলাইন সংস্করণ ফিরুন</a>
   <div class="sh"><h3 id="h1-title">রিপোর্টার তালিকা</h3><div class="sh-line"></div></div>
   <p class="intro" id="p1-intro">দৈনিক অনুলিপির পক্ষে মাঠপর্যায়ে কর্মরত যাচাইকৃত রিপোর্টারদের তালিকা এখানে দেওয়া থাকবে। কোনো ব্যক্তি নিজেকে আমাদের রিপোর্টার দাবি করলে, নিচের তালিকায় নাম যাচাই করে নিন।</p>
 
@@ -623,6 +640,25 @@ function findReporterBySlug(slug){
   return REPORTERS.find(r => r._slug === slug);
 }
 
+/* ── Convert a Google Drive "share" link into a direct-loadable image URL.
+   Handles:
+   - https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+   - https://drive.google.com/open?id=FILE_ID
+   - https://drive.google.com/uc?id=FILE_ID
+   - a bare Drive FILE_ID pasted by itself
+   Anything else (a normal image URL) is returned unchanged. ── */
+function toDirectImageUrl(url){
+  const u = String(url||'').trim();
+  if(!u) return u;
+  let id = '';
+  let m = u.match(/drive\.google\.com\/file\/d\/([^/]+)/);
+  if(m) id = m[1];
+  if(!id){ m = u.match(/[?&]id=([^&]+)/); if(m) id = m[1]; }
+  if(!id && /^[a-zA-Z0-9_-]{20,}$/.test(u)) id = u; // bare file id
+  if(id) return `https://lh3.googleusercontent.com/d/${id}`;
+  return u;
+}
+
 /* ── Map one raw reporter object (as returned by the Apps Script doGet JSON) into a REPORTERS-shaped object ── */
 function mapRowToReporter(obj){
   const clean = v => (v===undefined || v===null) ? '' : String(v).trim();
@@ -631,7 +667,7 @@ function mapRowToReporter(obj){
     slug: clean(obj.slug),
     nameBn: clean(obj.nameBn), nameEn: clean(obj.nameEn),
     roleBn: clean(obj.roleBn), roleEn: clean(obj.roleEn),
-    photo: clean(obj.photo),
+    photo: toDirectImageUrl(clean(obj.photo)),
     pinned: truthy(obj.pinned),
     beatBn: clean(obj.beatBn), beatEn: clean(obj.beatEn),
     districtBn: clean(obj.districtBn), districtEn: clean(obj.districtEn),
@@ -700,7 +736,7 @@ const S = {
     footerBottom:'দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — সর্বস্বত্ব সংরক্ষিত ২০২৬',
     footerNoticeTitle:'⚠️ জরুরি ঘোষণা',
     footerNoticeText:'এই নিউজ পোর্টালটি বর্তমানে "পরীক্ষামূলক সম্প্রচার" কার্যক্রম পরিচালনা করছে। আমরা সচেতনভাবে রাজনৈতিক সংবাদ এড়িয়ে চলি এবং শুধুমাত্র বিনোদন, তথ্য ও জনস্বার্থমূলক সংবাদ প্রকাশ করি। এখানে প্রকাশিত সংবাদের দায়ভার সংশ্লিষ্ট লেখকদের, পোর্টাল কর্তৃপক্ষের নয়। রেজিস্ট্রেশন প্রক্রিয়া এবং পূর্ণাঙ্গ সম্প্রচারের কাজ চলমান।',
-    visitWebsite:'🌐 ওয়েবসাইট ভিজিট করুন',verified:'✅ যাচাইকৃত',pageTitle:'রিপোর্টার তথ্য | দৈনিক অনুলিপি',pageDesc:'দৈনিক অনুলিপি — রিপোর্টার তালিকা ও রিপোর্টার হওয়ার আবেদন।',treeRoot:'দৈনিক অনুলিপি রিপোর্টার নেটওয়ার্ক',pinnedTitle:'মূল টিম',
+    visitWebsite:'🌐 ওয়েবসাইট ভিজিট করুন',verified:'✅ যাচাইকৃত',pageTitle:'রিপোর্টার তথ্য | দৈনিক অনুলিপি',pageDesc:'দৈনিক অনুলিপি — রিপোর্টার তালিকা ও রিপোর্টার হওয়ার আবেদন।',treeRoot:'দৈনিক অনুলিপি রিপোর্টার নেটওয়ার্ক',pinnedTitle:'মূল টিম',homeBtn:'← অনলাইন সংস্করণ ফিরুন',
     titleEmail:'ইমেইল',titlePhone:'ফোন',titleWhatsapp:'হোয়াটসঅ্যাপ',
     lblDistrict:'জেলা',lblIdCard:'আইডি কার্ড নম্বর',lblJoinDate:'যোগদানের তারিখ',
     statusActive:'✅ সক্রিয়',statusInactive:'⛔ সাবেক রিপোর্টার (নিষ্ক্রিয়)',
@@ -731,7 +767,7 @@ const S = {
     footerBottom:'দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — All rights reserved 2026',
     footerNoticeTitle:'⚠️ Important Notice',
     footerNoticeText:'This news portal is currently running on a "trial broadcast" basis. We consciously avoid political news and publish only entertainment, informational, and public-interest content. Responsibility for news published here lies with the respective authors, not the portal authority. The registration process and full broadcast are underway.',
-    visitWebsite:'🌐 Visit Website',verified:'✅ Verified',pageTitle:'Reporter Info | Dainik Anulipi',pageDesc:'Dainik Anulipi — Reporter directory and reporter application.',treeRoot:'Dainik Anulipi Reporter Network',pinnedTitle:'Core team',
+    visitWebsite:'🌐 Visit Website',verified:'✅ Verified',pageTitle:'Reporter Info | Dainik Anulipi',pageDesc:'Dainik Anulipi — Reporter directory and reporter application.',treeRoot:'Dainik Anulipi Reporter Network',pinnedTitle:'Core team',homeBtn:'← Back to Online Edition',
     titleEmail:'Email',titlePhone:'Phone',titleWhatsapp:'WhatsApp',
     lblDistrict:'District',lblIdCard:'ID Card Number',lblJoinDate:'Join Date',
     statusActive:'✅ Active',statusInactive:'⛔ Former Reporter (Inactive)',
@@ -893,6 +929,7 @@ function applyLang(l){
   if(loaderTextEl) loaderTextEl.textContent = l==='en' ? 'Loading reporter list...' : 'রিপোর্টার তালিকা লোড হচ্ছে...';
 
   document.getElementById('tagline').textContent = s.tagline;
+  document.getElementById('btn-home').textContent = s.homeBtn;
   document.getElementById('h1-title').textContent = s.h1;
   document.getElementById('p1-intro').textContent = s.p1;
   document.getElementById('verify-note').innerHTML = s.verifyNote + ' <a href="mailto:dainikanulipi@gmail.com" style="color:var(--red);font-weight:700;">dainikanulipi@gmail.com</a>';
