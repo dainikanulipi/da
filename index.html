@@ -689,6 +689,7 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
     <button class="tl" id="tab-epaper" onclick="window.location.href='https://dainikanulipi.github.io/da/epaper.html'">📰 <span id="tab-epaper-label">ই-পেপার</span></button>
     <button class="tl" id="tab-comic" onclick="window.location.href='https://dainikanulipi.github.io/da/comic.html'">🎨 <span id="tab-comic-label">কমিকস</span></button>
     <button class="tl" id="tab-weather" onclick="window.location.href='https://dainikanulipi.github.io/da/weather.html'">🌤️ <span id="tab-weather-label">আবহাওয়া</span></button>
+    <button class="tl" id="tab-salat" onclick="window.location.href='https://dainikanulipi.github.io/da/salat.html'">🕌 <span id="tab-salat-label">নামাজের সময়</span></button>
     <button class="tl tl-live" id="tab-live" onclick="window.location.href='https://dainikanulipi.github.io/da/live.html'"><span class="live-dot" id="live-dot"></span> <span id="tab-live-label">লাইভ</span></button>
   </div>
 </div>
@@ -909,13 +910,13 @@ function resetMeta() {
 // ── LANGUAGE STRINGS ──
 const S = {
   bn:{dir:'ltr',lang:'bn',breaking:'শিরোনাম',latest:'সর্বশেষ সংবাদ',noNews:'সংবাদ ফাইবার কেবলে চড়ে আসছে',noNewsMsg:'আলোর গতিতে ফাইবার অপটিক ক্যাবল বেয়ে আপনার সংবাদ পাঠানো হচ্ছে — মাঝেমধ্যে ঢাকার রাস্তার মতোই একটু জ্যামে আটকে যায়! ততক্ষণে আমাদের ই-পেপার সংস্করণটা দেখে নিন।',loading:'সংবাদ লোড হচ্ছে…',share:'শেয়ার করুন:',fb:'ফেসবুক',wa:'হোয়াটসঅ্যাপ',copy:'লিংক কপি',copied:'✓ কপি!',back:'← পেছনে',related:'সম্পর্কিত সংবাদ',recent:'সাম্প্রতিক সংবাদ',more:'আরও দেখুন →',notFound:'সংবাদটি পাওয়া যায়নি',notFoundMsg:'আপনি যে সংবাদটি খুঁজছেন তা পাওয়া যাচ্ছে না।',tagline:'সত্যের সন্ধানে, নির্ভীক প্রকাশে!',translating:'অনুবাদ হচ্ছে…',translateErr:'অনুবাদ ব্যর্থ',epaper:'ই-পেপার',by:'',goHome:'হোমে ফিরুন',searchPh:'অনুসন্ধান করুন…',searchBtn:'খুঁজুন',searchResults:'অনুসন্ধানের ফলাফল',searchFor:'এর জন্য ফলাফল',resultsFound:'টি সংবাদ পাওয়া গেছে',noResults:'কোনো সংবাদ পাওয়া যায়নি',noResultsMsg:'অন্য শব্দ দিয়ে চেষ্টা করুন।',
-    navHome:'সর্বশেষ',navHomeFull:'সর্বশেষ সংবাদ',tabHome:'🌐 অনলাইন সংস্করণ',tabEpaper:'ই-পেপার',tabComic:'কমিকস',tabWeather:'আবহাওয়া',tabLive:'লাইভ',tbReporter:'রিপোর্টার পোর্টাল',tbSubmitNews:'সংবাদ পাঠান',tbContact:'যোগাযোগ',tbAds:'বিজ্ঞাপন',
+    navHome:'সর্বশেষ',navHomeFull:'সর্বশেষ সংবাদ',tabHome:'🌐 অনলাইন সংস্করণ',tabEpaper:'ই-পেপার',tabComic:'কমিকস',tabWeather:'আবহাওয়া',tabSalat:'নামাজের সময়',tabLive:'লাইভ',tbReporter:'রিপোর্টার পোর্টাল',tbSubmitNews:'সংবাদ পাঠান',tbContact:'যোগাযোগ',tbAds:'বিজ্ঞাপন',
     liveTitle:'🔴 সরাসরি সম্প্রচার',liveNote:'YouTube বর্তমানে যা সম্প্রচার করছে তা এখানে স্বয়ংক্রিয়ভাবে দেখানো হয় — কিছু সম্প্রচার না চললে একটি খালি স্ক্রিন দেখাতে পারে।',liveWatchYt:'YouTube-এ খুলুন',liveWatchFb:'Facebook-এ দেখুন',liveNoAuto:'📡 ব্রাউজারেই সরাসরি দেখানোর সেটআপ শীঘ্রই আসছে। এখন নিচের বাটনে চাপুন — লাইভ থাকলে সরাসরি সেখানে নিয়ে যাবে, না থাকলে চ্যানেল/পেজ দেখাবে।',liveAltPrompt:'অন্য জায়গায় দেখতে চান?',
     ftCatHeading:'বিভাগ',ftInfoHeading:'তথ্য',ftAbout:'আমাদের সম্পর্কে',ftContact:'যোগাযোগ করুন',ftAdvertise:'বিজ্ঞাপন দিন',ftReporter:'রিপোর্টার পোর্টাল',ftSubmitNews:'সংবাদ পাঠান',ftPrivacy:'গোপনীয়তা নীতি',
     footerInfo:'প্রতিষ্ঠাতা ও প্রকাশক: অনিক অধিকারী<br>প্রতিষ্ঠাতা ও প্রধান সম্পাদক: মো: ফারহান শাহরিয়ার',
     footerBottom:'দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — সর্বস্বত্ব সংরক্ষিত ২০২৬',visitWebsite:'🌐 ওয়েবসাইট ভিজিট করুন',footerNoticeTitle:'⚠️ জরুরি ঘোষণা',footerNoticeText:'এই নিউজ পোর্টালটি বর্তমানে "পরীক্ষামূলক সম্প্রচার" কার্যক্রম পরিচালনা করছে। আমরা সচেতনভাবে রাজনৈতিক সংবাদ এড়িয়ে চলি এবং শুধুমাত্র বিনোদন, তথ্য ও জনস্বার্থমূলক সংবাদ প্রকাশ করি। এখানে প্রকাশিত সংবাদের দায়ভার সংশ্লিষ্ট লেখকদের, পোর্টাল কর্তৃপক্ষের নয়। রেজিস্ট্রেশন প্রক্রিয়া এবং পূর্ণাঙ্গ সম্প্রচারের কাজ চলমান।'},
   en:{dir:'ltr',lang:'en',breaking:'Breaking',latest:'Latest News',noNews:'News Is Riding the Fiber Cable',noNewsMsg:"Your stories are zipping over at the speed of light through our fiber-optic cables \u2014 though even light hits a bit of traffic sometimes. Hang tight, or hop over to our E-Paper edition while you wait.",loading:'Loading news…',share:'Share:',fb:'Facebook',wa:'WhatsApp',copy:'Copy Link',copied:'✓ Copied!',back:'← Back',related:'Related News',recent:'Recent News',more:'See more →',notFound:'Article Not Found',notFoundMsg:'The article you are looking for could not be found.',tagline:'In pursuit of truth, In fearless expression!',translating:'Translating…',translateErr:'Translation failed',epaper:'E-Paper',by:'By',goHome:'Go Home',searchPh:'Search…',searchBtn:'Search',searchResults:'Search Results',searchFor:'Results for',resultsFound:'articles found',noResults:'No articles found',noResultsMsg:'Try different keywords.',
-    navHome:'Latest',navHomeFull:'Latest News',tabHome:'🌐 Online Version',tabEpaper:'E-Paper',tabComic:'Comics',tabWeather:'Weather',tabLive:'Live',tbReporter:'Reporter Portal',tbSubmitNews:'Submit News',tbContact:'Contact',tbAds:'Advertise',
+    navHome:'Latest',navHomeFull:'Latest News',tabHome:'🌐 Online Version',tabEpaper:'E-Paper',tabComic:'Comics',tabWeather:'Weather',tabSalat:'Prayer Times',tabLive:'Live',tbReporter:'Reporter Portal',tbSubmitNews:'Submit News',tbContact:'Contact',tbAds:'Advertise',
     liveTitle:'🔴 Live Broadcast',liveNote:'This automatically shows whatever is currently live on our YouTube channel — it may look blank if nothing is streaming right now.',liveWatchYt:'Open in YouTube',liveWatchFb:'Watch on Facebook',liveNoAuto:'📡 In-browser playback setup is coming soon. For now, tap a button below — it opens the live stream directly if we\u2019re live, or our channel/page if not.',liveAltPrompt:'Prefer to watch elsewhere?',
     ftCatHeading:'Categories',ftInfoHeading:'Information',ftAbout:'About Us',ftContact:'Contact Us',ftAdvertise:'Advertise With Us',ftReporter:'Reporter Portal',ftSubmitNews:'Submit News',ftPrivacy:'Privacy Policy',
     footerInfo:'Founder & Publisher: Anik Adhikari<br>Founder & Editor-in-Chief: Md. Farhan Shahriar',
@@ -976,11 +977,13 @@ function applyLang(l) {
   const tabEpaperLabel = document.getElementById('tab-epaper-label');
   const tabComicLabel = document.getElementById('tab-comic-label');
   const tabWeatherLabel = document.getElementById('tab-weather-label');
+  const tabSalatLabel = document.getElementById('tab-salat-label');
   const tabLiveLabel = document.getElementById('tab-live-label');
   if(tabHomeLabel) tabHomeLabel.textContent = s.tabHome;
   if(tabEpaperLabel) tabEpaperLabel.textContent = s.tabEpaper;
   if(tabComicLabel) tabComicLabel.textContent = s.tabComic;
   if(tabWeatherLabel) tabWeatherLabel.textContent = s.tabWeather;
+  if(tabSalatLabel) tabSalatLabel.textContent = s.tabSalat;
   if(tabLiveLabel) tabLiveLabel.textContent = s.tabLive;
 
   // ── NAV / MOBILE NAV / FOOTER CATEGORY LABELS ──
