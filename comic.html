@@ -385,7 +385,8 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
     <button class="nl" id="nav-home" onclick="location.href='https://dainikanulipi.github.io/da/'">🌐 অনলাইন সংস্করণ</button>
     <button class="nl" id="nav-epaper" onclick="location.href='https://dainikanulipi.github.io/da/epaper.html'">📰 ই-পেপার</button>
     <button class="nl on" id="nav-comic" onclick="goHome()">🎨 কমিকস</button>
-    <button class="nl" id="nav-weather" onclick="location.href='https://dainikanulipi.github.io/da/weather.html'">🌤️ আবহাওয়া</button>
+    <button class="nl" id="nav-weather" onclick="location.href='https://dainikanulipi.github.io/da/weather.html'">🌤️ <span id="nav-weather-label">আবহাওয়া</span></button>
+    <button class="nl" id="nav-salat" onclick="location.href='https://dainikanulipi.github.io/da/salat.html'">🕌 <span id="nav-salat-label">নামাজের সময়</span></button>
     <button class="nl" id="nav-live" onclick="location.href='https://dainikanulipi.github.io/da/live.html'"><span class="live-dot"></span> <span id="nav-live-txt">লাইভ</span></button>
   </div>
 </nav>
@@ -1687,7 +1688,7 @@ function closeInfoPopup(e){
 // ── LANGUAGE ──
 const PAGE_T = {
   bn:{ home:'অনলাইন সংস্করণ', contact:'যোগাযোগ', ads:'বিজ্ঞাপন',
-    navHome:'🌐 অনলাইন সংস্করণ', navEpaper:'📰 ই-পেপার', navLive:'লাইভ',
+    navHome:'🌐 অনলাইন সংস্করণ', navEpaper:'📰 ই-পেপার', navWeather:'আবহাওয়া', navSalat:'নামাজের সময়', navLive:'লাইভ',
     tagline:'সত্যের সন্ধানে, নির্ভীক প্রকাশে!',
     title:'কমিকস', note:'প্রতিদিন নতুন কমিক স্ট্রিপ আর ছোট্ট এক-প্যানেল কার্টুন — হাসি, পর্যবেক্ষণ আর একটু আড্ডার স্বাদে। শুধু কমিক না, কবিতা, আঁকাআঁকি আর আরও অনেক কিছুই থাকবে এখানে। রাজনীতি নয়, শুধুই জীবনের গল্প।',
     badge:'প্রতিদিন নতুন পর্ব',
@@ -1704,7 +1705,7 @@ const PAGE_T = {
     footerBottom:'দৈনিক অনুলিপি | Dainik Anulipi | The Daily Anulipi — সর্বস্বত্ব সংরক্ষিত ২০২৬',
     loaderText:'কমিক আঁকা হচ্ছে…' },
   en:{ home:'Online Version', contact:'Contact', ads:'Advertise',
-    navHome:'🌐 Online Version', navEpaper:'📰 E-Paper', navLive:'Live',
+    navHome:'🌐 Online Version', navEpaper:'📰 E-Paper', navWeather:'Weather', navSalat:'Prayer Times', navLive:'Live',
     tagline:'In pursuit of truth, In fearless expression!',
     title:'Comics', note:'A new comic strip and one-panel gag cartoons every day — humor, observation, and a bit of adda. Not just comics — poetry, art, and more too, coming soon. No politics, just everyday stories.',
     badge:'New episodes every day',
@@ -1734,6 +1735,8 @@ function applyLangUI(){
 
   document.getElementById('nav-home').textContent = t.navHome;
   document.getElementById('nav-epaper').textContent = t.navEpaper;
+  document.getElementById('nav-weather-label').textContent = t.navWeather;
+  document.getElementById('nav-salat-label').textContent = t.navSalat;
   document.getElementById('nav-live-txt').textContent = t.navLive;
   document.getElementById('nav-comic').innerHTML = `🎨 ${t.title}`;
 
