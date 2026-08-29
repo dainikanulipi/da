@@ -453,7 +453,8 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
     <button class="nl" id="nav-home" onclick="location.href='https://dainikanulipi.github.io/da/'">🌐 অনলাইন সংস্করণ</button>
     <button class="nl on" id="nav-epaper">📰 ই-পেপার</button>
     <button class="nl" id="nav-comic" onclick="location.href='https://dainikanulipi.github.io/da/comic.html'">🎨 কমিকস</button>
-    <button class="nl" id="nav-weather" onclick="location.href='https://dainikanulipi.github.io/da/weather.html'">🌤️ আবহাওয়া</button>
+    <button class="nl" id="nav-weather" onclick="location.href='https://dainikanulipi.github.io/da/weather.html'">🌤️ <span id="nav-weather-label">আবহাওয়া</span></button>
+    <button class="nl" id="nav-salat" onclick="location.href='https://dainikanulipi.github.io/da/salat.html'">🕌 <span id="nav-salat-label">নামাজের সময়</span></button>
     <button class="nl nl-live" id="nav-live" onclick="location.href='https://dainikanulipi.github.io/da/live.html'"><span class="live-dot-ep"></span> <span id="nav-live-label">লাইভ</span></button>
   </div>
 </nav>
@@ -1512,7 +1513,7 @@ var CAT_EN = {'সর্বশেষ':'Latest','জাতীয়':'National','
 var T = {
   bn:{
     home:'অনলাইন সংস্করণ', contact:'যোগাযোগ', ads:'বিজ্ঞাপন',
-    badge:'📰 ই-পেপার', navHome:'🌐 অনলাইন সংস্করণ', navEpaper:'📰 ই-পেপার', navComic:'🎨 কমিকস', navLive:'লাইভ',
+    badge:'📰 ই-পেপার', navHome:'🌐 অনলাইন সংস্করণ', navEpaper:'📰 ই-পেপার', navComic:'🎨 কমিকস', navWeather:'আবহাওয়া', navSalat:'নামাজের সময়', navLive:'লাইভ',
     edLabel:'📅 সংখ্যা:', edBtn:'দেখুন', edToday:'আজ', edPrev:'আগের দিন', edNext:'পরের দিন', shareTitle:'শেয়ার করুন',
     loading:'লোড হচ্ছে…', noEdition:'এই তারিখের সংখ্যা পাওয়া যায়নি।',
     tipsHeading:'ব্যবহার নির্দেশিকা',
@@ -1544,7 +1545,7 @@ var T = {
   },
   en:{
     home:'Online Version', contact:'Contact', ads:'Advertise',
-    badge:'📰 E-Paper', navHome:'🌐 Online Version', navEpaper:'📰 E-Paper', navComic:'🎨 Comics', navLive:'Live',
+    badge:'📰 E-Paper', navHome:'🌐 Online Version', navEpaper:'📰 E-Paper', navComic:'🎨 Comics', navWeather:'Weather', navSalat:'Prayer Times', navLive:'Live',
     edLabel:'📅 Edition:', edBtn:'View', edToday:'Today', edPrev:'Previous day', edNext:'Next day', shareTitle:'Share',
     loading:'Loading…', noEdition:'No edition found for this date.',
     tipsHeading:'How to Use',
@@ -1656,6 +1657,8 @@ function applyLangUI() {
   document.getElementById('nav-home').textContent     = t.navHome;
   document.getElementById('nav-epaper').textContent   = t.navEpaper;
   document.getElementById('nav-comic').textContent    = t.navComic;
+  document.getElementById('nav-weather-label').textContent = t.navWeather;
+  document.getElementById('nav-salat-label').textContent = t.navSalat;
   document.getElementById('nav-live-label').textContent = t.navLive;
   document.getElementById('ed-label').textContent     = t.edLabel;
   document.getElementById('ed-go-btn').textContent    = t.edBtn;
