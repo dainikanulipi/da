@@ -292,6 +292,7 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
     <button class="nl" id="nav-epaper" onclick="location.href='https://dainikanulipi.github.io/da/epaper.html'">📰 <span id="nav-epaper-label">ই-পেপার</span></button>
     <button class="nl" id="nav-comic" onclick="location.href='https://dainikanulipi.github.io/da/comic.html'">🎨 <span id="nav-comic-label">কমিকস</span></button>
     <button class="nl on" id="nav-weather">🌤️ <span id="nav-weather-label">আবহাওয়া</span></button>
+    <button class="nl" id="nav-salat" onclick="location.href='https://dainikanulipi.github.io/da/salat.html'">🕌 <span id="nav-salat-label">নামাজের সময়</span></button>
     <button class="nl" id="nav-live" onclick="location.href='https://dainikanulipi.github.io/da/live.html'"><span class="live-dot"></span> <span id="nav-live-label">লাইভ</span></button>
   </div>
 </nav>
@@ -592,7 +593,7 @@ if(lang==='ar') lang='bn';
 
 var T = {
   bn:{
-    navWeather:'আবহাওয়া', title:'🌤️ আবহাওয়া',
+    navWeather:'আবহাওয়া', navSalat:'নামাজের সময়', title:'🌤️ আবহাওয়া',
     note:'বাংলাদেশের ৬৪ জেলার বর্তমান তাপমাত্রা ও ৭ দিনের পূর্বাভাস — Open-Meteo থেকে সরাসরি।',
     daysH:'৭ দিনের পূর্বাভাস', hoursH:'আজকের ঘণ্টাভিত্তিক পূর্বাভাস',
     humidity:'আর্দ্রতা', wind:'বাতাসের গতি', rain:'বৃষ্টির সম্ভাবনা', sunset:'সূর্যাস্ত',
@@ -615,7 +616,7 @@ var T = {
     catJobs:'চাকরি', catBusiness:'বাণিজ্য', catOpinion:'মতামত', catSpecial:'বিশেষ সংবাদ',
   },
   en:{
-    navWeather:'Weather', title:'🌤️ Weather',
+    navWeather:'Weather', navSalat:'Prayer Times', title:'🌤️ Weather',
     note:"Current conditions and 7-day forecast for all 64 districts of Bangladesh — live from Open-Meteo.",
     daysH:'7-Day Forecast', hoursH:"Today's Hourly Forecast",
     humidity:'Humidity', wind:'Wind Speed', rain:'Chance of Rain', sunset:'Sunset',
@@ -826,6 +827,7 @@ function applyLang(l){
   document.querySelectorAll('.lb').forEach(b=>b.classList.remove('on'));
   document.getElementById('lb-'+l).classList.add('on');
   document.getElementById('nav-weather-label').textContent=s.navWeather;
+  document.getElementById('nav-salat-label').textContent=s.navSalat;
   document.getElementById('nav-home-label').textContent=s.navHome;
   document.getElementById('nav-epaper-label').textContent=s.navEpaper;
   document.getElementById('nav-comic-label').textContent=s.navComic;
