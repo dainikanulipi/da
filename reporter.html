@@ -15,20 +15,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="দৈনিক অনুলিপি — রিপোর্টার তালিকা ও রিপোর্টার হওয়ার আবেদন।" id="meta-desc">
-<title>রিপোর্টার তথ্য | দৈনিক অনুলিপি</title>
+<title>রিপোর্টার তথ্য ও আবেদন | দৈনিক অনুলিপি</title>
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="canonical" href="https://dainikanulipi.github.io/da/reporter-info.html" id="meta-canonical">
 
 <!-- FACEBOOK / OPEN GRAPH SHARING TAGS -->
 <meta property="og:type" content="website" id="meta-og-type">
 <meta property="og:url" content="https://dainikanulipi.github.io/da/reporter-info.html" id="meta-og-url">
-<meta property="og:title" content="রিপোর্টার তথ্য | দৈনিক অনুলিপি" id="meta-og-title">
+<meta property="og:title" content="রিপোর্টার তথ্য ও আবেদন | দৈনিক অনুলিপি" id="meta-og-title">
 <meta property="og:description" content="দৈনিক অনুলিপি — রিপোর্টার তালিকা ও রিপোর্টার হওয়ার আবেদন।" id="meta-og-desc">
 <meta property="og:image" content="https://dainikanulipi.github.io/da/assets/preview.jpg" id="meta-og-img">
 
 <!-- TWITTER/X SHARING TAGS -->
 <meta name="twitter:card" content="summary_large_image" id="meta-tw-card">
-<meta name="twitter:title" content="রিপোর্টার তথ্য | দৈনিক অনুলিপি" id="meta-tw-title">
+<meta name="twitter:title" content="রিপোর্টার তথ্য ও আবেদন | দৈনিক অনুলিপি" id="meta-tw-title">
 <meta name="twitter:description" content="দৈনিক অনুলিপি — রিপোর্টার তালিকা ও রিপোর্টার হওয়ার আবেদন।" id="meta-tw-desc">
 <meta name="twitter:image" content="https://dainikanulipi.github.io/da/assets/preview.jpg" id="meta-tw-img">
 
@@ -274,6 +274,7 @@ html[dir=rtl] .rep-skel-photo,html[dir=rtl] .rep-skel-bar{animation-direction:re
 .rep-form-card{background:var(--sur);border:1px solid var(--bdr);border-top:3px solid var(--red);padding:26px 24px;max-width:640px;margin:0 auto;box-shadow:0 2px 10px var(--shd);}
 .field{margin-bottom:17px;}
 .field label{display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--txt2);font-family:'Noto Sans Bengali',sans-serif;margin-bottom:6px;}
+.req-star{color:#e53935;}
 .field input,.field select,.field textarea{width:100%;background:var(--sur2);border:1px solid var(--bdr);color:var(--txt);padding:11px 13px;font-size:16px;font-family:'Noto Sans Bengali',sans-serif;border-radius:4px;transition:border-color .2s,box-shadow .2s;}
 .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px rgba(200,16,46,.12);}
 .field textarea{resize:vertical;min-height:90px;}
@@ -429,11 +430,11 @@ footer{background:var(--foot);padding:36px 0 0;transition:background .3s;}
     <form id="rep-apply-form" onsubmit="submitApplication(event)">
       <div class="field-row">
         <div class="field">
-          <label id="lbl-name">🧑 পূর্ণ নাম *</label>
+          <label id="lbl-name">🧑 পূর্ণ নাম <span class="req-star">*</span></label>
           <input type="text" id="f-name" required>
         </div>
         <div class="field">
-          <label id="lbl-phone">📞 মোবাইল নম্বর *</label>
+          <label id="lbl-phone">📞 মোবাইল নম্বর <span class="req-star">*</span></label>
           <input type="tel" id="f-phone" required>
         </div>
       </div>
@@ -449,7 +450,7 @@ footer{background:var(--foot);padding:36px 0 0;transition:background .3s;}
       </div>
       <div class="field-row">
         <div class="field">
-          <label id="lbl-area">📍 এলাকা / জেলা *</label>
+          <label id="lbl-area">📍 এলাকা / জেলা <span class="req-star">*</span></label>
           <input type="text" id="f-area" required>
         </div>
         <div class="field">
@@ -475,15 +476,21 @@ footer{background:var(--foot);padding:36px 0 0;transition:background .3s;}
           </select>
         </div>
         <div class="field">
-          <label id="lbl-beat">🗂️ পছন্দের বিভাগ</label>
+          <label id="lbl-beat">🗂️ আগ্রহের বিষয়/বিভাগ</label>
           <select id="f-beat">
             <option value="" id="opt-beat-select">— নির্বাচন করুন —</option>
-            <option value="politics" id="opt-beat-politics">রাজনীতি</option>
-            <option value="sports" id="opt-beat-sports">খেলাধুলা</option>
-            <option value="entertainment" id="opt-beat-entertainment">বিনোদন</option>
-            <option value="tech" id="opt-beat-tech">প্রযুক্তি</option>
-            <option value="local" id="opt-beat-local">স্থানীয় সংবাদ</option>
-            <option value="other" id="opt-beat-other">অন্যান্য</option>
+            <option value="latest" id="opt-beat-latest">সর্বশেষ</option>
+            <option value="national" id="opt-beat-national">জাতীয়</option>
+            <option value="nationwide" id="opt-beat-nationwide">সারাদেশ</option>
+            <option value="special" id="opt-beat-special">বিশেষ সংবাদ</option>
+            <option value="world" id="opt-beat-world">বিশ্ব সংবাদ</option>
+            <option value="business" id="opt-beat-business">বাণিজ্য</option>
+            <option value="economy" id="opt-beat-economy">অর্থনীতি</option>
+            <option value="sports" id="opt-beat-sports">খেলা</option>
+            <option value="entertainment" id="opt-beat-entertainment">আনন্দ সময়</option>
+            <option value="jobs" id="opt-beat-jobs">চাকরি</option>
+            <option value="opinion" id="opt-beat-opinion">মতামত</option>
+            <option value="other" id="opt-beat-other">অন্যান্য বিষয়</option>
           </select>
         </div>
       </div>
@@ -494,7 +501,7 @@ footer{background:var(--foot);padding:36px 0 0;transition:background .3s;}
       </div>
       <button type="submit" class="btn-primary" id="btn-submit">📨 আবেদন জমা দিন</button>
     </form>
-    <p class="form-note" id="form-note">* চিহ্নিত ঘরগুলো পূরণ করা আবশ্যক। আবেদন জমা দেওয়ার অর্থ এই নয় যে আপনি স্বয়ংক্রিয়ভাবে নিযুক্ত হয়েছেন — যাচাইয়ের পর আমরা যোগাযোগ করব।</p>
+    <p class="form-note" id="form-note"><span class="req-star">*</span> চিহ্নিত ঘরগুলো পূরণ করা আবশ্যক। আবেদন জমা দেওয়ার অর্থ এই নয় যে আপনি স্বয়ংক্রিয়ভাবে নিযুক্ত হয়েছেন — যাচাইয়ের পর আমরা যোগাযোগ করব।</p>
   </div>
 </div>
 
@@ -724,12 +731,12 @@ const S = {
     noSearchResults:'কোনো রিপোর্টার পাওয়া যায়নি।',
     verifyNote:'তালিকায় নাম না থাকলে তিনি দৈনিক অনুলিপির অনুমোদিত রিপোর্টার নন। সন্দেহ হলে যোগাযোগ করুন:',
     h2:'আমাদের টিমে যোগ দিতে চান?',p2:'নিচের ফর্মটি পূরণ করে জমা দিন — আমরা তথ্য যাচাই করে আপনার সাথে যোগাযোগ করব।',
-    lblName:'🧑 পূর্ণ নাম *',lblPhone:'📞 মোবাইল নম্বর *',lblEmail:'✉️ ইমেইল',lblAge:'🎂 বয়স',lblArea:'📍 এলাকা / জেলা *',lblEdu:'🎓 শিক্ষাগত যোগ্যতা',lblAvail:'🕒 প্রাপ্যতা',lblExp:'📝 অভিজ্ঞতা ও লেখার কারণ',
+    lblName:'🧑 পূর্ণ নাম <span class="req-star">*</span>',lblPhone:'📞 মোবাইল নম্বর <span class="req-star">*</span>',lblEmail:'✉️ ইমেইল',lblAge:'🎂 বয়স',lblArea:'📍 এলাকা / জেলা <span class="req-star">*</span>',lblEdu:'🎓 শিক্ষাগত যোগ্যতা',lblAvail:'🕒 প্রাপ্যতা',lblExp:'📝 অভিজ্ঞতা ও লেখার কারণ',
     availSelect:'— নির্বাচন করুন —',availFull:'পূর্ণকালীন',availPart:'খণ্ডকালীন',availFreelance:'ফ্রিল্যান্স',
     eduSelect:'— নির্বাচন করুন —',eduSsc:'এসএসসি',eduHsc:'এইচএসসি',eduBachelor:'স্নাতক',eduMaster:'স্নাতকোত্তর',eduOther:'অন্যান্য',
-    lblBeat:'🗂️ পছন্দের বিভাগ',beatSelect:'— নির্বাচন করুন —',beatPolitics:'রাজনীতি',beatSports:'খেলাধুলা',beatEntertainment:'বিনোদন',beatTech:'প্রযুক্তি',beatLocal:'স্থানীয় সংবাদ',beatOther:'অন্যান্য',
+    lblBeat:'🗂️ আগ্রহের বিষয়/বিভাগ',beatSelect:'— নির্বাচন করুন —',beatLatest:'সর্বশেষ',beatNational:'জাতীয়',beatNationwide:'সারাদেশ',beatSpecial:'বিশেষ সংবাদ',beatWorld:'বিশ্ব সংবাদ',beatBusiness:'বাণিজ্য',beatEconomy:'অর্থনীতি',beatSports:'খেলা',beatEntertainment:'আনন্দ সময়',beatJobs:'চাকরি',beatOpinion:'মতামত',beatOther:'অন্যান্য বিষয়',
     hintExp:'পূর্ববর্তী কোনো সংবাদমাধ্যমে কাজের অভিজ্ঞতা থাকলে উল্লেখ করুন (ঐচ্ছিক)।',
-    btnSubmit:'📨 আবেদন জমা দিন',formNote:'* চিহ্নিত ঘরগুলো পূরণ করা আবশ্যক। আবেদন জমা দেওয়ার অর্থ এই নয় যে আপনি স্বয়ংক্রিয়ভাবে নিযুক্ত হয়েছেন — যাচাইয়ের পর আমরা যোগাযোগ করব।',
+    btnSubmit:'📨 আবেদন জমা দিন',formNote:'<span class="req-star">*</span> চিহ্নিত ঘরগুলো পূরণ করা আবশ্যক। আবেদন জমা দেওয়ার অর্থ এই নয় যে আপনি স্বয়ংক্রিয়ভাবে নিযুক্ত হয়েছেন — যাচাইয়ের পর আমরা যোগাযোগ করব।',
     sentText:'আপনার আবেদন গ্রহণ করা হয়েছে। আমরা যাচাই করে শীঘ্রই যোগাযোগ করব।',
     ftCatHeading:'বিভাগ',ftCatDirectory:'রিপোর্টার তালিকা',ftCatJoin:'আমাদের টিমে যোগ দিতে চান?',ftInfoHeading:'তথ্য',ftAbout:'আমাদের সম্পর্কে',ftContact:'যোগাযোগ করুন',ftAdvertise:'বিজ্ঞাপন দিন',ftReporter:'রিপোর্টার পোর্টাল',ftSubmitNews:'সংবাদ পাঠান',ftPrivacy:'গোপনীয়তা নীতি',
     footerInfo:'প্রতিষ্ঠাতা ও প্রকাশক: অনিক অধিকারী<br>প্রতিষ্ঠাতা ও প্রধান সম্পাদক: মো: ফারহান শাহরিয়ার',
@@ -755,12 +762,12 @@ const S = {
     noSearchResults:'No matching reporters found.',
     verifyNote:'If a name is not on this list, that person is not an authorized reporter of Dainik Anulipi. If in doubt, contact us at:',
     h2:'Want to join our team?',p2:'Fill out the form below and submit — we will verify your details and get in touch.',
-    lblName:'🧑 Full Name *',lblPhone:'📞 Mobile Number *',lblEmail:'✉️ Email',lblAge:'🎂 Age',lblArea:'📍 Area / District *',lblEdu:'🎓 Education',lblAvail:'🕒 Availability',lblExp:'📝 Experience & motivation',
+    lblName:'🧑 Full Name <span class="req-star">*</span>',lblPhone:'📞 Mobile Number <span class="req-star">*</span>',lblEmail:'✉️ Email',lblAge:'🎂 Age',lblArea:'📍 Area / District <span class="req-star">*</span>',lblEdu:'🎓 Education',lblAvail:'🕒 Availability',lblExp:'📝 Experience & motivation',
     availSelect:'— Select —',availFull:'Full-time',availPart:'Part-time',availFreelance:'Freelance',
     eduSelect:'— Select —',eduSsc:'SSC',eduHsc:'HSC',eduBachelor:"Bachelor's",eduMaster:"Master's",eduOther:'Other',
-    lblBeat:'🗂️ Preferred Beat',beatSelect:'— Select —',beatPolitics:'Politics',beatSports:'Sports',beatEntertainment:'Entertainment',beatTech:'Technology',beatLocal:'Local News',beatOther:'Other',
+    lblBeat:'🗂️ Area of Interest',beatSelect:'— Select —',beatLatest:'Latest',beatNational:'National',beatNationwide:'Nationwide',beatSpecial:'Special News',beatWorld:'World News',beatBusiness:'Business',beatEconomy:'Economy',beatSports:'Sports',beatEntertainment:'Entertainment',beatJobs:'Jobs',beatOpinion:'Opinion',beatOther:'Other Topics',
     hintExp:'Mention any prior media experience, if applicable (optional).',
-    btnSubmit:'📨 Submit Application',formNote:'* Required fields. Submitting this form does not mean you are automatically hired — we will verify and contact you.',
+    btnSubmit:'📨 Submit Application',formNote:'<span class="req-star">*</span> Required fields. Submitting this form does not mean you are automatically hired — we will verify and contact you.',
     sentText:'Your application has been received. We will verify and get in touch soon.',
     ftCatHeading:'Categories',ftCatDirectory:'Reporter Directory',ftCatJoin:'Want to join our team?',ftInfoHeading:'Information',ftAbout:'About Us',ftContact:'Contact Us',ftAdvertise:'Advertise With Us',ftReporter:'Reporter Portal',ftSubmitNews:'Submit News',ftPrivacy:'Privacy Policy',
     footerInfo:'Founder & Publisher: Anik Adhikari<br>Founder & Editor-in-Chief: Md. Farhan Shahriar',
@@ -936,11 +943,11 @@ function applyLang(l){
   document.getElementById('h2-title').textContent = s.h2;
   document.getElementById('p2-intro').textContent = s.p2;
 
-  document.getElementById('lbl-name').textContent = s.lblName;
-  document.getElementById('lbl-phone').textContent = s.lblPhone;
+  document.getElementById('lbl-name').innerHTML = s.lblName;
+  document.getElementById('lbl-phone').innerHTML = s.lblPhone;
   document.getElementById('lbl-email').textContent = s.lblEmail;
   document.getElementById('lbl-age').textContent = s.lblAge;
-  document.getElementById('lbl-area').textContent = s.lblArea;
+  document.getElementById('lbl-area').innerHTML = s.lblArea;
   document.getElementById('lbl-edu').textContent = s.lblEdu;
   document.getElementById('lbl-avail').textContent = s.lblAvail;
   document.getElementById('lbl-exp').textContent = s.lblExp;
@@ -956,15 +963,21 @@ function applyLang(l){
   document.getElementById('opt-edu-other').textContent = s.eduOther;
   document.getElementById('lbl-beat').textContent = s.lblBeat;
   document.getElementById('opt-beat-select').textContent = s.beatSelect;
-  document.getElementById('opt-beat-politics').textContent = s.beatPolitics;
+  document.getElementById('opt-beat-latest').textContent = s.beatLatest;
+  document.getElementById('opt-beat-national').textContent = s.beatNational;
+  document.getElementById('opt-beat-nationwide').textContent = s.beatNationwide;
+  document.getElementById('opt-beat-special').textContent = s.beatSpecial;
+  document.getElementById('opt-beat-world').textContent = s.beatWorld;
+  document.getElementById('opt-beat-business').textContent = s.beatBusiness;
+  document.getElementById('opt-beat-economy').textContent = s.beatEconomy;
   document.getElementById('opt-beat-sports').textContent = s.beatSports;
   document.getElementById('opt-beat-entertainment').textContent = s.beatEntertainment;
-  document.getElementById('opt-beat-tech').textContent = s.beatTech;
-  document.getElementById('opt-beat-local').textContent = s.beatLocal;
+  document.getElementById('opt-beat-jobs').textContent = s.beatJobs;
+  document.getElementById('opt-beat-opinion').textContent = s.beatOpinion;
   document.getElementById('opt-beat-other').textContent = s.beatOther;
   document.getElementById('hint-exp').textContent = s.hintExp;
   document.getElementById('btn-submit').textContent = s.btnSubmit;
-  document.getElementById('form-note').textContent = s.formNote;
+  document.getElementById('form-note').innerHTML = s.formNote;
   document.getElementById('sent-text').textContent = s.sentText;
 
   document.getElementById('footer-tagline').textContent = s.tagline;
