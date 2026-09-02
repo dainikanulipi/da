@@ -100,6 +100,29 @@ a{text-decoration:none;color:inherit;}
 .form-card{background:var(--sur);padding:24px;margin-bottom:16px;transition:background .3s;}
 .form-card h3{font-family:'Noto Serif Bengali',serif;font-size:19px;font-weight:700;margin-bottom:18px;padding-bottom:11px;border-bottom:2px solid var(--red);}
 
+/* RESOURCES / TEMPLATE DOWNLOADS */
+.res-card{background:var(--sur);padding:24px;margin-bottom:16px;transition:background .3s;}
+.res-card h3{font-family:'Noto Serif Bengali',serif;font-size:19px;font-weight:700;margin-bottom:18px;padding-bottom:11px;border-bottom:2px solid var(--red);}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;}
+.res-item{border:1px solid var(--bdr);padding:14px;display:flex;flex-direction:column;gap:10px;transition:border-color .2s,background .3s;background:var(--sur2);}
+.res-item:hover{border-color:var(--red);}
+.res-item-top{display:flex;align-items:center;gap:10px;}
+.res-icon{font-size:26px;flex-shrink:0;width:36px;text-align:center;}
+.res-name{font-weight:700;font-size:13.5px;line-height:1.3;}
+.res-meta{font-size:11px;color:var(--txt3);margin-top:2px;}
+.res-dl{background:var(--red);color:#fff;text-align:center;padding:8px;font-size:12.5px;font-weight:700;border:none;cursor:pointer;transition:background .2s;display:block;}
+.res-dl:hover{background:var(--dkred);}
+.res-card{padding:0;overflow:hidden;border:1px solid var(--bdr);}
+.res-card h3{display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;user-select:none;margin:0;padding:16px 20px;border-bottom:none;background:var(--sur2);}
+.res-card h3 .res-chev{font-size:13px;color:#fff;background:var(--red);width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform .25s;flex-shrink:0;}
+.res-card.open h3{border-bottom:2px solid var(--red);}
+.res-card.open h3 .res-chev{transform:rotate(180deg);}
+.res-card h3 .res-hint{font-size:11px;font-weight:600;color:var(--txt3);margin-right:auto;margin-left:10px;}
+.res-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .25s ease;}
+.res-card.open .res-body{grid-template-rows:1fr;}
+.res-body-in{overflow:hidden;}
+.res-body-in .res-grid{padding:20px;}
+
 /* LANG TABS */
 .lang-tabs{display:flex;gap:0;margin-bottom:0;border-bottom:2px solid var(--bdr);overflow-x:auto;scrollbar-width:none;}
 .lang-tabs::-webkit-scrollbar{display:none;}
@@ -361,6 +384,59 @@ a{text-decoration:none;color:inherit;}
 
     <div class="status" id="status"></div>
     <div id="side-toast"><span class="st-spin"></span><span id="side-toast-msg"></span></div>
+
+    <!-- RESOURCES / TEMPLATE DOWNLOADS -->
+    <div class="res-card open" id="res-card">
+      <h3 onclick="document.getElementById('res-card').classList.toggle('open')">
+        <span>📥 টেমপ্লেট ও রিসোর্স ডাউনলোড</span>
+        <span class="res-hint">দেখতে ক্লিক করুন</span>
+        <span class="res-chev">▾</span>
+      </h3>
+      <div class="res-body"><div class="res-body-in">
+      <div class="res-grid">
+        <div class="res-item">
+          <div class="res-item-top">
+            <div class="res-icon">🖌️</div>
+            <div>
+              <div class="res-name">ফটোকার্ড টেমপ্লেট</div>
+              <div class="res-meta">PSD · Photoshop</div>
+            </div>
+          </div>
+          <a class="res-dl" href="https://drive.google.com/file/d/15v3FEAyJh1lkSnAz8GNo_yj19xOEIdzn/view?usp=sharing" target="_blank" rel="noopener">⬇ ডাউনলোড (PSD)</a>
+        </div>
+        <div class="res-item">
+          <div class="res-item-top">
+            <div class="res-icon">📐</div>
+            <div>
+              <div class="res-name">ফটোকার্ড টেমপ্লেট</div>
+              <div class="res-meta">EPS · Illustrator</div>
+            </div>
+          </div>
+          <a class="res-dl" href="https://drive.google.com/file/d/1yaoRKUCT5wy_HvR98QeJDeCCV2QDKo-A/view?usp=sharing" target="_blank" rel="noopener">⬇ ডাউনলোড (EPS)</a>
+        </div>
+        <div class="res-item">
+          <div class="res-item-top">
+            <div class="res-icon">🖼️</div>
+            <div>
+              <div class="res-name">ফটোকার্ড টেমপ্লেট</div>
+              <div class="res-meta">PNG · প্রিভিউ / রেডি</div>
+            </div>
+          </div>
+          <a class="res-dl" href="https://drive.google.com/file/d/1mgsjvtk7ykI3n6UT4vUThMXZmCGQYHJF/view?usp=sharing" target="_blank" rel="noopener">⬇ ডাউনলোড (PNG)</a>
+        </div>
+        <div class="res-item">
+          <div class="res-item-top">
+            <div class="res-icon">🔤</div>
+            <div>
+              <div class="res-name">অফিসিয়াল ফন্ট প্যাক</div>
+              <div class="res-meta">ZIP · TTF / OTF</div>
+            </div>
+          </div>
+          <a class="res-dl" href="https://drive.google.com/file/d/1bb9ShGpbjxVjU4xs0CgPJo90miqjoya-/view?usp=sharing" target="_blank" rel="noopener">⬇ ডাউনলোড (ফন্ট)</a>
+        </div>
+      </div>
+      </div></div>
+    </div>
 
     <!-- FORM -->
     <div class="form-card">
