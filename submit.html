@@ -206,6 +206,9 @@ a{text-decoration:none;color:inherit;}
 .ri-info .rt{font-family:'Noto Serif Bengali',serif;font-size:13.5px;font-weight:600;}
 .ri-info .rte{font-size:12px;color:var(--txt2);margin-top:1px;}
 .ri-info .rm{font-size:11px;color:var(--txt3);margin-top:2px;}
+.ri-copy{background:var(--sur2);border:1px solid var(--bdr);padding:4px 10px;font-size:11px;font-weight:700;font-family:'Noto Sans Bengali',sans-serif;color:var(--txt2);cursor:pointer;white-space:nowrap;flex-shrink:0;margin-top:2px;margin-left:auto;transition:all .2s;}
+.ri-copy:hover{border-color:var(--red);color:var(--red);}
+.ri-copy.done{background:var(--green);border-color:var(--green);color:#fff;}
 
 /* ── RESPONSIVE ── */
 
@@ -526,6 +529,7 @@ a{text-decoration:none;color:inherit;}
 // ══════════════════════════════
 const CFG = {
   SUBMIT_URL: 'https://script.google.com/macros/s/AKfycbwa_yb4jqA8AaBmYgo7K9eOhEReA2I_H1Pz4SaeUW9x810TNQXCzE9byqBGNf4eeURb/exec',
+  SITE_URL:   'https://dainikanulipi.github.io/da/',
   PASSWORD:   '@DA_Submit_26@',      // ← change this!
   IMGBB_KEY:  '1047ea7cf0739f560f24adc8b645cfe1', // ← free at imgbb.com/api
 };
@@ -770,8 +774,22 @@ function loadRecent(){
   const data=JSON.parse(localStorage.getItem('anulipi_submitted')||'[]');
   if(!data.length)return;
   document.getElementById('recent-sec').style.display='block';
-  document.getElementById('recent-list').innerHTML=data.slice(0,8).map(d=>
-    `<div class="ri"><span class="rc">${d.category}</span><div class="ri-info"><div class="rt">${d.titleBn}</div><div class="rte">${d.titleEn||''}</div><div class="rm">${d.date} | ${d.author}</div></div></div>`).join('');
+  document.getElementById('recent-list').innerHTML=data.slice(0,8).map((d,i)=>
+    `<div class="ri"><span class="rc">${d.category}</span><div class="ri-info"><div class="rt">${d.titleBn}</div><div class="rte">${d.titleEn||''}</div><div class="rm">${d.date} | ${d.author}</div></div>${d.slug?`<button class="ri-copy" onclick="copyArtLink('${d.slug}',this)">🔗 লিংক কপি</button>`:''}</div>`).join('');
+}
+function copyArtLink(slug,btn){
+  const url=CFG.SITE_URL? (CFG.SITE_URL+'#article/'+slug) : (location.href.replace(/submit\.html.*$/,'')+'index.html#article/'+slug);
+  const done=()=>{const old=btn.textContent;btn.textContent='✅ কপি হয়েছে';btn.classList.add('done');setTimeout(()=>{btn.textContent=old;btn.classList.remove('done');},1800);};
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(url).then(done).catch(()=>fallbackCopy(url,done));
+  } else fallbackCopy(url,done);
+}
+function fallbackCopy(text,cb){
+  const ta=document.createElement('textarea');
+  ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');}catch(e){}
+  document.body.removeChild(ta);cb&&cb();
 }
 function saveRecent(art){
   const data=JSON.parse(localStorage.getItem('anulipi_submitted')||'[]');
@@ -856,7 +874,7 @@ async function submitArt(){
 
   if(CFG.SUBMIT_URL==='YOUR_APPS_SCRIPT_WEB_APP_URL_HERE'){
     showStatus('ok','✅ সংবাদ সংরক্ষিত (ডেমো — Sheets-এ যায়নি)।');
-    saveRecent({titleBn,titleEn,category:cat,date,author});
+    saveRecent({titleBn,titleEn,category:cat,date,author,slug:curSlug});
     resetForm(); return;
   }
 
@@ -868,7 +886,7 @@ async function submitArt(){
     const json=await res.json();
     if(json.success){
       showStatus('ok','✅ সংবাদ সফলভাবে জমা হয়েছে!');
-      saveRecent({titleBn,titleEn,category:cat,date,author});
+      saveRecent({titleBn,titleEn,category:cat,date,author,slug:curSlug});
       resetForm();
     } else showStatus('err','❌ '+(json.error||'অজানা ত্রুটি'));
   }catch(e){showStatus('err','❌ নেটওয়ার্ক সমস্যা: '+e.message);}
