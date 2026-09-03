@@ -420,7 +420,7 @@ a{text-decoration:none;color:inherit;}
               <div class="res-meta">PSD · Photoshop</div>
             </div>
           </div>
-          <button type="button" class="res-dl" onclick="requestDownload('https://drive.google.com/file/d/15v3FEAyJh1lkSnAz8GNo_yj19xOEIdzn/view?usp=sharing','ফটোকার্ড টেমপ্লেট (PSD)')">⬇ ডাউনলোড (PSD)</button>
+          <button type="button" class="res-dl" onclick="requestDownload('https://drive.google.com/uc?export=download&id=15v3FEAyJh1lkSnAz8GNo_yj19xOEIdzn','ফটোকার্ড টেমপ্লেট (PSD)')">⬇ ডাউনলোড (PSD)</button>
         </div>
         <div class="res-item">
           <div class="res-item-top">
@@ -430,7 +430,7 @@ a{text-decoration:none;color:inherit;}
               <div class="res-meta">EPS · Illustrator</div>
             </div>
           </div>
-          <button type="button" class="res-dl" onclick="requestDownload('https://drive.google.com/file/d/1yaoRKUCT5wy_HvR98QeJDeCCV2QDKo-A/view?usp=sharing','ফটোকার্ড টেমপ্লেট (EPS)')">⬇ ডাউনলোড (EPS)</button>
+          <button type="button" class="res-dl" onclick="requestDownload('https://drive.google.com/uc?export=download&id=1yaoRKUCT5wy_HvR98QeJDeCCV2QDKo-A','ফটোকার্ড টেমপ্লেট (EPS)')">⬇ ডাউনলোড (EPS)</button>
         </div>
         <div class="res-item">
           <div class="res-item-top">
@@ -440,7 +440,7 @@ a{text-decoration:none;color:inherit;}
               <div class="res-meta">PNG · প্রিভিউ / রেডি</div>
             </div>
           </div>
-          <button type="button" class="res-dl" onclick="requestDownload('https://drive.google.com/file/d/1mgsjvtk7ykI3n6UT4vUThMXZmCGQYHJF/view?usp=sharing','ফটোকার্ড টেমপ্লেট (PNG)')">⬇ ডাউনলোড (PNG)</button>
+          <button type="button" class="res-dl" onclick="requestDownload('https://drive.google.com/uc?export=download&id=1mgsjvtk7ykI3n6UT4vUThMXZmCGQYHJF','ফটোকার্ড টেমপ্লেট (PNG)')">⬇ ডাউনলোড (PNG)</button>
         </div>
         <div class="res-item">
           <div class="res-item-top">
@@ -450,7 +450,7 @@ a{text-decoration:none;color:inherit;}
               <div class="res-meta">ZIP · TTF / OTF</div>
             </div>
           </div>
-          <button type="button" class="res-dl" onclick="requestDownload('https://drive.google.com/file/d/1bb9ShGpbjxVjU4xs0CgPJo90miqjoya-/view?usp=sharing','অফিসিয়াল ফন্ট প্যাক (ZIP)')">⬇ ডাউনলোড (ফন্ট)</button>
+          <button type="button" class="res-dl" onclick="requestDownload('https://drive.google.com/uc?export=download&id=1bb9ShGpbjxVjU4xs0CgPJo90miqjoya-','অফিসিয়াল ফন্ট প্যাক (ZIP)')">⬇ ডাউনলোড (ফন্ট)</button>
         </div>
       </div>
       </div></div>
@@ -665,13 +665,18 @@ function logout(){ sessionStorage.removeItem(SESS); location.reload(); }
 // ── DOWNLOAD PASSKEY GATE ──
 let pendingDlUrl='';
 const DL_SESS='anulipi_dl_ok';
+function triggerFileDownload(url){
+  const a=document.createElement('a');
+  a.href=url; a.download=''; a.rel='noopener';
+  document.body.appendChild(a); a.click(); a.remove();
+}
 function requestDownload(url,label){
   pendingDlUrl=url;
   document.getElementById('dl-modal-label').textContent='"'+label+'" ডাউনলোড করতে পাসকী দিন।';
   document.getElementById('dl-err').style.display='none';
   document.getElementById('dl-pass').value='';
   document.getElementById('dl-modal').classList.add('show');
-  if(sessionStorage.getItem(DL_SESS)==='1'){ closeDlModal(); window.open(url,'_blank','noopener'); return; }
+  if(sessionStorage.getItem(DL_SESS)==='1'){ closeDlModal(); triggerFileDownload(url); return; }
   setTimeout(()=>document.getElementById('dl-pass').focus(),50);
 }
 function closeDlModal(){ document.getElementById('dl-modal').classList.remove('show'); pendingDlUrl=''; }
@@ -681,7 +686,7 @@ function confirmDownload(){
     sessionStorage.setItem(DL_SESS,'1');
     const url=pendingDlUrl;
     closeDlModal();
-    window.open(url,'_blank','noopener');
+    triggerFileDownload(url);
   } else {
     document.getElementById('dl-err').style.display='block';
   }
