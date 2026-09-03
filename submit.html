@@ -115,8 +115,21 @@ a{text-decoration:none;color:inherit;}
 .res-icon{font-size:26px;flex-shrink:0;width:36px;text-align:center;}
 .res-name{font-weight:700;font-size:13.5px;line-height:1.3;}
 .res-meta{font-size:11px;color:var(--txt3);margin-top:2px;}
-.res-dl{background:var(--red);color:#fff;text-align:center;padding:8px;font-size:12.5px;font-weight:700;border:none;cursor:pointer;transition:background .2s;display:block;}
+.res-dl{background:var(--red);color:#fff;text-align:center;padding:8px;font-size:12.5px;font-weight:700;border:none;cursor:pointer;transition:background .2s;display:block;width:100%;font-family:inherit;}
 .res-dl:hover{background:var(--dkred);}
+
+/* DOWNLOAD PASSKEY MODAL */
+#dl-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9998;align-items:center;justify-content:center;padding:16px;}
+#dl-modal.show{display:flex;}
+.dl-card{background:var(--sur);padding:30px 26px;width:100%;max-width:360px;border-top:4px solid var(--red);text-align:center;}
+.dl-card .lock-icon{font-size:34px;margin-bottom:10px;}
+.dl-card h3{font-family:'Noto Serif Bengali',serif;font-size:18px;font-weight:700;margin-bottom:5px;}
+.dl-card p{font-size:12.5px;color:var(--txt2);margin-bottom:16px;line-height:1.6;word-break:break-word;}
+.dl-card .lock-err{color:var(--red);font-size:12.5px;margin-top:6px;display:none;}
+.dl-actions{display:flex;gap:8px;margin-top:4px;}
+.dl-actions .lbtn{flex:1;}
+.dl-cancel{background:var(--sur3);color:var(--txt);}
+.dl-cancel:hover{background:var(--bdr);}
 .res-card{padding:0;overflow:hidden;border:1px solid var(--bdr);}
 .res-card h3{display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;user-select:none;margin:0;padding:16px 20px;border-bottom:none;background:var(--sur2);}
 .res-card h3 .res-chev{font-size:13px;color:#fff;background:var(--red);width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform .25s;flex-shrink:0;}
@@ -391,7 +404,7 @@ a{text-decoration:none;color:inherit;}
     <div id="side-toast"><span class="st-spin"></span><span id="side-toast-msg"></span></div>
 
     <!-- RESOURCES / TEMPLATE DOWNLOADS -->
-    <div class="res-card open" id="res-card">
+    <div class="res-card" id="res-card">
       <h3 onclick="document.getElementById('res-card').classList.toggle('open')">
         <span>📥 টেমপ্লেট ও রিসোর্স ডাউনলোড</span>
         <span class="res-hint">দেখতে ক্লিক করুন</span>
@@ -407,7 +420,7 @@ a{text-decoration:none;color:inherit;}
               <div class="res-meta">PSD · Photoshop</div>
             </div>
           </div>
-          <a class="res-dl" href="https://drive.google.com/file/d/15v3FEAyJh1lkSnAz8GNo_yj19xOEIdzn/view?usp=sharing" target="_blank" rel="noopener">⬇ ডাউনলোড (PSD)</a>
+          <button type="button" class="res-dl" onclick="requestDownload('https://drive.google.com/file/d/15v3FEAyJh1lkSnAz8GNo_yj19xOEIdzn/view?usp=sharing','ফটোকার্ড টেমপ্লেট (PSD)')">⬇ ডাউনলোড (PSD)</button>
         </div>
         <div class="res-item">
           <div class="res-item-top">
@@ -417,7 +430,7 @@ a{text-decoration:none;color:inherit;}
               <div class="res-meta">EPS · Illustrator</div>
             </div>
           </div>
-          <a class="res-dl" href="https://drive.google.com/file/d/1yaoRKUCT5wy_HvR98QeJDeCCV2QDKo-A/view?usp=sharing" target="_blank" rel="noopener">⬇ ডাউনলোড (EPS)</a>
+          <button type="button" class="res-dl" onclick="requestDownload('https://drive.google.com/file/d/1yaoRKUCT5wy_HvR98QeJDeCCV2QDKo-A/view?usp=sharing','ফটোকার্ড টেমপ্লেট (EPS)')">⬇ ডাউনলোড (EPS)</button>
         </div>
         <div class="res-item">
           <div class="res-item-top">
@@ -427,7 +440,7 @@ a{text-decoration:none;color:inherit;}
               <div class="res-meta">PNG · প্রিভিউ / রেডি</div>
             </div>
           </div>
-          <a class="res-dl" href="https://drive.google.com/file/d/1mgsjvtk7ykI3n6UT4vUThMXZmCGQYHJF/view?usp=sharing" target="_blank" rel="noopener">⬇ ডাউনলোড (PNG)</a>
+          <button type="button" class="res-dl" onclick="requestDownload('https://drive.google.com/file/d/1mgsjvtk7ykI3n6UT4vUThMXZmCGQYHJF/view?usp=sharing','ফটোকার্ড টেমপ্লেট (PNG)')">⬇ ডাউনলোড (PNG)</button>
         </div>
         <div class="res-item">
           <div class="res-item-top">
@@ -437,10 +450,25 @@ a{text-decoration:none;color:inherit;}
               <div class="res-meta">ZIP · TTF / OTF</div>
             </div>
           </div>
-          <a class="res-dl" href="https://drive.google.com/file/d/1bb9ShGpbjxVjU4xs0CgPJo90miqjoya-/view?usp=sharing" target="_blank" rel="noopener">⬇ ডাউনলোড (ফন্ট)</a>
+          <button type="button" class="res-dl" onclick="requestDownload('https://drive.google.com/file/d/1bb9ShGpbjxVjU4xs0CgPJo90miqjoya-/view?usp=sharing','অফিসিয়াল ফন্ট প্যাক (ZIP)')">⬇ ডাউনলোড (ফন্ট)</button>
         </div>
       </div>
       </div></div>
+    </div>
+
+    <!-- DOWNLOAD PASSKEY MODAL -->
+    <div id="dl-modal">
+      <div class="dl-card">
+        <div class="lock-icon">🔑</div>
+        <h3>পাসকী দিন</h3>
+        <p id="dl-modal-label">এই ফাইলটি ডাউনলোড করতে পাসকী দিন।</p>
+        <input class="fi" type="password" id="dl-pass" placeholder="পাসকী" onkeydown="if(event.key==='Enter')confirmDownload()">
+        <div class="dl-actions">
+          <button class="lbtn dl-cancel" onclick="closeDlModal()">বাতিল</button>
+          <button class="lbtn" onclick="confirmDownload()">ডাউনলোড</button>
+        </div>
+        <div class="lock-err" id="dl-err">❌ পাসকী ভুল।</div>
+      </div>
     </div>
 
     <!-- FORM -->
@@ -612,6 +640,7 @@ const CFG = {
   SUBMIT_URL: 'https://script.google.com/macros/s/AKfycbwa_yb4jqA8AaBmYgo7K9eOhEReA2I_H1Pz4SaeUW9x810TNQXCzE9byqBGNf4eeURb/exec',
   SITE_URL:   'https://dainikanulipi.github.io/da/',
   PASSWORD:   '@DA_Submit_26@',      // ← change this!
+  DOWNLOAD_PASSKEY: 'ekMvphEwcsEIgxQLU84YZqPqdObqRG8Z', // ← change this! passkey required to download resources
   IMGBB_KEY:  '1047ea7cf0739f560f24adc8b645cfe1', // ← free at imgbb.com/api
 };
 // ══════════════════════════════
@@ -632,6 +661,31 @@ function login(){
   else document.getElementById('lock-err').style.display='block';
 }
 function logout(){ sessionStorage.removeItem(SESS); location.reload(); }
+
+// ── DOWNLOAD PASSKEY GATE ──
+let pendingDlUrl='';
+const DL_SESS='anulipi_dl_ok';
+function requestDownload(url,label){
+  pendingDlUrl=url;
+  document.getElementById('dl-modal-label').textContent='"'+label+'" ডাউনলোড করতে পাসকী দিন।';
+  document.getElementById('dl-err').style.display='none';
+  document.getElementById('dl-pass').value='';
+  document.getElementById('dl-modal').classList.add('show');
+  if(sessionStorage.getItem(DL_SESS)==='1'){ closeDlModal(); window.open(url,'_blank','noopener'); return; }
+  setTimeout(()=>document.getElementById('dl-pass').focus(),50);
+}
+function closeDlModal(){ document.getElementById('dl-modal').classList.remove('show'); pendingDlUrl=''; }
+function confirmDownload(){
+  const pass=document.getElementById('dl-pass').value;
+  if(pass===CFG.DOWNLOAD_PASSKEY){
+    sessionStorage.setItem(DL_SESS,'1');
+    const url=pendingDlUrl;
+    closeDlModal();
+    window.open(url,'_blank','noopener');
+  } else {
+    document.getElementById('dl-err').style.display='block';
+  }
+}
 function showPortal(name){
   document.getElementById('lock').style.display='none';
   document.getElementById('portal').style.display='block';
