@@ -118,7 +118,7 @@ button{font-family:inherit;cursor:pointer;}
 .mast .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
 .logo{cursor:pointer;flex-shrink:0;}
 .logo-tag{font-size:12.5px;color:var(--txt2);font-style:italic;margin-top:3px;}
-.logo-img{height:62px;width:auto;max-width:177px;object-fit:contain;display:block;}
+.logo-img{height:78px;width:auto;max-width:220px;object-fit:contain;display:block;}
 .logo-img-light{display:block;}
 .logo-img-dark{display:none;}
 [data-theme=dark] .logo-img-light{display:none;}
@@ -146,8 +146,15 @@ button{font-family:inherit;cursor:pointer;}
 /* PAGE LAYOUT */
 .sl-page{padding:20px 0 0;}
 .sl-head{background:var(--sur);border:1px solid var(--bdr);border-top:3px solid var(--red);padding:14px 16px;margin-bottom:14px;box-shadow:0 1px 6px var(--shd);}
+.sl-head-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap;}
 .sl-head h1{font-size:19px;font-weight:700;color:var(--txt);display:flex;align-items:center;gap:9px;}
 .sl-note{font-size:12.5px;color:var(--txt3);font-family:'Noto Sans Bengali',sans-serif;margin-top:6px;line-height:1.7;}
+.sl-dl-btn{flex-shrink:0;display:flex;align-items:center;gap:7px;background:linear-gradient(135deg,var(--sky1),var(--sky2));color:#fff;border:none;padding:10px 16px;border-radius:8px;font-family:'Noto Sans Bengali',sans-serif;font-size:13px;font-weight:700;box-shadow:0 2px 10px rgba(0,0,0,.18);transition:transform .15s,box-shadow .15s,opacity .15s;}
+.sl-dl-btn:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,0,0,.25);}
+.sl-dl-btn:active{transform:translateY(0);}
+.sl-dl-btn:disabled{opacity:.65;cursor:default;transform:none;}
+.sl-dl-btn .sl-dl-ic{font-size:15px;line-height:1;}
+@media(max-width:480px){.sl-dl-btn{width:100%;justify-content:center;}}
 
 /* DISTRICT TREE PICKER */
 .sl-picker{position:relative;margin:14px 0 2px;}
@@ -314,7 +321,7 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
   .topbar-r{justify-content:center;}
   .mast .wrap{flex-direction:column;align-items:flex-start;gap:8px;}
   .mast-r{align-self:flex-end;}
-  .logo-img{height:50px;}
+  .logo-img{height:60px;}
   .nav .wrap{gap:0;}
   .nl{font-size:12px;padding:9px 10px;}
   .sl-hero-count{font-size:26px;}
@@ -409,8 +416,15 @@ footer{background:var(--foot);color:#fff;padding:32px 0 0;transition:background 
   <div class="wrap">
 
     <div class="sl-head">
-      <h1 id="sl-title">🕌 নামাজের সময়সূচী</h1>
-      <p class="sl-note" id="sl-note">বাংলাদেশের ৬৪ জেলার নামাজের সময়সূচী, সেহরি ও ইফতারের সময়সহ — সরাসরি হিসাব করা।</p>
+      <div class="sl-head-top">
+        <div>
+          <h1 id="sl-title">🕌 নামাজের সময়সূচী</h1>
+          <p class="sl-note" id="sl-note">বাংলাদেশের ৬৪ জেলার নামাজের সময়সূচী, সেহরি ও ইফতারের সময়সহ — সরাসরি হিসাব করা।</p>
+        </div>
+        <button class="sl-dl-btn" id="sl-dl-btn" onclick="downloadTimetableImage()">
+          <span class="sl-dl-ic">📥</span><span id="sl-dl-btn-label">আজকের সময়সূচী ডাউনলোড</span>
+        </button>
+      </div>
     </div>
 
     <!-- DISTRICT TREE PICKER -->
@@ -718,6 +732,10 @@ var T = {
     catLatest:'সর্বশেষ', catEconomy:'অর্থনীতি', catNational:'জাতীয়', catSports:'খেলা',
     catCountry:'সারাদেশ', catEntertainment:'আনন্দ সময়', catWorld:'বিশ্ব সংবাদ',
     catJobs:'চাকরি', catBusiness:'বাণিজ্য', catOpinion:'মতামত', catSpecial:'বিশেষ সংবাদ',
+    dlBtn:'আজকের সময়সূচী ডাউনলোড', dlGenerating:'তৈরি হচ্ছে…',
+    dlMethod:'গণনার পদ্ধতি: University of Islamic Sciences, Karachi', dlGenerated:'তৈরির সময়',
+    dlErr:'ছবি তৈরি করা যায়নি, একটু পর আবার চেষ্টা করুন।',
+    dlWait:'সময়সূচী এখনও লোড হচ্ছে, কয়েক সেকেন্ড পর আবার চেষ্টা করুন।',
   },
   en:{
     navWeather:'Weather', navSalat:'Prayer Times', title:'🕌 Prayer Times',
@@ -742,6 +760,10 @@ var T = {
     catLatest:'Latest', catEconomy:'Economy', catNational:'National', catSports:'Sports',
     catCountry:'Nationwide', catEntertainment:'Entertainment', catWorld:'World News',
     catJobs:'Jobs', catBusiness:'Business', catOpinion:'Opinion', catSpecial:'Special News',
+    dlBtn:"Download Today's Timetable", dlGenerating:'Generating…',
+    dlMethod:'Method: University of Islamic Sciences, Karachi', dlGenerated:'Generated at',
+    dlErr:'Could not generate the image, please try again shortly.',
+    dlWait:'Prayer times are still loading — please try again in a few seconds.',
   }
 };
 
@@ -931,6 +953,7 @@ function applyLang(l){
   document.documentElement.setAttribute('lang',l);
   document.querySelectorAll('.lb').forEach(b=>b.classList.remove('on'));
   document.getElementById('lb-'+l).classList.add('on');
+  document.getElementById('sl-dl-btn-label').textContent=s.dlBtn;
   document.getElementById('nav-salat-label').textContent=s.navSalat;
   document.getElementById('nav-weather-label').textContent=s.navWeather;
   document.getElementById('nav-home-label').textContent=s.navHome;
@@ -1048,10 +1071,17 @@ function renderChips(){
   });
 }
 // close the tree panel when clicking outside it
+// NOTE: must run in the CAPTURE phase. Clicks on a division header or a
+// district item call renderChips(), which rebuilds the whole panel
+// (panel.innerHTML=''), detaching the very node that was clicked. If this
+// check ran in the normal bubble phase, by the time it fired the clicked
+// node would already be removed from the DOM, so picker.contains(e.target)
+// would wrongly return false and slam the picker shut on every click inside
+// it. Running in capture means this check happens before that rebuild.
 document.addEventListener('click', (e)=>{
   const picker = document.getElementById('sl-picker');
   if(picker && !picker.contains(e.target)) closePicker();
-});
+}, true);
 
 // ── LIVE STATUS DETECTION ──
 // Silently checks whether the YouTube channel is actually streaming right
@@ -1146,20 +1176,38 @@ async function loadTimings(cityId){
   document.getElementById('sl-hero-next-name').textContent = T[lang].loading;
 
   const now = new Date();
-  const dateStr = `${String(now.getDate()).padStart(2,'0')}-${String(now.getMonth()+1).padStart(2,'0')}-${now.getFullYear()}`;
+  // Use Bangladesh's own calendar date (not the visitor's local date) so the
+  // right day's timings are requested even for viewers outside Asia/Dhaka,
+  // especially near local midnight.
+  const bd = dhakaTodayYMD();
+  const dateStr = `${String(bd.d).padStart(2,'0')}-${String(bd.m).padStart(2,'0')}-${bd.y}`;
   // method=1 → University of Islamic Sciences, Karachi (commonly used across Bangladesh)
-  const url = `https://api.aladhan.com/v1/timings/${dateStr}?latitude=${city.lat}&longitude=${city.lon}&method=1`;
+  // timezonestring is pinned explicitly so the API always returns Bangladesh
+  // clock time (UTC+6), instead of relying on its own auto-detection from lat/lon.
+  const url = `https://api.aladhan.com/v1/timings/${dateStr}?latitude=${city.lat}&longitude=${city.lon}&method=1&timezonestring=Asia/Dhaka`;
+
+  // one retry with a fresh timeout — a single slow/dropped request on a flaky
+  // mobile connection shouldn't leave the page stuck on an error state
+  async function fetchTimings(){
+    const ctrl = new AbortController();
+    const t = setTimeout(()=>ctrl.abort(), 5000);
+    try{
+      const res = await fetch(url, {signal: ctrl.signal});
+      if(!res.ok) throw new Error('bad response');
+      return await res.json();
+    } finally { clearTimeout(t); }
+  }
 
   try{
-    const ctrl = new AbortController();
-    const t = setTimeout(()=>ctrl.abort(), 4000);
-    const res = await fetch(url, {signal: ctrl.signal});
-    clearTimeout(t);
-    if(!res.ok) throw new Error('bad response');
-    const json = await res.json();
+    let json;
+    try{
+      json = await fetchTimings();
+    }catch(firstErr){
+      json = await fetchTimings(); // retry once before giving up
+    }
     lastTimings = json.data.timings;
     lastHijri = json.data.date.hijri;
-    document.getElementById('sl-hero-date').textContent = now.toLocaleDateString(lang==='en'?'en-US':'bn-BD', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
+    document.getElementById('sl-hero-date').textContent = now.toLocaleDateString(lang==='en'?'en-US':'bn-BD', {weekday:'long', day:'numeric', month:'long', year:'numeric', timeZone:'Asia/Dhaka'});
     if(lastHijri){
       const hijriDay = lang==='en' ? lastHijri.day : toBnDigits(lastHijri.day);
       const hijriYear = lang==='en' ? lastHijri.year : toBnDigits(lastHijri.year);
@@ -1180,18 +1228,30 @@ function parseTimeStr(raw){
   const [h,m] = clean.split(':').map(Number);
   return {h,m};
 }
-// builds a Date for a given prayer time on today (or +dayOffset days), in the viewer's local clock
+// today's date AS SEEN IN Asia/Dhaka (not the visitor's own local calendar date)
+function dhakaTodayYMD(){
+  const parts = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Dhaka', year:'numeric', month:'2-digit', day:'2-digit'}).formatToParts(new Date());
+  const o = {};
+  parts.forEach(p=>{ if(p.type!=='literal') o[p.type]=p.value; });
+  return { y:+o.year, m:+o.month, d:+o.day }; // m is 1-indexed
+}
+// builds the true UTC instant for a given prayer time (h:m, Bangladesh clock)
+// on today's Dhaka date (or +dayOffset days). Bangladesh runs a fixed UTC+6
+// offset with no DST, so this stays correct no matter what timezone the
+// visitor's own device/browser is set to — previously this used
+// d.setHours(h,m) on the visitor's local clock, which silently produced the
+// wrong absolute instant (and a badly wrong countdown/active-prayer state)
+// for anyone not physically set to Bangladesh time.
 function timeToDate(raw, dayOffset=0){
   const {h,m} = parseTimeStr(raw);
-  const d = new Date();
-  d.setDate(d.getDate()+dayOffset);
-  d.setHours(h,m,0,0);
-  return d;
+  const {y, m:mo, d} = dhakaTodayYMD();
+  const utcMs = Date.UTC(y, mo-1, d+dayOffset, h, m, 0, 0) - 6*60*60000;
+  return new Date(utcMs);
 }
 function fmtPrayerTime(raw){
   if(!raw) return '--:--';
   const d = timeToDate(raw);
-  return d.toLocaleTimeString(lang==='en'?'en-US':'bn-BD', {hour:'2-digit',minute:'2-digit',hour12:true});
+  return d.toLocaleTimeString(lang==='en'?'en-US':'bn-BD', {hour:'2-digit',minute:'2-digit',hour12:true, timeZone:'Asia/Dhaka'});
 }
 // which of today's 5 prayers is currently "active" (its window has started but the next one hasn't)
 function currentActiveKey(times){
@@ -1252,6 +1312,341 @@ function startCountdown(){
   if(countdownTimer) clearInterval(countdownTimer);
   updateCountdown();
   countdownTimer = setInterval(updateCountdown, 1000);
+}
+
+// ── DOWNLOAD TODAY'S TIMETABLE AS PNG ──
+// Draws a shareable image (logo, city, date, all prayer + sehri/iftar times)
+// on an off-screen canvas using the currently loaded data, then triggers a
+// browser download. No external libraries — pure Canvas 2D.
+function slRoundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+}
+function slWrapText(ctx,text,x,y,maxWidth,lineHeight){
+  const words = text.split(' ');
+  let line = '', lines = [];
+  for(let i=0;i<words.length;i++){
+    const test = line + words[i] + ' ';
+    if(ctx.measureText(test).width > maxWidth && line){ lines.push(line.trim()); line = words[i] + ' '; }
+    else line = test;
+  }
+  if(line) lines.push(line.trim());
+  lines.forEach((l,i)=>ctx.fillText(l, x, y + i*lineHeight));
+  return lines.length;
+}
+function slLoadImage(src){
+  return new Promise((resolve)=>{
+    const img = new Image();
+    const t = setTimeout(()=>resolve(null), 2500);
+    img.onload = ()=>{ clearTimeout(t); resolve(img); };
+    img.onerror = ()=>{ clearTimeout(t); resolve(null); };
+    img.src = src;
+  });
+}
+async function downloadTimetableImage(){
+  if(!lastTimings){ alert(T[lang].dlWait); return; }
+  const btn = document.getElementById('sl-dl-btn');
+  const lbl = document.getElementById('sl-dl-btn-label');
+  const s = T[lang];
+  const origLabel = lbl.textContent;
+  btn.disabled = true;
+  lbl.textContent = s.dlGenerating;
+  try{
+    if(document.fonts && document.fonts.ready) await Promise.race([document.fonts.ready, new Promise(r=>setTimeout(r,1500))]);
+
+    const scale = 2;
+    const W = 1240, H = 1620;               // design-space coords, layout math unchanged
+    const CW = 1500, CH = 1500;             // final square canvas (1:1)
+    const S = CH / H;                       // uniform scale to fit design height into square
+    const OX = (CW - W*S) / 2;              // center the design column horizontally
+    const canvas = document.createElement('canvas');
+    canvas.width = CW*scale; canvas.height = CH*scale;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(scale,scale);
+
+    // full-bleed base fill so the pillarbox margins (outside the centered
+    // design column) match the artwork instead of showing blank canvas
+    const bgFull = ctx.createLinearGradient(0,0,CW,CH);
+    bgFull.addColorStop(0,'#0b4a3a'); bgFull.addColorStop(.55,'#073328'); bgFull.addColorStop(1,'#03130e');
+    ctx.fillStyle = bgFull; ctx.fillRect(0,0,CW,CH);
+
+    // ── decorative background art — modernized Islamic motif, kept
+    // deliberately quiet: one soft glow, one geometric medallion, one
+    // hairline frame, one clean mosque silhouette. No tiled texture,
+    // no scattered sparkle field — every element earns its place.
+    // Drawn in FULL canvas space (CW×CH), before the translate/scale
+    // below, so the art runs edge-to-edge with no pillarbox gaps —
+    // only the header/cards/text content is confined to the centered
+    // design column. ──
+
+    // gentle warm glow anchoring the header
+    let topGlow = ctx.createRadialGradient(CW/2, -30, 20, CW/2, -30, 500);
+    topGlow.addColorStop(0, 'rgba(201,162,39,.14)');
+    topGlow.addColorStop(1, 'rgba(201,162,39,0)');
+    ctx.fillStyle = topGlow; ctx.fillRect(0,0,CW,CH);
+
+    // soft lift behind the skyline so it doesn't sit flat on the base fill
+    let baseGlow = ctx.createRadialGradient(CW/2, CH, 20, CW/2, CH, 620);
+    baseGlow.addColorStop(0, 'rgba(30,156,120,.22)');
+    baseGlow.addColorStop(1, 'rgba(30,156,120,0)');
+    ctx.fillStyle = baseGlow; ctx.fillRect(0,0,CW,CH);
+
+    // one quiet 8-point geometric star medallion — a clean nod to Islamic
+    // geometric pattern work, used once rather than tiled into noise
+    (function slDrawMedallion(){
+      ctx.save();
+      ctx.translate(CW*0.11, 150);
+      function eightStar(r){
+        ctx.beginPath();
+        for(let i=0;i<8;i++){
+          const a1 = (Math.PI/4)*i - Math.PI/2;
+          const a2 = a1 + Math.PI/8;
+          const p1x = Math.cos(a1)*r, p1y = Math.sin(a1)*r;
+          const p2x = Math.cos(a2)*r*0.5, p2y = Math.sin(a2)*r*0.5;
+          if(i===0) ctx.moveTo(p1x,p1y); else ctx.lineTo(p1x,p1y);
+          ctx.lineTo(p2x,p2y);
+        }
+        ctx.closePath();
+        ctx.stroke();
+      }
+      ctx.lineWidth = 1.4;
+      ctx.strokeStyle = 'rgba(201,162,39,.16)';
+      eightStar(60);
+      ctx.strokeStyle = 'rgba(201,162,39,.09)';
+      eightStar(88);
+      ctx.restore();
+    })();
+
+    // thin gold hairline frame, inset — a clean, modern border treatment,
+    // now traced right at the true canvas edges
+    ctx.save();
+    ctx.strokeStyle = 'rgba(201,162,39,.28)';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(28, 28, CW-56, CH-56);
+    ctx.restore();
+
+    // crescent moon with a soft halo, upper-right corner — a single
+    // clean emblem instead of moon + scattered companion sparkles
+    ctx.save();
+    let moonGlow = ctx.createRadialGradient(CW*0.89,66,4,CW*0.89,66,64);
+    moonGlow.addColorStop(0,'rgba(201,162,39,.20)');
+    moonGlow.addColorStop(1,'rgba(201,162,39,0)');
+    ctx.fillStyle = moonGlow;
+    ctx.beginPath(); ctx.arc(CW*0.89,66,64,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = 'rgba(201,162,39,.9)';
+    ctx.beginPath(); ctx.arc(CW*0.89, 66, 21, 0, Math.PI*2); ctx.fill();
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.beginPath(); ctx.arc(CW*0.89 + 9, 60, 17.5, 0, Math.PI*2); ctx.fill();
+    ctx.restore();
+
+    // clean, simplified mosque silhouette hugging the bottom edge, spanning
+    // the full canvas width — one central dome, one archway, two flanking
+    // minarets, flat modern shapes traced with a single gold hairline.
+    (function slDrawMosque(){
+      ctx.save();
+      const baseY = CH - 4;
+      ctx.fillStyle = 'rgba(3,17,13,.92)';
+
+      function dome(cx, topY, r){
+        ctx.beginPath();
+        ctx.arc(cx, topY + r, r, Math.PI, 0);
+        ctx.closePath();
+        ctx.fill();
+      }
+      function minaret(cx, w, h){
+        ctx.fillRect(cx - w/2, baseY - h, w, h);
+        dome(cx, baseY - h - w/2, w/2);
+        ctx.fillRect(cx - 1, baseY - h - w - 14, 2, 14);
+      }
+
+      // base building block, centered on the full canvas
+      const blockW = CW*0.42, blockH = 78;
+      ctx.fillRect(CW/2 - blockW/2, baseY - blockH, blockW, blockH);
+
+      // one central archway — the single deliberate cut-out detail
+      ctx.save();
+      ctx.globalCompositeOperation = 'destination-out';
+      const archW = 54, archH = blockH*0.72;
+      ctx.beginPath();
+      ctx.moveTo(CW/2-archW/2, baseY);
+      ctx.lineTo(CW/2-archW/2, baseY-archH+archW/2);
+      ctx.arc(CW/2, baseY-archH+archW/2, archW/2, Math.PI, 0);
+      ctx.lineTo(CW/2+archW/2, baseY);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+
+      // central dome + finial
+      ctx.fillStyle = 'rgba(3,17,13,.92)';
+      dome(CW/2, baseY - blockH - 56, 56);
+      ctx.fillRect(CW/2-1.5, baseY-blockH-56-56-16, 3, 16);
+      ctx.beginPath(); ctx.arc(CW/2, baseY-blockH-56-56-20, 4.5, 0, Math.PI*2); ctx.fill();
+
+      // two minarets, pushed out toward the full canvas edges
+      minaret(CW*0.09, 17, 168);
+      minaret(CW*0.91, 17, 168);
+
+      // gold hairline tracing the skyline base, edge to edge
+      ctx.strokeStyle = 'rgba(201,162,39,.35)';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(0, baseY);
+      ctx.lineTo(CW, baseY);
+      ctx.stroke();
+
+      ctx.restore();
+    })();
+
+    // content column (header, cards, text) stays centered — only the
+    // decorative art above runs full-bleed
+    ctx.translate(OX, 0);
+    ctx.scale(S, S);
+
+    // header: logo + wordmark
+    ctx.textAlign='center';
+    const logo = await slLoadImage('assets/logo-dark.png');
+    let headY = 260;
+    if(logo){
+      const lh = 232/S, lw = lh*(logo.width/logo.height); // 232px in the final exported PNG
+      ctx.drawImage(logo, W/2-lw/2, headY-lh+28, lw, lh);
+      headY += 84;
+    } else {
+      ctx.fillStyle='#fff';
+      ctx.font="700 40px 'Noto Serif Bengali',serif";
+      ctx.fillText('দৈনিক অনুলিপি', W/2, headY);
+      headY += 46;
+    }
+    ctx.fillStyle='#c9a227';
+    ctx.font="700 28px 'Noto Sans Bengali',sans-serif";
+    ctx.fillText(lang==='en'?'PRAYER TIMETABLE':'নামাজের সময়সূচী', W/2, headY);
+
+    // divider
+    let y = headY + 39;
+    ctx.strokeStyle='rgba(255,255,255,.18)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(W/2-80,y); ctx.lineTo(W/2+80,y); ctx.stroke();
+
+    // city
+    y += 67;
+    const cityTxt = (document.getElementById('sl-hero-city').textContent||'').trim();
+    ctx.fillStyle='#fff';
+    ctx.font="700 53px 'Noto Serif Bengali',serif";
+    ctx.fillText(cityTxt, W/2, y);
+
+    // date + hijri
+    y += 46;
+    ctx.font="400 24px 'Noto Sans Bengali',sans-serif";
+    ctx.fillStyle='rgba(255,255,255,.88)';
+    ctx.fillText(document.getElementById('sl-hero-date').textContent||'', W/2, y);
+    y += 32;
+    ctx.font="400 20px 'Noto Sans Bengali',sans-serif";
+    ctx.fillStyle='rgba(255,255,255,.65)';
+    ctx.fillText(document.getElementById('sl-hero-hijri').textContent||'', W/2, y);
+
+    // prayer rows card
+    y += 46;
+    const cardX = 68, cardW = W-136;
+    const rowH = 90;
+    const active = currentActiveKey(lastTimings);
+    const cardTop = y;
+    const cardH = rowH*PRAYER_KEYS.length + 23;
+    ctx.fillStyle='rgba(255,255,255,.06)';
+    slRoundRect(ctx,cardX,cardTop,cardW,cardH,21); ctx.fill();
+    ctx.strokeStyle='rgba(255,255,255,.12)'; ctx.lineWidth=1;
+    slRoundRect(ctx,cardX,cardTop,cardW,cardH,21); ctx.stroke();
+
+    let ry = cardTop + 12;
+    PRAYER_KEYS.forEach((p,i)=>{
+      const isActive = p.key===active;
+      const rowY = ry + i*rowH;
+      if(isActive){
+        ctx.fillStyle='rgba(201,162,39,.16)';
+        slRoundRect(ctx,cardX+7,rowY+3,cardW-14,rowH-6,14); ctx.fill();
+        ctx.fillStyle='#c9a227';
+        slRoundRect(ctx,cardX+7,rowY+3,6,rowH-6,3); ctx.fill();
+      }
+      if(i>0){
+        ctx.strokeStyle='rgba(255,255,255,.08)'; ctx.lineWidth=1;
+        ctx.beginPath(); ctx.moveTo(cardX+35,rowY); ctx.lineTo(cardX+cardW-35,rowY); ctx.stroke();
+      }
+      const midY = rowY + rowH/2;
+      ctx.textAlign='left';
+      ctx.font="35px sans-serif";
+      ctx.fillStyle='#fff';
+      ctx.fillText(p.icon, cardX+39, midY+13);
+      ctx.font=`700 31px 'Noto Sans Bengali',sans-serif`;
+      ctx.fillStyle = isActive ? '#f0d788' : '#fff';
+      ctx.fillText(s[p.tKey], cardX+97, midY+10);
+      ctx.textAlign='right';
+      ctx.font="700 32px 'Noto Sans Bengali',sans-serif";
+      ctx.fillStyle = isActive ? '#f0d788' : 'rgba(255,255,255,.92)';
+      ctx.fillText(fmtPrayerTime(lastTimings[p.key]), cardX+cardW-39, midY+10);
+      ctx.textAlign='center';
+    });
+
+    // sehri / iftar strip
+    y = cardTop + cardH + 35;
+    const siW = (cardW-18)/2, siH = 136;
+    [
+      {icon:'🌌', lbl:s.sehri, time:fmtPrayerTime(lastTimings.Imsak), x:cardX},
+      {icon:'🌆', lbl:s.iftar, time:fmtPrayerTime(lastTimings.Maghrib), x:cardX+siW+18},
+    ].forEach(cell=>{
+      ctx.fillStyle='rgba(201,162,39,.12)';
+      slRoundRect(ctx,cell.x,y,siW,siH,18); ctx.fill();
+      ctx.strokeStyle='rgba(201,162,39,.35)'; ctx.lineWidth=1;
+      slRoundRect(ctx,cell.x,y,siW,siH,18); ctx.stroke();
+      ctx.textAlign='center';
+      ctx.font="30px sans-serif";
+      ctx.fillStyle='#fff';
+      ctx.fillText(cell.icon, cell.x+siW/2, y+46);
+      ctx.font="700 21px 'Noto Sans Bengali',sans-serif";
+      ctx.fillStyle='rgba(255,255,255,.85)';
+      ctx.fillText(cell.lbl, cell.x+siW/2, y+78);
+      ctx.font="700 31px 'Noto Sans Bengali',sans-serif";
+      ctx.fillStyle='#f0d788';
+      ctx.fillText(cell.time, cell.x+siW/2, y+115);
+    });
+
+    // footer
+    y += siH + 53;
+    ctx.strokeStyle='rgba(255,255,255,.15)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(cardX,y); ctx.lineTo(cardX+cardW,y); ctx.stroke();
+    y += 35;
+    ctx.font="17px 'Noto Sans Bengali',sans-serif";
+    ctx.fillStyle='rgba(255,255,255,.55)';
+    y += slWrapText(ctx, s.dlMethod, W/2, y, cardW-20, 24) * 24;
+    y += 16;
+    ctx.font="700 18px 'Noto Sans Bengali',sans-serif";
+    ctx.fillStyle='rgba(255,255,255,.8)';
+    ctx.fillText('dainikanulipi.github.io/da', W/2, y);
+    y += 28;
+    ctx.font="15px 'Noto Sans Bengali',sans-serif";
+    ctx.fillStyle='rgba(255,255,255,.4)';
+    const genStamp = `${s.dlGenerated}: ${document.getElementById('tbar-date').textContent||''}`;
+    ctx.fillText(genStamp, W/2, y);
+
+    // export + trigger download
+    const blob = await new Promise(res=>canvas.toBlob(res,'image/png'));
+    if(!blob) throw new Error('toBlob failed');
+    const url = URL.createObjectURL(blob);
+    const bd = dhakaTodayYMD();
+    const dateSlug = `${bd.y}-${String(bd.m).padStart(2,'0')}-${String(bd.d).padStart(2,'0')}`;
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `namajer-somoy-${currentCity}-${dateSlug}.png`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 4000);
+  }catch(err){
+    console.error(err);
+    alert(s.dlErr);
+  }finally{
+    btn.disabled = false;
+    lbl.textContent = origLabel;
+  }
 }
 
 // ── SCROLL TO TOP ──
