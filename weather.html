@@ -936,10 +936,17 @@ function renderChips(){
   });
 }
 // close the tree panel when clicking outside it
+// NOTE: must run in the CAPTURE phase. Clicks on a division header or a
+// district item call renderChips(), which rebuilds the whole panel
+// (panel.innerHTML=''), detaching the very node that was clicked. If this
+// check ran in the normal bubble phase, by the time it fired the clicked
+// node would already be removed from the DOM, so picker.contains(e.target)
+// would wrongly return false and slam the picker shut on every click inside
+// it. Running in capture means this check happens before that rebuild.
 document.addEventListener('click', (e)=>{
   const picker = document.getElementById('wt-picker');
   if(picker && !picker.contains(e.target)) closePicker();
-});
+}, true);
 
 // ── LIVE STATUS DETECTION ──
 // Silently checks whether the YouTube channel is actually streaming right
