@@ -81,14 +81,22 @@ a{text-decoration:none;color:inherit;}
 .lo-btn{background:none;border:1px solid var(--bdr);padding:5px 13px;font-family:inherit;font-size:12px;cursor:pointer;color:var(--txt2);transition:all .2s;white-space:nowrap;flex-shrink:0;}
 .lo-btn:hover{background:var(--sur3);}
 
-/* STATUS */
-.status{padding:12px 15px;margin-bottom:14px;font-size:14px;font-weight:600;display:none;border-left:4px solid;border-radius:0;}
-.status.ok{background:#e8f5ee;border-color:var(--green);color:var(--green);}
-.status.err{background:#fdf0f0;border-color:var(--red);color:var(--red);}
-.status.loading{background:#fff8e1;border-color:#e0a000;color:#8a6000;}
-[data-theme=dark] .status.ok{background:#0d2a1c;}
-[data-theme=dark] .status.err{background:#2a0d0d;}
-[data-theme=dark] .status.loading{background:#2a2000;}
+/* STATUS (floating popup — always visible regardless of scroll) */
+.status{
+  position:fixed;top:88px;left:50%;transform:translateX(-50%) translateY(-12px);
+  width:calc(100% - 32px);max-width:420px;z-index:9997;
+  padding:13px 16px;font-size:14px;font-weight:600;display:none;
+  border-left:4px solid;border-radius:2px;background:var(--sur);
+  box-shadow:0 8px 26px rgba(0,0,0,.18);opacity:0;
+  transition:opacity .25s,transform .25s;
+}
+.status.show{display:block;opacity:1;transform:translateX(-50%) translateY(0);}
+.status.ok{border-color:var(--green);color:var(--green);}
+.status.err{border-color:var(--red);color:var(--red);}
+.status.loading{border-color:#e0a000;color:#8a6000;}
+[data-theme=dark] .status.loading{color:#e0a000;}
+@media(max-width:580px){.status{top:auto;bottom:18px;transform:translateX(-50%) translateY(12px);}
+  .status.show{transform:translateX(-50%) translateY(0);}}
 
 /* SIDE TOAST (translate/summarize progress) */
 #side-toast{position:fixed;top:90px;right:18px;z-index:9999;background:var(--sur);color:var(--txt);border-left:4px solid #e0a000;box-shadow:0 6px 22px rgba(0,0,0,.18);padding:12px 16px;font-size:13.5px;font-weight:600;display:none;align-items:center;gap:10px;max-width:280px;transition:background .3s;}
@@ -452,6 +460,16 @@ a{text-decoration:none;color:inherit;}
           </div>
           <button type="button" class="res-dl" onclick="requestDownload('https://drive.google.com/uc?export=download&id=1gx1pYrdqUKAEGqd2ZIzT0LOa_FlgMdcC','অফিসিয়াল ফন্ট প্যাক (ZIP)')">⬇ ডাউনলোড (ফন্ট)</button>
         </div>
+        <div class="res-item">
+          <div class="res-item-top">
+            <div class="res-icon">🎬</div>
+            <div>
+              <div class="res-name">রিল টেমপ্লেট</div>
+              <div class="res-meta">PNG · রিল / ভিডিও ওভারলে</div>
+            </div>
+          </div>
+          <button type="button" class="res-dl" onclick="requestDownload('https://drive.google.com/uc?export=download&id=1Rv8Hh8Ux8Mqr61xeQRRp1kC6ptiNE-Cl','রিল টেমপ্লেট (PNG)')">⬇ ডাউনলোড (PNG)</button>
+        </div>
       </div>
       </div></div>
     </div>
@@ -565,7 +583,7 @@ a{text-decoration:none;color:inherit;}
 
           <div class="fr">
             <label>শিরোনাম (বাংলা) <span>*</span></label>
-            <input type="text" id="f-title-bn" placeholder="বাংলায় শিরোনাম লিখুন…" maxlength="220" oninput="onTitle();saveDraft()">
+            <input type="text" id="f-title-bn" placeholder="বাংলায় শিরোনাম লিখুন…" maxlength="220" oninput="onTitle();saveDraft();invalidateTranslation()">
             <div class="slug-disp" id="slug-disp">লিংক: শিরোনাম দিলে তৈরি হবে</div>
           </div>
 
@@ -582,7 +600,7 @@ a{text-decoration:none;color:inherit;}
               <h4 id="pv-t-bn" style="margin-bottom:5px;font-size:18px">(শিরোনাম)</h4>
               <div id="pv-b-bn" style="font-size:14px;line-height:1.9;white-space:pre-line">(বিস্তারিত)</div>
             </div>
-            <textarea id="f-content-bn" placeholder="বাংলায় সংবাদের পুরো বিবরণ লিখুন…&#10;&#10;পরিচ্ছেদ আলাদা করতে এন্টার চাপুন।" oninput="cc('f-content-bn','cc-cbn',0);updatePrev('bn');saveDraft()"></textarea>
+            <textarea id="f-content-bn" placeholder="বাংলায় সংবাদের পুরো বিবরণ লিখুন…&#10;&#10;পরিচ্ছেদ আলাদা করতে এন্টার চাপুন।" oninput="cc('f-content-bn','cc-cbn',0);updatePrev('bn');saveDraft();invalidateTranslation()"></textarea>
             <div class="cc" id="cc-cbn">০ অক্ষর</div>
           </div>
         </div>
@@ -795,6 +813,13 @@ function calNext(){
 
 // ── SLUG ──
 let curSlug='';
+let translationDone=false;
+function invalidateTranslation(){
+  if(translationDone){
+    translationDone=false;
+    document.getElementById('ai-done').style.display='none';
+  }
+}
 function onTitle(){
   const v=document.getElementById('f-title-bn').value.trim();
   if(!v){document.getElementById('slug-disp').textContent='লিংক: শিরোনাম দিলে তৈরি হবে';return;}
@@ -903,10 +928,19 @@ function hideSideToast(){
   el.classList.remove('show','ok','err');
 }
 
+let statusHideTimer=null;
 function showStatus(type,msg){
   const el=document.getElementById('status');
+  clearTimeout(statusHideTimer);
   el.className='status '+type;el.textContent=msg;el.style.display='block';
-  if(type==='ok') setTimeout(()=>el.style.display='none',6000);
+  requestAnimationFrame(()=>el.classList.add('show'));
+  if(type==='ok') statusHideTimer=setTimeout(()=>hideStatus(),6000);
+  else if(type==='err') statusHideTimer=setTimeout(()=>hideStatus(),8000);
+}
+function hideStatus(){
+  const el=document.getElementById('status');
+  el.classList.remove('show');
+  setTimeout(()=>{ if(!el.classList.contains('show')) el.style.display='none'; },250);
 }
 
 // ── RECENT ──
@@ -1004,6 +1038,11 @@ async function submitArt(){
   if(!date)      errs.push('তারিখ');
   if(errs.length){ showStatus('err','❌ পূরণ করুন: '+errs.join(', ')); return; }
 
+  if(!translationDone||!titleEn||!contentEn){
+    showStatus('err','❌ আগে "✨ স্বয়ংক্রিয় পূরণ" দিয়ে অনুবাদ করুন — অনুবাদ ছাড়া জমা দেওয়া যাবে না।');
+    return;
+  }
+
   if(!curSlug) curSlug='art-'+Date.now().toString(36);
 
   const payload={
@@ -1100,6 +1139,7 @@ async function autoFill(){
     cc('f-content-en','cc-cen',0);
 
     document.getElementById('ai-done').style.display='block';
+    translationDone=true;
     showStatus('ok','✅ অনুবাদ সম্পন্ন! পর্যালোচনা করুন।');
     showSideToast('✅ অনুবাদ সম্পন্ন হয়েছে!','ok');
     setTimeout(hideSideToast,2500);
@@ -1115,7 +1155,7 @@ async function autoFill(){
 
 function resetForm(){
   clearDraft();
-  curSlug='';imgBase64='';imgMode='';
+  curSlug='';imgBase64='';imgMode='';translationDone=false;
   ['f-title-bn','f-title-en','f-summary-bn','f-summary-en','f-content-bn','f-content-en','f-img-url']
     .forEach(id=>document.getElementById(id).value='');
   document.getElementById('f-cat').value='';
