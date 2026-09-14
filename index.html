@@ -21,15 +21,8 @@
       border-radius: 8px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
-    h1 {
-      color: #333;
-      margin: 0 0 20px 0;
-    }
-    p {
-      color: #666;
-      font-size: 16px;
-      margin: 10px 0;
-    }
+    h1 { color: #333; margin: 0 0 20px 0; }
+    p { color: #666; font-size: 16px; margin: 10px 0; }
     .spinner {
       border: 4px solid #f3f3f3;
       border-top: 4px solid #3498db;
@@ -39,30 +32,42 @@
       animation: spin 1s linear infinite;
       margin: 20px auto;
     }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
   </style>
   <script>
-    // পুরানো link থেকে SLUG বের করে নতুন domain-এ redirect করা
+    const NEW_DOMAIN = 'https://www.dainikanulipi.com';
     const hash = window.location.hash;
-    
-    if (hash.startsWith('#article/')) {
-      // #article/breaking-news → breaking-news extract করো
+    const path = window.location.pathname.toLowerCase();
+
+    // পুরনো standalone পাতাগুলো (path-based) → নতুন সাইটের সমতুল্য পাতা
+    const PAGE_MAP = {
+      '/comic.html': '/comic',
+      '/epaper.html': '/epaper',
+      '/weather.html': '/weather',
+      '/salat.html': '/salat',
+      '/live.html': '/live',
+      '/live..html': '/live' // পুরনো লিংকে টাইপো ছিল বলে এটাও রাখা হলো
+    };
+
+    let target = null;
+
+    if (PAGE_MAP[path]) {
+      // যেমন /comic.html → /comic
+      target = NEW_DOMAIN + PAGE_MAP[path];
+    } else if (hash.startsWith('#article/')) {
+      // #article/breaking-news → নতুন সাইটে path-based article পাতা
       const slug = hash.split('/')[1];
-      
-      if (slug) {
-        // নতুন domain-এ redirect করো
-        window.location.replace(`https://dainikanulipi.com/article/${slug}`);
-      }
-    } else if (hash) {
-      // অন্য কোনো hash থাকলে শুধু homepage-এ যাও
-      window.location.replace('https://dainikanulipi.com/');
+      target = slug ? `${NEW_DOMAIN}/article/${slug}` : `${NEW_DOMAIN}/`;
+    } else if (hash.startsWith('#cat/')) {
+      // #cat/national → নতুন সাইটেও একই hash format
+      const slug = hash.split('/')[1];
+      target = slug ? `${NEW_DOMAIN}/#cat/${slug}` : `${NEW_DOMAIN}/`;
     } else {
-      // কোনো hash না থাকলে শুধু homepage-এ যাও
-      window.location.replace('https://dainikanulipi.com/');
+      // অন্য কিছু হলে বা কিছু না থাকলে homepage
+      target = `${NEW_DOMAIN}/`;
     }
+
+    window.location.replace(target);
   </script>
 </head>
 <body>
@@ -71,7 +76,7 @@
     <p>আমরা নতুন ওয়েবসাইটে চলে গেছি...</p>
     <div class="spinner"></div>
     <p style="color: #999; font-size: 14px; margin-top: 30px;">
-      যদি পৃষ্ঠা লোড না হয়, <a href="https://dainikanulipi.com/">এখানে ক্লিক করুন</a>
+      যদি পৃষ্ঠা লোড না হয়, <a href="https://www.dainikanulipi.com/">এখানে ক্লিক করুন</a>
     </p>
   </div>
 </body>
